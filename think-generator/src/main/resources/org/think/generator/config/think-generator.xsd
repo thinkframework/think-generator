@@ -1,0 +1,107 @@
+<xsd:schema xmlns="http://www.think.org/schema/generator"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:beans="http://www.springframework.org/schema/beans"
+            xmlns:tool="http://www.springframework.org/schema/tool"
+            targetNamespace="http://www.think.org/schema/generator"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+    <xsd:annotation>
+        <xsd:documentation>
+            参考NamespaceHandlerSupport实现的配置文件
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:element name="generator">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="core" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            忘记了😓
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="appName" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            前端框架预留的应用名称
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="frameName" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            系统引用的框架包的名称
+                            例如:com.sinfusi.freedom.core
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="companyName" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            公司名称,作为包的前缀名称
+                            例如:com.sinfusi.freedom.core
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="moduleName" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            模块名称,作为包的后缀名称
+                            例如:com.sinfusi.freedom.core
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="authorName" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            javaDoc中author节点的名字
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="namespace" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Struts2,Spring Mvc放置页面的位置
+                            Angualr不需要.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="template" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            javaDoc中author节点的名字
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="extensions" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            javaDoc中author节点的名字
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="prefix" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            javaDoc中author节点的名字
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="output" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            javaDoc中author节点的名字
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="id" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        和Spring的id节点相同
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
