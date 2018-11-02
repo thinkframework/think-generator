@@ -25,8 +25,8 @@ public class TableGeneratorProvider implements GeneratorProvider{
                 .addColumn(getTableName())
                 .addPrimaryKey(getTableName())
                 .addIndexInfo(getTableName())
-                .addExportedKey(getTableName())
-                .addImportedKey(getTableName())
+//                .addExportedKey(getTableName())
+//                .addImportedKey(getTableName())
                 .build();
 
         TableClassAdapter tableClassAdapter = new TableClassAdapter(table);
@@ -51,7 +51,8 @@ public class TableGeneratorProvider implements GeneratorProvider{
         result.put("className",className);
 
         //全小写,JavaScript需要
-        result.put("className_lower_case",tableName.replaceAll("_","-").toLowerCase());
+        result.put("className_lower_case",tableName.toLowerCase());
+        result.put("className-lower-case",tableName.replaceAll("_","-").toLowerCase());
         //空格拆分的单词,国际化需要
         result.put("className_space", StringUtils.classNameWithSpace(tableName));
         //TODO 主键策略 写死的String 优化成数据库获取

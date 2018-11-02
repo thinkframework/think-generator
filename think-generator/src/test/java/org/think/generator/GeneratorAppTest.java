@@ -18,7 +18,7 @@ public class GeneratorAppTest extends AbstractJUnit4SpringContextTests {
 
 	@Test
 	public void authUser() throws Exception {
-		tableName = "auth_user";
-		new GeneratorFacade().generatorTable(dataSource, tableName,"bm");
+		tableName = "milestone%";
+		new GeneratorFacade().generatorTable(dataSource, tableName,"costenterprise");
 	}
 }

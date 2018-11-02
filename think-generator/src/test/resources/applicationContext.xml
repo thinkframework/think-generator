@@ -41,9 +41,9 @@
 
 	<bean id="mysql" class="com.alibaba.druid.pool.DruidDataSource" lazy-init="true">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/abb?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false" />
+		<property name="url" value="jdbc:mysql://10.129.248.10:55100/enterprise_new_1?characterEncoding=utf8" />
 		<property name="username" value="root" />
-		<property name="password" value="pass1234" />
+		<property name="password" value="123qwe!@#" />
 		<property name="connectProperties">
 			<props>
 				<prop key="useInformationSchema">true</prop>
@@ -141,6 +141,7 @@
 		<generator:extensions>java,js,jsp,xml,ts,html,json</generator:extensions>
 		<!--#需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,tm_-->
 		<generator:prefix>T_,RBAC_,PARAM_,BM_,PF,CI_</generator:prefix>
+		<generator:ignore>SYS_CREATE_TIME,SYS_MODIFIED_TIME,SYS_REVISION,SYS_CREATOR_ID,SYS_MODIFIER_ID</generator:ignore>
 		<!--#输出目录-->
 		<generator:output>generator_output</generator:output>
 		<!--#主键生成规则-->

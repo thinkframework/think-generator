@@ -69,7 +69,7 @@
                 <xsd:element name="template" type="xsd:string">
                     <xsd:annotation>
                         <xsd:documentation>
-                            javaDoc中author节点的名字
+                            模板目录
                         </xsd:documentation>
                     </xsd:annotation>
                 </xsd:element>
@@ -83,14 +83,21 @@
                 <xsd:element name="prefix" type="xsd:string">
                     <xsd:annotation>
                         <xsd:documentation>
-                            javaDoc中author节点的名字
+                            表明前缀
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="ignore" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            需要忽略的字段
                         </xsd:documentation>
                     </xsd:annotation>
                 </xsd:element>
                 <xsd:element name="output" type="xsd:string">
                     <xsd:annotation>
                         <xsd:documentation>
-                            javaDoc中author节点的名字
+                            输出目录
                         </xsd:documentation>
                     </xsd:annotation>
                 </xsd:element>

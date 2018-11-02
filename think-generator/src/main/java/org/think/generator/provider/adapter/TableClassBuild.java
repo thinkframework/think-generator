@@ -53,8 +53,9 @@ public class TableClassBuild {
     private static Set<ClazzField> buildField(Table table){
         Set<ClazzField> fields = new LinkedHashSet<ClazzField>();
         for (Column column:table.getColumns()){
-            fields.add(new ColumnFieldAdapter(column));
-
+            ColumnFieldAdapter columnFieldAdapter = new ColumnFieldAdapter(column);
+//            ColumnFieldAdapter proxy = (ColumnFieldAdapter) RemarksInvocationHandler.proxy(columnFieldAdapter, StringUtils.isNotEmpty(column.getRemarks()) ? column.getRemarks() : column.getColumnName());
+            fields.add(columnFieldAdapter);
         }
         return fields;
     }

@@ -41,6 +41,8 @@
 		<module>think-jdbc</module>
 		<module>think-generator</module>
 		<module>think-swing</module>
+		<module>think-tools</module>
+        <module>think-agent</module>
     </modules>
 	<properties>
 		<oracle.version>12.1.0.2</oracle.version>

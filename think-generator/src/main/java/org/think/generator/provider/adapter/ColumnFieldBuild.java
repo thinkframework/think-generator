@@ -1,5 +1,6 @@
 package org.think.generator.provider.adapter;
 
+import org.think.generator.context.GeneratorContext;
 import org.think.generator.lang.impl.ClazzImpl;
 import org.think.generator.lang.annotation.*;
 import org.think.generator.lang.reflect.ClazzField;
@@ -10,6 +11,9 @@ import org.think.generator.util.StringUtils;
 import org.think.generator.util.TypesUtils;
 
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ColumnFieldBuild {
     private ColumnFieldBuild(){
@@ -32,8 +36,8 @@ public class ColumnFieldBuild {
 //        }
 
         if(column.getPrimaryKey()) {
-            field.addAnnotation(new SimpleAnnotation("@Id"));
-            field.addAnnotation(new SimpleAnnotation("@GeneratedValue(strategy = GenerationType.IDENTITY)"));
+//            field.addAnnotation(new SimpleAnnotation("@Id"));
+//            field.addAnnotation(new SimpleAnnotation("@GeneratedValue(strategy = GenerationType.IDENTITY)"));
 //            field.addAnnotation(new SimpleAnnotation("@GenericGenerator(name=\"idGenerator\", strategy=\"uuid\")"));
         }
 
@@ -43,18 +47,21 @@ public class ColumnFieldBuild {
         }
 
         if(column.getDataType() == Types.DECIMAL){
-            field.addAnnotation(new SimpleAnnotation("@Column(name=\""+columnName+"\",precision = "+((ColumnImpl)column).getNumPrecRadix()+",scale="+((ColumnImpl)column).getDecimalDigits()+")"));
+            field.addAnnotation(new SimpleAnnotation("@TableField(name=\""+columnName+"\",precision = "+((ColumnImpl)column).getNumPrecRadix()+",scale="+((ColumnImpl)column).getDecimalDigits()+")"));
             ((ColumnImpl) column).setColumnSize(0);
         }else{
             if(column.getDataType() == Types.VARCHAR &&  column.getColumnSize() != 0) {
-                field.addAnnotation(new SimpleAnnotation("@Size(max=" + column.getColumnSize() + ")"));
+//                field.addAnnotation(new SimpleAnnotation("@Size(max=" + column.getColumnSize() + ")"));
             }else{
                 ((ColumnImpl) column).setColumnSize(0);
             }
-            field.addAnnotation(new SimpleAnnotation("@Column(name=\""+columnName+"\")"));
+            field.addAnnotation(new SimpleAnnotation("@TableField(\""+columnName+"\")"));
         }
 
         return field;
     }
 
+    private static String getProperty(String key,String defaultValue){
+        return (String) GeneratorContext.getContext().getProperty(key,defaultValue);
+    }
 }

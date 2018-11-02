@@ -17,6 +17,7 @@ public class ColumnFieldAdapter implements ClazzField,Column {
     private ClazzField clazzField;
     private Column column;
     private boolean columnField;
+    private boolean ignore;
     private String typeScript;
     public ColumnFieldAdapter(Column column){
         this.column = column;
@@ -106,6 +107,22 @@ public class ColumnFieldAdapter implements ClazzField,Column {
 
     public boolean getColumnField() {
         return columnField;
+    }
+
+    /**
+     * 设置是否忽略当前字段
+     * @return 是否忽略
+     */
+    public boolean isIgnore() {
+        return ignore;
+    }
+
+    /**
+     * 设置是否忽略当前字段
+     * @param ignore 是否忽略
+     */
+    public void setIgnore(boolean ignore) {
+        this.ignore = ignore;
     }
 
     /**

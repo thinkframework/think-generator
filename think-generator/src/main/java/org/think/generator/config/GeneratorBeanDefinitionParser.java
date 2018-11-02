@@ -40,20 +40,22 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
         String template = DomUtils.getChildElementValueByTagName(element,"template");
         String extensions = DomUtils.getChildElementValueByTagName(element,"extensions");
         String prefix = DomUtils.getChildElementValueByTagName(element,"prefix");
+        String ignore = DomUtils.getChildElementValueByTagName(element,"ignore");
         String output = DomUtils.getChildElementValueByTagName(element,"output");
 
         Properties properties = new Properties();
-        properties.put("core",core);
-        properties.put("frameName",frameName);
-        properties.put("companyName",companyName);
-        properties.put("appName",appName);
-        properties.put("moduleName",moduleName);
-        properties.put("authorName",authorName);
-        properties.put("namespace",namespace);
-        properties.put("template",template);
+        properties.put("core",core);//核心包
+        properties.put("frameName",frameName);//框架包
+        properties.put("companyName",companyName);//公司名称
+        properties.put("appName",appName);//应用名称
+        properties.put("moduleName",moduleName);//模块名称
+        properties.put("authorName",authorName);//作者名称
+        properties.put("namespace",namespace);//命名空间
+        properties.put("template",template);//模板目录
         properties.put("extensions",extensions);
-        properties.put("prefix",prefix);
-        properties.put("output",output);
+        properties.put("prefix",prefix);//表名前缀
+        properties.put("ignore",ignore);//忽略的字段
+        properties.put("output",output);//输出目录
         return properties;
     }
 }
