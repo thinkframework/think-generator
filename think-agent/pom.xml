@@ -26,7 +26,7 @@
                         <manifestEntries>
                             <Project-name>${project.name}</Project-name>
                             <Project-version>${project.version}</Project-version>
-                            <Premain-Class>org.think.agent</Premain-Class>
+                            <Premain-Class>org.think.agent.ThinkAgent</Premain-Class>
                         </manifestEntries>
                     </archive>
                     <skip>true</skip>

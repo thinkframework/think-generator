@@ -11,11 +11,11 @@ import java.security.ProtectionDomain;
 public class ThinkAgent {
     public static void premain(String arg, Instrumentation instrumentation) {
         System.err.println("装载成功 方法 premain 参数：" + arg);
-        instrumentation.addTransformer(new ClassFileTransformer() {
-            @Override
-            public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-                return new byte[0];
-            }
-        });
+//        instrumentation.addTransformer(new ClassFileTransformer() {
+//            @Override
+//            public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
+//                return new byte[0];
+//            }
+//        });
     }
 }
