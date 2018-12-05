@@ -59,30 +59,30 @@ public class TypesUtils {
 
 		map.put(Types.TIMESTAMP,Timestamp.class);
 //不支持的数据类型
-//		map.put(Types.NULL,String.class);
-//		map.put(Types.OTHER,String.class);
-//		map.put(Types.JAVA_OBJECT,String.class);
-//		map.put(Types.DISTINCT,String.class);
-//		map.put(Types.STRUCT,String.class);
-//		map.put(Types.ARRAY,String.class);
-//		map.put(Types.BLOB,String.class);
-//		map.put(Types.CLOB,String.class);
-//		map.put(Types.REF,String.class);
-//		map.put(Types.DATALINK,String.class);
-//		map.put(Types.BOOLEAN,String.class);
-//		map.put(Types.ROWID,String.class);
-//		map.put(Types.NCHAR,String.class);
-//		map.put(Types.NVARCHAR,String.class);
-//		map.put(Types.LONGNVARCHAR,String.class);
-//		map.put(Types.NCLOB,String.class);
-//		map.put(Types.SQLXML,String.class);
-//		map.put(Types.REF_CURSOR,String.class);
-//		map.put(Types.TIME_WITH_TIMEZONE,String.class);
-//		map.put(Types.TIMESTAMP_WITH_TIMEZONE,String.class);
+//		next.put(Types.NULL,String.class);
+//		next.put(Types.OTHER,String.class);
+//		next.put(Types.JAVA_OBJECT,String.class);
+//		next.put(Types.DISTINCT,String.class);
+//		next.put(Types.STRUCT,String.class);
+//		next.put(Types.ARRAY,String.class);
+//		next.put(Types.BLOB,String.class);
+//		next.put(Types.CLOB,String.class);
+//		next.put(Types.REF,String.class);
+//		next.put(Types.DATALINK,String.class);
+//		next.put(Types.BOOLEAN,String.class);
+//		next.put(Types.ROWID,String.class);
+//		next.put(Types.NCHAR,String.class);
+//		next.put(Types.NVARCHAR,String.class);
+//		next.put(Types.LONGNVARCHAR,String.class);
+//		next.put(Types.NCLOB,String.class);
+//		next.put(Types.SQLXML,String.class);
+//		next.put(Types.REF_CURSOR,String.class);
+//		next.put(Types.TIME_WITH_TIMEZONE,String.class);
+//		next.put(Types.TIMESTAMP_WITH_TIMEZONE,String.class);
 
 		//JDK8的时间类型
 		map.put(Types.DATE,LocalDate.class);
-//		map.put(Types.TIME,LocalTime.class);
+//		next.put(Types.TIME,LocalTime.class);
 		map.put(Types.TIMESTAMP,Instant.class);
 	}
 

@@ -36,8 +36,6 @@ public class GeneratorFacade {
             }catch (Exception e){
                 throw new GeneratorRuntimeException(table.getTableName(),e);
             }
-//            printA(tables);
-//            printB(tables);
         }
     }
 
@@ -50,80 +48,11 @@ public class GeneratorFacade {
             GeneratorContext.getContext().setTableName(table.getTableName());
             try {
                 new Generator().generate();
+                logger.info(table.getTableName());
             }catch (Exception e){
+                e.printStackTrace();
                 throw new GeneratorRuntimeException(table.getTableName(),e);
             }
-//            printA(tables);
-//            printB(tables);
-        }
-    }
-
-    public void printA(Collection<TableImpl> tables){
-
-        try {
-            String output = (String)GeneratorContext.getContext().getProperty("output");
-            String companyName = (String)GeneratorContext.getContext().getProperty("comapnyName_path");
-            String appName = (String)GeneratorContext.getContext().getProperty("appName");
-            String modelName = (String)GeneratorContext.getContext().getProperty("modelName");
-            String path = output +File.separator +"src"+File.separator + "main" + File.separator+
-                    "webapp" + File.separator + "app" +
-                    File.separator + modelName +File.separator+modelName+".module.ts";
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
-            StringBuffer stringBuffer = new StringBuffer();
-            for (String line = null; (line = bufferedReader.readLine()) != null; line = null) {
-                if (line.contains("/* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */")) {
-                    for(TableImpl table : tables) {
-                        String className = StringUtils.className(table.getTableName());
-                        stringBuffer.append("import { ").append(appName).append(className).append("Module } from './").append(className).append("/.module';").append(System.lineSeparator());
-                    }
-                }
-
-                if (line.contains("/* jhipster-needle-add-entity-module - JHipster will add entity modules here */")) {
-                    for(TableImpl table : tables) {
-                        String className = StringUtils.className(table.getTableName());
-                        stringBuffer.append("\t\t").append(appName).append(className).append("Module,").append(System.lineSeparator());
-                    }
-                }
-                stringBuffer.append(line).append(System.lineSeparator());
-            }
-
-            System.out.println(stringBuffer.toString());
-        }catch (Exception e){
-            throw new GeneratorRuntimeException("异常",e);
-        }
-    }
-
-    public void printB(Collection<TableImpl> tables){
-        try {
-            String output = (String)GeneratorContext.getContext().getProperty("output");
-            String companyName = (String)GeneratorContext.getContext().getProperty("comapnyName_path");
-            String appName = (String)GeneratorContext.getContext().getProperty("appName");
-            String modelName = (String)GeneratorContext.getContext().getProperty("modelName");
-            String path = output +File.separator +"src"+File.separator + "main" + File.separator+
-                    "webapp" + File.separator + "app" +
-                    File.separator + modelName +File.separator+modelName+".module.ts";
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
-            StringBuffer stringBuffer = new StringBuffer();
-            for (String line = null; (line = bufferedReader.readLine()) != null; line = null) {
-                if (line.contains("/* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */")) {
-                    for(TableImpl table : tables) {
-                        String className = StringUtils.className(table.getTableName());
-                        stringBuffer.append("import { ").append(appName).append(className).append("Module } from './").append(className).append("/.module';").append(System.lineSeparator());
-                    }
-                }
-
-                if (line.contains("/* jhipster-needle-add-entity-module - JHipster will add entity modules here */")) {
-                    for(TableImpl table : tables) {
-                        String className = StringUtils.className(table.getTableName());
-                        stringBuffer.append("\t\t").append(appName).append(className).append("Module,").append(System.lineSeparator());
-                    }
-                }
-                stringBuffer.append(line).append(System.lineSeparator());
-            }
-
-            System.out.println(stringBuffer.toString());
-        }catch (Exception e){
-            logger.error("e",e);
         }
     }
 }

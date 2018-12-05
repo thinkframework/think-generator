@@ -232,7 +232,7 @@ public class ColumnImpl implements Column {
 	}
 
 	public String getNullabled() {
-		return "true";
+		return nullable != 1 ? "true" : "false";
 	}
 
 	@Override

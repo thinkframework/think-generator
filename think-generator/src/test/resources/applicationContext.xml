@@ -1,36 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:generator="http://www.think.org/schema/generator"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-              http://www.think.org/schema/generator
-               http://www.think.org/schema/generator/think-generator.xsd"
-	   default-lazy-init="true">
-	<description>
-		#代码生成器配置文件:
-		#1.自动移除generator前缀
-		#2.可以引用环境变量:System.getEnv(): ${env.JAVA_HOME} or System.getProperties(): ${user.home}
-		#2.会为所有的property生成property_path属性,如pkg=org.think => pkg_path=org/think
-	</description>
-	<bean id="oracle" class="com.alibaba.druid.pool.DruidDataSource" lazy-init="true">
-		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name="username" value="think" />
-		<property name="password" value="think" />
-		<property name="connectProperties">
-			<props>
-				<prop key="remarksReporting">true</prop>
-			</props>
-		</property>
-	</bean>
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
+	   <!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+	   <!--xmlns:generator="http://www.think.org/schema/generator"-->
+	   <!--xsi:schemaLocation="http://www.springframework.org/schema/beans-->
+           <!--http://www.springframework.org/schema/beans/spring-beans-3.2.xsd-->
+              <!--http://www.think.org/schema/generator-->
+               <!--http://www.think.org/schema/generator/think-generator.xsd"-->
+	   <!--default-lazy-init="true">-->
+	<!--<description>-->
+		<!--#代码生成器配置文件:-->
+		<!--#1.自动移除generator前缀-->
+		<!--#2.可以引用环境变量:System.getEnv(): ${env.JAVA_HOME} or System.getProperties(): ${user.home}-->
+		<!--#2.会为所有的property生成property_path属性,如pkg=org.think => pkg_path=org/think-->
+	<!--</description>-->
+	<!--<bean id="oracle" class="com.alibaba.druid.pool.DruidDataSource" lazy-init="true">-->
+		<!--<property name="driverClassName" value="oracle.jdbc.OracleDriver" />-->
+		<!--<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />-->
+		<!--<property name="username" value="think" />-->
+		<!--<property name="password" value="think" />-->
+		<!--<property name="connectProperties">-->
+			<!--<props>-->
+				<!--<prop key="remarksReporting">true</prop>-->
+			<!--</props>-->
+		<!--</property>-->
+	<!--</bean>-->
 
 
 	<!--<bean id="mysql" class="com.alibaba.druid.pool.DruidDataSource" lazy-init="true">-->
-		<!--<property name="driverClassName" value="org.mariadb.jdbc.Driver" />-->
-		<!--<property name="url" value="jdbc:mariadb://localhost:3306/app" />-->
+		<!--<property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
+		<!--<property name="url" value="jdbc:mysql://localhost:3306/app" />-->
 		<!--<property name="username" value="root" />-->
-		<!--<property name="password" value="pass1234" />-->
+		<!--<property name="password" value="" />-->
 		<!--<property name="connectProperties">-->
 			<!--<props>-->
 				<!--<prop key="useInformationSchema">true</prop>-->
@@ -39,119 +39,78 @@
 	<!--</bean>-->
 
 
-	<bean id="mysql" class="com.alibaba.druid.pool.DruidDataSource" lazy-init="true">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://10.129.248.10:55100/enterprise_new_1?characterEncoding=utf8" />
-		<property name="username" value="root" />
-		<property name="password" value="123qwe!@#" />
-		<property name="connectProperties">
-			<props>
-				<prop key="useInformationSchema">true</prop>
-			</props>
-		</property>
-	</bean>
+	<!--&lt;!&ndash;<bean id="mysql" class="com.alibaba.druid.pool.DruidDataSource" lazy-init="true">&ndash;&gt;-->
+		<!--&lt;!&ndash;<property name="driverClassName" value="com.mysql.jdbc.Driver" />&ndash;&gt;-->
+		<!--&lt;!&ndash;<property name="url" value="jdbc:mysql://10.129.248.10:55100/enterprise_new_1?characterEncoding=utf8" />&ndash;&gt;-->
+		<!--&lt;!&ndash;<property name="username" value="root" />&ndash;&gt;-->
+		<!--&lt;!&ndash;<property name="password" value="123qwe!@#" />&ndash;&gt;-->
+		<!--&lt;!&ndash;<property name="connectProperties">&ndash;&gt;-->
+			<!--&lt;!&ndash;<props>&ndash;&gt;-->
+				<!--&lt;!&ndash;<prop key="useInformationSchema">true</prop>&ndash;&gt;-->
+			<!--&lt;!&ndash;</props>&ndash;&gt;-->
+		<!--&lt;!&ndash;</property>&ndash;&gt;-->
+	<!--&lt;!&ndash;</bean>&ndash;&gt;-->
+
+	<!--&lt;!&ndash;PowerDesign文件&ndash;&gt;-->
+	<!--<bean id="pdm" class="org.think.jdbc.datasource.SimpleDataSource">-->
+		<!--<property name="driverClassName" value="org.think.jdbc.pdm.PDMDriver" />-->
+		<!--<property name="url" value="jdbc:think:pdm:file://cwms.pdm" />-->
+		<!--<property name="username" value="" />-->
+		<!--<property name="password" value="" />-->
+		<!--<property name="connectProperties">-->
+			<!--<props>-->
+				<!--<prop key="remarksReporting">true</prop>-->
+				<!--<prop key="useInformationSchema">true</prop>-->
+			<!--</props>-->
+		<!--</property>-->
+	<!--</bean>-->
 
 
-	<bean id="cls" class="com.alibaba.druid.pool.DruidDataSource" lazy-init="true">
-		<property name="driverClassName" value="org.mariadb.jdbc.Driver" />
-		<property name="url" value="jdbc:mariadb://10.102.230.7:3306/abb" />
-		<property name="username" value="root" />
-		<property name="password" value="pass1234" />
-		<property name="connectProperties">
-			<props>
-				<prop key="useInformationSchema">true</prop>
-			</props>
-		</property>
-	</bean>
+	<!--&lt;!&ndash;GSP文件&ndash;&gt;-->
+	<!--<bean id="gsp" class="org.think.jdbc.datasource.SimpleDataSource">-->
+		<!--<property name="driverClassName" value="org.think.jdbc.gsp.GSPDriver" />-->
+		<!--<property name="url" value="jdbc:think:gsp:file://file.gsp" />-->
+		<!--<property name="username" value="root" />-->
+		<!--<property name="password" value="123qwe!@#" />-->
+		<!--<property name="connectProperties">-->
+			<!--<props>-->
+				<!--<prop key="useInformationSchema">true</prop>-->
+			<!--</props>-->
+		<!--</property>-->
+	<!--</bean>-->
 
-
-
-	<bean id="mysql2" class="com.alibaba.druid.pool.DruidDataSource" lazy-init="true">
-		<property name="driverClassName" value="org.mariadb.jdbc.Driver" />
-		<property name="url" value="jdbc:mariadb://172.24.222.44:3306/cls" />
-		<property name="username" value="root" />
-		<property name="password" value="" />
-		<property name="connectProperties">
-			<props>
-				<prop key="useInformationSchema">true</prop>
-			</props>
-		</property>
-	</bean>
-
-	<bean id="auth" class="org.think.jdbc.datasource.SimpleDataSource">
-		<property name="driverClassName" value="org.think.jdbc.pdm.PDMDriver" />
-		<property name="url" value="jdbc:think:pdm:file://cwms.pdm" />
-		<property name="username" value="" />
-		<property name="password" value="" />
-		<property name="connectProperties">
-			<props>
-				<prop key="remarksReporting">true</prop>
-				<prop key="useInformationSchema">true</prop>
-			</props>
-		</property>
-	</bean>
-
-	<bean id="bm" class="org.think.jdbc.datasource.SimpleDataSource">
-		<property name="driverClassName" value="org.think.jdbc.pdm.PDMDriver" />
-		<property name="url" value="jdbc:think:pdm:file://cwms.pdm" />
-		<property name="username" value="" />
-		<property name="password" value="" />
-		<property name="connectProperties">
-			<props>
-				<prop key="remarksReporting">true</prop>
-				<prop key="useInformationSchema">true</prop>
-			</props>
-		</property>
-	</bean>
-
-
-
-	<bean id="bm2" class="org.think.jdbc.datasource.SimpleDataSource">
-		<property name="driverClassName" value="org.think.jdbc.pdm.PDMDriver" />
-		<property name="url" value="jdbc:think:pdm:file://bm2.pdm" />
-		<property name="username" value="" />
-		<property name="password" value="" />
-		<property name="connectProperties">
-			<props>
-				<prop key="remarksReporting">true</prop>
-			</props>
-		</property>
-	</bean>
-
-	<generator:generator id="generator">
-		<!--框架依赖的核心包,提供接口和工具类-->
-		<generator:core>false</generator:core>
-		<!--#应用名称-->
-		<generator:appName>app</generator:appName>
-		<generator:frameName>com.sinfusi.freedom.core</generator:frameName>
-		<!--#公司名称-->
-		<generator:companyName>com.sinfusi.freedom.cls</generator:companyName>
-		<!--<generator:appNameBakEnd>app</generator:appNameBakEnd>-->
-		<!--#模块名称-->
-		<!--<generator:moduleName>auth</generator:moduleName>-->
-		<!--<generator:moduleName>param</generator:moduleName>-->
-		<generator:moduleName>bm</generator:moduleName>
-		<!--#作者名称-->
-		<generator:authorName>lixiaobin</generator:authorName>
-		<!--#jsp namespace: web/${namespace}/${className}/list:jsp-->
-		<generator:namespace>views</generator:namespace>
-		<!--#模板目录-->
-		<generator:template>template/app</generator:template>
-		<!--#过滤文件-->
-		<generator:extensions>java,js,jsp,xml,ts,html,json</generator:extensions>
-		<!--#需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,tm_-->
-		<generator:prefix>T_,RBAC_,PARAM_,BM_,PF,CI_</generator:prefix>
-		<generator:ignore>SYS_CREATE_TIME,SYS_MODIFIED_TIME,SYS_REVISION,SYS_CREATOR_ID,SYS_MODIFIER_ID</generator:ignore>
-		<!--#输出目录-->
-		<generator:output>generator_output</generator:output>
-		<!--#主键生成规则-->
-		<!--<generator:generatorId>true</generator:generatorId>-->
-		<!--#审计,创建人,创建时间,更新人,更新时间-->
-		<!--<generator:auditing>true</generator:auditing>-->
-		<!--#ID生成策略:NONE:不做处理,用字段名,ID:转换成ID-->
-		<!--<generator:generatorIdStrategy>NONE</generator:generatorIdStrategy>-->
-		<!--#JDBC对catalog和schema属性的获取支持不够-->
-		<!--<generator:catalog></generator:catalog>-->
-		<!--<generator:schema>THINK</generator:schema>-->
-	</generator:generator>
-</beans>
+	<!--<generator:generator id="generator">-->
+		<!--&lt;!&ndash;框架依赖的核心包,提供接口和工具类&ndash;&gt;-->
+		<!--<generator:core>false</generator:core>-->
+		<!--&lt;!&ndash;#应用名称&ndash;&gt;-->
+		<!--<generator:appName>app</generator:appName>-->
+		<!--<generator:frameName>com.sinfusi.freedom.core</generator:frameName>-->
+		<!--&lt;!&ndash;#公司名称&ndash;&gt;-->
+		<!--<generator:companyName>com.sinfusi.freedom.cls</generator:companyName>-->
+		<!--&lt;!&ndash;<generator:appNameBakEnd>app</generator:appNameBakEnd>&ndash;&gt;-->
+		<!--&lt;!&ndash;#模块名称&ndash;&gt;-->
+		<!--<generator:moduleName>bm</generator:moduleName>-->
+		<!--&lt;!&ndash;#作者名称&ndash;&gt;-->
+		<!--<generator:authorName>lixiaobin</generator:authorName>-->
+		<!--&lt;!&ndash;#jsp namespace: web/${namespace}/${className}/list:jsp&ndash;&gt;-->
+		<!--<generator:namespace>views</generator:namespace>-->
+		<!--&lt;!&ndash;#模板目录&ndash;&gt;-->
+		<!--<generator:template>template/ant-design</generator:template>-->
+		<!--&lt;!&ndash;#过滤文件&ndash;&gt;-->
+		<!--<generator:extensions>java,js,jsp,xml,ts,html,json,sql</generator:extensions>-->
+		<!--&lt;!&ndash;#需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,tm_&ndash;&gt;-->
+		<!--<generator:prefix>T_,RBAC_,PARAM_,BM_,PF,CI_</generator:prefix>-->
+		<!--<generator:ignore>SYS_CREATE_TIME,SYS_MODIFIED_TIME,SYS_REVISION,SYS_CREATOR_ID,SYS_MODIFIER_ID</generator:ignore>-->
+		<!--&lt;!&ndash;#输出目录&ndash;&gt;-->
+		<!--<generator:output>generator_output</generator:output>-->
+		<!--&lt;!&ndash;#主键生成规则&ndash;&gt;-->
+		<!--&lt;!&ndash;<generator:generatorId>true</generator:generatorId>&ndash;&gt;-->
+		<!--&lt;!&ndash;#审计,创建人,创建时间,更新人,更新时间&ndash;&gt;-->
+		<!--&lt;!&ndash;<generator:auditing>true</generator:auditing>&ndash;&gt;-->
+		<!--&lt;!&ndash;#ID生成策略:NONE:不做处理,用字段名,ID:转换成ID&ndash;&gt;-->
+		<!--&lt;!&ndash;<generator:generatorIdStrategy>NONE</generator:generatorIdStrategy>&ndash;&gt;-->
+		<!--&lt;!&ndash;#JDBC对catalog和schema属性的获取支持不够&ndash;&gt;-->
+		<!--&lt;!&ndash;<generator:catalog></generator:catalog>&ndash;&gt;-->
+		<!--&lt;!&ndash;<generator:schema>THINK</generator:schema>&ndash;&gt;-->
+	<!--</generator:generator>-->
+<!--</beans>-->

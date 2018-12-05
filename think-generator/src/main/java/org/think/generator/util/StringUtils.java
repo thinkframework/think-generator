@@ -57,8 +57,10 @@ public class StringUtils {
 		String[] strs = sqlName.toLowerCase().split("_");
 		String result = "";
 		if(strs.length>1){
-			result += strs[0].substring(0,1).toLowerCase();
-			result += strs[0].substring(1).toLowerCase();
+			if(strs[0].length() > 0) {
+				result += strs[0].substring(0, 1).toLowerCase();
+				result += strs[0].substring(1).toLowerCase();
+			}
 			for(int i = 1; i < strs.length; i++) {
 				result += strs[i].substring(0,1).toUpperCase();
 				result += strs[i].substring(1).toLowerCase();

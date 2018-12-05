@@ -28,36 +28,7 @@ public class ColumnFieldBuild {
         String fieldName = StringUtils.fieldName(columnName);
         ClazzFieldImpl field = new ClazzFieldImpl();
         field.setType(classType);
-//        TODO 审阅主键问题 lixiaobin
-//        if(column.getPrimaryKey()) {
-//            field.setName("id");
-//        }else {
-            field.setName(fieldName);
-//        }
-
-        if(column.getPrimaryKey()) {
-//            field.addAnnotation(new SimpleAnnotation("@Id"));
-//            field.addAnnotation(new SimpleAnnotation("@GeneratedValue(strategy = GenerationType.IDENTITY)"));
-//            field.addAnnotation(new SimpleAnnotation("@GenericGenerator(name=\"idGenerator\", strategy=\"uuid\")"));
-        }
-
-        if(!column.getPrimaryKey() && (((ColumnImpl)column).isExportedKey() || ((ColumnImpl)column).getIsImportedKey())) {
-            field.addAnnotation(new SimpleAnnotation("@Transient"));
-        }else{
-        }
-
-        if(column.getDataType() == Types.DECIMAL){
-            field.addAnnotation(new SimpleAnnotation("@TableField(name=\""+columnName+"\",precision = "+((ColumnImpl)column).getNumPrecRadix()+",scale="+((ColumnImpl)column).getDecimalDigits()+")"));
-            ((ColumnImpl) column).setColumnSize(0);
-        }else{
-            if(column.getDataType() == Types.VARCHAR &&  column.getColumnSize() != 0) {
-//                field.addAnnotation(new SimpleAnnotation("@Size(max=" + column.getColumnSize() + ")"));
-            }else{
-                ((ColumnImpl) column).setColumnSize(0);
-            }
-            field.addAnnotation(new SimpleAnnotation("@TableField(\""+columnName+"\")"));
-        }
-
+        field.setName(fieldName);
         return field;
     }
 

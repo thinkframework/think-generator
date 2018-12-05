@@ -11,8 +11,6 @@ public class Application{
     private final static Logger log = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args){
-
-        log.info(System.getProperty("java.class.path"));
         if(args.length < 1){
             log.info("no args.");
             return;

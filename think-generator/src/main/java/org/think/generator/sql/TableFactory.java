@@ -73,7 +73,7 @@ public class TableFactory{
             Set<String> set = new LinkedHashSet<String>();
             ResultSet rs = dbmd.getTableTypes();
             while (rs.next()) {
-                set.add(rs.getString(1));
+                set.add(rs.getString("TABLE_TYPE"));
             }
             return set;
         }catch(SQLException e){
