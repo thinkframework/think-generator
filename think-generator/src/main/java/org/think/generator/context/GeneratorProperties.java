@@ -1,9 +1,6 @@
 package org.think.generator.context;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.xml.DomUtils;
-import org.think.generator.lang.GeneratorRuntimeException;
+import org.think.generator.exception.GeneratorRuntimeException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -15,10 +12,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -32,29 +26,30 @@ import java.util.Properties;
  * @since 1.0.0
  */
 public class GeneratorProperties {
+
+	private static final String CLASS_PATH = "classpath://";
+	private static final String FILE = "file://";
+
 	private Properties properties = new Properties();
 	public GeneratorProperties(){
 		this(null,null);
 	}
 
 	public GeneratorProperties(Properties properties){
-		this(properties,null);
+		this(properties,properties.getProperty("configLocation","classpath://applicationContext.xml"));
 	}
 
-	public GeneratorProperties(Properties properties,String resource){
+	public GeneratorProperties(Properties properties,String configLocation){
 		if(properties != null) {
 			this.properties.putAll(properties);
 		}
-		FileInputStream inputStream = null;
+		InputStream inputStream = getInputStream(configLocation);
 		try {
-			String config = File.separator+System.getProperty("user.dir") + File.separator+"applicationContext.xml";
-            inputStream = new FileInputStream(config);
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.parse(inputStream);
 			XPathFactory xPathFactory = XPathFactory.newInstance();
 			XPath xPath = xPathFactory.newXPath();
-//			Element element = document.getElementById("gererator");
 			Element element = (Element) xPath.evaluate("//*[local-name()='generator']",document, XPathConstants.NODE);
 			String core = xPath.evaluate("core",element);// DomUtils.getChildElementValueByTagName(element,"core");
 			String frameName = xPath.evaluate("frameName",element);//DomUtils.getChildElementValueByTagName(element,"frameName");
@@ -81,7 +76,6 @@ public class GeneratorProperties {
 			loadProperties.put("prefix",prefix);
 			loadProperties.put("output",output);
 
-//            XPathFactory xPathFactory = XPathFactory.newInstance();
 //			InputStream inputStream = GeneratorProperties.class.getClassLoader().getResourceAsStream(GeneratorEnum.DEFAULT_APPLICATION_CONTEXT_PROPERTIES.value());
 //			loadProperties.load(inputStream);
 			this.properties.putAll(loadProperties);
@@ -154,4 +148,16 @@ public class GeneratorProperties {
 		this.properties = properties;
 	}
 
+	protected InputStream getInputStream(String configLocation) throws GeneratorRuntimeException {
+		if(configLocation.startsWith(CLASS_PATH)){
+			return GeneratorProperties.class.getClassLoader().getResourceAsStream(configLocation.substring(CLASS_PATH.length()));
+		}else if(configLocation.startsWith(FILE)){
+			try {
+				return new FileInputStream(configLocation.substring(FILE.length()));
+			}catch(FileNotFoundException e){
+				throw new GeneratorRuntimeException("文件未找到",e);
+			}
+		}
+		return null;
+	}
 }

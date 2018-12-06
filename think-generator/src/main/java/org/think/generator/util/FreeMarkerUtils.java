@@ -8,7 +8,7 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.think.generator.context.GeneratorContext;
-import org.think.generator.lang.GeneratorRuntimeException;
+import org.think.generator.exception.GeneratorRuntimeException;
 
 import java.io.*;
 import java.util.Collection;

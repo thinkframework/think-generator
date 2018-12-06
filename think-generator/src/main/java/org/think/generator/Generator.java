@@ -7,25 +7,25 @@ import java.util.*;
 
 public class Generator {
 
-	public Generator(){
+    public Generator() {
 
-	}
+    }
 
-	public Generator generate()  {
-		List<GeneratorProvider> providers = getGeneratorProviders();
-		Map map = new HashMap();
+    public Generator generate() {
+        List<GeneratorProvider> providers = getGeneratorProviders();
+        Map map = new HashMap();
 
-		for (GeneratorProvider generatorProvider : providers){
-			map.putAll(generatorProvider.build(map));
-		}
+        for (GeneratorProvider generatorProvider : providers) {
+            map.putAll(generatorProvider.build(map));
+        }
 
-		new FreeMarkerUtils().process(map);
-		return this;
-	}
+        new FreeMarkerUtils().process(map);
+        return this;
+    }
 
-	private List<GeneratorProvider> getGeneratorProviders(){
-		List<GeneratorProvider> providers = new ArrayList<>();
-		providers.add(new TableGeneratorProvider());
-		return providers;
-	}
+    private List<GeneratorProvider> getGeneratorProviders() {
+        List<GeneratorProvider> providers = new ArrayList<>();
+        providers.add(new TableGeneratorProvider());
+        return providers;
+    }
 }

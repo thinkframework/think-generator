@@ -11,6 +11,7 @@ public class ColumnImpl implements Column {
 	public ColumnImpl(String columnName){
 		this.columnName = columnName;
 	}
+
 	private String tableName;
 	private String columnName;
 	private int dataType;

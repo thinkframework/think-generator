@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
@@ -19,13 +20,14 @@ public class GeneratorAppTest{
 
 	@Before
 	public void before(){
-		applicationContext = new FileSystemXmlApplicationContext("applicationContext.xml");
+//		applicationContext = new FileSystemXmlApplicationContext("applicationContext.xml");
+		applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 		dataSource = (DataSource)applicationContext.getBean("mysql");
 	}
 
 	@Test
 	public void authUser() throws Exception {
 		tableName = "%";
-		new GeneratorFacade().generatorTable(dataSource, tableName,"costenterprise");
+		new GeneratorFacade().generatorTable("classpath://applicationContext.xml",dataSource, tableName,"costenterprise");
 	}
 }

@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public class TableImpl implements Table {
+
 	private String tableName;
 	private String tableType;
 	private String remarks;

@@ -1,6 +1,6 @@
 package org.think.generator.util;
 
-import org.think.generator.lang.GeneratorRuntimeException;
+import org.think.generator.exception.GeneratorRuntimeException;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;

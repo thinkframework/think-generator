@@ -3,7 +3,7 @@ package org.think.generator.sql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.think.generator.context.GeneratorContext;
-import org.think.generator.lang.GeneratorRuntimeException;
+import org.think.generator.exception.GeneratorRuntimeException;
 import org.think.generator.sql.model.*;
 import org.think.generator.sql.model.impl.ColumnImpl;
 import org.think.generator.sql.model.impl.TableImpl;

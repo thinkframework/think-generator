@@ -1,7 +1,6 @@
 package org.think.generator.config;
 
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
-import org.think.generator.config.GeneratorBeanDefinitionParser;
 
 /**
  * 注册NamespaceHandler.

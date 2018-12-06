@@ -31,12 +31,6 @@ public class ColumnFieldAdapter implements ClazzField,Column {
         column = new ColumnImpl();
     }
 
-    public ColumnFieldAdapter(ClazzField clazzField,ImportedKey importedKey){
-        this.clazzField = clazzField;
-        column = new ColumnImpl();
-    }
-
-
     public ColumnFieldAdapter(ClazzField clazzField,String remark){
         this.clazzField = clazzField;
         column = new ColumnImpl();

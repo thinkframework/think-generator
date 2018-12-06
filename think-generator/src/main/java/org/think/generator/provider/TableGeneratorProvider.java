@@ -19,6 +19,8 @@ import java.util.Map;
  */
 public class TableGeneratorProvider implements GeneratorProvider{
     protected Map result = new HashMap();
+
+    @Override
     public Map build(Map map){
         Table table = new TableBuilder().addDataSource(getDataSource())
                 .addTableName(getTableName())
@@ -79,7 +81,6 @@ public class TableGeneratorProvider implements GeneratorProvider{
     protected String getTableName(){
         return getProperty("tableName");
     }
-
 
     protected String getProperty(String key){
         return (String)GeneratorContext.getContext().getProperty(key);
