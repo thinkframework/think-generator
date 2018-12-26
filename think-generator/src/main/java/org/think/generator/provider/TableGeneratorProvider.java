@@ -26,7 +26,7 @@ public class TableGeneratorProvider implements GeneratorProvider{
                 .addTableName(getTableName())
                 .addColumn(getTableName())
                 .addPrimaryKey(getTableName())
-                .addIndexInfo(getTableName())
+//                .addIndexInfo(getTableName())
 //                .addExportedKey(getTableName())
 //                .addImportedKey(getTableName())
                 .build();

@@ -8,7 +8,6 @@ import java.util.Properties;
  * 线程绑定
  */
 public class GeneratorContext {
-    private String configLocation;
     private GeneratorProperties generatorProperties;
     private DataSource dataSource;
     static ThreadLocal<GeneratorContext> context = new ThreadLocal<>();
@@ -56,7 +55,7 @@ public class GeneratorContext {
         }
         properties.setProperty("configLocation", configLocation);
         properties.setProperty("tableName", tableName);
-        generatorProperties = new GeneratorProperties(properties,configLocation);
+        generatorProperties = new GeneratorProperties(properties);
     }
 
     public void setProperties(Properties properties) {

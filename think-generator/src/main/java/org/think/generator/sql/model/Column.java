@@ -1,19 +1,19 @@
 package org.think.generator.sql.model;
 
 public interface Column {
-	public String getColumnName();
+	String getColumnName();
 
-	public String getRemarks();
+	String getRemarks();
 
-	public int getDataType();
+	int getDataType();
 
-	public boolean getPrimaryKey();
+	boolean getPrimaryKey();
 
-	public boolean getIsImportedKey();
+	boolean getIsImportedKey();
 
-	public ImportedKey getImportedKey();
+	ImportedKey getImportedKey();
 
-	public String getIsNullable();
+	String getIsNullable();
 
-	public int getColumnSize();
+	int getColumnSize();
 }

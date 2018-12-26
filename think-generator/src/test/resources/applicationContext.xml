@@ -1,89 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:generator="http://www.think.org/schema/generator"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:generator="http://www.think.org/schema/generator"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-              http://www.think.org/schema/generator
-               http://www.think.org/schema/generator/think-generator.xsd"
-	   default-lazy-init="true">
-	<description>
-		#代码生成器配置文件:
-		#1.自动移除generator前缀
-		#2.可以引用环境变量:System.getEnv(): ${env.JAVA_HOME} or System.getProperties(): ${user.home}
-		#2.会为所有的property生成property_path属性,如pkg=org.think => pkg_path=org/think
-	</description>
-	<bean id="oracle" class="com.alibaba.druid.pool.DruidDataSource" lazy-init="true">
-		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name="username" value="think" />
-		<property name="password" value="think" />
-		<property name="connectProperties">
-			<props>
-				<prop key="remarksReporting">true</prop>
-			</props>
-		</property>
-	</bean>
+           http://www.springframework.org/schema/jdbc
+           http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+          http://www.think.org/schema/generator
+           http://www.think.org/schema/generator/think-generator.xsd"
+       default-lazy-init="true">
+    <description>
+        #代码生成器配置文件:
+        #1.自动移除generator前缀
+        #2.可以引用环境变量:System.getEnv(): ${env.JAVA_HOME} or System.getProperties(): ${user.home}
+        #2.会为所有的property生成property_path属性,如pkg=org.think => pkg_path=org/think
+    </description>
 
-
-	<bean id="mysql" class="com.alibaba.druid.pool.DruidDataSource" lazy-init="true">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/app" />
-		<property name="username" value="root" />
-		<property name="password" value="" />
-		<property name="connectProperties">
-			<props>
-				<prop key="useInformationSchema">true</prop>
-			</props>
-		</property>
-	</bean>
-
-	<bean id="gsp" class="com.alibaba.druid.pool.DruidDataSource" lazy-init="true">
-		<property name="driverClassName" value="org.think.jdbc.gsp.GSPDriver" />
-		<property name="url" value="jdbc:think:gsp:file://file.gsp" />
-		<property name="username" value="root" />
-		<property name="password" value="" />
-		<property name="connectProperties">
-			<props>
-				<prop key="useInformationSchema">true</prop>
-			</props>
-		</property>
-	</bean>
-
-	<generator:generator id="generator">
-		<!--框架依赖的核心包,提供接口和工具类-->
-		<generator:core>false</generator:core>
-		<!--#应用名称-->
-		<generator:appName>app</generator:appName>
-		<generator:frameName>com.sinfusi.freedom.core</generator:frameName>
-		<!--#公司名称-->
-		<generator:companyName>com.sinfusi.freedom.cls</generator:companyName>
-		<!--<generator:appNameBakEnd>app</generator:appNameBakEnd>-->
-		<!--#模块名称-->
-		<!--<generator:moduleName>auth</generator:moduleName>-->
-		<!--<generator:moduleName>param</generator:moduleName>-->
-		<generator:moduleName>bm</generator:moduleName>
-		<!--#作者名称-->
-		<generator:authorName>lixiaobin</generator:authorName>
-		<!--#jsp namespace: web/${namespace}/${className}/list:jsp-->
-		<generator:namespace>views</generator:namespace>
-		<!--#模板目录-->
-		<generator:template>template/glodon/sql</generator:template>
-		<!--#过滤文件-->
-		<generator:extensions>java,js,jsp,xml,ts,html,json,sql</generator:extensions>
-		<!--#需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,tm_-->
-		<generator:prefix>T_,RBAC_,PARAM_,AUTH_</generator:prefix>
-		<generator:ignore>SYS_CREATE_TIME,SYS_MODIFIED_TIME,SYS_REVISION,SYS_CREATOR_ID,SYS_MODIFIER_ID</generator:ignore>
-		<!--#输出目录-->
-		<generator:output>generator_output</generator:output>
-		<!--#主键生成规则-->
-		<!--<generator:generatorId>true</generator:generatorId>-->
-		<!--#审计,创建人,创建时间,更新人,更新时间-->
-		<!--<generator:auditing>true</generator:auditing>-->
-		<!--#ID生成策略:NONE:不做处理,用字段名,ID:转换成ID-->
-		<!--<generator:generatorIdStrategy>NONE</generator:generatorIdStrategy>-->
-		<!--#JDBC对catalog和schema属性的获取支持不够-->
-		<!--<generator:catalog></generator:catalog>-->
-		<!--<generator:schema>THINK</generator:schema>-->
-	</generator:generator>
+    <jdbc:embedded-database id="dataSource" type="H2">
+        <jdbc:script location="sql/create-db.sql"></jdbc:script>
+    </jdbc:embedded-database>
+    <generator:generator id="generator">
+        <!-- 框架包的名称 -->
+        <generator:frameName>com.glodon.bim5d</generator:frameName>
+        <!--#公司名称-->
+        <generator:companyName>com.glodon.bim5d</generator:companyName>
+        <!--#应用名称-->
+        <generator:appName>app</generator:appName>
+        <!--#模块名称-->
+        <!--<generator:moduleName>auth</generator:moduleName>-->
+        <!--<generator:moduleName>param</generator:moduleName>-->
+        <generator:moduleName>costenterprise</generator:moduleName>
+        <!--#作者名称-->
+        <generator:authorName>lixiaobin</generator:authorName>
+        <!--#jsp namespace: web/${namespace}/${className}/list:jsp-->
+        <generator:namespace>views</generator:namespace>
+        <!--#模板目录-->
+        <generator:template>template</generator:template>
+        <!--#过滤文件-->
+        <generator:extensions>java,js,jsp,xml,ts,html,json,sql</generator:extensions>
+        <generator:converts>
+            <!--<generator:map>-->
+            <!--<generator:entity key="java.sql.Types.DATE" value="java.time.LocalDate"/>-->
+            <!--<generator:entity key="java.sql.Types.TIMESTAMP" value="java.time.Instant"/>-->
+            <!--</generator:map>-->
+            <!--<generator:props>-->
+            <!--<generator:prop key="java.sql.Types.DATE">java.time.LocalDate</generator:prop>-->
+            <!--<generator:prop key="java.sql.Types.TIMESTAMP">java.time.Instant</generator:prop>-->
+            <!--</generator:props>-->
+        </generator:converts>
+        <!--#需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,tm_-->
+        <generator:prefixs>
+            <generator:list>
+                <generator:value>T_</generator:value>
+                <generator:value>RBAC_</generator:value>
+                <generator:value>PARAM_</generator:value>
+                <generator:value>AUTH_</generator:value>
+                <generator:value>PROJECT_</generator:value>
+            </generator:list>
+        </generator:prefixs>
+        <!--#需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,tm_-->
+        <generator:ignores>
+            <generator:list>
+                <generator:value>sys_create_time</generator:value>
+                <generator:value>sys_modified_time</generator:value>
+                <generator:value>sys_revision</generator:value>
+                <generator:value>sys_creator_id</generator:value>
+                <generator:value>sys_modifier_id</generator:value>
+            </generator:list>
+        </generator:ignores>
+        <!--#输出目录-->
+        <generator:output>generator_output</generator:output>
+        <!--#主键生成规则-->
+        <!--<generator:generatorId>true</generator:generatorId>-->
+        <!--#ID生成策略:NONE:不做处理,用字段名,ID:转换成ID-->
+        <!--<generator:generatorIdStrategy>NONE</generator:generatorIdStrategy>-->
+        <!--#JDBC对catalog和schema属性的获取支持不够-->
+        <!--<generator:catalog></generator:catalog>-->
+        <!--<generator:schema>THINK</generator:schema>-->
+    </generator:generator>
 </beans>

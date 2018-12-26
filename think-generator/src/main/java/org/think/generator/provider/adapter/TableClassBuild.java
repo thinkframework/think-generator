@@ -20,8 +20,11 @@ import org.think.generator.util.StringUtils;
 import org.think.generator.util.TypesUtils;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TableClassBuild {
 
@@ -35,13 +38,14 @@ public class TableClassBuild {
         clazz.setClazzPackage(new ClazzPackageImpl());
 
         clazz.setFields(buildField(table));
+        clazz.setMethods(buildMethod(table));
+
         clazz.setImportedFields(getImportedKeyFields(table));
         clazz.setExportedFields(getExportedKeyFields(table));
-        clazz.setMethods(buildMethod(table));
+
         clazz.setImportedMethods(getImportedKeyMethods(table));
         clazz.setExportedMethods(getExportedKeyMethods(table));
 
-//        Clazz proxy = (Clazz) RemarksInvocationHandler.proxy(clazz, StringUtils.isNotEmpty(table.getRemarks()) ? table.getRemarks() : table.getTableName());
         Clazz proxy = clazz;
         return proxy;
     }
@@ -53,13 +57,20 @@ public class TableClassBuild {
      * @return 字段信息
      */
     private static Set<ClazzField> buildField(Table table) {
-        Set<ClazzField> fields = new LinkedHashSet<ClazzField>();
-        for (Column column : table.getColumns()) {
-            ColumnFieldAdapter columnFieldAdapter = new ColumnFieldAdapter(column);
-//            ColumnFieldAdapter proxy = (ColumnFieldAdapter) RemarksInvocationHandler.proxy(columnFieldAdapter, StringUtils.isNotEmpty(column.getRemarks()) ? column.getRemarks() : column.getColumnName());
-            fields.add(columnFieldAdapter);
-        }
-        return fields;
+        return table.getColumns().stream()
+                .map(column -> new ColumnFieldAdapter(column))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    /**
+     * 根据列生成方法信息
+     * @param table
+     * @return 方法信息
+     */
+    private static Set<ClazzMethod> buildMethod(Table table) {
+        return table.getColumns().stream()
+                .map(column -> new ColumnMethodAdapter(column))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     /**
@@ -75,15 +86,12 @@ public class TableClassBuild {
             exportedKey.getFktableName();
 
             String className = StringUtils.className(StringUtils.replacePrefix(exportedKey.getFktableName()));
-
             String fieldName = StringUtils.fieldName(StringUtils.replacePrefix(exportedKey.getFkcolumnName()));
 
             if (fieldName.endsWith("Id")) {
                 //截取末尾的Id;
                 fieldName = fieldName.substring(0, fieldName.length() - "Id".length());
             }
-//            fieldName = fieldName+"s";
-//            fieldName = fieldName.substring(0,1).toLowerCase()+fieldName.substring(1);
             //集合名称
             String set = className.substring(0, 1).toLowerCase() + className.substring(1) + "s";
             Clazz clazz = new ClazzImpl(className);
@@ -133,36 +141,6 @@ public class TableClassBuild {
                             .build().getRemarks()));
         }
         return fields;
-    }
-
-    private static Set<ClazzMethod> buildMethod(Table table) {
-        Set<ClazzMethod> methods = new LinkedHashSet<ClazzMethod>();
-        for (Column column : table.getColumns()) {
-            String columnName = column.getColumnName();
-            Class clazz = TypesUtils.dataType(column.getDataType());
-            String methodName = StringUtils.fieldName(columnName);
-            ClazzImpl classType = new ClazzImpl(clazz);
-
-            ClazzMethodImpl method = new ClazzMethodImpl();
-            method.setReturnType(classType);
-//            TODO 审阅主键问题 lixiaobin
-//            if(column.getPrimaryKey()) {
-//                method.setName("Id");
-//            }else {
-            method.setName(methodName);
-//            }
-            Set<Clazz> parameterTypes = new LinkedHashSet<Clazz>();
-            parameterTypes.add(classType);
-            method.setParameterTypes(parameterTypes);
-
-            ClazzMethod proxy = (ClazzMethod) RemarksInvocationHandler.proxy(method, StringUtils.isNotEmpty(column.getRemarks()) ? column.getRemarks() : column.getColumnName());
-            //TODO 外键列的策略 lixiaobin
-            if (((ColumnImpl) column).getIsImportedKey()) {
-                continue;
-            }
-            methods.add(proxy);
-        }
-        return methods;
     }
 
     private static Set<ClazzMethod> getExportedKeyMethods(Table table) {
@@ -227,7 +205,6 @@ public class TableClassBuild {
 
         return methods;
     }
-
 
     protected static DataSource getDataSource() {
         return GeneratorContext.getContext().getDataSource();

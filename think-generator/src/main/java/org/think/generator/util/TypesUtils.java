@@ -1,6 +1,8 @@
 package org.think.generator.util;
 
+import org.think.generator.Generator;
 import org.think.generator.context.GeneratorContext;
+import org.think.generator.context.GeneratorProperties;
 import org.think.generator.exception.GeneratorRuntimeException;
 
 import java.math.BigDecimal;
@@ -8,7 +10,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.time.*;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -21,14 +22,13 @@ import java.util.Properties;
  */
 public class TypesUtils {
 
-	private final static Map<Integer,Class> map = new HashMap<Integer, Class>();
+	public final static Map<Integer,Class> map = new HashMap<Integer, Class>();
 	private final static Map<Class,Class> classConvert = new HashMap<Class, Class>();
 
 	/**
 	 * 日期时间类型转换为JDK8的类型.
 	 */
 	static {
-
 		map.put(Types.CHAR,String.class);
 		map.put(Types.VARCHAR,String.class);
 		map.put(Types.LONGVARCHAR,String.class);
@@ -80,13 +80,10 @@ public class TypesUtils {
 //		next.put(Types.TIME_WITH_TIMEZONE,String.class);
 //		next.put(Types.TIMESTAMP_WITH_TIMEZONE,String.class);
 
-		//JDK8的时间类型
-		map.put(Types.DATE,LocalDate.class);
-//		next.put(Types.TIME,LocalTime.class);
-		map.put(Types.TIMESTAMP,Instant.class);
 	}
 
 	public static Class dataType(Integer dataType){
+
 		Class clazz = map.get(dataType);
 		return clazz != null ? clazz : Object.class;
 	}
@@ -158,5 +155,9 @@ public class TypesUtils {
 		//其他数据类型
 		return clazz != null ? clazz : "any";
 
+	}
+
+	public static void put(Integer integer,Class clazz){
+		map.put(integer,clazz);
 	}
 }

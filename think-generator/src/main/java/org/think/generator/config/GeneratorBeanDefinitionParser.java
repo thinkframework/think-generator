@@ -1,7 +1,7 @@
 package org.think.generator.config;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -18,7 +18,7 @@ import java.util.Properties;
  * @since 2017/3/24
  */
 public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
-    Log logger = LogFactory.getLog(getClass());
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
@@ -32,18 +32,17 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
 
     private Map parseChild(Element element) {
         Properties properties = new Properties();
-        properties.put("core", DomUtils.getChildElementValueByTagName(element, "core"));//核心包
         properties.put("frameName", DomUtils.getChildElementValueByTagName(element, "frameName"));//框架包
-        properties.put("companyName", DomUtils.getChildElementValueByTagName(element, "companyName"));//公司名称
-        properties.put("appName", DomUtils.getChildElementValueByTagName(element, "appName"));//应用名称
-        properties.put("moduleName", DomUtils.getChildElementValueByTagName(element, "moduleName"));//模块名称
-        properties.put("authorName", DomUtils.getChildElementValueByTagName(element, "authorName"));//作者名称
-        properties.put("namespace", DomUtils.getChildElementValueByTagName(element, "namespace"));//命名空间
-        properties.put("template", DomUtils.getChildElementValueByTagName(element, "template"));//模板目录
-        properties.put("extensions", DomUtils.getChildElementValueByTagName(element, "extensions"));
-        properties.put("prefix", DomUtils.getChildElementValueByTagName(element, "prefix"));//表名前缀
-        properties.put("ignore", DomUtils.getChildElementValueByTagName(element, "ignore"));//忽略的字段
-        properties.put("output", DomUtils.getChildElementValueByTagName(element, "output"));//输出目录
+//        properties.put("companyName", DomUtils.getChildElementValueByTagName(element, "companyName"));//公司名称
+//        properties.put("appName", DomUtils.getChildElementValueByTagName(element, "appName"));//应用名称
+//        properties.put("moduleName", DomUtils.getChildElementValueByTagName(element, "moduleName"));//模块名称
+//        properties.put("authorName", DomUtils.getChildElementValueByTagName(element, "authorName"));//作者名称
+//        properties.put("namespace", DomUtils.getChildElementValueByTagName(element, "namespace"));//命名空间
+//        properties.put("template", DomUtils.getChildElementValueByTagName(element, "template"));//模板目录
+//        properties.put("extensions", DomUtils.getChildElementValueByTagName(element, "extensions"));
+//        properties.put("prefix", DomUtils.getChildElementValueByTagName(element, "prefix"));//表名前缀
+//        properties.put("ignore", DomUtils.getChildElementValueByTagName(element, "ignore"));//忽略的字段
+//        properties.put("output", DomUtils.getChildElementValueByTagName(element, "output"));//输出目录
         return properties;
     }
 }

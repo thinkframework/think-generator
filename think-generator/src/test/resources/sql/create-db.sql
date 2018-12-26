@@ -1,7 +1,16 @@
-DROP TABLE IF EXISTS TEST;
-CREATE TABLE TEST(ID INT PRIMARY KEY, NAME VARCHAR(255));
-INSERT INTO TEST VALUES(1, 'Hello');
-INSERT INTO TEST VALUES(2, 'World');
-SELECT * FROM TEST ORDER BY ID;
-UPDATE TEST SET NAME='Hi' WHERE ID=1;
-DELETE FROM TEST WHERE ID=2;
+CREATE TABLE IF NOT EXISTS `t_table`  (
+  `c_bit` bit(1) NULL DEFAULT NULL,
+  `c_char` char(0) NULL DEFAULT NULL,
+  `c_date` date NULL DEFAULT NULL,
+  `c_decimal` decimal(10, 0) NULL DEFAULT NULL,
+  `c_double` double NULL DEFAULT NULL,
+  `c_float` float NULL DEFAULT NULL,
+  `c_int` int(11) NULL DEFAULT NULL,
+  `c_integer` int(11) NULL DEFAULT NULL,
+  `c_numeric` decimal(10, 0) NULL DEFAULT NULL,
+  `c_real` double NULL DEFAULT NULL,
+  `c_smallint` smallint(6) NULL DEFAULT NULL,
+  `c_time` time(0) NULL DEFAULT NULL,
+  `c_timestamp` timestamp(0) NULL DEFAULT NULL,
+  `c_varchar` varchar(0) NULL DEFAULT NULL,
+  ) ;

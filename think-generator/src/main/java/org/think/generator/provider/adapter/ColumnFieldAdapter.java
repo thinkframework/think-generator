@@ -1,5 +1,6 @@
 package org.think.generator.provider.adapter;
 
+import org.think.generator.context.GeneratorContext;
 import org.think.generator.lang.Clazz;
 import org.think.generator.lang.annotation.ClazzAnnotations;
 import org.think.generator.lang.reflect.ClazzField;
@@ -7,6 +8,8 @@ import org.think.generator.sql.model.ImportedKey;
 import org.think.generator.sql.model.impl.ColumnImpl;
 import org.think.generator.sql.model.Column;
 import org.think.generator.util.TypesUtils;
+
+import java.util.Arrays;
 
 /**
  * 适配数据库的Column和Java字段
@@ -108,7 +111,8 @@ public class ColumnFieldAdapter implements ClazzField,Column {
      * @return 是否忽略
      */
     public boolean isIgnore() {
-        return ignore;
+        return Arrays.asList(((String)GeneratorContext.getContext().getProperty("ignore")).split(","))
+                .contains(getColumnName());
     }
 
     /**

@@ -55,7 +55,7 @@ public class FreeMarkerUtils {
 		}
 	}
 
-	public FreeMarkerUtils setSharedVaribles(Properties properties){
+	public FreeMarkerUtils setSharedVaribles(Properties properties) throws GeneratorRuntimeException {
 		try {
 			configuration.setSharedVaribles(properties);
 		} catch (TemplateModelException e) {
@@ -65,7 +65,7 @@ public class FreeMarkerUtils {
 		}
 	}
 
-	public FreeMarkerUtils process(String input, Map model, String output) {
+	public FreeMarkerUtils process(String input, Map model, String output) throws GeneratorRuntimeException {
 		try {
 			File file = new File(output);
 			FileUtils.forceMkdirParent(file);
@@ -75,9 +75,7 @@ public class FreeMarkerUtils {
 			configuration.getTemplate(input).process(model,out);
 //			fileOutputStream.close();
 			out.close();
-		}catch(IOException e) {
-			throw new GeneratorRuntimeException("IO异常",e);
-		} catch (TemplateException e) {
+		}catch(IOException | TemplateException e) {
 			throw new GeneratorRuntimeException("模板异常",e);
 		} finally {
 			return this;
@@ -106,16 +104,14 @@ public class FreeMarkerUtils {
 		return this;
 	}
 
-	public String processString(String templateString,Map model,Configuration conf) {
+	public String processString(String templateString,Map model,Configuration conf) throws GeneratorRuntimeException {
 		StringWriter out = new StringWriter();
 		try {
 			log.debug(templateString);
 			Template template = new Template("模板路径",new StringReader(templateString),conf);
 			template.process(model, out);
 			return out.toString();
-		}catch(IOException e) {
-			throw new GeneratorRuntimeException("IO异常",e);
-		} catch (TemplateException e) {
+		}catch(IOException | TemplateException e) {
 			throw new GeneratorRuntimeException("模板异常",e);
 		}
 	}

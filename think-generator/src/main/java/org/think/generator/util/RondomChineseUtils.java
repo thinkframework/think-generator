@@ -12,7 +12,7 @@ import java.util.Random;
 public class RondomChineseUtils {
 
     public static String byte2String(String s) throws RuntimeException {
-    return byte2String(s,"GBK");
+        return byte2String(s,"GBK");
     }
 
 

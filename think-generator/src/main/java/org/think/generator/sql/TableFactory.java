@@ -148,7 +148,7 @@ public class TableFactory{
             }
             return tables;
         }catch(SQLException e){
-            throw new GeneratorRuntimeException("SQL异常",e);
+            throw new GeneratorRuntimeException(e.getMessage(),e);
         }finally {
             if(connection != null){
                 try {
