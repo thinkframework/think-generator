@@ -4,14 +4,18 @@ import org.think.jdbc.xml.AbstractDatabaseMetaData;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
@@ -23,21 +27,17 @@ class PDMDatabaseMetaData extends AbstractDatabaseMetaData implements DatabaseMe
     private static final String CLASS_PATH = "jdbc:think:pdm:classpath://";
     private static final String FILE = "jdbc:think:pdm:file://";
 
-    public PDMDatabaseMetaData(String url){
+    PDMDatabaseMetaData(String url){
        super(url);
     }
 
     @Override
     public ResultSet getTables(String catalog, String schemaPattern, String tableNamePattern, String[] types) throws SQLException {
         try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            documentBuilderFactory.setNamespaceAware(false);
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(getInputStream());
-            XPathFactory xPathFactory = XPathFactory.newInstance();
-            XPath xPath = xPathFactory.newXPath();
+            Document document = document();
+            XPath xPath = xPath();
             //获取所有table节点
-            NodeList tables = null;
+            NodeList tables;
             if (tableNamePattern != null && tableNamePattern.contains("%")){
                 tables = (NodeList) xPath.evaluate("//*[local-name()='Tables']/*[local-name()='Table'][contains(Code," + tableNamePattern.replace("%","") + ")]", document, XPathConstants.NODESET);
             }else{
@@ -56,35 +56,26 @@ class PDMDatabaseMetaData extends AbstractDatabaseMetaData implements DatabaseMe
                 wrap.add(map);
             }
             return new PDMResultSet(wrap);
-        }catch (Exception e){
-            new SQLException(e);
+        } catch (XPathExpressionException e) {
+            throw new SQLException(e.getMessage(),e);
         }
-        throw new SQLException();
     }
 
     @Override
-    public ResultSet getTableTypes() throws SQLException {
-        List wrap = new ArrayList();
-        Map table = new HashMap();
-        table.put("TABLE_TYPE","TABLE");
-        wrap.add(table);
-        Map view = new HashMap();
-        view.put("TABLE_TYPE","VIEW");
-        wrap.add(view);
-        return new PDMResultSet(wrap);
+    public ResultSet getTableTypes() {
+        return new PDMResultSet(new ArrayList(){
+            {
+                add(new HashMap<String,String>(){{put("TABLE_TYPE","TABLE");}});
+                add(new HashMap<String,String>(){{put("TABLE_TYPE","VIEW");}});
+            }
+        });
     }
 
     @Override
     public ResultSet getColumns(String catalog, String schemaPattern, String tableNamePattern, String columnNamePattern) throws SQLException {
-        PDMResultSet pdmResultSet = new PDMResultSet();
         try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            documentBuilderFactory.setNamespaceAware(false);
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(getInputStream());
-            NodeList nodeList = document.getDocumentElement().getElementsByTagName("Model");
-            XPathFactory xPathFactory = XPathFactory.newInstance();
-            XPath xPath = xPathFactory.newXPath();
+            Document document = document();
+            XPath xPath = xPath();
             //匹配表对应的列
             NodeList columnsNode = null;
             if (tableNamePattern != null && tableNamePattern.contains("%")){
@@ -108,32 +99,15 @@ class PDMDatabaseMetaData extends AbstractDatabaseMetaData implements DatabaseMe
                     //全部转换成大写
                     typeName = typeName.toLowerCase();
                 }
-                //转换操作,之后扩展
-                if(typeName.startsWith("varchar")){
-                    dateType = Types.VARCHAR;
-                }else if(typeName.startsWith("char")){
-                    dateType = Types.CHAR;
-                }else if(typeName.startsWith("date")){
-                    dateType = Types.DATE;
-                }else if(typeName.startsWith("timestamp")){
-                    dateType = Types.TIMESTAMP;
-               }
-                else if(typeName.startsWith("int")){
-                    dateType = Types.INTEGER;
-                }
-                else if(typeName.startsWith("bigint")){
-                    dateType = Types.BIGINT;
-                }
-                else if(typeName.startsWith("numeric")){
-                    dateType = Types.DECIMAL;
-                }
+                typeName = TypesHelper.typenames(typeName);
+                dateType = TypesHelper.datetypes(typeName);
 
                 String columnSize = xPath.evaluate("*[local-name()='Length']",node);
                 String nullable = xPath.evaluate("*[local-name()='Mandatory']",node);
                 String num_prec_radix = xPath.evaluate("*[local-name()='Length']",node);
                 String decimal_digits = xPath.evaluate("*[local-name()='Precision']",node);
 
-                Map map = new HashMap();
+                Map<String, Object> map = new HashMap<>();
                 map.put("TABLE_NAME",tableNamePattern.toLowerCase());
                 map.put("ORDINAL_POSITION",i);
                 map.put("COLUMN_NAME",columnName.toLowerCase());
@@ -150,23 +124,17 @@ class PDMDatabaseMetaData extends AbstractDatabaseMetaData implements DatabaseMe
                 wrap.add(map);
             }
             return new PDMResultSet(wrap);
-        }catch (Exception e){
-            new SQLException(e);
+        } catch (XPathExpressionException e) {
+            throw new SQLException(e.getMessage(),e);
         }
-        return pdmResultSet;
     }
 
     @Override
     public ResultSet getPrimaryKeys(String catalog, String schema, String table) throws SQLException {
         PDMResultSet pdmResultSet = new PDMResultSet();
         try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            documentBuilderFactory.setNamespaceAware(false);
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(getInputStream());
-            NodeList nodeList = document.getDocumentElement().getElementsByTagName("Model");
-            XPathFactory xPathFactory = XPathFactory.newInstance();
-            XPath xPath = xPathFactory.newXPath();
+            Document document = document();
+            XPath xPath = xPath();
             //获取表
             NodeList tableNode = (NodeList)xPath.evaluate("//*[local-name()='Tables']/*[local-name()='Table' ][Code='"+table+"']",document,XPathConstants.NODE);
             //获取表对应的主键节点
@@ -188,7 +156,7 @@ class PDMDatabaseMetaData extends AbstractDatabaseMetaData implements DatabaseMe
                     Node columnNode = (Node)xPath.evaluate("*[local-name()='Columns']/*[local-name()='Column'][@Id='"+columnRef+"']",tableNode,XPathConstants.NODE);
                     String columnName = xPath.evaluate("Code",columnNode);
 
-                    Map map = new HashMap();
+                    Map<String, Object> map = new HashMap<>();
                     map.put("TABLE_NAME",table);
                     map.put("KEY_SEQ",String.valueOf(j));
                     map.put("PK_NAME",pkName);
@@ -197,7 +165,7 @@ class PDMDatabaseMetaData extends AbstractDatabaseMetaData implements DatabaseMe
                 }
             }
             pdmResultSet = new PDMResultSet(wrap);
-        }catch (Exception e){
+        }catch (XPathExpressionException e){
             throw new SQLException(e);
         }finally {
             return pdmResultSet;
@@ -208,12 +176,8 @@ class PDMDatabaseMetaData extends AbstractDatabaseMetaData implements DatabaseMe
     public ResultSet getImportedKeys(String catalog, String schema, String table) throws SQLException {
         PDMResultSet pdmResultSet = new PDMResultSet();
         try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            documentBuilderFactory.setNamespaceAware(false);
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(getInputStream());
-            XPathFactory xPathFactory = XPathFactory.newInstance();
-            XPath xPath = xPathFactory.newXPath();
+            Document document = document();
+            XPath xPath = xPath();
 
             Map map = new HashMap();
             NodeList tableNode = (NodeList)xPath.evaluate("//*[local-name()='Tables']/*[local-name()='Table' ][Code='"+table+"']",document,XPathConstants.NODE);
@@ -281,8 +245,8 @@ class PDMDatabaseMetaData extends AbstractDatabaseMetaData implements DatabaseMe
                 wrap.add(map);
             }
             pdmResultSet = new PDMResultSet(wrap);
-        }catch (Exception e){
-            throw new SQLException(e);
+        }catch (XPathExpressionException e) {
+            throw new SQLException(e.getMessage(),e);
         }finally {
             return pdmResultSet;
         }
@@ -292,12 +256,8 @@ class PDMDatabaseMetaData extends AbstractDatabaseMetaData implements DatabaseMe
     public ResultSet getExportedKeys(String catalog, String schema, String table) throws SQLException {
         PDMResultSet pdmResultSet = new PDMResultSet();
         try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            documentBuilderFactory.setNamespaceAware(false);
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(getInputStream());
-            XPathFactory xPathFactory = XPathFactory.newInstance();
-            XPath xPath = xPathFactory.newXPath();
+            Document document = document();
+            XPath xPath = xPath();
 
             Map map = new HashMap();
             NodeList tableNode = (NodeList)xPath.evaluate("//*[local-name()='Tables']/*[local-name()='Table' ][Code='"+table+"']",document,XPathConstants.NODE);
@@ -365,8 +325,8 @@ class PDMDatabaseMetaData extends AbstractDatabaseMetaData implements DatabaseMe
                 wrap.add(map);
             }
             pdmResultSet = new PDMResultSet(wrap);
-        }catch (Exception e){
-            throw new SQLException(e);
+        }catch (XPathExpressionException e) {
+            throw new SQLException(e.getMessage(),e);
         }finally {
             return pdmResultSet;
         }
@@ -376,12 +336,8 @@ class PDMDatabaseMetaData extends AbstractDatabaseMetaData implements DatabaseMe
     public ResultSet getIndexInfo(String catalog, String schema, String table, boolean unique, boolean approximate) throws SQLException {
         PDMResultSet pdmResultSet = new PDMResultSet();
         try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            documentBuilderFactory.setNamespaceAware(false);
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(getInputStream());
-            XPathFactory xPathFactory = XPathFactory.newInstance();
-            XPath xPath = xPathFactory.newXPath();
+            Document document = document();
+            XPath xPath = xPath();
             //获取表
             NodeList tableNode = (NodeList)xPath.evaluate("//*[local-name()='Tables']/*[local-name()='Table' ][Code='"+table+"']",document,XPathConstants.NODE);
             //获取表对应的主键节点
@@ -409,27 +365,40 @@ class PDMDatabaseMetaData extends AbstractDatabaseMetaData implements DatabaseMe
                 }
             }
             pdmResultSet = new PDMResultSet(wrap);
-        }catch (Exception e){
-            throw new SQLException(e);
+        }catch (XPathExpressionException e) {
+            throw new SQLException(e.getMessage(),e);
         }finally {
             return pdmResultSet;
         }
 
     }
 
-
-    protected InputStream getInputStream(){
-        if(url.startsWith(CLASS_PATH)){
-            fileName = url.substring(CLASS_PATH.length());
-            AbstractDatabaseMetaData.class.getClassLoader().getResourceAsStream(fileName);
-        }else if(url.startsWith(FILE)){
-            fileName = url.substring(FILE.length());
-            try {
-                return new FileInputStream(fileName);
-            }catch(FileNotFoundException e){
-                new RuntimeException("文件未找到",e);
-            }
+    public Document document() throws SQLException {
+      try{
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            documentBuilderFactory.setNamespaceAware(false);
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            return documentBuilder.parse(getInputStream());
+        } catch (ParserConfigurationException | IOException |SAXException e) {
+            throw new SQLException(e.getMessage(),e);
         }
-        return null;
+    }
+
+    public XPath xPath(){
+        XPathFactory xPathFactory = XPathFactory.newInstance();
+        return xPathFactory.newXPath();
+    }
+
+    protected InputStream getInputStream() throws SQLException {
+        try {
+            if(url.startsWith(CLASS_PATH)){
+                return AbstractDatabaseMetaData.class.getClassLoader().getResourceAsStream(url.substring(CLASS_PATH.length()));
+            }else if(url.startsWith(FILE)){
+                return new FileInputStream(url.substring(FILE.length()));
+            }
+            throw new FileNotFoundException();
+        } catch (FileNotFoundException e) {
+            throw new SQLException(e.getMessage(),e);
+        }
     }
 }

@@ -10,15 +10,12 @@ import java.util.Properties;
  */
 class PDMConnection extends AbstractConnection implements Connection{
 
-    public PDMConnection(String url,Properties properties) {
+    PDMConnection(String url,Properties properties) {
         super(url,properties);
     }
 
     @Override
-    public DatabaseMetaData getMetaData() throws SQLException {
-        if(databaseMetaData == null){
-            databaseMetaData = new PDMDatabaseMetaData(url);
-        }
-        return databaseMetaData;
+    public DatabaseMetaData getMetaData() {
+        return new PDMDatabaseMetaData(url);
     }
 }

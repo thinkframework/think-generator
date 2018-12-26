@@ -13,6 +13,7 @@ import java.util.logging.Logger;
  * Created by lixiaobin on 2017/4/25.
  */
 public class SimpleDataSource implements DataSource{
+    private String id;
     private Connection connection;
     private String driverClassName;
     private String url;
@@ -75,6 +76,14 @@ public class SimpleDataSource implements DataSource{
     @Override
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         return null;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDriverClassName() {

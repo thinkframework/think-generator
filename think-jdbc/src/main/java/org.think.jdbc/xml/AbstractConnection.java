@@ -9,7 +9,6 @@ import java.util.concurrent.Executor;
  * Created by lixiaobin on 2017/4/25.
  */
 public abstract class AbstractConnection implements Connection{
-    protected DatabaseMetaData databaseMetaData;
     protected String url;
     protected Properties properties;
 

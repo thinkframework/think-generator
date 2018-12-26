@@ -13,7 +13,7 @@ import java.util.Map;
  * Created by lixiaobin on 2017/4/25.
  */
 public abstract class AbstractResultSet implements ResultSet{
-    protected Iterator iterator;
+    private Iterator iterator;
     protected Map next;
 
     public AbstractResultSet(){
@@ -25,7 +25,7 @@ public abstract class AbstractResultSet implements ResultSet{
     }
 
     @Override
-    public boolean next() throws SQLException {
+    public boolean next() {
         if(iterator != null && iterator.hasNext()){
             next = (Map)iterator.next();
             return true;

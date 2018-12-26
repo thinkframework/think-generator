@@ -19,17 +19,12 @@ public class PDMDriver extends AbstractDriver implements Driver {
     }
 
     @Override
-    public Connection connect(String url, Properties info) throws SQLException {
+    public Connection connect(String url, Properties info) {
         return new PDMConnection(url,info);
     }
 
     @Override
-    public boolean acceptsURL(String url) throws SQLException {
-        if(url != null){
-            if(url.startsWith("jdbc:think:pdm")){
-                return true;
-            }
-        }
-        return false;
+    public boolean acceptsURL(String url) {
+       return url != null && (url.startsWith("jdbc:think:pdm"));
     }
 }

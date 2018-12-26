@@ -10,21 +10,21 @@ import java.util.Optional;
  */
 class PDMResultSet extends AbstractResultSet implements ResultSet{
 
-    public PDMResultSet(){
+    PDMResultSet(){
         super();
     }
 
-    public PDMResultSet(Iterable iterable){
+    PDMResultSet(Iterable iterable){
         super(iterable);
     }
 
     @Override
-    public int getInt(String columnLabel) throws SQLException {
+    public int getInt(String columnLabel) {
         return next.get(columnLabel) == null ? 0 : (int) next.get(columnLabel);
     }
 
     @Override
-    public String getString(String columnLabel) throws SQLException {
+    public String getString(String columnLabel) {
         return (String) next.get(columnLabel);
     }
 }

@@ -1,22 +1,11 @@
 package org.think.jdbc.xml;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.sql.*;
 
 /**
  * Created by lixiaobin on 2017/4/25.
  */
 public abstract class AbstractDatabaseMetaData implements DatabaseMetaData{
-    protected String fileName;
     protected String url;
 
     public AbstractDatabaseMetaData(){
@@ -892,12 +881,4 @@ public abstract class AbstractDatabaseMetaData implements DatabaseMetaData{
     public boolean isWrapperFor(Class<?> iface) throws SQLException {
         throw new SQLException();
     }
-
-
-//    protected XPath newXPath(boolean awareness){
-//        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-//        documentBuilderFactory.setNamespaceAware(awareness);
-//        XPathFactory xPathFactory = XPathFactory.newInstance();
-//        return xPathFactory.newXPath();
-//    }
 }

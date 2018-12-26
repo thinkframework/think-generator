@@ -12,6 +12,15 @@
             <name>lixiaobin</name>
         </developer>
     </developers>
+    <properties>
+        <oracle.version>12.1.0.2</oracle.version>
+        <think.version>0.0.1-SNAPSHOT</think.version>
+        <java.version>1.8</java.version>
+
+        <!-- Plugin versions -->
+        <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
+        <sonar-maven-plugin.version>3.4.1.1168</sonar-maven-plugin.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -53,6 +62,41 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!--<plugin>-->
+                <!--<groupId>org.jacoco</groupId>-->
+                <!--<artifactId>jacoco-maven-plugin</artifactId>-->
+                <!--<version>${jacoco-maven-plugin.version}</version>-->
+                <!--&lt;!&ndash;<executions>&ndash;&gt;-->
+                <!--&lt;!&ndash;<execution>&ndash;&gt;-->
+                <!--&lt;!&ndash;<id>pre-unit-tests</id>&ndash;&gt;-->
+                <!--&lt;!&ndash;<goals>&ndash;&gt;-->
+                <!--&lt;!&ndash;<goal>prepare-agent</goal>&ndash;&gt;-->
+                <!--&lt;!&ndash;</goals>&ndash;&gt;-->
+                <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash; Sets the path to the file which contains the execution data. &ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;<destFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</destFile>&ndash;&gt;-->
+                <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+                <!--&lt;!&ndash;</execution>&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash; Ensures that the code coverage report for unit tests is created after unit tests have been run &ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;<execution>&ndash;&gt;-->
+                <!--&lt;!&ndash;<id>post-unit-test</id>&ndash;&gt;-->
+                <!--&lt;!&ndash;<phase>test</phase>&ndash;&gt;-->
+                <!--&lt;!&ndash;<goals>&ndash;&gt;-->
+                <!--&lt;!&ndash;<goal>report</goal>&ndash;&gt;-->
+                <!--&lt;!&ndash;</goals>&ndash;&gt;-->
+                <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+                <!--&lt;!&ndash;<dataFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</dataFile>&ndash;&gt;-->
+                <!--&lt;!&ndash;<outputDirectory>${project.testresult.directory}/coverage/jacoco</outputDirectory>&ndash;&gt;-->
+                <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+                <!--&lt;!&ndash;</execution>&ndash;&gt;-->
+                <!--&lt;!&ndash;</executions>&ndash;&gt;-->
+            <!--</plugin>-->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
