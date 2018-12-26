@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.3.RELEASE</version>
+		<version>2.1.0.RELEASE</version>
 	</parent>
 	<groupId>org.think</groupId>
 	<artifactId>think-framework</artifactId>
@@ -41,13 +41,16 @@
 		<module>think-jdbc</module>
 		<module>think-generator</module>
 		<module>think-swing</module>
-		<module>think-tools</module>
-        <module>think-agent</module>
-    </modules>
+		<module>think-util</module>
+	</modules>
 	<properties>
 		<oracle.version>12.1.0.2</oracle.version>
 		<think.version>0.0.1-SNAPSHOT</think.version>
 		<java.version>1.8</java.version>
+
+		<!-- Plugin versions -->
+		<jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
+		<sonar-maven-plugin.version>3.4.1.1168</sonar-maven-plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -66,6 +69,13 @@
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-releasetrain</artifactId>
+				<version>Lovelace-SR3</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
 			<dependency>
 				<groupId>org.mybatis.spring.boot</groupId>
 				<artifactId>mybatis-spring-boot-starter</artifactId>
@@ -86,16 +96,6 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid</artifactId>
 				<version>1.0.23</version>
-			</dependency>
-			<dependency>
-				<groupId>com.oracle.jdbc</groupId>
-				<artifactId>ojdbc7</artifactId>
-				<version>${oracle.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.ibm.db2.jcc</groupId>
-				<artifactId>db2jcc4</artifactId>
-				<version>10.1</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-logging</groupId>
@@ -144,6 +144,45 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco-maven-plugin.version}</version>
+				<!--<executions>-->
+				<!--<execution>-->
+				<!--<id>pre-unit-tests</id>-->
+				<!--<goals>-->
+				<!--<goal>prepare-agent</goal>-->
+				<!--</goals>-->
+				<!--<configuration>-->
+				<!--&lt;!&ndash; Sets the path to the file which contains the execution data. &ndash;&gt;-->
+				<!--<destFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</destFile>-->
+				<!--</configuration>-->
+				<!--</execution>-->
+				<!--&lt;!&ndash; Ensures that the code coverage report for unit tests is created after unit tests have been run &ndash;&gt;-->
+				<!--<execution>-->
+				<!--<id>post-unit-test</id>-->
+				<!--<phase>test</phase>-->
+				<!--<goals>-->
+				<!--<goal>report</goal>-->
+				<!--</goals>-->
+				<!--<configuration>-->
+				<!--<dataFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</dataFile>-->
+				<!--<outputDirectory>${project.testresult.directory}/coverage/jacoco</outputDirectory>-->
+				<!--</configuration>-->
+				<!--</execution>-->
+				<!--</executions>-->
+			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>${sonar-maven-plugin.version}</version>
+			</plugin>
+		</plugins>
+	</build>
 	<distributionManagement>
 		<repository>
 			<id>nexus</id>
