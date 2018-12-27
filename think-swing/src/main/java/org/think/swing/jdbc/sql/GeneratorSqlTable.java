@@ -1,7 +1,7 @@
 package org.think.swing.jdbc.sql;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import javax.swing.*;
@@ -17,7 +17,7 @@ import java.util.Vector;
  * @author lixiaobin
  */
 class GeneratorSqlTable extends JTable{
-    private Log log = LogFactory.getLog(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private DataSource dataSource;
     private String sql;
     private GeneratorSqlTable(){
@@ -57,13 +57,13 @@ class GeneratorSqlTable extends JTable{
                 setModel(new DefaultTableModel(data,columnNames));
             }
         } catch (SQLException ex) {
-            log.error("",ex);
+            logger.error("",ex);
         }finally {
             if(connection != null){
                 try {
                 connection.close();
                 } catch (SQLException ex) {
-                    log.error(ex);
+                    logger.error("",ex);
                 }
             }
         }

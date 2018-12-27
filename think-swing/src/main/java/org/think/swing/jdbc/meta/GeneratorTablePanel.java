@@ -1,5 +1,7 @@
 package org.think.swing.jdbc.meta;
 
+import org.think.swing.jdbc.meta.table.GeneratorMetaTable;
+
 import javax.sql.DataSource;
 import javax.swing.*;
 import java.awt.*;

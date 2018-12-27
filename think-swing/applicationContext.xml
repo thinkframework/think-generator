@@ -13,59 +13,70 @@
 		#2.可以引用环境变量:System.getEnv(): ${env.JAVA_HOME} or System.getProperties(): ${user.home}
 		#2.会为所有的property生成property_path属性,如pkg=org.think => pkg_path=org/think
 	</description>
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" lazy-init="true">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/abb?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false" />
+		<property name="url" value="jdbc:mysql://10.129.248.10:55100/enterprise_new_1?characterEncoding=utf8" />
 		<property name="username" value="root" />
-		<property name="password" value="pass1234" />
+		<property name="password" value="123qwe!@#" />
 		<property name="connectProperties">
 			<props>
-				<prop key="remarksReporting">true</prop>
-			</props>
-		</property>
-	</bean>
-	<bean id="simpleDataSource" class="org.think.jdbc.datasource.SimpleDataSource">
-		<property name="driverClassName" value="org.think.jdbc.pdm.PDMDriver" />
-		<property name="url" value="jdbc:think:pdm:file://cwms.pdm" />
-		<property name="username" value="" />
-		<property name="password" value="" />
-		<property name="connectProperties">
-			<props>
-				<prop key="remarksReporting">true</prop>
+				<prop key="useInformationSchema">true</prop>
 			</props>
 		</property>
 	</bean>
 	<generator:generator id="generator">
-		<!--框架依赖的核心包,提供接口和工具类-->
-		<generator:core>false</generator:core>
+		<!-- 框架包的名称 -->
+		<generator:frameName>com.glodon.bim5d</generator:frameName>
+		<!--#公司名称-->
+		<generator:companyName>com.glodon.bim5d</generator:companyName>
 		<!--#应用名称-->
 		<generator:appName>app</generator:appName>
-		<generator:frameName>com.sinfusi.freedom.ext</generator:frameName>
-		<!--#公司名称-->
-		<generator:companyName>com.sinfusi.freedom.cls</generator:companyName>
-		<!--<generator:appNameBakEnd>app</generator:appNameBakEnd>-->
 		<!--#模块名称-->
-		<generator:moduleName>authority</generator:moduleName>
+		<!--<generator:moduleName>auth</generator:moduleName>-->
+		<!--<generator:moduleName>param</generator:moduleName>-->
+		<generator:moduleName>costenterprise</generator:moduleName>
 		<!--#作者名称-->
 		<generator:authorName>lixiaobin</generator:authorName>
 		<!--#jsp namespace: web/${namespace}/${className}/list:jsp-->
 		<generator:namespace>views</generator:namespace>
 		<!--#模板目录-->
-		<generator:template>template/app</generator:template>
+		<generator:template>template/sql</generator:template>
+		<!--<generator:template>template/glodon</generator:template>-->
+		<!--<generator:template>template/ant-design</generator:template>-->
+		<!--<generator:template>template/bak</generator:template>-->
 		<!--#过滤文件-->
-		<generator:extensions>java,js,jsp,xml,ts,html,json</generator:extensions>
+		<generator:extensions>java,js,jsp,xml,ts,html,json,sql</generator:extensions>
+		<generator:converts>
+			<!--<generator:map>-->
+			<!--<generator:entity key="java.sql.Types.DATE" value="java.time.LocalDate"/>-->
+			<!--<generator:entity key="java.sql.Types.TIMESTAMP" value="java.time.Instant"/>-->
+			<!--</generator:map>-->
+			<!--<generator:props>-->
+			<!--<generator:prop key="java.sql.Types.DATE">java.time.LocalDate</generator:prop>-->
+			<!--<generator:prop key="java.sql.Types.TIMESTAMP">java.time.Instant</generator:prop>-->
+			<!--</generator:props>-->
+		</generator:converts>
 		<!--#需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,tm_-->
-		<generator:prefix>T_,RBAC_</generator:prefix>
+		<generator:prefixs>
+			<generator:list>
+				<generator:value>T_</generator:value>
+				<generator:value>RBAC_</generator:value>
+				<generator:value>PARAM_</generator:value>
+				<generator:value>AUTH_</generator:value>
+				<generator:value>PROJECT_</generator:value>
+			</generator:list>
+		</generator:prefixs>
+		<!--#需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,tm_-->
+		<generator:ignores>
+			<generator:list>
+				<generator:value>sys_create_time</generator:value>
+				<generator:value>sys_modified_time</generator:value>
+				<generator:value>sys_revision</generator:value>
+				<generator:value>sys_creator_id</generator:value>
+				<generator:value>sys_modifier_id</generator:value>
+			</generator:list>
+		</generator:ignores>
 		<!--#输出目录-->
 		<generator:output>generator_output</generator:output>
-		<!--#主键生成规则-->
-		<!--<generator:generatorId>true</generator:generatorId>-->
-		<!--#审计,创建人,创建时间,更新人,更新时间-->
-		<!--<generator:auditing>true</generator:auditing>-->
-		<!--#ID生成策略:NONE:不做处理,用字段名,ID:转换成ID-->
-		<!--<generator:generatorIdStrategy>NONE</generator:generatorIdStrategy>-->
-		<!--#JDBC对catalog和schema属性的获取支持不够-->
-		<!--<generator:catalog></generator:catalog>-->
-		<!--<generator:schema>THINK</generator:schema>-->
 	</generator:generator>
 </beans>

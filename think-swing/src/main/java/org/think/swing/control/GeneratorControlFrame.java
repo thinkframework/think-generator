@@ -1,7 +1,7 @@
 package org.think.swing.control;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.think.swing.GeneratorContext;
 import org.think.swing.config.XmlUtil;
 import org.think.swing.control.tree.GeneratorTreePanel;
@@ -10,8 +10,6 @@ import org.think.swing.jdbc.GenericTableTabbedPanel;
 
 import javax.sql.DataSource;
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
@@ -28,7 +26,7 @@ import java.util.List;
 public class GeneratorControlFrame extends JInternalFrame{
 	private int count = 1;
 	private static final long serialVersionUID = 1L;
-	private Log log = LogFactory.getLog(getClass());
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	private final Integer WIDTH=800,HEIGHT=600;
 	GeneratorTreePanel generatorTreePanel;
 	private JComboBox connectionComboBox;
@@ -113,26 +111,22 @@ public class GeneratorControlFrame extends JInternalFrame{
 	public void initTree(final JTabbedPane westTabbedPane){
 		generatorTreePanel = new GeneratorTreePanel();
 		westTabbedPane.addTab("表信息", null, new JScrollPane(generatorTreePanel), null);
-
-		generatorTreePanel.addTreeSelectionListener(new TreeSelectionListener() {
-			public void valueChanged(TreeSelectionEvent e) {
-				try {
-					TreePath treePath = generatorTreePanel.getJTree().getSelectionPath();
-					DefaultMutableTreeNode defaultMutableTreeNode = (DefaultMutableTreeNode) treePath
-							.getLastPathComponent();
-					int pathCount = treePath.getPathCount();
-					if(pathCount == 4){//获取相关的列
-						DefaultMutableTreeNode dataSourceNameNode = (DefaultMutableTreeNode)defaultMutableTreeNode.getParent().getParent();
-						String dataSourceName = (String)dataSourceNameNode.getUserObject();
-						String tableName = (String) defaultMutableTreeNode.getUserObject();
-						addTablePanel(dataSourceName,tableName);
-					}
-				} catch (Exception ex) {
-					log.error("",ex);
-					JOptionPane.showMessageDialog(GeneratorControlFrame.this, ex.getMessage());
+		generatorTreePanel.addTreeSelectionListener(e -> {
+			try {
+				TreePath treePath = generatorTreePanel.getJTree().getSelectionPath();
+				DefaultMutableTreeNode defaultMutableTreeNode = (DefaultMutableTreeNode) treePath
+						.getLastPathComponent();
+				int pathCount = treePath.getPathCount();
+				if(pathCount == 4){//获取相关的列
+					DefaultMutableTreeNode dataSourceNameNode = (DefaultMutableTreeNode)defaultMutableTreeNode.getParent().getParent();
+					String dataSourceName = (String)dataSourceNameNode.getUserObject();
+					String tableName = (String) defaultMutableTreeNode.getUserObject();
+					addTablePanel(dataSourceName,tableName);
 				}
+			} catch (Exception ex) {
+				logger.error("",ex);
+				JOptionPane.showMessageDialog(GeneratorControlFrame.this, ex.getMessage());
 			}
-
 		});
 
 	}
@@ -149,7 +143,7 @@ public class GeneratorControlFrame extends JInternalFrame{
 			URL url = getClass().getClassLoader().getResource("help.html");
 			editorPane.setPage(url);
 		} catch (IOException e) {
-			log.error("",e);
+			logger.error("",e);
 		}
 		return editorPane;
 	}
@@ -195,7 +189,7 @@ public class GeneratorControlFrame extends JInternalFrame{
 				Runtime.getRuntime().exec("cmd /c start .");
 			}
 		} catch (IOException e) {
-			log.error("",e);
+			logger.error("",e);
 		}
 	}
 

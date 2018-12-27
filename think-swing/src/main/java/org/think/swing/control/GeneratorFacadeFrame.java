@@ -10,6 +10,10 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * 过滤文件
+ * @author lixiaobin
+ */
 public class GeneratorFacadeFrame extends JFrame{
 	private DataSource dataSource;
 	private Properties properties;

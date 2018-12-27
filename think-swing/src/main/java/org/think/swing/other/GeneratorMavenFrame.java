@@ -3,9 +3,9 @@ package org.think.swing.other;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 
 public class GeneratorMavenFrame extends JFrame {
@@ -23,18 +23,18 @@ public class GeneratorMavenFrame extends JFrame {
 		int HEIGHT = 480;
 		setTitle(TITLE);
 		setSize(WIDTH, HEIGHT);// 设置大小
+		setLocationRelativeTo(null);//居中
 //		setLocationByPlatform(true);//
 //		System.out.print(getOwner());
-		JPanel centerPanel = new JPanel();
-		add(centerPanel);
-		addCenterPanel(centerPanel);
+		add(addCenterPanel());
 	}
 
-	public void addCenterPanel(JPanel panel){
+	public JPanel addCenterPanel(){
+		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		JPanel northPanel = new JPanel();
 		northPanel.setPreferredSize(new Dimension(0,200));
-		northPanel.setLayout(new GridLayout(5,2));
+		northPanel.setLayout(new GridLayout(5,4));
 		Border border = BorderFactory.createTitledBorder("链接信息");
 		northPanel.setBorder(border);
 		panel.add(northPanel,BorderLayout.NORTH);
@@ -92,66 +92,53 @@ public class GeneratorMavenFrame extends JFrame {
 		JPanel southPanel = new JPanel();
 
 		JButton saveButton = new JButton("安装");
-		saveButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				groupIdField.getText();
-				artifactIdField.getText();
-				versionField.getText();
-				packagingField.getText();
-				StringBuffer exec = new StringBuffer();
-				if(true) {
-					exec.append("mvn install:install-file")
-							.append(" -DgroupId=").append(groupIdField.getText())
-							.append(" -DartifactId=").append(artifactIdField.getText())
-							.append(" -Dversion=").append(versionField.getText())
-							.append(" -Dpackaging=").append(packagingField.getText())
-							.append(" -Dfile=").append(fileField.getText());
-				}else{
-					exec.append("mvn install:install-file")
-							.append(" -DgroupId=").append(groupIdField.getText())
-							.append(" -DartifactId=").append(artifactIdField.getText())
-							.append(" -Dversion=").append(versionField.getText())
-							.append(" -Dpackaging=").append(packagingField.getText())
-							.append(" -Dfile=").append(fileField.getText())
-							.append(" -Durl=").append(urlField.getText())
-							.append(" -DrepositoryId=").append(repositoryIdField.getText());
+		saveButton.addActionListener(e -> {
+			groupIdField.getText();
+			artifactIdField.getText();
+			versionField.getText();
+			packagingField.getText();
+			StringBuffer exec = new StringBuffer();
+			if(true) {
+				exec.append("mvn install:install-file")
+						.append(" -DgroupId=").append(groupIdField.getText())
+						.append(" -DartifactId=").append(artifactIdField.getText())
+						.append(" -Dversion=").append(versionField.getText())
+						.append(" -Dpackaging=").append(packagingField.getText())
+						.append(" -Dfile=").append(fileField.getText());
+			}else{
+				exec.append("mvn install:install-file")
+						.append(" -DgroupId=").append(groupIdField.getText())
+						.append(" -DartifactId=").append(artifactIdField.getText())
+						.append(" -Dversion=").append(versionField.getText())
+						.append(" -Dpackaging=").append(packagingField.getText())
+						.append(" -Dfile=").append(fileField.getText())
+						.append(" -Durl=").append(urlField.getText())
+						.append(" -DrepositoryId=").append(repositoryIdField.getText());
+			}
+			try {
+				Runtime run = Runtime.getRuntime();
+				Process p = run.exec(exec.toString());
+				BufferedInputStream in = new BufferedInputStream(p.getInputStream());
+				BufferedReader inBr = new BufferedReader(new InputStreamReader(in));
+				String lineStr;
+				while ((lineStr = inBr.readLine()) != null)
+					System.out.println(lineStr);
+				if (p.waitFor() != 0) {
+					if (p.exitValue() == 1)//p.exitValue()==0表示正常结束，1：非正常结束
+						System.err.println("命令执行失败!");
 				}
-				try {
-					Runtime run = Runtime.getRuntime();
-					Process p = run.exec(exec.toString());
-					BufferedInputStream in = new BufferedInputStream(p.getInputStream());
-					BufferedReader inBr = new BufferedReader(new InputStreamReader(in));
-					String lineStr;
-					while ((lineStr = inBr.readLine()) != null)
-						System.out.println(lineStr);
-					if (p.waitFor() != 0) {
-						if (p.exitValue() == 1)//p.exitValue()==0表示正常结束，1：非正常结束
-							System.err.println("命令执行失败!");
-					}
-					inBr.close();
-					in.close();
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+				inBr.close();
+				in.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
 			}
 		});
 		southPanel.add(saveButton);
 
 		JButton cancelButton = new JButton("取消");
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		cancelButton.addActionListener(e -> this.setVisible(false));
 		southPanel.add(cancelButton);
 		panel.add(southPanel, BorderLayout.SOUTH);
-	}
-
-	public static void main(String... args){
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				new GeneratorMavenFrame().setVisible(true);
-			}
-		});
+		return panel;
 	}
 }

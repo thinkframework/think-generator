@@ -1,9 +1,8 @@
 package org.think.swing;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.think.swing.about.GeneratorAboutFrame;
-import org.think.swing.config.GeneratorConfigureFrame;
 import org.think.swing.control.GeneratorControlFrame;
 import org.think.swing.other.GeneratorLogFrame;
 import org.think.swing.other.GeneratorMavenFrame;
@@ -21,17 +20,12 @@ import java.io.File;
  * @email hdhxby@qq.com
  */
 public class GeneratorApplicationFrame extends JFrame{
-	private Log log = LogFactory.getLog(getClass());
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private JDesktopPane jDesktopPane;
-	private GeneratorControlFrame generatorControlFrame;
-	private GeneratorLogFrame generatorLogFrame;
-	private GeneratorAboutFrame generatorAboutFrame;
-	private GeneratorMavenFrame generatorMavenFrame;
 	public GeneratorApplicationFrame() {
 		super();
 		setTitle("Application");
-
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//关闭
 		setSize(1024,768);
@@ -50,29 +44,29 @@ public class GeneratorApplicationFrame extends JFrame{
 //		setSize((int)height,(int)width/2);
 
 		setJMenuBar(addMenu());
-//		add(addToolBar(), BorderLayout.NORTH);
-		add(initWestPanel(),BorderLayout.WEST);
-		add(initEastPanel(),BorderLayout.EAST);
-		jDesktopPane = new JDesktopPane();
-		jDesktopPane.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
-		add(jDesktopPane);
-		add(initSouthPanel(),BorderLayout.SOUTH);
-
-		try {
-			generatorControlFrame = new GeneratorControlFrame();
-			jDesktopPane.add(generatorControlFrame);
-			generatorControlFrame.setVisible(true);
-			generatorControlFrame.setMaximum(true);//最大化
-		}catch (PropertyVetoException e){
-			log.error("窗口最大化失败.",e);
-		}
+		add(addToolBar(), BorderLayout.NORTH);
+		add(initGeneratorControlFrame());
 	}
 
 	/**
 	 * 初始化主控制器窗口
 	 */
-	public void initGeneratorControlFrame(){
-
+	public JDesktopPane initGeneratorControlFrame(){
+		jDesktopPane = new JDesktopPane();
+		jDesktopPane.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+		try {
+			GeneratorControlFrame generatorControlFrame = new GeneratorControlFrame();
+			jDesktopPane.add(generatorControlFrame);
+			generatorControlFrame.setVisible(true);
+			generatorControlFrame.setMaximum(true);//最大化
+			generatorControlFrame.setMaximizable(false);
+//			generatorControlFrame.setResizable(false);
+			generatorControlFrame.setClosable(false);
+		}catch (PropertyVetoException e){
+			logger.error("窗口最大化失败.",e);
+		} finally {
+			return jDesktopPane;
+		}
 	}
 
 	public JMenuBar addMenu(){
@@ -109,13 +103,7 @@ public class GeneratorApplicationFrame extends JFrame{
 							break;
 						}
 					}
-				} catch (ClassNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (InstantiationException e1) {
-					e1.printStackTrace();
-				} catch (IllegalAccessException e1) {
-					e1.printStackTrace();
-				} catch (UnsupportedLookAndFeelException e1) {
+				} catch (ClassNotFoundException | InstantiationException| IllegalAccessException | UnsupportedLookAndFeelException e1) {
 					e1.printStackTrace();
 				}
 			}
@@ -180,19 +168,6 @@ public class GeneratorApplicationFrame extends JFrame{
 		});
 		mnFile.add(mnSaveAsItem);
 
-		JMenuItem mnEditItem = new JMenuItem(new AbstractAction() {
-			private static final long serialVersionUID = 1L;
-			{
-				putValue(Action.NAME, "编辑");
-			}
-			public void actionPerformed(ActionEvent e) {
-				GeneratorConfigureFrame generatorConfigureFrame = new GeneratorConfigureFrame();
-				jDesktopPane.add(generatorConfigureFrame);
-				generatorConfigureFrame.setVisible(true);
-			}
-		});
-		mnFile.add(mnEditItem);
-
 		JMenuItem mnExitItem = new JMenuItem(new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 			{
@@ -214,13 +189,11 @@ public class GeneratorApplicationFrame extends JFrame{
 				putValue(Action.NAME, "MAVEN");
 			}
 			public void actionPerformed(ActionEvent e) {
-				if(generatorMavenFrame == null){
-					generatorMavenFrame = new GeneratorMavenFrame();
+				GeneratorMavenFrame generatorMavenFrame = new GeneratorMavenFrame();
 //				generatorMavenFrame.setIconifiable(true);
 //				generatorMavenFrame.setMaximizable(true);
 //				generatorMavenFrame.setClosable(false);
 //				jDesktopPane.add(generatorMavenFrame);
-				}
 				generatorMavenFrame.setVisible(true);
 			}
 		});
@@ -232,20 +205,33 @@ public class GeneratorApplicationFrame extends JFrame{
 	public JMenu addHelp(){
 		JMenu mnHelp = new JMenu("帮助(H)");
 		mnHelp.setMnemonic('H');
+
+		JMenuItem mnLogItem = new JMenuItem( new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+			{
+				putValue(Action.NAME, "日志");
+//				putValue(Action.SHORT_DESCRIPTION, "生成文件");
+//				putValue(Action.SMALL_ICON, icon);
+//				putValue(Action.LARGE_ICON_KEY, icon);
+			}
+			public void actionPerformed(ActionEvent e) {
+				GeneratorLogFrame generatorLogFrame = new GeneratorLogFrame();
+				generatorLogFrame.setVisible(true);
+			}
+		});
+		mnHelp.add(mnLogItem);
+		mnHelp.addSeparator();
 		JMenuItem mnAboutItem = new JMenuItem(new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 			{
 				putValue(Action.NAME, "关于");
 			}
 			public void actionPerformed(ActionEvent e) {
-				if(generatorAboutFrame == null){
+				GeneratorAboutFrame
 					generatorAboutFrame = new GeneratorAboutFrame();
-				generatorAboutFrame.setIconifiable(true);
-				generatorAboutFrame.setMaximizable(true);
-				generatorAboutFrame.setClosable(false);
 				jDesktopPane.add(generatorAboutFrame);
-				}
-
+				generatorAboutFrame.setIconifiable(true);
+				generatorAboutFrame.setClosable(true);
 				generatorAboutFrame.setVisible(true);
 			}
 		});
@@ -266,13 +252,7 @@ public class GeneratorApplicationFrame extends JFrame{
 					try{
 						UIManager.setLookAndFeel(lookAndFeelInfo.getClassName());
 						SwingUtilities.updateComponentTreeUI(GeneratorApplicationFrame.this);
-					} catch (ClassNotFoundException e1) {
-						e1.printStackTrace();
-					} catch (InstantiationException e1) {
-						e1.printStackTrace();
-					} catch (IllegalAccessException e1) {
-						e1.printStackTrace();
-					} catch (UnsupportedLookAndFeelException e1) {
+					} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e1) {
 						e1.printStackTrace();
 					}
 				}
@@ -284,77 +264,6 @@ public class GeneratorApplicationFrame extends JFrame{
 			mnTheme.add(jCheckBoxMenuItem);
 		}
 		return mnTheme;
-	}
-
-	public Action newAction(){
-		Action action = new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.print("1234");
-			}
-		};
-		InputMap inputMap = jDesktopPane.getInputMap(JComponent.WHEN_FOCUSED);
-		inputMap.put(KeyStroke.getKeyStroke("alt n"),"new");
-		ActionMap actionMap = jDesktopPane.getActionMap();
-		actionMap.put("new", action);
-		return action;
-	}
-
-
-	public JToolBar initEastPanel(){
-		JToolBar toolBar = new JToolBar();
-		JButton generatorButton = new JButton( new AbstractAction() {
-			private static final long serialVersionUID = 1L;
-			{
-//				putValue(Action.NAME, "生成文件");
-				putValue(Action.SHORT_DESCRIPTION, "生成文件");
-//				putValue(Action.SMALL_ICON, icon);
-//				putValue(Action.LARGE_ICON_KEY, icon);
-			}
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		toolBar.add(generatorButton);
-		return toolBar;
-	}
-
-	public JToolBar initWestPanel(){
-		JToolBar toolBar = new JToolBar();
-		JButton generatorButton = new JButton( new AbstractAction() {
-			private static final long serialVersionUID = 1L;
-			{
-//				putValue(Action.NAME, "生成文件");
-				putValue(Action.SHORT_DESCRIPTION, "生成文件");
-//				putValue(Action.SMALL_ICON, icon);
-//				putValue(Action.LARGE_ICON_KEY, icon);
-			}
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		toolBar.add(generatorButton);
-		return toolBar;
-	}
-
-	public JToolBar initSouthPanel(){
-		JToolBar toolBar = new JToolBar();
-		JButton generatorButton = new JButton( new AbstractAction() {
-			private static final long serialVersionUID = 1L;
-			{
-				putValue(Action.NAME, "日志");
-//				putValue(Action.SHORT_DESCRIPTION, "生成文件");
-//				putValue(Action.SMALL_ICON, icon);
-//				putValue(Action.LARGE_ICON_KEY, icon);
-			}
-			public void actionPerformed(ActionEvent e) {
-				if(generatorLogFrame == null) {
-					generatorLogFrame = new GeneratorLogFrame();
-					jDesktopPane.add(generatorLogFrame);
-				}
-				generatorLogFrame.setVisible(true);
-			}
-		});
-		toolBar.add(generatorButton);
-		return toolBar;
 	}
 
 	@Override

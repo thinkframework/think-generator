@@ -1,4 +1,4 @@
-package org.think.swing.jdbc.meta;
+package org.think.swing.jdbc.meta.table;
 
 import org.think.swing.exception.GeneratorFrameRuntimeException;
 

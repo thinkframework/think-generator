@@ -1,13 +1,15 @@
 package org.think.swing.jdbc.sql;
 
 import com.sun.rowset.CachedRowSetImpl;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import javax.sql.rowset.CachedRowSet;
 import javax.swing.table.DefaultTableModel;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Vector;
 
 /**
@@ -16,7 +18,7 @@ import java.util.Vector;
  * @author lixiaobin
  */
 class SqlTableModel extends DefaultTableModel {
-    private Log log = LogFactory.getLog(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private DataSource dataSource;
     private String sql;
     private CachedRowSet cachedRowSet;
@@ -56,13 +58,13 @@ class SqlTableModel extends DefaultTableModel {
                 addRow(vector);
             }
         } catch (SQLException ex) {
-            log.error("",ex);
+            logger.error("",ex);
         }finally {
             if(connection != null){
                 try {
                     connection.close();
                 } catch (SQLException ex) {
-                    log.error(ex);
+                    logger.error("",ex);
                 }
             }
         }
@@ -79,7 +81,7 @@ class SqlTableModel extends DefaultTableModel {
                 }
             }
         } catch (SQLException ex) {
-            log.error("",ex);
+            logger.error("",ex);
         }
     }
 
@@ -89,13 +91,13 @@ class SqlTableModel extends DefaultTableModel {
             connection = dataSource.getConnection();
             cachedRowSet.acceptChanges(connection);
         } catch (SQLException ex) {
-            log.error("",ex);
+            logger.error("",ex);
         }finally {
             if(connection != null){
                 try {
                     connection.close();
                 } catch (SQLException ex) {
-                    log.error(ex);
+                    logger.error("",ex);
                 }
             }
         }

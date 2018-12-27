@@ -1,7 +1,7 @@
 package org.think.swing.control.tree;
 
 import org.think.swing.GeneratorContext;
-import org.think.swing.jdbc.pdm.PDMDataSources;
+import org.think.swing.config.GeneratorConfigureFrame;
 
 import javax.sql.DataSource;
 import javax.swing.*;
@@ -31,7 +31,19 @@ public class GeneratorTreePanel extends JPanel{
      */
     public JToolBar getToolBar(){
         JToolBar toolBar = new JToolBar();
-        JButton openPDMButton = new JButton( new AbstractAction() {
+        toolBar.add(new JButton(new AbstractAction() {
+            private static final long serialVersionUID = 1L;
+            {
+//                putValue(Action.NAME, "新建连接");
+                putValue(Action.SHORT_DESCRIPTION, "新建连接");
+                putValue(Action.SMALL_ICON, new ImageIcon(getClass().getClassLoader().getResource("general/openProject.png")));
+            }
+            public void actionPerformed(ActionEvent e) {
+                GeneratorConfigureFrame generatorConfigureFrame = new GeneratorConfigureFrame();
+                generatorConfigureFrame.setVisible(true);
+            }
+        }));
+        toolBar.add(new JButton( new AbstractAction() {
             private static final long serialVersionUID = 1L;
             {
 //				putValue(Action.NAME, "打开目录");
@@ -44,13 +56,13 @@ public class GeneratorTreePanel extends JPanel{
                 int r = chooser.showOpenDialog(GeneratorTreePanel.this.getParent());
                 if (r != JFileChooser.APPROVE_OPTION) return;
                 File file = chooser.getSelectedFile();
-                new PDMDataSources(file);
+//                new SimDataSource(file);
                 DefaultMutableTreeNode rootMutableTreeNode = (DefaultMutableTreeNode)generatorTree.getModel().getRoot();
                 rootMutableTreeNode.add(new DefaultMutableTreeNode(file.getName()));
 //                generatorTree.expandPath(generatorTree.);
             }
-        });
-        toolBar.add(openPDMButton);
+        }));
+        toolBar.addSeparator();
         return toolBar;
     }
 
@@ -61,9 +73,6 @@ public class GeneratorTreePanel extends JPanel{
     public GeneratorTree getJTree(){
         return generatorTree;
     }
-
-
-
 
     private java.util.List<String> getDataSourceNames() {
         return GeneratorContext.getInstance().getDataSourceNames();

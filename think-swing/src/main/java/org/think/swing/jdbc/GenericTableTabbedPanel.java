@@ -1,7 +1,7 @@
 package org.think.swing.jdbc;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.think.swing.jdbc.meta.GeneratorTablePanel;
 import org.think.swing.jdbc.sql.GeneratorSqlPanel;
 
@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
  */
 public class GenericTableTabbedPanel extends JTabbedPane{
     private String sql = "SELECT * FROM ";
-    private Log log = LogFactory.getLog(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private GenericTableTabbedPanel() {
     }
 

@@ -10,11 +10,16 @@ import java.io.PrintStream;
  * @author lixiaobin
  * @since 2017/3/24
  */
-public class GeneratorLogFrame extends JInternalFrame {
+public class GeneratorLogFrame extends JFrame {
     private PipedInputStream pipedInputStream;
     private PipedOutputStream pipedOutputStream;
     public void GeneratorLogFrame(){
-        setSize(800,600);
+        String TITLE = "日志";
+        int WIDTH = 600;
+        int HEIGHT = 480;
+        setTitle(TITLE);
+        setSize(WIDTH, HEIGHT);// 设置大小
+        setLocationRelativeTo(null);//居中
         JTextArea jTextArea = new JTextArea();
         add(jTextArea);
         try {

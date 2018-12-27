@@ -1,5 +1,7 @@
 package org.think.swing.config;
 
+import org.think.swing.config.list.GeneratorConfigureList;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
@@ -11,10 +13,10 @@ import java.awt.event.ActionEvent;
  *
  * @author lixiaobin
  */
-public class GeneratorConfigureFrame extends JInternalFrame{
+public class GeneratorConfigureFrame extends JFrame{
 	private XmlUtil applicationContextXmlUtil = new XmlUtil();
 	private String xml = "applicationContext.xml";
-	private JList jList = new JList();
+	private JList jList = new GeneratorConfigureList();
 	private DefaultListModel rootListModel = new DefaultListModel();
 	private JTextField idField;
 	private JTextField driverClassNameField;
@@ -25,12 +27,12 @@ public class GeneratorConfigureFrame extends JInternalFrame{
 	private JLabel propertiesLabel;
 
 	public GeneratorConfigureFrame() {
-		String TITLE = "Data Sources";
+		String TITLE = "新建/选择数据库连接";
 		int WIDTH = 640;
 		int HEIGHT = 480;
 		setTitle(TITLE);
 		setSize(WIDTH, HEIGHT);// 设置大小
-//		setLocationRelativeTo(null);//居中
+		setLocationRelativeTo(null);//居中
 //		setLocationByPlatform(true);//
 		add(addWestPanel(), BorderLayout.WEST);
 		add(addCenterPanel());

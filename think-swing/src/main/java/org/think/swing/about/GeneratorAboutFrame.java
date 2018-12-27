@@ -11,6 +11,7 @@ import java.awt.*;
 public class GeneratorAboutFrame extends JInternalFrame {
 	public GeneratorAboutFrame(){
 		setTitle("关于");
+		setMaximizable(false);//最大化
 		setSize(480,320);
 		add(new JComponent() {
 			@Override
@@ -27,15 +28,5 @@ public class GeneratorAboutFrame extends JInternalFrame {
 			}
 		});
 		pack();
-	}
-
-
-	public static void main(String... args){
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				new GeneratorAboutFrame().setVisible(true);
-			}
-		});
 	}
 }
