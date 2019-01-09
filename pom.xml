@@ -2,13 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.0.RELEASE</version>
+		<groupId>org.think</groupId>
+		<artifactId>think-dependencies</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>think-dependencies</relativePath>
 	</parent>
-	<groupId>org.think</groupId>
 	<artifactId>think-framework</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>think framework</name>
 	<description>think framework</description>
@@ -38,10 +37,14 @@
 		</developer>
 	</developers>
 	<modules>
+        <module>think-agent</module>
+        <module>think-apt</module>
+        <module>think-dependencies</module>
 		<module>think-jdbc</module>
 		<module>think-generator</module>
 		<module>think-swing</module>
 		<module>think-util</module>
+		<module>think-mybatis</module>
 	</modules>
 	<properties>
 		<oracle.version>12.1.0.2</oracle.version>
@@ -88,14 +91,15 @@
 			</dependency>
 
 			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>21.0</version>
-			</dependency>
-			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid</artifactId>
 				<version>1.0.23</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>27.0-jre</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-logging</groupId>
@@ -103,14 +107,14 @@
 				<version>1.2</version>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>3.5</version>
-			</dependency>
-			<dependency>
 				<groupId>commons-lang</groupId>
 				<artifactId>commons-lang</artifactId>
 				<version>2.6</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.5</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-beanutils</groupId>
@@ -118,9 +122,9 @@
 				<version>1.9.3</version>
 			</dependency>
 			<dependency>
-				<groupId>commons-io</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>2.5</version>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>3.2.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
@@ -128,9 +132,9 @@
 				<version>4.1</version>
 			</dependency>
 			<dependency>
-				<groupId>commons-collections</groupId>
-				<artifactId>commons-collections</artifactId>
-				<version>3.2.2</version>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.5</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-codec</groupId>
