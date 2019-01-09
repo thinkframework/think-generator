@@ -1,11 +1,25 @@
 package org.think.agent;
 
+import javassist.CannotCompileException;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.NotFoundException;
+import org.apache.tools.ant.taskdefs.Classloader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
 import java.security.ProtectionDomain;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class ThinkClassFileTransformer implements ClassFileTransformer {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     /**
      * The implementation of this method may transform the supplied class file and
      * return a new replacement class file.
@@ -137,6 +151,26 @@ public class ThinkClassFileTransformer implements ClassFileTransformer {
      */
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
+        try {
+            Optional.ofNullable(ClassPool.getDefault().get(className)).map(ctClass -> {
+                try{
+                    Stream.of(ctClass.getDeclaredMethods()).forEach(method ->{
+                        try{
+                            method.insertBefore(String.format("System.out.println(%s);",method.getName()));
+                        } catch (CannotCompileException e) {
+
+                        }
+                    });
+                    ctClass.toBytecode();
+                } catch (IOException | CannotCompileException e) {
+//                    throw new IllegalClassFormatException(e.getMessage());
+                }
+                return null;
+            });
+        } catch (NotFoundException e) {
+            throw new IllegalClassFormatException(e.getMessage());
+        }
+//        loader.loadClass(className);
         return new byte[0];
     }
 }
