@@ -1,1 +1,1 @@
-http\://www.think.org/schema/generator=org.think.generator.config.GeneratorNamespaceHandler
+http\://www.think.org/schema/generator=io.github.thinkframework.generator.config.GeneratorNamespaceHandler

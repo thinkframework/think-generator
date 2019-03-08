@@ -6,7 +6,7 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.0.RELEASE</version>
     </parent>
-    <groupId>org.think</groupId>
+    <groupId>io.github.thinkframework</groupId>
     <artifactId>think-generator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -106,7 +106,7 @@
             <scope>provided</scope>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.think</groupId>-->
+            <!--<groupId>io.github.thinkframework</groupId>-->
             <!--<artifactId>think-test</artifactId>-->
             <!--<version>${project.version}</version>-->
             <!--<scope>test</scope>-->
@@ -187,7 +187,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.think.generator.Application</mainClass>
+                            <mainClass>io.github.thinkframework.generator.Application</mainClass>
                         </manifest>
                         <manifestEntries>
                             <SplashScreen-Image>think.jpg</SplashScreen-Image>

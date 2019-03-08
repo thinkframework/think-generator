@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <groupId>org.think</groupId>
+    <groupId>io.github.thinkframework</groupId>
     <artifactId>think-swing</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
@@ -10,17 +10,17 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.think</groupId>
+            <groupId>io.github.thinkframework</groupId>
             <artifactId>think-jdbc</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.think</groupId>
+            <groupId>io.github.thinkframework</groupId>
             <artifactId>think-gsp</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.think</groupId>
+            <groupId>io.github.thinkframework</groupId>
             <artifactId>think-generator</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -90,8 +90,8 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <!--<mainClass>org.think.generator.Application</mainClass>-->
-                            <mainClass>org.think.swing.Application</mainClass>
+                            <!--<mainClass>Application</mainClass>-->
+                            <mainClass>io.github.thinkframework.swing.SwingApplication</mainClass>
                         </manifest>
                         <manifestEntries>
                             <SplashScreen-Image>splash.png</SplashScreen-Image>

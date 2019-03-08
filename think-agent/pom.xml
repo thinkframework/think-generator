@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>think-framework</artifactId>
-        <groupId>org.think</groupId>
+        <groupId>io.github.thinkframework</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -49,7 +49,7 @@
                         <manifestEntries>
                             <Project-name>${project.name}</Project-name>
                             <Project-version>${project.version}</Project-version>
-                            <Premain-Class>org.think.agent.ThinkAgent</Premain-Class>
+                            <Premain-Class>io.github.thinkframework.agent.ThinkAgent</Premain-Class>
                         </manifestEntries>
                     </archive>
                     <skip>true</skip>
