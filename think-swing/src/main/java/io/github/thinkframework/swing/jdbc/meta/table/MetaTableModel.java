@@ -51,7 +51,7 @@ class MetaTableModel extends AbstractTableModel {
                 list.add(rs.getString(COLUMN_NAME));
                 list.add(rs.getString(TYPE_NAME));
 //                //TYPE_NAME String => 数据源依赖的类型名称，对于 UDT，该类型名称是完全限定的
-//                list.add(rs.getString(TYPE_NAME));
+//                get.add(rs.getString(TYPE_NAME));
                 //COLUMN_SIZE int => 列的大小
                 list.add(Integer.toString(rs.getInt(COLUMN_SIZE)));
                 list.add(Integer.toString(rs.getInt(DECIMAL_DIGITS)));

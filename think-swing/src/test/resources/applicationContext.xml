@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:generator="http://www.think.org/schema/generator"
+	   xmlns:generator="http://io.github.thinkframework.generator"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-              http://www.think.org/schema/generator
-               http://www.think.org/schema/generator/think-generator.xsd"
+              http://io.github.thinkframework.generator
+               http://io.github.thinkframework.generator/schema/generator/think-generator.xsd"
 	   default-lazy-init="true">
 	<description>
 		#代码生成器配置文件:
@@ -37,7 +37,7 @@
 		<generator:moduleName>costenterprise</generator:moduleName>
 		<!--#作者名称-->
 		<generator:authorName>lixiaobin</generator:authorName>
-		<!--#jsp namespace: web/${namespace}/${className}/list:jsp-->
+		<!--#jsp namespace: web/${namespace}/${className}/get:jsp-->
 		<generator:namespace>views</generator:namespace>
 		<!--#模板目录-->
 		<generator:template>template/sql</generator:template>

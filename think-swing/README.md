@@ -1,3 +1,5 @@
 #Think Swing
 
-一个基于Swing的数据库浏览工具
+一个基于Swing的数据库
+基于spring
+自动获取容器下的所有数据源

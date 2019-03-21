@@ -41,7 +41,7 @@ class GeneratorSqlTable extends JTable{
                 ResultSet resultSet = statement.getResultSet();
                 ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
                 int count = resultSetMetaData.getColumnCount();
-                List<String> columns = new ArrayList<String>();
+                List<String> columns = new ArrayList<>();
                 for (int i = 1; i <= count; i++) {
                     columns.add(resultSetMetaData.getColumnName(i));
                 }
@@ -50,11 +50,12 @@ class GeneratorSqlTable extends JTable{
                 getCustomTableModel().executeQuery();
             }else{
                 int count = statement.getUpdateCount();
-                Vector<String> data = new Vector<String>();
+                Vector<String> data = new Vector<>();
                 data.add("COUNT");
-                Vector<String> columnNames = new Vector<String>();
+                Vector<String> columnNames = new Vector<>();
                 columnNames.add(Integer.toString(count));
-                setModel(new DefaultTableModel(data,columnNames));
+                //FIXME 这是啥?
+//                setModel(new DefaultTableModel(data,columnNames));
             }
         } catch (SQLException ex) {
             logger.error("",ex);

@@ -8,7 +8,7 @@ import java.io.IOException;
  * @email hdhxby@qq.com
  */
 public class ApplicationTest {
-	public static void main(String... args) throws IOException {
+	public static void main(String... args) throws Exception {
 		new SwingApplication().main(args);
 	}
 }

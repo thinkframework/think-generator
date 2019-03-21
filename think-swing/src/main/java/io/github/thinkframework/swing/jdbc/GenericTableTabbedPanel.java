@@ -1,9 +1,9 @@
 package io.github.thinkframework.swing.jdbc;
 
+import io.github.thinkframework.swing.jdbc.sql.GeneratorSqlPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.github.thinkframework.swing.jdbc.meta.GeneratorTablePanel;
-import io.github.thinkframework.swing.jdbc.sql.GeneratorSqlPanel;
 
 import javax.sql.DataSource;
 import javax.swing.*;
@@ -23,13 +23,11 @@ public class GenericTableTabbedPanel extends JTabbedPane{
     public GenericTableTabbedPanel(DataSource dataSource, String tableName) {
         addTab("列", null, new JScrollPane(new GeneratorTablePanel(dataSource,tableName)), null);
         addTab("数据", null, new JScrollPane(new GeneratorSqlPanel(dataSource,sql+tableName)), null);
-        addChangeListener(new ChangeListener(){
-            public void stateChanged(ChangeEvent e){
+        addChangeListener(e ->{
                 int selectedIndex = getSelectedIndex();
                 if(selectedIndex==1){
 //                    sqlTable.execute("select * from "+tableName);
                 }
-            }
-        });
+            });
     }
 }

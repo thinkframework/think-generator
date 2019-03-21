@@ -1,6 +1,5 @@
 package io.github.thinkframework.swing.jdbc.sql;
 
-import com.sun.rowset.CachedRowSetImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +37,8 @@ class SqlTableModel extends DefaultTableModel {
             Statement statement = connection.createStatement();
             boolean result = statement.execute(sql);
             if(result) {
-                cachedRowSet = new CachedRowSetImpl();
+                //FIXME sun包的访问
+                cachedRowSet = null;//new CachedRowSetImpl();
                 cachedRowSet.setCommand(sql);
                 cachedRowSet.execute(connection);
                 while (cachedRowSet.next()) {

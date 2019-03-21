@@ -38,7 +38,7 @@ public class GeneratorTablePanel extends JPanel {
                 putValue(Action.SMALL_ICON, new ImageIcon(getClass().getClassLoader().getResource("actions/refresh.png")));
             }
             public void actionPerformed(ActionEvent e) {
-//                new setContext().generator();
+//                new set().generator();
             }
         }));
         toolBar.addSeparator();

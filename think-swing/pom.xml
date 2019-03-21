@@ -9,6 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <dependencies>
+
         <dependency>
             <groupId>io.github.thinkframework</groupId>
             <artifactId>think-jdbc</artifactId>
