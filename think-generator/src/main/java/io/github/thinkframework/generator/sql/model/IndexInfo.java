@@ -1,9 +1,11 @@
 package io.github.thinkframework.generator.sql.model;
 
-import io.github.thinkframework.generator.sql.model.impl.ColumnImpl;
-
 import java.util.Set;
 
+/**
+ *
+ * @author lixiaobin
+ */
 public class IndexInfo {
     private String tableName;
     private boolean nonUnique;
@@ -13,7 +15,7 @@ public class IndexInfo {
     private short ordinalPosition;
     private String columnName;
 
-    public Set<ColumnImpl> columns;
+    public Set<Column> columns;
 
     /**
      * @return TABLE_NAME String - 表名称

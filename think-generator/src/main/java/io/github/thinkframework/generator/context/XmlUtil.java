@@ -41,7 +41,7 @@
 //    }
 //
 //    public List<SimpleDataSource> getSimpleDataSources(){
-//        List<SimpleDataSource> list = new ArrayList<SimpleDataSource>();
+//        List<SimpleDataSource> get = new ArrayList<SimpleDataSource>();
 //        InputStream inputStream = null;
 //        try {
 //            String config = File.separator+System.getProperty("user.dir") + File.separator+"applicationContext.xml";
@@ -78,7 +78,7 @@
 //                SimpleDataSource.setUsername(username);
 //                SimpleDataSource.setPassword(password);
 //                SimpleDataSource.setConnectProperties(connectProperties);
-//                list.add(SimpleDataSource);
+//                get.add(SimpleDataSource);
 //            }
 //        } catch(ParserConfigurationException exception){
 //            exception.printStackTrace();
@@ -96,7 +96,7 @@
 //            }catch (Exception e){
 //                e.printStackTrace();
 //            }
-//            return list;
+//            return get;
 //        }
 //    }
 //
@@ -183,7 +183,7 @@
 //            Node node = (Node)xPath.evaluate("//bean[@id='"+SimpleDataSource.getId()+"']",document, XPathConstants.NODE);
 //
 //            if(node == null){
-//                Element element = addDataSource(document,SimpleDataSource);
+//                Element element = dataSource(document,SimpleDataSource);
 //                document.getDocumentElement().appendChild(element);
 //            }else{
 //                Element element =  updateDataSource((Element)node,SimpleDataSource);
@@ -208,7 +208,7 @@
 //    }
 //
 //
-//    private Element addDataSource(Document document,SimpleDataSource SimpleDataSource){
+//    private Element dataSource(Document document,SimpleDataSource SimpleDataSource){
 //        Element bean = document.createElement("bean");
 //        bean.setAttribute("id",SimpleDataSource.getId());
 //

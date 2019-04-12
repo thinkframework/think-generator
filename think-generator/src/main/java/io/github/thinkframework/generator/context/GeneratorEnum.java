@@ -6,7 +6,8 @@ package io.github.thinkframework.generator.context;
  * @since 2017/3/24
  */
 public enum GeneratorEnum {
-    DEFAULT_APPLICATION_CONTEXT_PROPERTIES("think-generator.properties");
+    DEFAULT_APPLICATION_CONTEXT_XML("applicationContext.xml"),
+    DEFAULT_APPLICATION_CONTEXT_PROPERTIES("generator.properties");
 
     private final String value;
 

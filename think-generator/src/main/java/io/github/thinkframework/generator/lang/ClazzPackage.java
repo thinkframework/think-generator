@@ -5,5 +5,5 @@ package io.github.thinkframework.generator.lang;
  * @since 2017/3/24
  */
 public interface ClazzPackage {
-    public String getName();
+    String getName();
 }

@@ -15,6 +15,10 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * FreeMarker工具类
+ * @author lixiaobin
+ */
 public class FreeMarkerUtils {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	private static Configuration configuration = new Configuration(Configuration.VERSION_2_3_23);
@@ -22,7 +26,18 @@ public class FreeMarkerUtils {
 	private String out;
 	private String[] extensions;
 
-	public FreeMarkerUtils(){
+	private Properties properties;
+
+	public FreeMarkerUtils(Properties properties){
+	    this.properties = properties;
+	    init();
+    }
+
+    /**
+     * 初始化一些模板需要的字段
+     * @return 当前对象
+     */
+	public FreeMarkerUtils init(){
 		templates = getProperties().getProperty("template", "input").split(",");
 		for(int i = 0 ; i < templates.length; i++){
 			if(!"/".equals(File.separator)){
@@ -34,6 +49,7 @@ public class FreeMarkerUtils {
 			out = out.replaceAll("/","\\\\");
 		}
 		extensions = getProperties().getProperty("extensions", "java").split(",");
+		return this;
 	}
 
 	public FreeMarkerUtils setTemplateLoader(String[] templateRootDirs) {
@@ -82,7 +98,7 @@ public class FreeMarkerUtils {
 		}
 	}
 
-	public FreeMarkerUtils process(Map map) {
+	public FreeMarkerUtils process() {
 		setTemplateLoader(templates).setSharedVaribles(getProperties());
 		for (String template : templates) {
 			Collection<File> files = listFiles(template, extensions, true);
@@ -93,12 +109,12 @@ public class FreeMarkerUtils {
 				//TODO 文件输入输出,跨平台 lixiaobin
 //				input =  System.getProperty("user.dir")+"/template/app"+input.replaceAll("/",File.separator);
 //				output = System.getProperty("user.dir")+"/"+output.replaceAll("/",File.separator);
-				output = processString(output,map,configuration);
+				output = processString(output,properties,configuration);
 				if(!"/".equals(File.separator)){
 					output = output.replaceAll("/","\\\\");
 				}
-				log.info("模板输入路径:{}\n模板输出路径:{}",input,output);
-				process(input,map,output);
+				log.info("\n模板输入路径:{}\n模板输出路径:{}",input,output);
+				process(input,properties,output);
 			}
 		}
 		return this;
@@ -107,7 +123,6 @@ public class FreeMarkerUtils {
 	public String processString(String templateString,Map model,Configuration conf) throws GeneratorRuntimeException {
 		StringWriter out = new StringWriter();
 		try {
-			log.debug(templateString);
 			Template template = new Template("模板路径",new StringReader(templateString),conf);
 			template.process(model, out);
 			return out.toString();
@@ -120,16 +135,20 @@ public class FreeMarkerUtils {
 		return FileUtils.listFiles(new File(directory),extensions,recursive);
 	}
 
-	protected Properties getProperties() {
-		return GeneratorContext.getContext().getProperties();
-	}
+    protected Properties getProperties() {
+        return properties;
+    }
+
+    public FreeMarkerUtils setProperties(Properties properties) {
+        this.properties = properties;
+        return this;
+    }
 
 	public void put(Map map){
 		try {
 			BeansWrapper wrapper = BeansWrapper.getDefaultInstance();
 			TemplateHashModel staticModels = wrapper.getStaticModels();
-			TemplateHashModel stringHelper =
-					(TemplateHashModel) staticModels.get("StringUtils");
+			TemplateHashModel stringHelper = (TemplateHashModel) staticModels.get("io.github.thinkframework.generator.util.StringUtils");
 			map.put("StringUtils",stringHelper);
 		} catch (TemplateModelException e) {
 			throw new GeneratorRuntimeException("模板异常",e);

@@ -1,1 +1,1 @@
-http\://www.think.org/schema/generator/think-generator.xsd=../io/thinkframework/generator/config/think-generator.xsd
+http\://thinkframework.github.io/schema/generator/think-generator.xsd=io/github/thinkframework/generator/config/think-generator.xsd

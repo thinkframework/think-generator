@@ -1,8 +1,9 @@
 package io.github.thinkframework.generator.sql.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
+/**
+ *
+ * @author lixiaobin
+ */
 public class PrimaryKey {
     private String tableName;
     private String columnName;

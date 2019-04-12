@@ -1,8 +1,6 @@
 package io.github.thinkframework.generator.sql;
 
 import io.github.thinkframework.generator.sql.model.*;
-import io.thinkframework.generator.sql.model.*;
-import org.think.generator.sql.model.*;
 import io.github.thinkframework.generator.sql.model.impl.ColumnImpl;
 import io.github.thinkframework.generator.sql.model.impl.TableImpl;
 
@@ -51,7 +49,7 @@ public class TableBuilder {
      * @return TableBuilder
      */
     public TableBuilder addColumn(String tableName){
-        columns = (Collection<Column>)tableFactory.getColumns(tableName);
+        columns = tableFactory.getColumns(tableName);
         return this;
     }
 
@@ -61,7 +59,7 @@ public class TableBuilder {
      * @return TableBuilder
      */
     public TableBuilder addPrimaryKey(String tableName){
-        primaryKeys = (Collection<PrimaryKey>)tableFactory.getPrimaryKeys(tableName);
+        primaryKeys = tableFactory.getPrimaryKeys(tableName);
         return this;
     }
 
@@ -71,7 +69,7 @@ public class TableBuilder {
      * @return TableBuilder
      */
     public TableBuilder addIndexInfo(String tableName){
-        indexInfos = (Collection<IndexInfo>)tableFactory.getIndexInfo(tableName);
+        indexInfos = tableFactory.getIndexInfo(tableName);
         return this;
     }
 

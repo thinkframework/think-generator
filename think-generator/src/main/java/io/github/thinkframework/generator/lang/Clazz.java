@@ -11,14 +11,16 @@ import java.util.Collection;
  * @since 2017/3/24
  */
 public interface Clazz {
-    public ClazzPackage getPackage();
-    public String getName();
-    public String getSimpleName();
 
+    ClazzPackage getPackage();
 
-    public Collection<ClazzField> getFields();
+    String getName();
 
-    public Collection<ClazzMethod> getMethods();
+    String getSimpleName();
 
-    public ClazzAnnotations getAnnotations();
+    Collection<ClazzField> getFields();
+
+    Collection<ClazzMethod> getMethods();
+
+    ClazzAnnotations getAnnotations();
 }

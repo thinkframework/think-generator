@@ -1,8 +1,6 @@
 package io.github.thinkframework.generator.sql.model.impl;
 
 import io.github.thinkframework.generator.sql.model.*;
-import io.thinkframework.generator.sql.model.*;
-import org.think.generator.sql.model.*;
 
 import java.util.Collection;
 import java.util.HashSet;

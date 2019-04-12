@@ -1,5 +1,9 @@
 package io.github.thinkframework.generator.sql.model;
 
+/**
+ *
+ * @author lixiaobin
+ */
 public class ExportedKey {
     private String pktableName;
     private String pkcolumnName;

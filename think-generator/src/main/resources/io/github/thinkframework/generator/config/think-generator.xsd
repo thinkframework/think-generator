@@ -1,8 +1,8 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:beans="http://www.springframework.org/schema/beans"
             xmlns:tool="http://www.springframework.org/schema/tool"
-            xmlns="http://www.think.org/schema/generator"
-            targetNamespace="http://www.think.org/schema/generator"
+            xmlns="http://thinkframework.github.io/schema/generator"
+            targetNamespace="http://thinkframework.github.io/schema/generator"
             elementFormDefault="qualified"
             attributeFormDefault="unqualified">
     <xsd:annotation>
@@ -10,9 +10,35 @@
             参考NamespaceHandlerSupport实现的配置文件
         </xsd:documentation>
     </xsd:annotation>
+
     <xsd:element name="generator">
         <xsd:complexType>
             <xsd:sequence>
+                <xsd:element ref="generatorConfiguration">
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="id" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        和Spring的id节点相同
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="generatorConfiguration">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="dataSource" type="xsd:string" minOccurs="0" default="dataSource">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            数据源
+                            不是必须的
+                            比一定是DataSource接口的实现类,引用一个数据提供者就可以
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
                 <xsd:element name="frameName" type="xsd:string">
                     <xsd:annotation>
                         <xsd:documentation>
@@ -87,6 +113,19 @@
                         </xsd:choice>
                     </xsd:complexType>
                 </xsd:element>
+                <xsd:element name="provider" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            移除表名前缀
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:choice>
+                            <xsd:element ref="list" minOccurs="0"/>
+                            <xsd:element ref="set" minOccurs="0"/>
+                        </xsd:choice>
+                    </xsd:complexType>
+                </xsd:element>
                 <xsd:element name="prefixs">
                     <xsd:annotation>
                         <xsd:documentation>
@@ -121,13 +160,6 @@
                     </xsd:annotation>
                 </xsd:element>
             </xsd:sequence>
-            <xsd:attribute name="id" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation>
-                        和Spring的id节点相同
-                    </xsd:documentation>
-                </xsd:annotation>
-            </xsd:attribute>
         </xsd:complexType>
     </xsd:element>
     <!-- type -->

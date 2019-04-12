@@ -1,7 +1,10 @@
 package io.github.thinkframework.generator.config;
 
+import io.github.thinkframework.generator.sql.TableFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -24,15 +27,18 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
     protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
 //        super.doParse(element, parserContext, builder);
         // 从标签中取出对应的属性值
-        logger.debug("generator parse..." + element.getNodeName());
+        String id = element.getAttribute("id");
+        logger.debug("BeanDefinition: " + element.getAttribute("id"));
         Map map = parseChild(element);
-//        setContext generatorFacade = new setContext((Properties)map,"");
-//        builder.addPropertyValue("generator",generatorFacade);
+        BeanDefinition beanDefinition = builder.getBeanDefinition();
+        ((AbstractBeanDefinition) beanDefinition).setBeanClass(TableFactory.class);
+//        parserContext.getRegistry().registerBeanDefinition("id",beanDefinition);
     }
 
     private Map parseChild(Element element) {
         Properties properties = new Properties();
-        properties.put("frameName", DomUtils.getChildElementValueByTagName(element, "frameName"));//框架包
+//        properties.put("dataSource", DomUtils.getChildElementValueByTagName(element, "dataSource"));//数据源
+//        properties.put("frameName", DomUtils.getChildElementValueByTagName(element, "frameName"));//框架包
 //        properties.put("companyName", DomUtils.getChildElementValueByTagName(element, "companyName"));//公司名称
 //        properties.put("appName", DomUtils.getChildElementValueByTagName(element, "appName"));//应用名称
 //        properties.put("moduleName", DomUtils.getChildElementValueByTagName(element, "moduleName"));//模块名称

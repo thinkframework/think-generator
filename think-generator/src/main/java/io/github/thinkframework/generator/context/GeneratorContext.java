@@ -9,59 +9,44 @@ import java.util.Properties;
  */
 public class GeneratorContext {
     private GeneratorProperties generatorProperties;
-    private DataSource dataSource;
-    static ThreadLocal<GeneratorContext> context = new ThreadLocal<>();
+
+    private static ThreadLocal<GeneratorContext> context = new ThreadLocal<>();
 
     /**
      * 获取线程绑定的GeneratorContext
      *
      * @return GeneratorContext
      */
-    public static GeneratorContext getContext() {
+    public static GeneratorContext get() {
         GeneratorContext generatorContext = context.get();
         if (generatorContext == null) {
-            generatorContext = new GeneratorContext();
-            setContext(generatorContext);
+            context.set(new GeneratorContext());
         }
         return context.get();
     }
 
-    public static void setContext(GeneratorContext generatorContext) {
-        context.set(generatorContext);
+
+    public static GeneratorContext set(GeneratorProperties generatorProperties) {
+        GeneratorContext generatorContext = context.get();
+        if (generatorContext == null) {
+            context.set(new GeneratorContext(generatorProperties));
+        }
+        return context.get();
     }
 
     public GeneratorContext() {
 
     }
 
-    public GeneratorContext(DataSource dataSource, String tableName) {
-        this(dataSource, new Properties(), null,tableName);
-    }
-
-    public GeneratorContext(String configLocation, DataSource dataSource, String tableName) {
-        this(dataSource, new Properties(), configLocation,tableName);
-    }
-
     public GeneratorContext(GeneratorProperties generatorProperties) {
         this.generatorProperties = generatorProperties;
     }
 
-    public GeneratorContext(DataSource dataSource, Properties properties, String configLocation, String tableName) {
-        if (dataSource != null) {
-            this.dataSource = dataSource;
-        }
-        if (properties == null) {
-            properties = new Properties();
-        }
-        properties.setProperty("configLocation", configLocation);
-        properties.setProperty("tableName", tableName);
-        generatorProperties = new GeneratorProperties(properties);
-    }
 
-    public void setProperties(Properties properties) {
-        generatorProperties = new GeneratorProperties();
-        generatorProperties.setProperties(properties);
-    }
+//    public void setProperties(Properties properties) {
+//        generatorProperties = new GeneratorProperties();
+//        generatorProperties.setProperties(properties);
+//    }
 
     public GeneratorProperties getGeneratorProperties() {
         return generatorProperties;
@@ -89,29 +74,12 @@ public class GeneratorContext {
         return this;
     }
 
-    public String getConfigLocation() {
-        return generatorProperties.getProperty("configLocation");
-    }
-
-    public GeneratorContext setConfigLocation(String configLocation) {
-        generatorProperties.setProperty("configLocation", configLocation);
-        return this;
-    }
-
     public String getTableName() {
-        return generatorProperties.getProperty("tableName");
-    }
-
-    public void setTableName(String tableName) {
-        generatorProperties.setProperty("tableName", tableName);
+        return generatorProperties.getTableName();
     }
 
     public DataSource getDataSource() {
-        return dataSource;
+        return generatorProperties.getDataSource();
     }
 
-    public GeneratorContext setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-        return this;
-    }
 }

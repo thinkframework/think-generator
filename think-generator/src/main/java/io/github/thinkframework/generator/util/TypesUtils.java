@@ -87,7 +87,7 @@ public class TypesUtils {
 	}
 
 	protected static Class convertJavaClass(Class clazz){
-		Properties properties = GeneratorContext.getContext().getProperties();
+		Properties properties = GeneratorContext.get().getProperties();
 		Iterator iterator = properties.entrySet().iterator();
 		while (iterator.hasNext()){
 			Map.Entry entry = (Map.Entry)iterator.next();
@@ -112,7 +112,7 @@ public class TypesUtils {
 	}
 
 	protected static Class convertTSClass(Class clazz){
-		Properties properties = GeneratorContext.getContext().getProperties();
+		Properties properties = GeneratorContext.get().getProperties();
 		Iterator iterator = properties.entrySet().iterator();
 		while (iterator.hasNext()){
 			Map.Entry entry = (Map.Entry)iterator.next();
