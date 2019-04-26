@@ -1,1 +1,0 @@
--javaagent:../think-agent/target/think-agent-0.0.1-SNAPSHOT.jar
