@@ -1,6 +1,5 @@
 package io.github.thinkframework.generator.provider.adapter;
 
-import io.github.thinkframework.generator.context.GeneratorContext;
 import io.github.thinkframework.generator.lang.impl.ClazzImpl;
 import io.github.thinkframework.generator.lang.reflect.ClazzField;
 import io.github.thinkframework.generator.lang.reflect.impl.ClazzFieldImpl;
@@ -32,9 +31,5 @@ public class ColumnFieldBuild {
         field.setType(classType);
         field.setName(fieldName);
         return field;
-    }
-
-    private static String getProperty(String key,String defaultValue){
-        return (String) GeneratorContext.get().getProperty(key,defaultValue);
     }
 }

@@ -1,17 +1,22 @@
 package io.github.thinkframework.generator;
 
-import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author lixiaobin
  * @since 2017/3/24
  */
+@SpringBootApplication
+//@ImportResource({"classpath:applicationContext.xml"})
+//@EnableGenerator
 public class GeneratorApplication {
     private final static Logger log = LoggerFactory.getLogger(GeneratorApplication.class);
 
     public static void main(String[] args) throws Exception {
+        SpringApplication.run(GeneratorApplication.class,args);
 //
 //        //option的容器
 //        Options options = new Options();

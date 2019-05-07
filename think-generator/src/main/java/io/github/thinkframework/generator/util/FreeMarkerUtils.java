@@ -8,7 +8,6 @@ import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.github.thinkframework.generator.context.GeneratorContext;
 
 import java.io.*;
 import java.util.Collection;
@@ -30,7 +29,6 @@ public class FreeMarkerUtils {
 
 	public FreeMarkerUtils(Properties properties){
 	    this.properties = properties;
-	    init();
     }
 
     /**

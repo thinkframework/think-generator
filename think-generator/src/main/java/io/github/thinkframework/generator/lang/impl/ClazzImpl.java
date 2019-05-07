@@ -8,6 +8,7 @@ import io.github.thinkframework.generator.lang.reflect.ClazzField;
 import io.github.thinkframework.generator.lang.reflect.ClazzMethod;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * @author lixiaobin
@@ -18,14 +19,14 @@ public class ClazzImpl implements Clazz {
     private String name;
     private String generic="";
     private String simpleName="";
-    private Collection<ClazzField> fields;
-    private Collection<ClazzField> importedFields;
-    private Collection<ClazzField> exportedFields;
+    private Collection<ClazzField> fields = new HashSet<>();
+    private Collection<ClazzField> importedFields = new HashSet<>();
+    private Collection<ClazzField> exportedFields = new HashSet<>();
 
-    private Collection<ClazzMethod> methods;
+    private Collection<ClazzMethod> methods = new HashSet<>();
 
-    private Collection<ClazzMethod> importedMethods;
-    private Collection<ClazzMethod> exportedMethods;
+    private Collection<ClazzMethod> importedMethods = new HashSet<>();
+    private Collection<ClazzMethod> exportedMethods = new HashSet<>();
     private ClazzAnnotations annotations = new ClazzAnnotations();
 
     public ClazzImpl(){

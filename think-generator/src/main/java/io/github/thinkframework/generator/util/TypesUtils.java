@@ -1,17 +1,12 @@
 package io.github.thinkframework.generator.util;
 
-import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
-import io.github.thinkframework.generator.context.GeneratorContext;
-
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * 数据库类型映射
@@ -86,55 +81,55 @@ public class TypesUtils {
 		return clazz != null ? clazz : Object.class;
 	}
 
-	protected static Class convertJavaClass(Class clazz){
-		Properties properties = GeneratorContext.get().getProperties();
-		Iterator iterator = properties.entrySet().iterator();
-		while (iterator.hasNext()){
-			Map.Entry entry = (Map.Entry)iterator.next();
-			String key = (String)entry.getKey();
-			String value = (String)entry.getValue();
-			if(key.startsWith("types")){
-				try {
-					Class keyClass = Class.forName(key.substring("types".length()));
-					Class valueClass = Class.forName(value);
-					classConvert.put(keyClass,valueClass);
-				}catch (ClassNotFoundException e){
-					throw new GeneratorRuntimeException("类不存在",e);
-				}
-			}
-		}
-		Class tmp = classConvert.get(clazz);
-		if (tmp != null) {
-			return tmp;
-		}else{
-			return clazz;
-		}
-	}
-
-	protected static Class convertTSClass(Class clazz){
-		Properties properties = GeneratorContext.get().getProperties();
-		Iterator iterator = properties.entrySet().iterator();
-		while (iterator.hasNext()){
-			Map.Entry entry = (Map.Entry)iterator.next();
-			String key = (String)entry.getKey();
-			String value = (String)entry.getValue();
-			if(key.startsWith("types")){
-				try {
-					Class keyClass = Class.forName(key.substring("types".length()));
-					Class valueClass = Class.forName(value);
-					classConvert.put(keyClass,valueClass);
-				}catch (ClassNotFoundException e){
-					throw new GeneratorRuntimeException("类不存在",e);
-				}
-			}
-		}
-		Class tmp = classConvert.get(clazz);
-		if (tmp != null) {
-			return tmp;
-		}else{
-			return clazz;
-		}
-	}
+//	protected static Class convertJavaClass(Class clazz){
+//		Properties properties = GeneratorContext.get().getProperties();
+//		Iterator iterator = properties.entrySet().iterator();
+//		while (iterator.hasNext()){
+//			Map.Entry entry = (Map.Entry)iterator.next();
+//			String key = (String)entry.getKey();
+//			String value = (String)entry.getValue();
+//			if(key.startsWith("types")){
+//				try {
+//					Class keyClass = Class.forName(key.substring("types".length()));
+//					Class valueClass = Class.forName(value);
+//					classConvert.put(keyClass,valueClass);
+//				}catch (ClassNotFoundException e){
+//					throw new GeneratorRuntimeException("类不存在",e);
+//				}
+//			}
+//		}
+//		Class tmp = classConvert.get(clazz);
+//		if (tmp != null) {
+//			return tmp;
+//		}else{
+//			return clazz;
+//		}
+//	}
+//
+//	protected static Class convertTSClass(Class clazz){
+//		Properties properties = GeneratorContext.get().getProperties();
+//		Iterator iterator = properties.entrySet().iterator();
+//		while (iterator.hasNext()){
+//			Map.Entry entry = (Map.Entry)iterator.next();
+//			String key = (String)entry.getKey();
+//			String value = (String)entry.getValue();
+//			if(key.startsWith("types")){
+//				try {
+//					Class keyClass = Class.forName(key.substring("types".length()));
+//					Class valueClass = Class.forName(value);
+//					classConvert.put(keyClass,valueClass);
+//				}catch (ClassNotFoundException e){
+//					throw new GeneratorRuntimeException("类不存在",e);
+//				}
+//			}
+//		}
+//		Class tmp = classConvert.get(clazz);
+//		if (tmp != null) {
+//			return tmp;
+//		}else{
+//			return clazz;
+//		}
+//	}
 
 	public static String ConvertTypeScript(Integer dataType){
 		Map<Integer,String> typescript = new HashMap<Integer, String>();

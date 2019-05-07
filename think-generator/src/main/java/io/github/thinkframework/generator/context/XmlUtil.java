@@ -1,35 +1,9 @@
-//package org.think.generator.context;
-//
-//import org.springframework.core.io.ClassPathResource;
-//import org.springframework.core.io.Resource;
-//import org.think.jdbc.datasource.SimpleDataSource;
-//import org.w3c.dom.Document;
-//import org.w3c.dom.Element;
-//import org.w3c.dom.Node;
-//import org.w3c.dom.NodeList;
-//import org.xml.sax.SAXException;
-//
-//import javax.sql.DataSource;
-//import javax.xml.parsers.DocumentBuilder;
-//import javax.xml.parsers.DocumentBuilderFactory;
-//import javax.xml.parsers.ParserConfigurationException;
-//import javax.xml.transform.*;
-//import javax.xml.transform.dom.DOMSource;
-//import javax.xml.transform.stream.StreamResult;
-//import javax.xml.xpath.XPath;
-//import javax.xml.xpath.XPathConstants;
-//import javax.xml.xpath.XPathExpressionException;
-//import javax.xml.xpath.XPathFactory;
-//import java.io.*;
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Properties;
-//import java.util.UUID;
-//
-///**
-// * 对applicationContext.xml的处理类
-// */
-//public class XmlUtil {
+package io.github.thinkframework.generator.context;
+
+/**
+ * 对applicationContext.xml的处理类
+ */
+public class XmlUtil {
 //    public Resource resource = new ClassPathResource("applicationContext.xml");
 //
 //    public XmlUtil(){
@@ -312,4 +286,4 @@
 //    public void setResource(Resource resource) {
 //        this.resource = resource;
 //    }
-//}
+}

@@ -1,7 +1,6 @@
 package io.github.thinkframework.generator.context;
 
-import javax.sql.DataSource;
-import java.util.Properties;
+import org.springframework.beans.factory.BeanFactory;
 
 /**
  * ThreadLocal Mediator（中介者）.
@@ -9,6 +8,12 @@ import java.util.Properties;
  */
 public class GeneratorContext {
     private GeneratorProperties generatorProperties;
+
+    private BeanFactory beanFactory;
+
+    private String dastSourceName;
+
+    private String tableName;
 
     private static ThreadLocal<GeneratorContext> context = new ThreadLocal<>();
 
@@ -48,38 +53,31 @@ public class GeneratorContext {
 //        generatorProperties.setProperties(properties);
 //    }
 
-    public GeneratorProperties getGeneratorProperties() {
-        return generatorProperties;
+    public BeanFactory getBeanFactory() {
+        return beanFactory;
     }
 
-    public GeneratorContext setGeneratorProperties(GeneratorProperties generatorProperties) {
-        this.generatorProperties = generatorProperties;
-        return this;
+    public void setBeanFactory(BeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
     }
 
-    public Properties getProperties() {
-        return getGeneratorProperties().getProperties();
+    public String getDastSourceName() {
+        return dastSourceName;
     }
 
-    public Object getProperty(String key) {
-        return getProperties().getProperty(key);
-    }
-
-    public Object getProperty(String key, String defaultValue) {
-        return getProperties().getProperty(key, defaultValue);
-    }
-
-    public GeneratorContext setProperty(String key, String value) {
-        getProperties().setProperty(key, value);
-        return this;
+    public void setDastSourceName(String dastSourceName) {
+        this.dastSourceName = dastSourceName;
     }
 
     public String getTableName() {
-        return generatorProperties.getTableName();
+        return tableName;
     }
 
-    public DataSource getDataSource() {
-        return generatorProperties.getDataSource();
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
+    public <T> T getBean(String name,Class<T> requiredType){
+        return beanFactory.getBean(name,requiredType);
+    }
 }

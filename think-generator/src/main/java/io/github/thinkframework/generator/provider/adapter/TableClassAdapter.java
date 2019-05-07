@@ -24,7 +24,7 @@ public class TableClassAdapter implements Clazz, Table {
     }
 
     public TableClassAdapter(Clazz clazz){
-
+        this.clazz = clazz;
     }
 
     @Override

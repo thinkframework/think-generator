@@ -1,6 +1,5 @@
 package io.github.thinkframework.generator.provider.adapter;
 
-import io.github.thinkframework.generator.context.GeneratorContext;
 import io.github.thinkframework.generator.lang.Clazz;
 import io.github.thinkframework.generator.lang.annotation.ClazzAnnotations;
 import io.github.thinkframework.generator.lang.reflect.ClazzMethod;
@@ -8,7 +7,6 @@ import io.github.thinkframework.generator.sql.model.Column;
 import io.github.thinkframework.generator.sql.model.ImportedKey;
 import io.github.thinkframework.generator.sql.model.impl.ColumnImpl;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -115,8 +113,7 @@ public class ColumnMethodAdapter implements ClazzMethod,Column {
      * @return 是否忽略
      */
     public boolean isIgnore() {
-        return Arrays.asList(((String)GeneratorContext.get().getProperty("ignore")).split(","))
-                .contains(getColumnName());
+        return ignore;
     }
 
     /**

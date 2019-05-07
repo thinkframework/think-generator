@@ -1,4 +1,4 @@
-package io.github.thinkframework.generator;
+package io.github.thinkframework.generator.internal;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -20,7 +20,7 @@ public class SimpleBeanFactory implements BeanFactory {
 
     @Override
     public <T> T getBean(String s, Class<T> aClass) throws BeansException {
-        return null;
+        return (T)getBean(s);
     }
 
     @Override

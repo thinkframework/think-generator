@@ -1,15 +1,12 @@
 package io.github.thinkframework.generator.provider.adapter;
 
-import io.github.thinkframework.generator.context.GeneratorContext;
 import io.github.thinkframework.generator.lang.Clazz;
 import io.github.thinkframework.generator.lang.annotation.ClazzAnnotations;
 import io.github.thinkframework.generator.lang.reflect.ClazzField;
+import io.github.thinkframework.generator.sql.model.Column;
 import io.github.thinkframework.generator.sql.model.ImportedKey;
 import io.github.thinkframework.generator.sql.model.impl.ColumnImpl;
-import io.github.thinkframework.generator.sql.model.Column;
 import io.github.thinkframework.generator.util.TypesUtils;
-
-import java.util.Arrays;
 
 /**
  * 适配数据库的Column和Java字段
@@ -81,11 +78,11 @@ public class ColumnFieldAdapter implements ClazzField,Column {
     }
 
     public boolean getIsImportedKey() {
-        return ((ColumnImpl)column).getIsImportedKey();
+        return column.getIsImportedKey();
     }
 
     public ImportedKey getImportedKey() {
-        return ((ColumnImpl)column).getImportedKey();
+        return column.getImportedKey();
     }
 
     @Override
@@ -111,8 +108,7 @@ public class ColumnFieldAdapter implements ClazzField,Column {
      * @return 是否忽略
      */
     public boolean isIgnore() {
-        return Arrays.asList(((String)GeneratorContext.get().getProperty("ignore")).split(","))
-                .contains(getColumnName());
+        return ignore;
     }
 
     /**

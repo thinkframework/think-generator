@@ -1,15 +1,14 @@
 package io.github.thinkframework.generator.context;
 
+import io.github.thinkframework.generator.config.GeneratorConfiguration;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
+import io.github.thinkframework.generator.util.BeanUtils;
 import io.github.thinkframework.generator.util.TypesUtils;
-import org.springframework.context.ApplicationContext;
-import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.sql.DataSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Types;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -40,18 +38,18 @@ public class GeneratorProperties implements Cloneable{
     private String clonfigLocation;
     private String clonfigProperties;
 
-    private ApplicationContext applicationContext;
-
     private Properties properties = new Properties();
 
     private List<String> prefixs = new ArrayList<>();
     private List<String> ignores = new ArrayList<>();
 
-    private DataSource dataSource;
-    private String dataSourceName;
-    private String tableName;
+    @SuppressWarnings("unused")
+    private GeneratorProperties() {
+    }
 
-    public GeneratorProperties() {
+
+    public GeneratorProperties(GeneratorConfiguration generatorConfiguration) {
+        build(BeanUtils.describe(generatorConfiguration));
     }
 
     public GeneratorProperties setProperties(Properties properties){
@@ -59,65 +57,15 @@ public class GeneratorProperties implements Cloneable{
         return this;
     }
 
-
-    public GeneratorProperties applicationContext(ApplicationContext applicationContext){
-        this.applicationContext = applicationContext;
-        return this;
-    }
-
-    public GeneratorProperties setDefaultProperties(){
-        return setProperties(CLASS_PATH+GeneratorEnum.DEFAULT_APPLICATION_CONTEXT_PROPERTIES.value());
-    }
-
     public GeneratorProperties setProperties(String properties){
         this.clonfigProperties = properties;
         return this;
     }
-
-
-    public GeneratorProperties setDefaultConfiguration(){
-        return setConfiguration(CLASS_PATH+GeneratorEnum.DEFAULT_APPLICATION_CONTEXT_XML.value());
-    }
-
-    public GeneratorProperties setConfiguration(String configuration){
-        this.clonfigLocation = configuration;
-        return this;
-    }
-
-    public GeneratorProperties putAll(Map map){
-        this.properties.putAll(map);
-        return this;
-    }
-
-    public GeneratorProperties dataSource(DataSource dataSource){
-        this.dataSource = dataSource;
-        return this;
-    }
-
-    public GeneratorProperties setDefaultDataSource(){
-        return dataSource("dataSource");
-    }
-
-    public GeneratorProperties dataSource(String dataSource){
-        this.dataSourceName = dataSource;
-        return this;
-    }
-
-    public GeneratorProperties tableName(String tableName){
-        this.tableName = tableName;
-        return this;
-    }
-
-//    public GeneratorProperties defaultProperties(){
-//        return setDefaultProperties().setDefaultConfiguration().setDefaultDataSource();
-//    }
-
     /**
      * 生成配置信息
      * @return
      */
-    public GeneratorProperties build() {
-        //1.读取properties文件,默认generator.properties
+    public GeneratorProperties build(Map configuration) {
         Optional.ofNullable(clonfigProperties).ifPresent(properties ->{
             try (InputStream inputStream = getInputStream(properties)) {
                 this.properties.load(inputStream);
@@ -159,14 +107,14 @@ public class GeneratorProperties implements Cloneable{
                 NodeList convertsList = (NodeList) xPath.evaluate("converts/props/prop", element,XPathConstants.NODESET);
                 for(int i=0;i<convertsList.getLength();i++){
                     Integer type = Types.class.getField(xPath.evaluate("@key", convertsList.item(i)).replace("java.sql.Types.",""))
-                            .getInt(Types.class);
+                        .getInt(Types.class);
                     Class clazz = Class.forName(xPath.evaluate("text()", convertsList.item(i)));
                     TypesUtils.put(type, clazz);
                 }
                 convertsList = (NodeList) xPath.evaluate("converts/map/entity", element,XPathConstants.NODESET);
                 for(int i=0;i<convertsList.getLength();i++){
                     Integer type = Types.class.getField(xPath.evaluate("@key", convertsList.item(i)).replace("java.sql.Types.",""))
-                            .getInt(Types.class);
+                        .getInt(Types.class);
                     Class clazz = Class.forName(xPath.evaluate("@value", convertsList.item(i)));
                     TypesUtils.put(type, clazz);
                 }
@@ -195,43 +143,15 @@ public class GeneratorProperties implements Cloneable{
                 throw new GeneratorRuntimeException("反射异常", e);
             }
         });
-        initProperties();
-        //从spring容器获取数据源
-        if(dataSource == null && applicationContext != null && dataSourceName != null){
-            dataSource = (DataSource) applicationContext.getBean(dataSourceName);
-        }
-        Assert.notNull(dataSource,"数据源不能为空");
+
+        Optional.ofNullable(configuration).ifPresent(location -> {
+//            this.properties.putAll(configuration);//这种方式会触发空指针
+            configuration.forEach((key,value) -> {
+                if(value != null)
+                    this.properties.put(key,value);
+            });
+        });
         return this;
-    }
-
-    /**
-     * 扩展属性
-     * @return
-     */
-    protected Properties initProperties() {
-        Iterator iterator = System.getProperties().entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            properties.put("env_" + ((String) entry.getKey()).replaceAll("\\.", "_"), entry.getValue());
-        }
-
-        String now_yyyyMMddHHmmss = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        properties.put("now_yyyyMMddHHmmss", now_yyyyMMddHHmmss);
-
-        Properties path = new Properties();
-        for (Map.Entry entity : properties.entrySet()) {
-            String key = (String) entity.getKey();
-            String value = (String) entity.getValue();
-            path.put(key.replace("generator.", ""), value);
-            String key_path = key.replace("generator.", "") + "_path";
-            String value_path = value.replace(".", "/");
-            path.put(key_path, value_path);
-        }
-        properties.putAll(path);
-
-        this.properties = path;
-
-        return properties;
     }
 
     public String getProperty(String key) {
@@ -248,8 +168,6 @@ public class GeneratorProperties implements Cloneable{
 
     public void setProperty(String key, String value) {
         properties.setProperty(key, value);
-        //处理文件路径
-        properties.setProperty(key + "_path", value.replace(".", "/"));
     }
 
     public Properties getProperties() {
@@ -269,30 +187,10 @@ public class GeneratorProperties implements Cloneable{
         return null;
     }
 
-
-    public DataSource getDataSource() {
-        return dataSource;
-    }
-
-    public GeneratorProperties setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-        return this;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-        setProperty("tableName",tableName);
-    }
-
     @Override
     public GeneratorProperties clone() throws CloneNotSupportedException {
         GeneratorProperties clone =  (GeneratorProperties) super.clone();
         clone.properties = (Properties) clone.properties.clone();
-        clone.tableName = null;
         return  clone;
     }
 }

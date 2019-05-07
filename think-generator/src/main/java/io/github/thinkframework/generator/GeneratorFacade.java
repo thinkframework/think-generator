@@ -1,13 +1,11 @@
 package io.github.thinkframework.generator;
 
 import io.github.thinkframework.generator.command.Command;
-import io.github.thinkframework.generator.command.CommandFactory;
 import io.github.thinkframework.generator.command.impl.TableGeneratorCommand;
+import io.github.thinkframework.generator.context.GeneratorContext;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.github.thinkframework.generator.context.GeneratorContext;
-import io.github.thinkframework.generator.context.GeneratorProperties;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -16,17 +14,26 @@ import javax.sql.DataSource;
 
 /**
  * 生成器门面
+ * 引用单例模式
  * @author lixiaobin
  */
 public class GeneratorFacade implements BeanFactoryAware {
+
     private Logger logger = LoggerFactory.getLogger(GeneratorContext.class);
+
+    private static GeneratorFacade instance = new GeneratorFacade();
 
     private BeanFactory beanFactory;
 
     private Command command;
 
     public GeneratorFacade() {
+        //TODO 单例模式
+    }
 
+
+    public static GeneratorFacade getInstance(){
+        return instance;
     }
 
     public GeneratorFacade(BeanFactory beanFactory) {
@@ -41,7 +48,7 @@ public class GeneratorFacade implements BeanFactoryAware {
 
 
     public GeneratorFacade command() {
-        this.command = new TableGeneratorCommand(new Generator(beanFactory));
+        this.command = new TableGeneratorCommand(new Generator());
         return this;
     }
 
@@ -65,15 +72,7 @@ public class GeneratorFacade implements BeanFactoryAware {
      * @throws Exception
      */
     public void execute(DataSource dataSource,String tableName) {
-        //TODO 优化成本文
-        new GeneratorFacade()
-            .command(new CommandFactory(new GeneratorProperties()
-//            .setDefaultProperties()
-                .setDefaultConfiguration()
-                .dataSource(dataSource)
-                .tableName(tableName)
-                .build()).newCommand())
-            .execute();
+
     }
 
     @Override

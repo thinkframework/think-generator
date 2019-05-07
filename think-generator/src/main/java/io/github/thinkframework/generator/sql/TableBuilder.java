@@ -4,7 +4,6 @@ import io.github.thinkframework.generator.sql.model.*;
 import io.github.thinkframework.generator.sql.model.impl.ColumnImpl;
 import io.github.thinkframework.generator.sql.model.impl.TableImpl;
 
-import javax.sql.DataSource;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -25,11 +24,11 @@ public class TableBuilder {
 
     /**
      * 添加数据源
-     * @param dataSource
+     * @param tableFactory
      * @return TableBuilder
      */
-    public TableBuilder addDataSource(DataSource dataSource){
-        tableFactory.setDataSource(dataSource);
+    public TableBuilder tableFactory(TableFactory tableFactory){
+        this.tableFactory = tableFactory;
         return this;
     }
 
@@ -45,51 +44,51 @@ public class TableBuilder {
 
     /**
      * 添加列
-     * @param tableName
+     * @param columns
      * @return TableBuilder
      */
-    public TableBuilder addColumn(String tableName){
-        columns = tableFactory.getColumns(tableName);
+    public TableBuilder addColumn(Collection<Column> columns){
+        this.columns = columns;
         return this;
     }
 
     /**
      * 添加主键
-     * @param tableName
+     * @param primaryKeys
      * @return TableBuilder
      */
-    public TableBuilder addPrimaryKey(String tableName){
-        primaryKeys = tableFactory.getPrimaryKeys(tableName);
+    public TableBuilder addPrimaryKey(Collection<PrimaryKey> primaryKeys){
+        this.primaryKeys = primaryKeys;
         return this;
     }
 
     /**
      * 添加索引
-     * @param tableName
+     * @param indexInfos
      * @return TableBuilder
      */
-    public TableBuilder addIndexInfo(String tableName){
-        indexInfos = tableFactory.getIndexInfo(tableName);
+    public TableBuilder addIndexInfo(Collection<IndexInfo> indexInfos){
+        this.indexInfos = indexInfos;
         return this;
     }
 
     /**
      * 添加外键
-     * @param tableName
+     * @param exportedKeys
      * @return TableBuilder
      */
-    public TableBuilder addExportedKey(String tableName){
-        exportedKeys = tableFactory.getExportedKeys(tableName);
+    public TableBuilder addExportedKey(Collection<ExportedKey> exportedKeys){
+        this.exportedKeys = exportedKeys;
         return this;
     }
 
     /**
      * 添加外键
-     * @param tableName
+     * @param importedKeys
      * @return TableBuilder
      */
-    public TableBuilder addImportedKey(String tableName){
-        importedKeys = tableFactory.getImportedKeys(tableName);
+    public TableBuilder addImportedKey(Collection<ImportedKey> importedKeys){
+        this.importedKeys = importedKeys;
         return this;
     }
 

@@ -1,7 +1,5 @@
 package io.github.thinkframework.generator.util;
 
-import io.github.thinkframework.generator.context.GeneratorContext;
-
 import java.util.regex.Pattern;
 
 public class StringUtils {
@@ -136,17 +134,14 @@ public class StringUtils {
 
 	/**
 	 * 表名称的前缀
+     * @param  prefixs
 	 * @param string
 	 * @return
 	 */
-	public static String replacePrefix(String string){
+	public static String replacePrefix(String[] prefixs,String string){
 		if(string == null){
 			return "";
 		}
-		String pre = (String)GeneratorContext.get().getProperty("prefix", "");
-		//根据下划线拆分
-		String[] prefixs = pre.split(",");
-
 		for (String prefix: prefixs) {
 			if(string.toUpperCase().startsWith(prefix)){
 				//忽略大小写,不能用replace
