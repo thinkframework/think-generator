@@ -1,6 +1,4 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns:beans="http://www.springframework.org/schema/beans"
-            xmlns:tool="http://www.springframework.org/schema/tool"
             xmlns="http://thinkframework.github.io/schema/generator"
             targetNamespace="http://thinkframework.github.io/schema/generator"
             elementFormDefault="qualified"
@@ -30,7 +28,7 @@
     <xsd:element name="generatorConfiguration">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="dataSource" type="xsd:string" minOccurs="0" default="dataSource">
+                <xsd:element name="dataSourceName" type="xsd:string" minOccurs="0" default="dataSource">
                     <xsd:annotation>
                         <xsd:documentation>
                             数据源
@@ -93,12 +91,18 @@
                         </xsd:documentation>
                     </xsd:annotation>
                 </xsd:element>
-                <xsd:element name="extensions" type="xsd:string">
+                <xsd:element name="extensions" minOccurs="0">
                     <xsd:annotation>
                         <xsd:documentation>
                             javaDoc中author节点的名字
                         </xsd:documentation>
                     </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:choice>
+                            <xsd:element ref="list" minOccurs="0"/>
+                            <xsd:element ref="set" minOccurs="0"/>
+                        </xsd:choice>
+                    </xsd:complexType>
                 </xsd:element>
                 <xsd:element name="converts" minOccurs="0">
                     <xsd:annotation>
