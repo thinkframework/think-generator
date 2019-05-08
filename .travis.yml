@@ -33,7 +33,7 @@ install:
 script:
   - chmod +x mvnw
   - ./mvnw clean test
-  - ./mvnw org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+  - ./mvnw org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dsonar.projectKey=think-framework -Dsonar.organization=hdhxby-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
   - ./mvnw verify -Pprod -DskipTests
 notifications:
   webhooks:

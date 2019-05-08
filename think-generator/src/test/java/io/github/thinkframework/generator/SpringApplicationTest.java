@@ -16,7 +16,6 @@ import java.io.File;
 /**
  * 容器测试
  */
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class SpringApplicationTest {
