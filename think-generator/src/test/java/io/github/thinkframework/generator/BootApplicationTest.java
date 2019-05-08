@@ -15,7 +15,6 @@ import java.io.File;
 /**
  * 容器测试
  */
-@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {GeneratorApplication.class})
 public class BootApplicationTest {

@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 
@@ -17,7 +17,7 @@ import java.io.File;
  * 容器测试
  */
 @Ignore
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class SpringApplicationTest {
 
@@ -40,10 +40,10 @@ public class SpringApplicationTest {
      */
     @Test
     public void application() throws Exception {
-        generator
-            .dataSourceName("dataSource")
-            .tableName("TEST")
-            .generate();
+//        generator
+//            .dataSourceName("dataSource")
+//            .tableName("TEST")
+//            .generate();
     }
 
     @After

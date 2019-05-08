@@ -10,9 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * FreeMarker工具类
@@ -51,22 +54,16 @@ public class FreeMarkerUtils {
 	}
 
 	public FreeMarkerUtils setTemplateLoader(String[] templateRootDirs) {
-		try{
-			FileTemplateLoader[] templateLoaders = new FileTemplateLoader[templateRootDirs.length];
-			for(int i = 0; i < templateRootDirs.length; i++) {
-				templateLoaders[i] = new FileTemplateLoader(new File(templateRootDirs[i]));
-			}
-			MultiTemplateLoader multiTemplateLoader = new MultiTemplateLoader(templateLoaders);
-			configuration.setTemplateLoader(multiTemplateLoader);
+			configuration.setTemplateLoader(new MultiTemplateLoader(
+                Arrays.stream(templateRootDirs)
+                    .map(File::new)
+                    .filter(File::exists)
+                    .toArray(FileTemplateLoader[]::new)
+            ));
 			configuration.setNumberFormat("###############");
 			configuration.setBooleanFormat("true,false");
 			configuration.setDefaultEncoding("UTF-8");
-
-		} catch (IOException e) {
-			throw new GeneratorRuntimeException("IO异常",e);
-		} finally {
 			return this;
-		}
 	}
 
 	public FreeMarkerUtils setSharedVaribles(Properties properties) throws GeneratorRuntimeException {
@@ -97,10 +94,10 @@ public class FreeMarkerUtils {
 	}
 
 	public FreeMarkerUtils process() {
-		setTemplateLoader(templates).setSharedVaribles(getProperties());
+		setTemplateLoader(templates).setSharedVaribles(properties);
+
 		for (String template : templates) {
-			Collection<File> files = listFiles(template, extensions, true);
-			for (File file : files) {
+            FileUtils.listFiles(new File(template),extensions,true).forEach(file -> {
 				String path = file.toString();
 				String input = path.replace(template, "");
 				String output = path.replace(template, out);
@@ -113,7 +110,7 @@ public class FreeMarkerUtils {
 				}
 				log.info("\n模板输入路径:{}\n模板输出路径:{}",input,output);
 				process(input,properties,output);
-			}
+            });
 		}
 		return this;
 	}
@@ -127,10 +124,6 @@ public class FreeMarkerUtils {
 		}catch(IOException | TemplateException e) {
 			throw new GeneratorRuntimeException("模板异常",e);
 		}
-	}
-
-	public Collection<File> listFiles(String directory, String[] extensions, boolean recursive){
-		return FileUtils.listFiles(new File(directory),extensions,recursive);
 	}
 
     protected Properties getProperties() {
