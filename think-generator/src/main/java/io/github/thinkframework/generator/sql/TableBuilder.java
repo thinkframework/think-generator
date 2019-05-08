@@ -13,9 +13,8 @@ import java.util.HashSet;
  * @since 2017/3/24
  */
 public class TableBuilder {
-    private TableFactory tableFactory = new TableFactory();
-    private TableImpl table = new TableImpl();
     private String tableName = "";
+    private TableImpl table = new TableImpl();
     private Collection<Column> columns = new HashSet<Column>();
     private Collection<PrimaryKey> primaryKeys = new HashSet<PrimaryKey>();
     private Collection<ExportedKey> exportedKeys = new HashSet<ExportedKey>();
@@ -23,22 +22,12 @@ public class TableBuilder {
     private Collection<IndexInfo> indexInfos = new HashSet<IndexInfo>();
 
     /**
-     * 添加数据源
-     * @param tableFactory
-     * @return TableBuilder
-     */
-    public TableBuilder tableFactory(TableFactory tableFactory){
-        this.tableFactory = tableFactory;
-        return this;
-    }
-
-    /**
      * 添加表名称
-     * @param tableName
+     * @param table
      * @return TableBuilder
      */
-    public TableBuilder addTableName(String tableName){
-        this.tableName = tableName;
+    public TableBuilder addTable(TableImpl table){
+        this.table = table;
         return this;
     }
 
@@ -97,7 +86,6 @@ public class TableBuilder {
      * @return Table
      */
     public Table build(){
-        table = tableFactory.getTable(tableName);
         if(columns != null && columns.size() > 0){
             table.setColumns(columns);
         }

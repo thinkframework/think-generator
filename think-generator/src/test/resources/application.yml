@@ -1,0 +1,15 @@
+debug: true
+think:
+    generator:
+        configuration:
+            dataSourceName: dataSource
+            frameName: io.github.thinkframework
+            companyName: com.hdhxby
+            appName: app
+            moduleName: app
+            authorName:
+            namespace:
+            template: template/test
+spring:
+    datasource:
+        platform: h2

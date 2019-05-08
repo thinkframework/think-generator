@@ -7,7 +7,12 @@ package io.github.thinkframework.generator.context;
  */
 public enum GeneratorEnum {
     DEFAULT_APPLICATION_CONTEXT_XML("applicationContext.xml"),
-    DEFAULT_APPLICATION_CONTEXT_PROPERTIES("generator.properties");
+    DEFAULT_APPLICATION_CONTEXT_PROPERTIES("generator.properties"),
+
+    /**
+     * 默认数据源,支持多数据源的场景
+     */
+    DEFAULT_DATA_SOURCE_NAME("dataSource");
 
     private final String value;
 

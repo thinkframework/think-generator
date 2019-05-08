@@ -3,8 +3,6 @@ package io.github.thinkframework.generator.config;
 import io.github.thinkframework.generator.GeneratorFactoryBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -20,34 +18,54 @@ import org.w3c.dom.Element;
 public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
     Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+     * 不要调用registerBeanDefinition方法
+     * @param element
+     * @param parserContext
+     * @param builder
+     */
     @Override
     protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
 //        super.doParse(element, parserContext, builder);
         // 从标签中取出对应的属性值
         String id = element.getAttribute("id");
         logger.debug("初始化BeanDefinition: {}", id);
-        GeneratorConfiguration generatorConfiguration = parse(element);
-
-        builder.addPropertyValue("generatorConfiguration",generatorConfiguration);
-
-        BeanDefinition beanDefinition = builder.getBeanDefinition();
-        ((AbstractBeanDefinition) beanDefinition).setBeanClass(GeneratorFactoryBean.class);
-
-        parserContext.getRegistry().registerBeanDefinition(id,beanDefinition);
+        parseConfiguration(element, parserContext);
+        builder.addPropertyReference("generatorConfiguration","generatorConfiguration");
+        builder.getBeanDefinition().setBeanClass(GeneratorFactoryBean.class);
     }
 
-    private GeneratorConfiguration parse(Element element) {
+    private void parseConfiguration(Element element,ParserContext parserContext) {
+
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition();
         element = DomUtils.getChildElementByTagName(element,"generatorConfiguration");
-        GeneratorConfiguration generatorConfiguration = new GeneratorConfiguration();
-        generatorConfiguration.setDataSourceName(DomUtils.getChildElementValueByTagName(element, "dataSourceName"));//数据源
-        generatorConfiguration.setFrameName(DomUtils.getChildElementValueByTagName(element, "frameName"));//框架包
-        generatorConfiguration.setCompanyName(DomUtils.getChildElementValueByTagName(element, "companyName"));//公司名称
-        generatorConfiguration.setAppName(DomUtils.getChildElementValueByTagName(element, "appName"));//应用名称
-        generatorConfiguration.setModuleName(DomUtils.getChildElementValueByTagName(element, "moduleName"));//模块名称
-        generatorConfiguration.setAuthorName(DomUtils.getChildElementValueByTagName(element, "authorName"));//作者名称
-        generatorConfiguration.setNamespace(DomUtils.getChildElementValueByTagName(element, "namespace"));//命名空间
-        generatorConfiguration.setTemplate(DomUtils.getChildElementValueByTagName(element, "template"));//模板目录
-        generatorConfiguration.setOutput(DomUtils.getChildElementValueByTagName(element, "output"));//输出目录
+
+
+        builder.addPropertyValue("dataSourceName",DomUtils.getChildElementValueByTagName(element, "dataSourceName"));//数据源
+        builder.addPropertyValue("frameName",DomUtils.getChildElementValueByTagName(element, "frameName"));//框架包
+        builder.addPropertyValue("companyName",DomUtils.getChildElementValueByTagName(element, "companyName"));//公司名称
+        builder.addPropertyValue("appName",DomUtils.getChildElementValueByTagName(element, "appName"));//应用名称
+        builder.addPropertyValue("moduleName",DomUtils.getChildElementValueByTagName(element, "moduleName"));//模块名称
+        builder.addPropertyValue("authorName",DomUtils.getChildElementValueByTagName(element, "authorName"));//作者名称
+        builder.addPropertyValue("namespace",DomUtils.getChildElementValueByTagName(element, "namespace"));//命名空间
+        builder.addPropertyValue("template",DomUtils.getChildElementValueByTagName(element, "template"));//模板目录
+        builder.addPropertyValue("output",DomUtils.getChildElementValueByTagName(element, "output"));//输出目录
+
+        builder.getBeanDefinition().setBeanClass(GeneratorConfiguration.class);
+
+        //TODO 写死了...
+        parserContext.getRegistry().registerBeanDefinition("generatorConfiguration",builder.getBeanDefinition());
+
+//        GeneratorConfiguration generatorConfiguration = new GeneratorConfiguration();
+//        generatorConfiguration.setDataSourceName(DomUtils.getChildElementValueByTagName(element, "dataSourceName"));//数据源
+//        generatorConfiguration.setFrameName(DomUtils.getChildElementValueByTagName(element, "frameName"));//框架包
+//        generatorConfiguration.setCompanyName(DomUtils.getChildElementValueByTagName(element, "companyName"));//公司名称
+//        generatorConfiguration.setAppName(DomUtils.getChildElementValueByTagName(element, "appName"));//应用名称
+//        generatorConfiguration.setModuleName(DomUtils.getChildElementValueByTagName(element, "moduleName"));//模块名称
+//        generatorConfiguration.setAuthorName(DomUtils.getChildElementValueByTagName(element, "authorName"));//作者名称
+//        generatorConfiguration.setNamespace(DomUtils.getChildElementValueByTagName(element, "namespace"));//命名空间
+//        generatorConfiguration.setTemplate(DomUtils.getChildElementValueByTagName(element, "template"));//模板目录
+//        generatorConfiguration.setOutput(DomUtils.getChildElementValueByTagName(element, "output"));//输出目录
 
 
 //        XPathFactory xPathFactory = XPathFactory.newInstance();
@@ -94,8 +112,6 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
 //        } catch (XPathExpressionException e) {
 //            e.printStackTrace();
 //        }
-
-        return generatorConfiguration;
     }
 
 }

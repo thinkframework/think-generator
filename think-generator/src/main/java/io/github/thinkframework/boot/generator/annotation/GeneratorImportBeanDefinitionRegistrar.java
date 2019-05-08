@@ -1,4 +1,4 @@
-package io.github.thinkframework.generator.annotation;
+package io.github.thinkframework.boot.generator.annotation;
 
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;

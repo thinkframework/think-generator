@@ -23,9 +23,10 @@ import javax.sql.DataSource;
  */
 public class Generator implements BeanFactoryAware {
 
-    private final static Logger logger = LoggerFactory.getLogger(GeneratorApplication.class);
+    private final static Logger logger = LoggerFactory.getLogger(Generator.class);
 
     private GeneratorConfiguration generatorConfiguration;
+
     /**
      * 生成
      * @return

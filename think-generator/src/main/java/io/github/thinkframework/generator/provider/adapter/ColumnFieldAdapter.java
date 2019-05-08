@@ -2,11 +2,17 @@ package io.github.thinkframework.generator.provider.adapter;
 
 import io.github.thinkframework.generator.lang.Clazz;
 import io.github.thinkframework.generator.lang.annotation.ClazzAnnotations;
+import io.github.thinkframework.generator.lang.impl.ClazzImpl;
 import io.github.thinkframework.generator.lang.reflect.ClazzField;
+import io.github.thinkframework.generator.lang.reflect.impl.ClazzFieldImpl;
 import io.github.thinkframework.generator.sql.model.Column;
 import io.github.thinkframework.generator.sql.model.ImportedKey;
 import io.github.thinkframework.generator.sql.model.impl.ColumnImpl;
+import io.github.thinkframework.generator.util.StringUtils;
 import io.github.thinkframework.generator.util.TypesUtils;
+
+import java.math.BigInteger;
+import java.sql.Types;
 
 /**
  * 适配数据库的Column和Java字段
@@ -19,9 +25,10 @@ public class ColumnFieldAdapter implements ClazzField,Column {
     private boolean columnField;
     private boolean ignore;
     private String typeScript;
+
     public ColumnFieldAdapter(Column column){
         this.column = column;
-        clazzField = ColumnFieldBuild.buildField(column);
+        clazzField = buildField(column);
         typeScript = TypesUtils.ConvertTypeScript(column.getDataType());
         columnField = true;
     }
@@ -31,10 +38,22 @@ public class ColumnFieldAdapter implements ClazzField,Column {
         column = new ColumnImpl();
     }
 
-    public ColumnFieldAdapter(ClazzField clazzField,String remark){
-        this.clazzField = clazzField;
-        column = new ColumnImpl();
-        ((ColumnImpl)column).setRemarks(remark);
+    public static ClazzField buildField(Column column){
+        String columnName = column.getColumnName();
+        Class clazz = TypesUtils.dataType(column.getDataType());
+
+        //TODO Id类型
+        if(column.getDataType() == Types.BIGINT && column.getColumnName().toLowerCase().endsWith("id")){
+            clazz = BigInteger.class;
+        }
+
+        ClazzImpl classType = new ClazzImpl(clazz);
+
+        String fieldName = StringUtils.fieldName(columnName);
+        ClazzFieldImpl field = new ClazzFieldImpl();
+        field.setType(classType);
+        field.setName(fieldName);
+        return field;
     }
 
     @Override

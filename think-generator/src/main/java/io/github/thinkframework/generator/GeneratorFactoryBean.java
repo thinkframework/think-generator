@@ -6,16 +6,14 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 工厂模式
  */
-public class GeneratorFactoryBean implements BeanFactoryAware, FactoryBean, InitializingBean {
+public class GeneratorFactoryBean implements BeanFactoryAware, FactoryBean, InitializingBean{//, BeanFactoryPostProcessor {
 
     private BeanFactory beanFactory;
 
-    @Autowired
     private GeneratorConfiguration generatorConfiguration;
 
     private Generator generator;
@@ -67,4 +65,10 @@ public class GeneratorFactoryBean implements BeanFactoryAware, FactoryBean, Init
     public void setGeneratorConfiguration(GeneratorConfiguration generatorConfiguration) {
         this.generatorConfiguration = generatorConfiguration;
     }
+
+
+//    @Override
+//    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+//
+//    }
 }

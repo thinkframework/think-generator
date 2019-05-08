@@ -15,7 +15,12 @@ public class GeneratorContext {
 
     private String tableName;
 
-    private static ThreadLocal<GeneratorContext> context = new ThreadLocal<>();
+    private static ThreadLocal<GeneratorContext> context =  ThreadLocal.withInitial(() ->{
+        GeneratorContext generatorContext = new GeneratorContext();
+        //设置默认数据源,支持多数据源场景
+        generatorContext.setDastSourceName(GeneratorEnum.DEFAULT_DATA_SOURCE_NAME.value());
+        return generatorContext;
+    });
 
     /**
      * 获取线程绑定的GeneratorContext
@@ -23,35 +28,8 @@ public class GeneratorContext {
      * @return GeneratorContext
      */
     public static GeneratorContext get() {
-        GeneratorContext generatorContext = context.get();
-        if (generatorContext == null) {
-            context.set(new GeneratorContext());
-        }
         return context.get();
     }
-
-
-    public static GeneratorContext set(GeneratorProperties generatorProperties) {
-        GeneratorContext generatorContext = context.get();
-        if (generatorContext == null) {
-            context.set(new GeneratorContext(generatorProperties));
-        }
-        return context.get();
-    }
-
-    public GeneratorContext() {
-
-    }
-
-    public GeneratorContext(GeneratorProperties generatorProperties) {
-        this.generatorProperties = generatorProperties;
-    }
-
-
-//    public void setProperties(Properties properties) {
-//        generatorProperties = new GeneratorProperties();
-//        generatorProperties.setProperties(properties);
-//    }
 
     public BeanFactory getBeanFactory() {
         return beanFactory;

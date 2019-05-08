@@ -28,10 +28,9 @@ public class TableGeneratorProvider implements GeneratorProvider{
         Map result = new HashMap();
         TableFactory tableFactory = new TableFactory(GeneratorContext.get().getBean(GeneratorContext.get().getDastSourceName(), DataSource.class));
         String tableName = generatorProperties.getProperties().get("tableName").toString();
-        //TODO 单一职能原则，分离关注点
+        //设置表的属性
         Table table = new TableBuilder()
-            .tableFactory(tableFactory)
-                .addTableName(tableName)
+                .addTable(tableFactory.getTable(tableName))
                 .addColumn(tableFactory.getColumns(tableName))
                 .addPrimaryKey(tableFactory.getPrimaryKeys(tableName))
                 .addIndexInfo(tableFactory.getIndexInfo(tableName))
@@ -39,6 +38,7 @@ public class TableGeneratorProvider implements GeneratorProvider{
                 .addImportedKey(tableFactory.getImportedKeys(tableName))
                 .build();
 
+        //适配器,同时提供表和类的字段
         TableClassAdapter tableClassAdapter = new TableClassAdapter(table);
 
         result.put("table",tableClassAdapter);

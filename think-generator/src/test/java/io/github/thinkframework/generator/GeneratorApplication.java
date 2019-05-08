@@ -1,5 +1,6 @@
 package io.github.thinkframework.generator;
 
+import io.github.thinkframework.boot.generator.annotation.EnableGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -11,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 //@ImportResource({"classpath:applicationContext.xml"})
-//@EnableGenerator
+@EnableGenerator
 public class GeneratorApplication {
     private final static Logger log = LoggerFactory.getLogger(GeneratorApplication.class);
 

@@ -11,18 +11,27 @@ import io.github.thinkframework.generator.sql.model.*;
 import java.util.Collection;
 
 /**
- * 适配数据库表盒Java类
+ * 适配数据库表和Java类
  * @author lixiaobin
  * @since 2017/5/12.
  */
 public class TableClassAdapter implements Clazz, Table {
     private Clazz clazz;
     private Table table;
+
+    /**
+     * 基于表实现
+     * @param table
+     */
     public TableClassAdapter(Table table){
         this.table = table;
         this.clazz = TableClassBuild.buildClass(table);
     }
 
+    /**
+     * 基于类实现
+     * @param clazz
+     */
     public TableClassAdapter(Clazz clazz){
         this.clazz = clazz;
     }

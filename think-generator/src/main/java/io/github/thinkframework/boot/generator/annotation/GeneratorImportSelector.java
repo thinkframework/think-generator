@@ -1,4 +1,4 @@
-package io.github.thinkframework.generator.annotation;
+package io.github.thinkframework.boot.generator.annotation;
 
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.type.AnnotationMetadata;

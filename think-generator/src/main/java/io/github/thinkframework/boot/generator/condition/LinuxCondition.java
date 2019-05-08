@@ -1,4 +1,4 @@
-package io.github.thinkframework.generator.condition;
+package io.github.thinkframework.boot.generator.condition;
 
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
