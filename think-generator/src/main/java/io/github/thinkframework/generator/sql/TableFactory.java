@@ -2,15 +2,20 @@ package io.github.thinkframework.generator.sql;
 
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.sql.model.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import io.github.thinkframework.generator.context.GeneratorContext;
 import io.github.thinkframework.generator.sql.model.impl.ColumnImpl;
 import io.github.thinkframework.generator.sql.model.impl.TableImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * 根据数据库元数据(metadata)创建Table对象

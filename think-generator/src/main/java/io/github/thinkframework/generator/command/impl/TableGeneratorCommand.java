@@ -2,12 +2,7 @@ package io.github.thinkframework.generator.command.impl;
 
 import io.github.thinkframework.generator.Generator;
 import io.github.thinkframework.generator.command.Command;
-import io.github.thinkframework.generator.context.GeneratorContext;
 import io.github.thinkframework.generator.context.GeneratorProperties;
-import io.github.thinkframework.generator.sql.TableFactory;
-import io.github.thinkframework.generator.sql.model.impl.TableImpl;
-
-import java.util.Collection;
 
 /**
  * 数据库模型的脚本构建

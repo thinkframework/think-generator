@@ -1,9 +1,9 @@
 package io.github.thinkframework.generator.lang.reflect.impl;
 
 import io.github.thinkframework.generator.lang.Clazz;
-import io.github.thinkframework.generator.lang.reflect.ClazzMethod;
 import io.github.thinkframework.generator.lang.annotation.ClazzAnnotation;
 import io.github.thinkframework.generator.lang.annotation.ClazzAnnotations;
+import io.github.thinkframework.generator.lang.reflect.ClazzMethod;
 
 import java.util.Collection;
 
