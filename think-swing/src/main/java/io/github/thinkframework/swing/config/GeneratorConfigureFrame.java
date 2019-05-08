@@ -1,19 +1,25 @@
 package io.github.thinkframework.swing.config;
 
 import io.github.thinkframework.swing.config.list.GeneratorConfigureList;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
+import javax.sql.DataSource;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.stream.Stream;
 
 /**
  *
  * @author lixiaobin
  */
-public class GeneratorConfigureFrame extends JFrame{
+public class GeneratorConfigureFrame extends JFrame implements ApplicationContextAware, InitializingBean {
 	private XmlUtil applicationContextXmlUtil = new XmlUtil();
 	private String xml = "applicationContext.xml";
 	private JList jList = new GeneratorConfigureList();
@@ -26,18 +32,7 @@ public class GeneratorConfigureFrame extends JFrame{
 	private JPasswordField passwordField;
 	private JLabel propertiesLabel;
 
-	public GeneratorConfigureFrame() {
-		String TITLE = "新建/选择数据库连接";
-		int WIDTH = 640;
-		int HEIGHT = 480;
-		setTitle(TITLE);
-		setSize(WIDTH, HEIGHT);// 设置大小
-		setLocationRelativeTo(null);//居中
-//		setLocationByPlatform(true);//
-		add(addWestPanel(), BorderLayout.WEST);
-		add(addCenterPanel());
-		init();
-	}
+	private ApplicationContext applicationContext;
 
 
 	public JPanel addWestPanel(){
@@ -181,7 +176,7 @@ public class GeneratorConfigureFrame extends JFrame{
 				dataSourceBean.setDriverClassName(driverClassNameField.getText());
 				dataSourceBean.setUrl(urlField.getText());
 				dataSourceBean.setUsername(usernameField.getText());
-				dataSourceBean.setPassword(passwordField.getText());
+				dataSourceBean.setPassword(passwordField.getPassword().toString());
 				applicationContextXmlUtil.setDataSourceBean(dataSourceBean);
 			}
 		}));
@@ -197,7 +192,7 @@ public class GeneratorConfigureFrame extends JFrame{
 				dataSourceBean.setDriverClassName(driverClassNameField.getText());
 				dataSourceBean.setUrl(urlField.getText());
 				dataSourceBean.setUsername(usernameField.getText());
-				dataSourceBean.setPassword(passwordField.getText());
+                dataSourceBean.setPassword(passwordField.getPassword().toString());
 				applicationContextXmlUtil.setDataSourceBean(dataSourceBean);
 
 			}
@@ -206,9 +201,28 @@ public class GeneratorConfigureFrame extends JFrame{
 		return southPanel;
 	}
 
-	public void init() {
-		for(DataSourceBean dataSourceBean: applicationContextXmlUtil.getDataSourceBeans()) {
-			rootListModel.addElement(dataSourceBean);
-		}
-	}
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        String TITLE = "新建/选择数据库连接";
+        int WIDTH = 640;
+        int HEIGHT = 480;
+        setTitle(TITLE);
+        setSize(WIDTH, HEIGHT);// 设置大小
+        setLocationRelativeTo(null);//居中
+//		setLocationByPlatform(true);//
+        add(addWestPanel(), BorderLayout.WEST);
+        add(addCenterPanel());
+
+        Stream.of(applicationContext.getBeanNamesForType(DataSource.class))
+            .forEach(name ->{
+//                applicationContext.getBean(name,DruidDataSourceWrapper.class);
+            });
+        //初始化数据
+        applicationContext.getBeanProvider(DataSource.class).forEach(dataSource -> rootListModel.addElement(dataSource));
+    }
 }

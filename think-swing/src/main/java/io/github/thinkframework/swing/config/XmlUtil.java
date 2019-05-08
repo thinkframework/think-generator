@@ -2,14 +2,12 @@ package io.github.thinkframework.swing.config;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import io.github.thinkframework.jdbc.datasource.SimpleDataSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.sql.DataSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -47,7 +45,7 @@ public class XmlUtil {
         List<DataSourceBean> list = new ArrayList<DataSourceBean>();
         InputStream inputStream = null;
         try {
-            String config = File.separator+System.getProperty("user.dir") + File.separator+"applicationContext.xml";
+            String config = File.separator+System.getProperty("user.dir") + File.separator+ "applicationContext.xml";
             inputStream = new FileInputStream(config);
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -83,15 +81,7 @@ public class XmlUtil {
                 dataSourceBean.setConnectProperties(connectProperties);
                 list.add(dataSourceBean);
             }
-        } catch(ParserConfigurationException exception){
-            exception.printStackTrace();
-        } catch (SAXException exception) {
-            exception.printStackTrace();
-        } catch (FileNotFoundException exception){
-            exception.printStackTrace();
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        } catch (XPathExpressionException exception) {
+        } catch(ParserConfigurationException | SAXException | IOException | XPathExpressionException exception) {
             exception.printStackTrace();
         } finally {
             try {
@@ -104,12 +94,13 @@ public class XmlUtil {
     }
 
     public List<String> getDataSourceNames(){
-        List<String> dataSourceNames = new ArrayList<String>();
+        List<String> dataSourceNames = new ArrayList<>();
         for (DataSourceBean dataSourceBean : getDataSourceBeans()){
             dataSourceNames.add(dataSourceBean.getId());
         }
         return dataSourceNames;
     }
+    
     public DataSourceBean getDataSourceBean(String dataSourceName){
         DataSourceBean dataSourceBean = new DataSourceBean();
         try {
@@ -143,36 +134,36 @@ public class XmlUtil {
     }
 
 
-    public DataSource getDataSource(String dataSourceName){
-        SimpleDataSource dataSourceBean = new SimpleDataSource();
-        try {
-            InputStream inputStream = resource.getInputStream();
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(inputStream);
-            XPathFactory xPathFactory = XPathFactory.newInstance();
-            XPath xPath = xPathFactory.newXPath();
-            Node node = (Node)xPath.evaluate("/beans/bean[@id='"+dataSourceName+"']",document, XPathConstants.NODE);
-            String driverClassName = (String)xPath.evaluate("//property[@name='driverClassName']/@value",node, XPathConstants.STRING);
-            String url = (String)xPath.evaluate("//property[@name='url']/@value",node, XPathConstants.STRING);
-            String username = (String)xPath.evaluate("//property[@name='username']/@value",node, XPathConstants.STRING);
-            String password = (String)xPath.evaluate("//property[@name='password']/@value",node, XPathConstants.STRING);
-            dataSourceBean.setDriverClassName(driverClassName);
-            dataSourceBean.setUrl(url);
-            dataSourceBean.setUsername(username);
-            dataSourceBean.setPassword(password);
-        } catch(ParserConfigurationException exception){
-            exception.printStackTrace();
-        } catch (SAXException exception) {
-            exception.printStackTrace();
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        } catch (XPathExpressionException exception) {
-            exception.printStackTrace();
-        } finally {
-            return dataSourceBean;
-        }
-    }
+//    public DataSource getDataSource(String dataSourceName){
+//        SimpleDataSource dataSourceBean = new SimpleDataSource();
+//        try {
+//            InputStream inputStream = resource.getInputStream();
+//            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+//            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+//            Document document = documentBuilder.parse(inputStream);
+//            XPathFactory xPathFactory = XPathFactory.newInstance();
+//            XPath xPath = xPathFactory.newXPath();
+//            Node node = (Node)xPath.evaluate("/beans/bean[@id='"+dataSourceName+"']",document, XPathConstants.NODE);
+//            String driverClassName = (String)xPath.evaluate("//property[@name='driverClassName']/@value",node, XPathConstants.STRING);
+//            String url = (String)xPath.evaluate("//property[@name='url']/@value",node, XPathConstants.STRING);
+//            String username = (String)xPath.evaluate("//property[@name='username']/@value",node, XPathConstants.STRING);
+//            String password = (String)xPath.evaluate("//property[@name='password']/@value",node, XPathConstants.STRING);
+//            dataSourceBean.setDriverClassName(driverClassName);
+//            dataSourceBean.setUrl(url);
+//            dataSourceBean.setUsername(username);
+//            dataSourceBean.setPassword(password);
+//        } catch(ParserConfigurationException exception){
+//            exception.printStackTrace();
+//        } catch (SAXException exception) {
+//            exception.printStackTrace();
+//        } catch (IOException exception) {
+//            exception.printStackTrace();
+//        } catch (XPathExpressionException exception) {
+//            exception.printStackTrace();
+//        } finally {
+//            return dataSourceBean;
+//        }
+//    }
 
     public void setDataSourceBean(DataSourceBean dataSourceBean){
         try {

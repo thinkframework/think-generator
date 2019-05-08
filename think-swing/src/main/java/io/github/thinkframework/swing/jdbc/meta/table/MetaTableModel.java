@@ -10,12 +10,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * 简单的根据DatabaseMetaData信息生成TableModel
  * @author lixiaobin
  */
 class MetaTableModel extends AbstractTableModel {
+    private ResourceBundle resourceBundle = ResourceBundle.getBundle("MessgesBundle");
     private Log log = LogFactory.getLog(getClass());
     private String ORDINAL_POSITION = "ORDINAL_POSITION";
     private String COLUMN_NAME = "COLUMN_NAME";
@@ -44,7 +46,6 @@ class MetaTableModel extends AbstractTableModel {
 
         try (Connection connection = dataSource.getConnection()){
             ResultSet rs = connection.getMetaData().getColumns(null, null, tableName, "%");
-            int i=0;
             while (rs.next()) {
                 List<String> list= new ArrayList<String>();
                 list.add(Integer.toString(rs.getInt(ORDINAL_POSITION)));
@@ -70,7 +71,7 @@ class MetaTableModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-        return columns[column];
+        return resourceBundle.getString(columns[column]);
     }
     
     @Override

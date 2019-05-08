@@ -1,17 +1,18 @@
 package io.github.thinkframework.swing.control.tree;
 
-import io.github.thinkframework.generator.GeneratorFacade;
-import io.github.thinkframework.swing.GeneratorContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import javax.sql.DataSource;
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,19 +21,21 @@ import java.sql.SQLException;
  * @author lixiaobin
  * @since 2017/3/24
  */
-public class GeneratorTree extends JTree {
+public class GeneratorTree extends JTree implements ApplicationContextAware {
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private GeneratorTreeModel rootTreeModel = new GeneratorTreeModel(null);
     private GeneratorTreeNode rootMutableTreeNode = new GeneratorTreeNode("Databases");
+
+    private ApplicationContext applicationContext;
+
     public GeneratorTree(){
         super();
         setModel(rootTreeModel);
         rootTreeModel.setRoot(rootMutableTreeNode);
         setComponentPopupMenu(addJPopuMenu());
         expandPath(new TreePath(rootMutableTreeNode));
-        setPreferredSize(new Dimension(240,8192));//宽度
 
-        addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent e) {
+        addTreeSelectionListener(e ->{
                 Connection connection=null;
                 try {
                     TreePath treePath = getSelectionPath();
@@ -68,7 +71,7 @@ public class GeneratorTree extends JTree {
 //                        addTablePanel(dataSourceName,tableName);
 //                    }
                 } catch (Exception ex) {
-//                    log.error("",ex);
+                    logger.error("",ex);
                 } finally {
                     if(connection != null){
                         if(connection != null){
@@ -80,8 +83,6 @@ public class GeneratorTree extends JTree {
                         }
                     }
                 }
-            }
-
         });
 
     }
@@ -111,7 +112,7 @@ public class GeneratorTree extends JTree {
                 return;
             }
             for (int i=0;i<treePaths.length;i++){
-                TreePath treePath = (TreePath) treePaths[i];
+                TreePath treePath = treePaths[i];
                 int count =  treePath.getPathCount();
                 for(int j=1;j<count;j++){
                     if(j != 3){
@@ -119,21 +120,24 @@ public class GeneratorTree extends JTree {
                     }
                     DefaultMutableTreeNode defaultMutableTreeNode = (DefaultMutableTreeNode) treePath
                             .getPathComponent(j);
+                    String dataSourceName = (String)((DefaultMutableTreeNode)defaultMutableTreeNode.getParent().getParent()).getUserObject();
                     String tableName = (String) defaultMutableTreeNode.getUserObject();
-//                    log.debug(tableName);
                     String type = (String)((DefaultMutableTreeNode)defaultMutableTreeNode.getParent()).getUserObject();
-                    String id = (String)((DefaultMutableTreeNode)defaultMutableTreeNode.getParent().getParent()).getUserObject();
-                    DataSource dataSource = GeneratorContext.getInstance().getDataSource(id);
-                    new GeneratorFacade().generator(dataSource,tableName);
+
+                    //TODO 和生成器解耦,bean的名字写死了，之后优化掉
+//                    applicationContext.getBean(Generator.class).dataSourceName(dataSourceName).tableName(tableName).generate();
+                    Object generator = applicationContext.getBean("generator");
+                    generator.getClass().getMethod("dataSourceName",String.class).invoke(generator,dataSourceName);
+                    generator.getClass().getMethod("tableName",String.class).invoke(generator,tableName);
+                    generator.getClass().getMethod("generate").invoke(generator);
                 }
             }
             int confirm = JOptionPane.showConfirmDialog(GeneratorTree.this, "操作成功,是否打开输出目录?","提示",JOptionPane.YES_NO_OPTION);
             if(confirm == JOptionPane.YES_OPTION){
                 openDirectory();
             }
-        }catch (Exception ex){
-//            log.error("",ex);
-            ex.printStackTrace();
+        }catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex){
+            logger.error("调用生成器异常",ex);
         }
     }
 
@@ -151,11 +155,16 @@ public class GeneratorTree extends JTree {
     }
 
 
-    private java.util.List<String> getDataSourceNames() {
-        return GeneratorContext.getInstance().getDataSourceNames();
+    private String[] getDataSourceNames() {
+        return applicationContext.getBeanNamesForType(DataSource.class);
     }
 
     protected DataSource getDataSource(String id){
-        return GeneratorContext.getInstance().getDataSource(id);
+        return applicationContext.getBean(id,DataSource.class);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }

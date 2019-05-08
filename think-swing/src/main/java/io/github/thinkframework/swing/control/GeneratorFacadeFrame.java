@@ -1,8 +1,5 @@
 package io.github.thinkframework.swing.control;
 
-import io.github.thinkframework.generator.GeneratorFacade;
-import io.github.thinkframework.swing.GeneratorContext;
-
 import javax.sql.DataSource;
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +11,7 @@ import java.util.Properties;
  * 过滤文件
  * @author lixiaobin
  */
-public class GeneratorFacadeFrame extends JFrame{
+public class GeneratorFacadeFrame extends JFrame {
 	private DataSource dataSource;
 	private Properties properties;
 	private String tableName;
@@ -106,7 +103,7 @@ public class GeneratorFacadeFrame extends JFrame{
 				putValue(Action.SMALL_ICON, new ImageIcon(getClass().getClassLoader().getResource("general/openProject.png")));
 			}
 			public void actionPerformed(ActionEvent e) {
-				new GeneratorFacade().generator(GeneratorContext.getInstance().getDataSource("dataSource"),"T_SYS_MENU");
+//				new GeneratorFacade().generator(GeneratorContext.getInstance().getDataSource("dataSource"),"T_SYS_MENU");
 			}
 		}));
 

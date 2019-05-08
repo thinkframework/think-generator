@@ -7,7 +7,9 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-
+/**
+ *
+ */
 public class GeneratorMavenFrame extends JFrame {
 	private JTextField repositoryIdField;
 	private JTextField urlField;

@@ -1,9 +1,11 @@
 package io.github.thinkframework.swing.control.tree;
 
 import io.github.thinkframework.swing.config.GeneratorConfigureFrame;
-import io.github.thinkframework.swing.GeneratorContext;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
-import javax.sql.DataSource;
 import javax.swing.*;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -15,15 +17,11 @@ import java.io.File;
  * @author lixiaobin
  * @since 2017/3/24
  */
-public class GeneratorTreePanel extends JPanel{
+public class GeneratorTreePanel extends JPanel implements ApplicationContextAware, InitializingBean {
     private JTextField textField = new JTextField("");
-    GeneratorTree generatorTree = new GeneratorTree();
-    public GeneratorTreePanel(){
-        setLayout(new BorderLayout());
+    private GeneratorTree generatorTree = new GeneratorTree();
 
-        add(getToolBar(), BorderLayout.NORTH);
-        add(new JScrollPane(generatorTree));
-    }
+    private ApplicationContext applicationContext;
 
     /**
      * 初始化ToolBar
@@ -39,7 +37,7 @@ public class GeneratorTreePanel extends JPanel{
                 putValue(Action.SMALL_ICON, new ImageIcon(getClass().getClassLoader().getResource("general/openProject.png")));
             }
             public void actionPerformed(ActionEvent e) {
-                GeneratorConfigureFrame generatorConfigureFrame = new GeneratorConfigureFrame();
+                GeneratorConfigureFrame generatorConfigureFrame = applicationContext.getBean(GeneratorConfigureFrame.class);
                 generatorConfigureFrame.setVisible(true);
             }
         }));
@@ -63,6 +61,7 @@ public class GeneratorTreePanel extends JPanel{
             }
         }));
         toolBar.addSeparator();
+        toolBar.add(textField);
         return toolBar;
     }
 
@@ -74,11 +73,17 @@ public class GeneratorTreePanel extends JPanel{
         return generatorTree;
     }
 
-    private java.util.List<String> getDataSourceNames() {
-        return GeneratorContext.getInstance().getDataSourceNames();
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 
-    protected DataSource getDataSource(String id){
-        return GeneratorContext.getInstance().getDataSource(id);
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        setLayout(new BorderLayout());
+
+        add(getToolBar(), BorderLayout.NORTH);
+        this.generatorTree.setApplicationContext(applicationContext);
+        add(new JScrollPane(generatorTree));
     }
 }

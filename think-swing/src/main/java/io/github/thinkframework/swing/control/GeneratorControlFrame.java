@@ -1,14 +1,18 @@
 package io.github.thinkframework.swing.control;
 
-import io.github.thinkframework.swing.config.XmlUtil;
-import io.github.thinkframework.swing.other.GeneratorLogFrame;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import io.github.thinkframework.swing.GeneratorContext;
 import io.github.thinkframework.swing.control.tree.GeneratorTreePanel;
 import io.github.thinkframework.swing.jdbc.GeneratorQueryPanel;
 import io.github.thinkframework.swing.jdbc.GenericTableTabbedPanel;
+import io.github.thinkframework.swing.other.GeneratorLogFrame;
 import io.github.thinkframework.swing.other.GeneratorMavenFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
 import javax.swing.*;
@@ -20,34 +24,26 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
 /**
  * 
  * @author hdhxby
  * @email hdhxby@qq.com
  */
-public class GeneratorControlFrame extends JFrame{
+public class GeneratorControlFrame extends JFrame implements ApplicationContextAware, InitializingBean {
 	private int count = 1;
 	private static final long serialVersionUID = 1L;
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	private final Integer WIDTH=800,HEIGHT=600;
-	GeneratorTreePanel generatorTreePanel;
+	private final Integer WIDTH=1024,HEIGHT=768;
+
+	@Autowired
+	private GeneratorTreePanel generatorTreePanel;
+
 	private JComboBox connectionComboBox;
 	private JTabbedPane centerTabbedPane = new JTabbedPane(JTabbedPane.TOP);;
 
+	private ApplicationContext applicationContext;
 
-	public GeneratorControlFrame(){
-		setTitle("Generator");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//关闭
-		setSize(WIDTH,HEIGHT);// 设置大小
-		setResizable(true);//改变大小
-//		setLocationByPlatform(true);
-        setJMenuBar(addMenu());
-		add(getToolBar(), BorderLayout.NORTH);
-		add(addCenterPanel());
-
-	}
 
     public JMenuBar addMenu(){
         JMenuBar menuBar = new JMenuBar();
@@ -103,7 +99,7 @@ public class GeneratorControlFrame extends JFrame{
                 putValue(Action.NAME, "打开");
             }
             public void actionPerformed(ActionEvent e) {
-                GeneratorContext.getInstance().getGeneratorControlFrame().setVisible(true);
+                GeneratorControlFrame.this.setVisible(true);
                 JFileChooser chooser = new JFileChooser();
                 chooser.setCurrentDirectory(new File("."));
 
@@ -120,7 +116,7 @@ public class GeneratorControlFrame extends JFrame{
                 putValue(Action.NAME, "保存");
             }
             public void actionPerformed(ActionEvent e) {
-                GeneratorContext.getInstance().getGeneratorControlFrame().setVisible(true);
+                GeneratorControlFrame.this.setVisible(true);
                 JFileChooser chooser = new JFileChooser();
                 chooser.setCurrentDirectory(new File("."));
 
@@ -137,7 +133,7 @@ public class GeneratorControlFrame extends JFrame{
                 putValue(Action.NAME, "另存为");
             }
             public void actionPerformed(ActionEvent e) {
-                GeneratorContext.getInstance().getGeneratorControlFrame().setVisible(true);
+               GeneratorControlFrame.this.setVisible(true);
                 JFileChooser chooser = new JFileChooser();
                 chooser.setCurrentDirectory(new File("."));
 
@@ -231,6 +227,9 @@ public class GeneratorControlFrame extends JFrame{
                 private static final long serialVersionUID = 1L;
                 public void actionPerformed(ActionEvent e) {
                     try{
+                        if(System.getProperty("os.name").contains("")){
+
+                        }
                         UIManager.setLookAndFeel(lookAndFeelInfo.getClassName());
                         SwingUtilities.updateComponentTreeUI(GeneratorControlFrame.this);
                     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e1) {
@@ -267,10 +266,7 @@ public class GeneratorControlFrame extends JFrame{
 		toolBar.add(openButton);
 		toolBar.addSeparator();
 
-		connectionComboBox = new JComboBox();
-		for(String dataSourceName : getDataSourceNames()){
-			connectionComboBox.addItem(dataSourceName);
-		}
+		connectionComboBox = new JComboBox(getDataSourceNames());
 		toolBar.add(connectionComboBox);
 
 		toolBar.add(new JButton( new AbstractAction() {
@@ -309,7 +305,6 @@ public class GeneratorControlFrame extends JFrame{
 	}
 	
 	public void initTree(final JTabbedPane westTabbedPane){
-		generatorTreePanel = new GeneratorTreePanel();
 		westTabbedPane.addTab("表信息", null, new JScrollPane(generatorTreePanel), null);
 		generatorTreePanel.addTreeSelectionListener(e -> {
 			try {
@@ -371,12 +366,12 @@ public class GeneratorControlFrame extends JFrame{
 	}
 
 
-	private List<String> getDataSourceNames() {
-		return new XmlUtil().getDataSourceNames();
+	private String[] getDataSourceNames() {
+		return applicationContext.getBeanNamesForType(DataSource.class);
 	}
 
 	protected DataSource getDataSource(String id){
-		return GeneratorContext.getInstance().getDataSource(id);
+		return applicationContext.getBean(id,DataSource.class);
 	}
 
 
@@ -398,4 +393,24 @@ public class GeneratorControlFrame extends JFrame{
 		super.setVisible(aFlag);
 
 	}
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        Assert.notNull(applicationContext,"");
+        this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        setApplicationContext(applicationContext);
+        setTitle("Generator");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//关闭
+        setSize(WIDTH,HEIGHT);// 设置大小
+        setResizable(true);//改变大小
+//		setLocationByPlatform(true);
+        setLocationRelativeTo(null);//居中
+        setJMenuBar(addMenu());
+        add(getToolBar(), BorderLayout.NORTH);
+        add(addCenterPanel());
+    }
 }
