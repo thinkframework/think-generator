@@ -2,6 +2,7 @@ package io.github.thinkframework.generator;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import java.io.File;
 /**
  * 容器测试
  */
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {GeneratorApplication.class})
 public class BootApplicationTest {

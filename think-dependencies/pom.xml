@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Sonatype, Inc. All rights reserved.
+  ~
+  ~ This program is licensed to you under the Apache License Version 2.0,
+  ~ and you may not use this file except in compliance with the Apache License Version 2.0.
+  ~ You may obtain a copy of the Apache License Version 2.0 at http://www.apache.org/licenses/LICENSE-2.0.
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the Apache License Version 2.0 is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
+  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -13,10 +25,32 @@
     <artifactId>think-dependencies</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <description>think framework</description>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>https://github.com/think-projects/think-framework.git</connection>
+        <developerConnection>https://github.com/think-projects/think-framework.git</developerConnection>
+        <url>https://github.com/think-projects/think-framework</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>lixiaobin</id>
+            <name>lixiaobin</name>
+            <email>hdhxby@qq.com</email>
+        </developer>
+    </developers>
 
     <properties>
+        <!-- Dependency versions -->
         <think.version>0.0.1-SNAPSHOT</think.version>
-        <java.version>1.8</java.version>
+        <lombok.version>1.18.0</lombok.version>
+
+        <druid.version>1.1.10</druid.version>
         <!-- Plugin versions -->
         <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
         <sonar-maven-plugin.version>3.4.1.1168</sonar-maven-plugin.version>
@@ -24,12 +58,17 @@
 
     <dependencyManagement>
         <dependencies>
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.data</groupId>-->
+<!--                <artifactId>spring-data-releasetrain</artifactId>-->
+<!--                <version>Lovelace-SR3</version>-->
+<!--                <scope>import</scope>-->
+<!--                <type>pom</type>-->
+<!--            </dependency>-->
             <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-releasetrain</artifactId>
-                <version>Lovelace-SR3</version>
-                <scope>import</scope>
-                <type>pom</type>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
@@ -40,12 +79,6 @@
                 <groupId>org.mybatis.caches</groupId>
                 <artifactId>mybatis-redis</artifactId>
                 <version>1.0.0-beta2</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid</artifactId>
-                <version>1.0.23</version>
             </dependency>
 
             <dependency>
@@ -106,9 +139,20 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <build>
-        <pluginManagement>
 
-        </pluginManagement>
-    </build>
+    <profiles>
+        <profile>
+            <id>rdc-private-dist</id>
+            <distributionManagement>
+                <repository>
+                    <id>rdc-releases</id>
+                    <url>https://repo.rdc.aliyun.com/repository/52033-release-8ZS5pP/</url>
+                </repository>
+                <snapshotRepository>
+                    <id>rdc-snapshots</id>
+                    <url>https://repo.rdc.aliyun.com/repository/52033-snapshot-mpCmbl/</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>

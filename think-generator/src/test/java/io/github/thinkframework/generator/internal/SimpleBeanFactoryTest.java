@@ -6,6 +6,7 @@ import org.apache.commons.io.FileUtils;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import java.sql.SQLException;
  * 简单容器测试
  * 与spring解耦
  */
+@Ignore
 public class SimpleBeanFactoryTest {
 
     Logger logger = LoggerFactory.getLogger(SimpleBeanFactoryTest.class);
@@ -42,7 +44,7 @@ public class SimpleBeanFactoryTest {
         ((JdbcDataSource)dataSource).setPassword("");
 
         try(Connection connection = dataSource.getConnection()){
-            connection.prepareStatement(FileUtils.readFileToString(new File("sql/create-db.sql")));
+            connection.prepareStatement(FileUtils.readFileToString(new File("schema-h2.sql")));
         }
 
         if(new File("generator_output").exists()){
