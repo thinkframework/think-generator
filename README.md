@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/hdhxby/think-framework.svg?branch=develop)](https://travis-ci.org/hdhxby/think-framework)
 [![Coverage Status](https://img.shields.io/codecov/c/github/alibaba/druid/master.svg)](https://codecov.io/github/alibaba/druid?branch=master&view=all#sort=coverage&dir=asc)  
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.alibaba/druid/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.alibaba/druid/)
-[![GitHub release](https://img.shields.io/github/release/alibaba/druid.svg)](https://github.com/alibaba/druid/releases)
+[![GitHub release](https://img.shields.io/github/release/alibaba/druid.svg)](https://github.com/hdhxby/think-framework/releases)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 一套代码生成工具,包含:

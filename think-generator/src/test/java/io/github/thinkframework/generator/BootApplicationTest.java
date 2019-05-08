@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -15,14 +16,13 @@ import java.io.File;
 /**
  * 容器测试
  */
-@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {GeneratorApplication.class})
 public class BootApplicationTest {
 
     Logger logger = LoggerFactory.getLogger(BootApplicationTest.class);
 
-//    @Autowired
+    @Autowired
     private Generator generator;
 
 
@@ -40,10 +40,10 @@ public class BootApplicationTest {
      */
     @Test
     public void application() throws Exception {
-//        generator
-//            .dataSourceName("dataSource")
-//            .tableName("TEST")
-//            .generate();
+        generator
+            .dataSourceName("dataSource")
+            .tableName("TEST")
+            .generate();
     }
 
     @After

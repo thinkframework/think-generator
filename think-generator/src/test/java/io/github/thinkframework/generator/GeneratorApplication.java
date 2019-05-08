@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 2017/3/24
  */
 @SpringBootApplication
-//@ImportResource({"classpath:applicationContext.xml"})
 @EnableGenerator
 public class GeneratorApplication {
     private final static Logger log = LoggerFactory.getLogger(GeneratorApplication.class);
