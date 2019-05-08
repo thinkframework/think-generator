@@ -7,12 +7,13 @@ import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.provider.GeneratorProvider;
 import io.github.thinkframework.generator.sql.TableFactory;
 import io.github.thinkframework.generator.sql.model.impl.TableImpl;
-import io.github.thinkframework.generator.util.FreeMarkerUtils;
+import io.github.thinkframework.generator.util.GeneratorFreeMarker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
 
@@ -33,30 +34,32 @@ public class Generator implements BeanFactoryAware {
      */
     public void generate() throws GeneratorRuntimeException {
         try {
+            Assert.notNull(generatorConfiguration,"配置文件不存在");
             logger.info("传入的表名称:{}",GeneratorContext.get().getTableName());
             GeneratorProperties generatorProperties = new GeneratorProperties(generatorConfiguration);
+
             new TableFactory(GeneratorContext.get().getBeanFactory().getBean(GeneratorContext.get().getDastSourceName(),DataSource.class))
                 .getTables(GeneratorContext.get().getTableName())//获取表,模糊查询
                 .stream().map(TableImpl::getTableName)//获取表名称
-                .parallel()//并行执行
+//                .parallel()//并行执行
                 .forEach(tableName ->{
-                    try {
                         //设置环境变量
                         GeneratorProperties generatorPropertiesClone = generatorProperties.clone();
                         generatorPropertiesClone.setProperty("tableName", tableName);
                         //调用所有的提供者
                         GeneratorContext.get().getBeanFactory().getBeanProvider(GeneratorProvider.class)
                             .forEach(generatorProvider -> generatorProvider.build(generatorPropertiesClone));//完善数据
-                        //输出
-                        new FreeMarkerUtils(generatorPropertiesClone.getProperties())
-                            .init()
-                            .process();
-                    } catch (CloneNotSupportedException e){
-                        throw new GeneratorRuntimeException(e);
-                    }
+                        //模板路径必须存在
+
+                        //初始化freemaker,不确定freemaker多线程环境下的运行情况
+                        GeneratorFreeMarker generatorFreeMarker = new GeneratorFreeMarker();
+                        generatorFreeMarker.setTemplateLoader(generatorConfiguration);
+
+                        generatorFreeMarker.process(generatorPropertiesClone.getProperties());
                 });
-        } catch (Exception e) {
+        } catch (GeneratorRuntimeException e) {
             logger.error("生成器异常.",e);
+            //TODO 异常转换掉
             throw new GeneratorRuntimeException(e);
         }
     }
