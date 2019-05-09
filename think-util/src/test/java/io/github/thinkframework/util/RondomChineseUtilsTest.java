@@ -2,10 +2,12 @@ package io.github.thinkframework.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
 
+@Ignore
 public class RondomChineseUtilsTest {
     Log log = LogFactory.getLog(getClass());
     @Test
