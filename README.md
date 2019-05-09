@@ -1,10 +1,8 @@
 # think-framework
 
 [![Build Status](https://travis-ci.org/hdhxby/think-framework.svg?branch=develop)](https://travis-ci.org/hdhxby/think-framework)
-[![Coverage Status](https://img.shields.io/codecov/c/github/alibaba/druid/master.svg)](https://codecov.io/github/alibaba/druid?branch=master&view=all#sort=coverage&dir=asc)  
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.alibaba/druid/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.alibaba/druid/)
-[![GitHub release](https://img.shields.io/github/release/alibaba/druid.svg)](https://github.com/hdhxby/think-framework/releases)
-[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![Sonar Quality Gate](https://img.shields.io/sonar/https/sonarcloud.io/think-framework/quality_gate.svg)](https://sonarcloud.io/dashboard?id=think-framework)
+[![Sonar Coverage](https://img.shields.io/sonar/https/sonarcloud.io/think-framework/coverage.svg)](https://sonarcloud.io/dashboard?id=think-framework)
 
 一套代码生成工具,包含:
 ```
