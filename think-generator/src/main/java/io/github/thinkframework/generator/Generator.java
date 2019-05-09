@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.context.ResourceLoaderAware;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
@@ -26,9 +28,11 @@ import java.util.Optional;
  * @author lixiaobin
  * @since 1.0.0
  */
-public class Generator implements BeanFactoryAware {
+public class Generator implements BeanFactoryAware, ResourceLoaderAware {
 
     private final static Logger logger = LoggerFactory.getLogger(Generator.class);
+
+    private ResourceLoader resourceLoader;
 
     private GeneratorConfiguration generatorConfiguration;
 
@@ -95,6 +99,10 @@ public class Generator implements BeanFactoryAware {
         return this;
     }
 
+    @Override
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
 
     public Generator generatorConfiguration(GeneratorConfiguration generatorConfiguration) throws BeansException {
         this.generatorConfiguration = generatorConfiguration;
@@ -110,4 +118,5 @@ public class Generator implements BeanFactoryAware {
         GeneratorContext.get().setTableName(tableName);
         return this;
     }
+
 }

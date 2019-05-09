@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>io.github.thinkframework</groupId>
-        <artifactId>think-framework</artifactId>
+        <artifactId>think-dependencies</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     
