@@ -50,7 +50,7 @@
 
     <bean id="tableGeneratorProvider" class="io.github.thinkframework.generator.provider.TableGeneratorProvider"></bean>
 
-    <generator:generator id="generator1234">
+    <generator:generator id="generator">
         <generator:generatorConfiguration>
             <!-- 数据源 -->
             <generator:dataSourceName>dataSource</generator:dataSourceName>
@@ -70,7 +70,7 @@
             <!--#jsp namespace: web/${namespace}/${className}/get:jsp-->
             <generator:namespace>views</generator:namespace>
             <!--#模板目录-->
-            <generator:template>template/glodon/enterprise</generator:template>
+            <generator:template>template/test</generator:template>
             <!--#过滤文件-->
             <generator:extensions>
                 <generator:list>

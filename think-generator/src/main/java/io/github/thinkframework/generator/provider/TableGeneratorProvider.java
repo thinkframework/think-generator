@@ -10,6 +10,7 @@ import io.github.thinkframework.generator.sql.TableFactory;
 import io.github.thinkframework.generator.sql.model.Table;
 import io.github.thinkframework.generator.util.StringUtils;
 import io.github.thinkframework.generator.util.TypesUtils;
+import org.springframework.core.Ordered;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ import java.util.Optional;
  * @author lixiaobin
  * @since 2017/3/24
  */
-public class TableGeneratorProvider implements GeneratorProvider{
+public class TableGeneratorProvider implements GeneratorProvider, Ordered {
 
     @Override
     public GeneratorProperties build(GeneratorProperties generatorProperties){
@@ -73,5 +74,10 @@ public class TableGeneratorProvider implements GeneratorProvider{
         });
         generatorProperties.getProperties().putAll(result);
         return generatorProperties;
+    }
+
+    @Override
+    public int getOrder() {
+        return 0;
     }
 }

@@ -10,6 +10,16 @@ think:
             authorName:
             namespace:
             template: template/test
+            output: output
+            extensions:
+                - java
+                - js
+                - jsp
+                - xml
+                - ts
+                - html
+                - json
+                - sql
 spring:
     datasource:
         platform: h2

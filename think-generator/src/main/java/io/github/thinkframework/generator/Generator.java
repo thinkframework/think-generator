@@ -8,6 +8,8 @@ import io.github.thinkframework.generator.provider.GeneratorProvider;
 import io.github.thinkframework.generator.sql.TableFactory;
 import io.github.thinkframework.generator.sql.model.impl.TableImpl;
 import io.github.thinkframework.generator.util.GeneratorFreeMarker;
+import io.github.thinkframework.generator.util.StringUtils;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -16,6 +18,8 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
+import java.io.File;
+import java.util.Optional;
 
 /**
  * 生成器对象
@@ -44,18 +48,30 @@ public class Generator implements BeanFactoryAware {
 //                .parallel()//并行执行
                 .forEach(tableName ->{
                         //设置环境变量
-                        GeneratorProperties generatorPropertiesClone = generatorProperties.clone();
+                    try {
+                        GeneratorProperties generatorPropertiesClone =  generatorProperties.clone();
                         generatorPropertiesClone.setProperty("tableName", tableName);
+
                         //调用所有的提供者
                         GeneratorContext.get().getBeanFactory().getBeanProvider(GeneratorProvider.class)
+                            .orderedStream()//需要保证顺序
                             .forEach(generatorProvider -> generatorProvider.build(generatorPropertiesClone));//完善数据
-                        //模板路径必须存在
 
-                        //初始化freemaker,不确定freemaker多线程环境下的运行情况
-                        GeneratorFreeMarker generatorFreeMarker = new GeneratorFreeMarker();
-                        generatorFreeMarker.setTemplateLoader(generatorConfiguration);
-
-                        generatorFreeMarker.process(generatorPropertiesClone.getProperties());
+                        if(StringUtils.isNotEmpty(generatorConfiguration.getTemplate())) {//模板目录必须存在
+                            FileUtils.listFiles(new File(generatorConfiguration.getTemplate()), generatorConfiguration.getExtensions().stream().toArray(String[]::new), true)
+                                .forEach(input -> {
+                                    GeneratorFreeMarker generatorFreeMarker = new GeneratorFreeMarker();
+                                    //输出文件路径
+                                    File file = new File(generatorFreeMarker.process(generatorPropertiesClone.getProperties(),
+                                        input.getPath().replace(generatorConfiguration.getTemplate(),generatorConfiguration.getOutput()),
+                                        null));
+                                    //输出文件
+                                    generatorFreeMarker.process(generatorPropertiesClone.getProperties(),input,file);
+                                });
+                        }
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
                 });
         } catch (GeneratorRuntimeException e) {
             logger.error("生成器异常.",e);

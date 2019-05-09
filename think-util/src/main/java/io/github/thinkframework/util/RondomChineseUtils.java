@@ -1,4 +1,4 @@
-package io.github.thinkframework.generator.util;
+package io.github.thinkframework.util;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Random;

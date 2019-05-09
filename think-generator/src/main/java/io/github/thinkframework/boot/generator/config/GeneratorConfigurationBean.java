@@ -1,4 +1,4 @@
-package io.github.thinkframework.boot.generator.annotation;
+package io.github.thinkframework.boot.generator.config;
 
 import io.github.thinkframework.generator.GeneratorFactoryBean;
 import io.github.thinkframework.generator.provider.TableGeneratorProvider;

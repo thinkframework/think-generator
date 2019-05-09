@@ -2,7 +2,6 @@ package io.github.thinkframework.generator.util;
 
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.*;
-import io.github.thinkframework.generator.config.GeneratorConfiguration;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -14,57 +13,78 @@ import java.util.Map;
 
 /**
  * FreeMarker工具类
+ *
  * @author lixiaobin
  */
 public class GeneratorFreeMarker {
-	private Logger log = LoggerFactory.getLogger(getClass());
+    private Logger log = LoggerFactory.getLogger(getClass());
 
-    private Configuration configuration = new Configuration(Configuration.VERSION_2_3_23);
-
-    private GeneratorConfiguration generatorConfiguration;
-
-    public void setTemplateLoader(GeneratorConfiguration generatorConfiguration) throws GeneratorRuntimeException {
-        this.generatorConfiguration = generatorConfiguration;
+    /**
+     * 输出一个文件
+     * @param model
+     * @param input
+     * @throws GeneratorRuntimeException
+     */
+    public File process(Map model,File input,File output) throws GeneratorRuntimeException {
         try {
-
-            configuration.setDirectoryForTemplateLoading(new File(generatorConfiguration.getTemplate()));
+            Configuration configuration = new Configuration(Configuration.VERSION_2_3_23);
 
             Map map = new HashMap();
             BeansWrapper wrapper = BeansWrapper.getDefaultInstance();
             TemplateHashModel staticModels = wrapper.getStaticModels();
             TemplateHashModel stringHelper = (TemplateHashModel) staticModels.get("io.github.thinkframework.generator.util.StringUtils");
             map.put("StringUtils", stringHelper);
-
             configuration.setSharedVaribles(map);
 
-            //todo 这三行是否需要
             configuration.setNumberFormat("###############");
             configuration.setBooleanFormat("true,false");
             configuration.setDefaultEncoding("UTF-8");
-        } catch (IOException | TemplateModelException e){
+
+            FileUtils.forceMkdirParent(output);
+            Writer writer = new OutputStreamWriter(new FileOutputStream(output), "UTF-8");
+            new Template(input.getPath(),new FileReader(input),configuration).process(model, writer);
+            writer.close();
+        } catch (IOException | TemplateException e) {
             new GeneratorRuntimeException(e);
+        } finally {
+            return output;
         }
     }
 
-	public void process(Map model) {
-            FileUtils.listFiles(new File(generatorConfiguration.getTemplate()), generatorConfiguration.getExtensions().stream().toArray(String[]::new), true)
-                .stream().map(File::toString).forEach(input -> {
-                try {
-                    //模板出路径
-                    StringWriter stringWriter = new StringWriter();
-                    new Template("模板路径",new StringReader(input.replace(generatorConfiguration.getTemplate(),generatorConfiguration.getOutput())),configuration)
-                        .process(model, stringWriter);
-                    log.info("\n模板输入路径:{}\n模板输出路径:{}",input,stringWriter);
 
-                    File file = new File(stringWriter.toString());
-                    FileUtils.forceMkdirParent(file);
-                    Writer out = new OutputStreamWriter(new FileOutputStream(file),"UTF-8");
-                    configuration.getTemplate(input)
-                        .process(model,out);
-                    out.close();
-                }catch(IOException | TemplateException e) {
-                    throw new GeneratorRuntimeException("模板异常",e);
-                }
-            });
-	}
+    /**
+     * 输出一个字符串
+     * @param model
+     * @param input
+     * @param output
+     * @throws GeneratorRuntimeException
+     */
+    public String process(Map model,String input,String output) throws GeneratorRuntimeException {
+        try {
+            Configuration configuration = new Configuration(Configuration.VERSION_2_3_23);
+
+            Map map = new HashMap();
+            BeansWrapper wrapper = BeansWrapper.getDefaultInstance();
+            TemplateHashModel staticModels = wrapper.getStaticModels();
+            TemplateHashModel stringHelper = (TemplateHashModel) staticModels.get("io.github.thinkframework.generator.util.StringUtils");
+            map.put("StringUtils", stringHelper);
+            configuration.setSharedVaribles(map);
+
+
+            configuration.setNumberFormat("###############");
+            configuration.setBooleanFormat("true,false");
+            configuration.setDefaultEncoding("UTF-8");
+
+            //模板出路径
+            Writer writer = new StringWriter();
+            new Template(input, new StringReader(input), configuration)
+                .process(model, writer);
+            output = writer.toString();
+            log.info("\n模板输入路径:{}\n模板输出路径:{}", input, output);
+        } catch (IOException | TemplateException e) {
+            new GeneratorRuntimeException(e);
+        } finally {
+            return output;
+        }
+    }
 }

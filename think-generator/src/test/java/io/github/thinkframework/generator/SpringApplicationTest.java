@@ -16,7 +16,6 @@ import java.io.File;
 /**
  * 容器测试
  */
-@Ignore
 @RunWith(SpringRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class SpringApplicationTest {
@@ -40,10 +39,10 @@ public class SpringApplicationTest {
      */
     @Test
     public void application() throws Exception {
-//        generator
-//            .dataSourceName("dataSource")
-//            .tableName("TEST")
-//            .generate();
+        generator
+            .dataSourceName("dataSource")
+            .tableName("TEST")
+            .generate();
     }
 
     @After
