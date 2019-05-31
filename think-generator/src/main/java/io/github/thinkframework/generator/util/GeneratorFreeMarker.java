@@ -4,9 +4,9 @@ import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.*;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,8 +38,6 @@ public class GeneratorFreeMarker {
             configuration.setNumberFormat("###############");
             configuration.setBooleanFormat("true,false");
             configuration.setDefaultEncoding("UTF-8");
-
-            FileUtils.forceMkdirParent(output);
             Writer writer = new OutputStreamWriter(new FileOutputStream(output), "UTF-8");
             new Template(input.getPath(),new FileReader(input),configuration).process(model, writer);
             writer.close();

@@ -2,7 +2,6 @@ package io.github.thinkframework.generator.internal;
 
 import io.github.thinkframework.generator.GeneratorFactoryBean;
 import io.github.thinkframework.generator.config.GeneratorConfiguration;
-import org.apache.commons.io.FileUtils;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.After;
 import org.junit.Before;
@@ -44,7 +43,8 @@ public class SimpleBeanFactoryTest {
         ((JdbcDataSource)dataSource).setPassword("");
 
         try(Connection connection = dataSource.getConnection()){
-            connection.prepareStatement(FileUtils.readFileToString(new File("schema-h2.sql")));
+            connection.prepareStatement("DROP TABLE IF EXISTS TEST;");
+            connection.prepareStatement("CREATE TABLE TEST(ID INT PRIMARY KEY, NAME VARCHAR(255));");
         }
 
         if(new File("generator_output").exists()){

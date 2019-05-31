@@ -10,7 +10,6 @@ import io.github.thinkframework.generator.sql.model.impl.TableImpl;
 import io.github.thinkframework.generator.util.GeneratorFreeMarker;
 import io.github.thinkframework.generator.util.StringUtils;
 import io.github.thinkframework.generator.util.TypesUtils;
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -22,9 +21,11 @@ import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.Types;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * 生成器对象
@@ -76,18 +77,31 @@ public class Generator implements BeanFactoryAware, ResourceLoaderAware {
                             .forEach(generatorProvider -> generatorProvider.build(generatorPropertiesClone));//完善数据
 
                         if(StringUtils.isNotEmpty(generatorConfiguration.getTemplate())) {//模板目录必须存在
-                            FileUtils.listFiles(new File(generatorConfiguration.getTemplate()), generatorConfiguration.getExtensions().stream().toArray(String[]::new), true)
-                                .forEach(input -> {
+                            List<File> files = new ArrayList<>();
+                            Files.walkFileTree(Paths.get(new File(generatorConfiguration.getTemplate()).toURI()),new SimpleFileVisitor<Path>(){
+                                @Override
+                                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                                    Objects.requireNonNull(file);
+                                    Objects.requireNonNull(attrs);
+                                    if(generatorConfiguration.getExtensions().stream().noneMatch(extension -> file.toFile().getName().lastIndexOf(extension) > -1)){
+                                        return FileVisitResult.CONTINUE;
+                                    }
                                     GeneratorFreeMarker generatorFreeMarker = new GeneratorFreeMarker();
                                     //输出文件路径
-                                    File file = new File(generatorFreeMarker.process(generatorPropertiesClone.getProperties(),
-                                        input.getPath().replace(generatorConfiguration.getTemplate(),generatorConfiguration.getOutput()),
+                                    File output = new File(generatorFreeMarker.process(generatorPropertiesClone.getProperties(),
+                                        file.toFile().getPath().replace(generatorConfiguration.getTemplate(),generatorConfiguration.getOutput()),
                                         null));
+                                    //TODO 完善一下检测的机制
+                                    Files.createDirectories(Paths.get(output.getParentFile().toURI()));
+                                    Files.deleteIfExists(Paths.get(output.toURI()));
+                                    Files.createFile(Paths.get(output.toURI()));
                                     //输出文件
-                                    generatorFreeMarker.process(generatorPropertiesClone.getProperties(),input,file);
-                                });
+                                    generatorFreeMarker.process(generatorPropertiesClone.getProperties(),file.toFile(),output);
+                                    return FileVisitResult.CONTINUE;
+                                }
+                            });
                         }
-                    } catch (CloneNotSupportedException e) {
+                    } catch (CloneNotSupportedException | IOException e) {
                         e.printStackTrace();
                     }
                 });
