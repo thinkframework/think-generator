@@ -42,11 +42,6 @@ public class ColumnFieldAdapter implements ClazzField,Column {
         String columnName = column.getColumnName();
         Class clazz = TypesUtils.dataType(column.getDataType());
 
-        //TODO Id类型
-        if(column.getDataType() == Types.BIGINT && column.getColumnName().toLowerCase().endsWith("id")){
-            clazz = BigInteger.class;
-        }
-
         ClazzImpl classType = new ClazzImpl(clazz);
 
         String fieldName = StringUtils.fieldName(columnName);

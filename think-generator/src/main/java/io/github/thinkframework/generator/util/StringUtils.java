@@ -14,7 +14,7 @@ public class StringUtils {
 
 	public static String className(String sqlName) {
 		if(sqlName == null || sqlName.length() == 0){
-			//todo 外键 空指针的情况 lixiaobin
+			//fixme 外键 空指针的情况 lixiaobin
 			return "";
 		}
 		String[] strs = sqlName.toLowerCase().split("_");

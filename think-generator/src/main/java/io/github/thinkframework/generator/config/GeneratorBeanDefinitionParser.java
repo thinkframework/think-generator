@@ -86,6 +86,13 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
                 .map(child -> DomUtils.getTextValue(child))
                 .collect(Collectors.toList()));
 
+
+        builder.addPropertyValue("converts",
+            DomUtils.getChildElementsByTagName(element, "converts")
+                .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "map").stream())
+                .flatMap(child -> DomUtils.getChildElementsByTagName(child, "entity").stream())
+                .collect(Collectors.toMap(child ->child.getAttribute("key"),child -> child.getAttribute("value"))));
+
 //        try {
 //            XPathFactory xPathFactory = XPathFactory.newInstance();
 //            XPath xPath = xPathFactory.newXPath();

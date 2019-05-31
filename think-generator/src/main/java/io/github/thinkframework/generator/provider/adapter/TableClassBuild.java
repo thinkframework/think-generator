@@ -17,11 +17,11 @@ public class TableClassBuild {
 
     private GeneratorProperties generatorProperties;
 
-    private TableClassBuild(GeneratorProperties generatorProperties) {
+    public TableClassBuild(GeneratorProperties generatorProperties) {
         this.generatorProperties = generatorProperties;
     }
 
-    public static Clazz buildClass(Table table) {
+    public Clazz buildClass(Table table) {
         String className = StringUtils.className(table.getTableName());
         ClazzImpl clazz = new ClazzImpl(className);
         clazz.setClazzPackage(new ClazzPackageImpl());
@@ -45,12 +45,13 @@ public class TableClassBuild {
      * @param table
      * @return 字段信息
      */
-    private static Set<ClazzField> buildField(Table table) {
+    private Set<ClazzField> buildField(Table table) {
         return table.getColumns().stream()
-                .map(column -> new ColumnFieldAdapter(column)
-//                    TODO 需要忽略的字段
-//                    .ignore(Arrays.asList((TableClassBuild.this.generatorProperties.getProperty("ignore")).split(",")).contains(column.getColumnName()))
-                ).collect(Collectors.toCollection(LinkedHashSet::new));
+                .map(column -> {
+                    ColumnFieldAdapter columnFieldAdapter = new ColumnFieldAdapter(column);
+                    columnFieldAdapter.setIgnore(TableClassBuild.this.generatorProperties.getGeneratorConfiguration().getIgnores().contains(column.getColumnName()));
+                    return columnFieldAdapter;
+                }).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     /**
@@ -58,9 +59,13 @@ public class TableClassBuild {
      * @param table
      * @return 方法信息
      */
-    private static Set<ClazzMethod> buildMethod(Table table) {
+    private Set<ClazzMethod> buildMethod(Table table) {
         return table.getColumns().stream()
-                .map(column -> new ColumnMethodAdapter(column))
+                .map(column -> {
+                    ColumnMethodAdapter columnMethodAdapter = new ColumnMethodAdapter(column);
+                    columnMethodAdapter.setIgnore(TableClassBuild.this.generatorProperties.getGeneratorConfiguration().getIgnores().contains(column.getColumnName()));
+                    return columnMethodAdapter;
+                })
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
@@ -71,7 +76,7 @@ public class TableClassBuild {
 //     * @param table
 //     * @return
 //     */
-//    private static Set<ClazzField> getExportedKeyFields(Table table) {
+//    private Set<ClazzField> getExportedKeyFields(Table table) {
 //        Set<ClazzField> fields = new LinkedHashSet<ClazzField>();
 //        for (ExportedKey exportedKey : table.getExportedKeys()) {
 //            exportedKey.getFktableName();
@@ -107,7 +112,7 @@ public class TableClassBuild {
 //     * @param table
 //     * @return
 //     */
-//    private static Set<ClazzField> getImportedKeyFields(Table table) {
+//    private Set<ClazzField> getImportedKeyFields(Table table) {
 //        Set<ClazzField> fields = new LinkedHashSet<ClazzField>();
 //        for (ImportedKey importedKey : table.getImportedKeys()) {
 //            importedKey.getFktableName();
@@ -134,7 +139,7 @@ public class TableClassBuild {
 //        return fields;
 //    }
 //
-//    private static Set<ClazzMethod> getExportedKeyMethods(Table table) {
+//    private Set<ClazzMethod> getExportedKeyMethods(Table table) {
 //        Set<ClazzMethod> methods = new LinkedHashSet<ClazzMethod>();
 //        for (ExportedKey exportedKey : table.getExportedKeys()) {
 //            exportedKey.getFktableName();
@@ -162,7 +167,7 @@ public class TableClassBuild {
 //        return methods;
 //    }
 //
-//    private static Set<ClazzMethod> getImportedKeyMethods(Table table) {
+//    private Set<ClazzMethod> getImportedKeyMethods(Table table) {
 //        Set<ClazzMethod> methods = new LinkedHashSet<ClazzMethod>();
 //        for (ImportedKey importedKey : table.getImportedKeys()) {
 //            importedKey.getFktableName();

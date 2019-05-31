@@ -45,10 +45,7 @@ public class ColumnMethodAdapter implements ClazzMethod,Column {
 
         String columnName = column.getColumnName();
         Class clazz = TypesUtils.dataType(column.getDataType());
-        //TODO Id类型
-        if(column.getDataType() == Types.BIGINT && column.getColumnName().toLowerCase().endsWith("id")){
-            clazz = BigInteger.class;
-        }
+
         String methodName = StringUtils.fieldName(columnName);
         ClazzImpl classType = new ClazzImpl(clazz);
 

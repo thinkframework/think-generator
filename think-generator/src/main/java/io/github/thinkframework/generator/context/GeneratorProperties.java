@@ -34,7 +34,7 @@ public class GeneratorProperties implements Cloneable{
 
     private static final String CLASS_PATH = "classpath://";
     private static final String FILE = "file://";
-
+    private GeneratorConfiguration generatorConfiguration;
     private String clonfigLocation;
     private String clonfigProperties;
 
@@ -49,6 +49,7 @@ public class GeneratorProperties implements Cloneable{
 
 
     public GeneratorProperties(GeneratorConfiguration generatorConfiguration) {
+        this.generatorConfiguration = generatorConfiguration;
         build(BeanUtils.describe(generatorConfiguration));
     }
 
@@ -147,11 +148,20 @@ public class GeneratorProperties implements Cloneable{
         Optional.ofNullable(configuration).ifPresent(location -> {
 //            this.properties.putAll(configuration);//这种方式会触发空指针
             configuration.forEach((key,value) -> {
-                if(value != null)
-                    this.properties.put(key,value);
+                if(value != null) {
+                    this.properties.put(key, value);
+                }
             });
         });
         return this;
+    }
+
+    public GeneratorConfiguration getGeneratorConfiguration() {
+        return generatorConfiguration;
+    }
+
+    public void setGeneratorConfiguration(GeneratorConfiguration generatorConfiguration) {
+        this.generatorConfiguration = generatorConfiguration;
     }
 
     public String getProperty(String key) {

@@ -19,21 +19,18 @@ public class TableClassAdapter implements Clazz, Table {
     private Clazz clazz;
     private Table table;
 
-    /**
-     * 基于表实现
-     * @param table
-     */
-    public TableClassAdapter(Table table){
-        this.table = table;
-        this.clazz = TableClassBuild.buildClass(table);
+    public TableClassAdapter() {
     }
 
-    /**
-     * 基于类实现
-     * @param clazz
-     */
-    public TableClassAdapter(Clazz clazz){
+    public TableClassAdapter table(Table table){
+        this.table = table;
+        return this;
+    }
+
+
+    public TableClassAdapter clazz(Clazz clazz){
         this.clazz = clazz;
+        return this;
     }
 
     @Override

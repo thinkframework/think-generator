@@ -5,6 +5,7 @@ import io.github.thinkframework.generator.context.GeneratorProperties;
 import io.github.thinkframework.generator.lang.impl.ClazzImpl;
 import io.github.thinkframework.generator.lang.reflect.impl.ClazzFieldImpl;
 import io.github.thinkframework.generator.provider.adapter.TableClassAdapter;
+import io.github.thinkframework.generator.provider.adapter.TableClassBuild;
 import io.github.thinkframework.generator.sql.TableBuilder;
 import io.github.thinkframework.generator.sql.TableFactory;
 import io.github.thinkframework.generator.sql.model.Table;
@@ -35,13 +36,14 @@ public class TableGeneratorProvider implements GeneratorProvider, Ordered {
                 .addColumn(tableFactory.getColumns(tableName))
                 .addPrimaryKey(tableFactory.getPrimaryKeys(tableName))
                 .addIndexInfo(tableFactory.getIndexInfo(tableName))
-                .addExportedKey(tableFactory.getExportedKeys(tableName))
-                .addImportedKey(tableFactory.getImportedKeys(tableName))
+//                .addExportedKey(tableFactory.getExportedKeys(tableName))
+//                .addImportedKey(tableFactory.getImportedKeys(tableName))
                 .build();
 
         //适配器,同时提供表和类的字段
-        TableClassAdapter tableClassAdapter = new TableClassAdapter(table);
-
+        TableClassAdapter tableClassAdapter = new TableClassAdapter();
+        tableClassAdapter.table(table);
+        tableClassAdapter.clazz(new TableClassBuild(generatorProperties).buildClass(table));
         result.put("table",tableClassAdapter);
         result.put("clazz",tableClassAdapter);
 

@@ -44,9 +44,9 @@ public class TableFactory{
         String catalog = null;
         try(Connection connection = getDataSource().getConnection()){
             catalog = connection.getCatalog();
-            logger.debug("catalog:{}",catalog);
+            logger.debug("catalog: {}",catalog);
         }catch(SQLException e){
-            throw new GeneratorRuntimeException("SQL异常",e);
+            logger.error("catalog: {}",e.getClass().getName());
         }finally {
             return catalog;
         }
@@ -60,9 +60,9 @@ public class TableFactory{
         String schema = null;
         try(Connection connection = getDataSource().getConnection()){
             schema = connection.getSchema();
-            logger.debug("schema:{}",schema);
+            logger.debug("schema: {}",schema);
         }catch(SQLException e){
-            throw new GeneratorRuntimeException("SQL异常",e);
+            logger.error("schema: {}",e.getClass().getName());
         }finally {
             return schema;
         }

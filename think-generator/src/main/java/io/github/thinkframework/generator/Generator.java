@@ -9,6 +9,7 @@ import io.github.thinkframework.generator.sql.TableFactory;
 import io.github.thinkframework.generator.sql.model.impl.TableImpl;
 import io.github.thinkframework.generator.util.GeneratorFreeMarker;
 import io.github.thinkframework.generator.util.StringUtils;
+import io.github.thinkframework.generator.util.TypesUtils;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,8 @@ import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
 import java.io.File;
+import java.sql.Types;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -45,6 +48,17 @@ public class Generator implements BeanFactoryAware, ResourceLoaderAware {
             Assert.notNull(generatorConfiguration,"配置文件不存在");
             logger.info("传入的表名称:{}",GeneratorContext.get().getTableName());
             GeneratorProperties generatorProperties = new GeneratorProperties(generatorConfiguration);
+
+            //覆盖数据库类型
+            generatorConfiguration.getConverts().forEach((key, value) -> {
+                try {
+                    TypesUtils.put(Types.class.getField((key).replace("java.sql.Types.",""))
+                            .getInt(Types.class),
+                        Class.forName(value));
+                } catch (ClassNotFoundException | IllegalAccessException | NoSuchFieldException e) {
+                    throw new GeneratorRuntimeException("反射异常", e);
+                }
+            });
 
             new TableFactory(GeneratorContext.get().getBeanFactory().getBean(GeneratorContext.get().getDastSourceName(),DataSource.class))
                 .getTables(GeneratorContext.get().getTableName())//获取表,模糊查询

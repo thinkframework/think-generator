@@ -70,7 +70,7 @@
             <!--#jsp namespace: web/${namespace}/${className}/get:jsp-->
             <generator:namespace>views</generator:namespace>
             <!--#模板目录-->
-            <generator:template>template/test</generator:template>
+            <generator:template>template/glodon/enterprise</generator:template>
             <!--#过滤文件-->
             <generator:extensions>
                 <generator:list>
@@ -86,8 +86,9 @@
             </generator:extensions>
             <generator:converts>
                 <generator:map>
-                    <generator:entity key="java.sql.Types.DATE" value="java.time.LocalDate"/>
-                    <generator:entity key="java.sql.Types.TIMESTAMP" value="java.time.Instant"/>
+                    <generator:entity key="java.sql.Types.BIGINT" value="java.math.BigInteger"/>
+<!--                    <generator:entity key="java.sql.Types.DATE" value="java.time.LocalDate"/>-->
+<!--                    <generator:entity key="java.sql.Types.TIMESTAMP" value="java.time.Instant"/>-->
                 </generator:map>
                 <!--<generator:props>-->
                 <!--<generator:prop key="java.sql.Types.DATE">java.time.LocalDate</generator:prop>-->

@@ -9,8 +9,8 @@ think:
             moduleName: app
             authorName:
             namespace:
-            template: template/test
-            output: output
+            template: template/app
+            output: generator_output
             extensions:
                 - java
                 - js
@@ -20,6 +20,22 @@ think:
                 - html
                 - json
                 - sql
+            converts:
+                java.sql.Types.BIGINT: java.math.BigInteger
+#                java.sql.Types.DATE: java.time.LocalDate
+#                java.sql.Types.TIMESTAMP: java.time.Instant
+            ignores:
+                - sys_create_time
+                - sys_modified_time
+                - sys_revision
+                - sys_creator_id
+                - sys_modifier_id
+            prefixs:
+                - T_
+                - RBAC_
+                - PARAM_
+                - AUTH_
+                - PROJECT_
 spring:
     datasource:
         platform: h2

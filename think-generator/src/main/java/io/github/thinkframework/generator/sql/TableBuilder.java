@@ -1,8 +1,10 @@
 package io.github.thinkframework.generator.sql;
 
+import io.github.thinkframework.generator.context.GeneratorProperties;
 import io.github.thinkframework.generator.sql.model.*;
 import io.github.thinkframework.generator.sql.model.impl.ColumnImpl;
 import io.github.thinkframework.generator.sql.model.impl.TableImpl;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -12,7 +14,9 @@ import java.util.HashSet;
  * @author lixiaobin
  * @since 2017/3/24
  */
+@Slf4j
 public class TableBuilder {
+
     private String tableName = "";
     private TableImpl table = new TableImpl();
     private Collection<Column> columns = new HashSet<Column>();
@@ -137,9 +141,11 @@ public class TableBuilder {
     private void buildPrimaryKey(){
         if(primaryKeys != null && primaryKeys.size() == 1){
             PrimaryKey primaryKey = primaryKeys.iterator().next();
+            log.info("primaryKey:{}",primaryKey);
             table.setPrimaryKey(primaryKey);
         }
         else if(primaryKeys != null && primaryKeys.size() > 1){
+            log.warn("发现联合主键");
 //            PrimaryKey primaryKey = primaryKeys.iterator().next();
 //            if("".equalsIgnoreCase(name)) {
 //                name = "ID";
@@ -150,7 +156,7 @@ public class TableBuilder {
 //            column.setPrimaryKey(true);
 //            table.setPrimaryKey(primaryKey);
         }else{
-
+            log.warn("未发现主键");
         }
     }
 }

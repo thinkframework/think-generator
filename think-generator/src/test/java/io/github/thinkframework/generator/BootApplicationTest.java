@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
@@ -18,6 +19,7 @@ import java.io.File;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {GeneratorApplication.class})
+//@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class BootApplicationTest {
 
     Logger logger = LoggerFactory.getLogger(BootApplicationTest.class);
