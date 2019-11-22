@@ -3,6 +3,7 @@ package io.github.thinkframework.boot.generator.config;
 import io.github.thinkframework.generator.GeneratorFactoryBean;
 import io.github.thinkframework.generator.config.GeneratorConfiguration;
 import io.github.thinkframework.generator.provider.TableGeneratorProvider;
+import io.github.thinkframework.generator.listener.GeneratorListener;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -26,5 +27,10 @@ public class GeneratorAutoConfiguration {
     @ConditionalOnMissingBean(value = {TableGeneratorProvider.class})
     public TableGeneratorProvider tableGeneratorProvider(){
         return new TableGeneratorProvider();
+    }
+
+    @Bean
+    public GeneratorListener generatorListener(){
+        return new GeneratorListener();
     }
 }

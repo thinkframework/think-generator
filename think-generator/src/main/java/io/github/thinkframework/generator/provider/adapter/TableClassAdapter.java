@@ -118,4 +118,20 @@ public class TableClassAdapter implements Clazz, Table {
     public Collection<IndexInfo> getIndexInfos() {
         return table.getIndexInfos();
     }
+
+    public Clazz getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(Clazz clazz) {
+        this.clazz = clazz;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
+    }
 }

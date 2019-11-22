@@ -34,9 +34,10 @@
         </property>
     </bean>
 
+
     <bean id="project" class="com.alibaba.druid.pool.DruidDataSource" lazy-init="true">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://10.129.248.10:55100/bim5d_cost_p185924041741312"/>
+        <property name="url" value="jdbc:mysql://10.129.248.10:55100/bim5d_cost_p201824251106304"/>
         <property name="username" value="root"/>
         <property name="password" value="123qwe!@#"/>
         <property name="connectProperties">
@@ -103,6 +104,7 @@
                     <generator:value>PARAM_</generator:value>
                     <generator:value>AUTH_</generator:value>
                     <generator:value>PROJECT_</generator:value>
+                    <generator:value>bim5d_cost_</generator:value>
                 </generator:list>
             </generator:prefixs>
             <!--#需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,tm_-->

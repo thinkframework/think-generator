@@ -74,7 +74,7 @@ public class GeneratorFreeMarker {
 
             //模板出路径
             Writer writer = new StringWriter();
-            new Template(input, new StringReader(input), configuration)
+            new Template(input, new StringReader(output), configuration)
                 .process(model, writer);
             output = writer.toString();
             log.info("\n模板输入路径:{}\n模板输出路径:{}", input, output);

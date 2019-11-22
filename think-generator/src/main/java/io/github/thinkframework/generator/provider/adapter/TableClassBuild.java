@@ -7,6 +7,7 @@ import io.github.thinkframework.generator.lang.impl.ClazzPackageImpl;
 import io.github.thinkframework.generator.lang.reflect.ClazzField;
 import io.github.thinkframework.generator.lang.reflect.ClazzMethod;
 import io.github.thinkframework.generator.sql.model.Table;
+import io.github.thinkframework.generator.sql.model.impl.TableImpl;
 import io.github.thinkframework.generator.util.StringUtils;
 
 import java.util.LinkedHashSet;
@@ -22,6 +23,12 @@ public class TableClassBuild {
     }
 
     public Clazz buildClass(Table table) {
+        generatorProperties.getGeneratorConfiguration().getPrefixs().forEach(prefix -> {
+            //TODO 要不要遍历
+            if(table.getTableName().toLowerCase().startsWith(prefix.toLowerCase())){//生成对象的时候忽略表名前置
+                ((TableImpl)table).setTableName(table.getTableName().toLowerCase().replace(prefix.toLowerCase(),""));
+            }
+        });
         String className = StringUtils.className(table.getTableName());
         ClazzImpl clazz = new ClazzImpl(className);
         clazz.setClazzPackage(new ClazzPackageImpl());

@@ -89,8 +89,8 @@ public class Generator implements BeanFactoryAware, ResourceLoaderAware {
                                     GeneratorFreeMarker generatorFreeMarker = new GeneratorFreeMarker();
                                     //输出文件路径
                                     File output = new File(generatorFreeMarker.process(generatorPropertiesClone.getProperties(),
-                                        file.toFile().getPath().replace(generatorConfiguration.getTemplate(),generatorConfiguration.getOutput()),
-                                        null));
+                                        file.toFile().getPath(),
+                                        file.toFile().getPath().replace(generatorConfiguration.getTemplate(),generatorConfiguration.getOutput())));
                                     //TODO 完善一下检测的机制
                                     Files.createDirectories(Paths.get(output.getParentFile().toURI()));
                                     Files.deleteIfExists(Paths.get(output.toURI()));

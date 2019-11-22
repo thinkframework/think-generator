@@ -56,9 +56,7 @@ public class TableGeneratorProvider implements GeneratorProvider, Ordered {
             }
         }
 
-        String className = StringUtils.className(tableName);
-
-        result.put("className",className);
+        result.put("className",tableClassAdapter.getClazz().getSimpleName());
 
         //全小写,JavaScript需要
         result.put("className_lower_case",tableName.toLowerCase());

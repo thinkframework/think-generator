@@ -25,7 +25,9 @@
     <artifactId>think-dependencies</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <description>think framework</description>
+    <description>
+        作为spring boot dependencies的补充
+    </description>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -66,6 +68,7 @@
 
         <druid.version>1.1.16</druid.version>
 
+        <guava.version>28.0-jre</guava.version>
 
         <!-- Plugin versions -->
 <!--        <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>-->
@@ -83,10 +86,23 @@
         <sonar-maven-plugin.version>3.5.0.1254</sonar-maven-plugin.version>
 <!--        <openapi-generator-maven-plugin.version>3.3.0</openapi-generator-maven-plugin.version>-->
 <!--        <git-commit-id-plugin.version>2.2.5</git-commit-id-plugin.version>-->
+
+        <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>io.github.thinkframework</groupId>
+                <artifactId>think-generator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.thinkframework</groupId>
+                <artifactId>think-swing</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
@@ -108,11 +124,10 @@
                 <artifactId>rxjava</artifactId>
                 <version>2.2.5</version>
             </dependency>
-
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>27.0-jre</version>
+                <version>${guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-logging</groupId>
@@ -205,6 +220,21 @@
                     <id>rdc-snapshots</id>
                     <url>https://repo.rdc.aliyun.com/repository/52033-snapshot-mpCmbl/</url>
                 </snapshotRepository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>sonatype-nexus-dist</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>sonatype-nexus-snapshots</id>
+                    <name>Sonatype Nexus Snapshots</name>
+                    <url>${sonatypeOssDistMgmtSnapshotsUrl}</url>
+                </snapshotRepository>
+                <repository>
+                    <id>sonatype-nexus-staging</id>
+                    <name>Nexus Release Repository</name>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
             </distributionManagement>
         </profile>
     </profiles>

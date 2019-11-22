@@ -49,13 +49,18 @@
         <module>think-dependencies</module>
         <module>think-parent</module>
         <module>think-core</module>
+        <module>think-common</module>
 		<module>think-generator</module>
 		<module>think-util</module>
+        <module>think-jms</module>
+        <!--        <module>think-dsl</module>-->
     </modules>
 
     <properties>
         <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
         <sonar-maven-plugin.version>3.5.0.1254</sonar-maven-plugin.version>
+
+        <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
     </properties>
 
 <!--    <dependencyManagement>-->
@@ -96,6 +101,21 @@
                     <id>rdc-snapshots</id>
                     <url>https://repo.rdc.aliyun.com/repository/52033-snapshot-mpCmbl/</url>
                 </snapshotRepository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>sonatype-nexus-dist</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>sonatype-nexus-snapshots</id>
+                    <name>Sonatype Nexus Snapshots</name>
+                    <url>${sonatypeOssDistMgmtSnapshotsUrl}</url>
+                </snapshotRepository>
+                <repository>
+                    <id>sonatype-nexus-staging</id>
+                    <name>Nexus Release Repository</name>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
             </distributionManagement>
         </profile>
     </profiles>

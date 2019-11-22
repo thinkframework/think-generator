@@ -1,5 +1,6 @@
 package io.github.thinkframework.tools;
 
+import io.github.thinkframework.util.JsonUtil;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -13,13 +14,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Ignore
-public class JsonToolsTest {
+public class JsonUtilTest {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Test
     public void test(){
         String s = "{\"id\":\"integer\"}";
-        new JsonTools().json(s);
+        new JsonUtil().json(s);
     }
 
     @Test
@@ -78,13 +79,13 @@ public class JsonToolsTest {
 
     @Test
     public void main() {
-        log.debug(JsonTools.clazzString(Bean.class));
-        log.debug(JsonTools.format(Bean.class));
-        Assert.assertEquals("{\"id\":\"\",\"name\":\"\"}",JsonTools.clazzString(Bean.class));
+        log.debug(JsonUtil.clazzString(Bean.class));
+        log.debug(JsonUtil.format(Bean.class));
+        Assert.assertEquals("{\"id\":\"\",\"name\":\"\"}", JsonUtil.clazzString(Bean.class));
         Assert.assertEquals("{\r\n" +
             "\"id\":\"\",\r\n" +
             "\"name\":\"\"\r\n" +
-            "}",JsonTools.format(Bean.class));
+            "}", JsonUtil.format(Bean.class));
     }
 
 }

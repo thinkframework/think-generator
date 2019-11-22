@@ -1,4 +1,4 @@
-package io.github.thinkframework.tools;
+package io.github.thinkframework.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +29,8 @@ import java.util.stream.Stream;
  * TextBlob	TextBlob		required, minbytes, maxbytes
  * Instant	Instant	Instant	required
  */
-public class JsonTools {
-    private static final Logger log = LoggerFactory.getLogger(JsonTools.class);
+public class JsonUtil {
+    private static final Logger log = LoggerFactory.getLogger(JsonUtil.class);
 
     private String name;
 
@@ -50,7 +50,6 @@ public class JsonTools {
     public static String clazzString(Class clazz) {
         BeanDescriptor beanDescriptor = new BeanDescriptor(clazz);
         StringBuilder stringBuilder = new StringBuilder("{");
-
 //        try {
 //            stringBuilder.append(Stream.of(Introspector.getBeanInfo(clazz).getPropertyDescriptors())
 //                .filter(property -> !"class".equals(property.getName()))

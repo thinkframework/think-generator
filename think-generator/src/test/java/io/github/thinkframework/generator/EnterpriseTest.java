@@ -10,19 +10,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
-/**
- * 容器测试
- */
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-public class SpringApplicationTest {
+public class EnterpriseTest {
 
-    Logger logger = LoggerFactory.getLogger(SpringApplicationTest.class);
+    Logger logger = LoggerFactory.getLogger(EnterpriseTest.class);
 
     @Autowired
     private Generator generator;
@@ -38,9 +36,21 @@ public class SpringApplicationTest {
      * @throws Exception
      */
     @Test
-    public void application() throws Exception {
+    public void enterprise() throws Exception {
         generator
-            .dataSourceName("dataSource")
+            .dataSourceName("enterprise")
+            .tableName("revise_local_norm")
+            .generate();
+    }
+
+    /**
+     * 通过spring初始化
+     * @throws Exception
+     */
+    @Test
+    public void project() throws Exception {
+        generator
+            .dataSourceName("project")
             .tableName("TEST")
             .generate();
     }
