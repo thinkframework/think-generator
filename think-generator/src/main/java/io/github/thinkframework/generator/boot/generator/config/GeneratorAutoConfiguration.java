@@ -1,7 +1,8 @@
-package io.github.thinkframework.boot.generator.config;
+package io.github.thinkframework.generator.boot.generator.config;
 
 import io.github.thinkframework.generator.GeneratorFactoryBean;
 import io.github.thinkframework.generator.config.GeneratorConfiguration;
+import io.github.thinkframework.generator.provider.PropertiesGeneratorProvider;
 import io.github.thinkframework.generator.provider.TableGeneratorProvider;
 import io.github.thinkframework.generator.listener.GeneratorListener;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -23,14 +24,23 @@ public class GeneratorAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(value = {GeneratorListener.class})
+    public GeneratorListener generatorListener(){
+        return new GeneratorListener();
+    }
+
+    @Bean
+    @ConditionalOnBean(value = {GeneratorFactoryBean.class})
+    @ConditionalOnMissingBean(value = {PropertiesGeneratorProvider.class})
+    public PropertiesGeneratorProvider propertiesGeneratorProvider(){
+        return new PropertiesGeneratorProvider();
+    }
+
+    @Bean
     @ConditionalOnBean(value = {GeneratorFactoryBean.class})
     @ConditionalOnMissingBean(value = {TableGeneratorProvider.class})
     public TableGeneratorProvider tableGeneratorProvider(){
         return new TableGeneratorProvider();
     }
 
-    @Bean
-    public GeneratorListener generatorListener(){
-        return new GeneratorListener();
-    }
 }

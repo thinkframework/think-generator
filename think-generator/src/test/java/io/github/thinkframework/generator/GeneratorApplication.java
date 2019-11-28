@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator;
 
-import io.github.thinkframework.boot.generator.annotation.EnableGenerator;
+import io.github.thinkframework.generator.boot.generator.annotation.EnableGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

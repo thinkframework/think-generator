@@ -1,2 +1,2 @@
 #自动注入,改为通过@EnableGenerator启用
-#io.github.thinkframework.boot.generator.config.GeneratorAutoConfiguration
+#io.github.thinkframework.generator.boot.generator.config.GeneratorAutoConfiguration

@@ -37,7 +37,7 @@
 
     <bean id="project" class="com.alibaba.druid.pool.DruidDataSource" lazy-init="true">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://10.129.248.10:55100/bim5d_cost_p201824251106304"/>
+        <property name="url" value="jdbc:mysql://10.129.248.10:55100/bim5d_cost_p230414496670720"/>
         <property name="username" value="root"/>
         <property name="password" value="123qwe!@#"/>
         <property name="connectProperties">
@@ -46,6 +46,8 @@
             </props>
         </property>
     </bean>
+
+    <bean id="generatorListener" class="io.github.thinkframework.generator.listener.GeneratorListener"></bean>
 
     <bean id="propertiesGeneratorProvider" class="io.github.thinkframework.generator.provider.PropertiesGeneratorProvider"></bean>
 
@@ -64,14 +66,16 @@
             <!--#模块名称-->
             <!--<generator:moduleName>auth</generator:moduleName>-->
             <!--<generator:moduleName>param</generator:moduleName>-->
-            <generator:moduleName>costenterprise</generator:moduleName>
+<!--            <generator:moduleName>costenterprise</generator:moduleName>-->
+            <generator:moduleName>costproject</generator:moduleName>
             <!--#作者名称-->
             <!--<generator:authorName>lixiaobin</generator:authorName>-->
             <generator:authorName>unascribed</generator:authorName>
             <!--#jsp namespace: web/${namespace}/${className}/get:jsp-->
             <generator:namespace>views</generator:namespace>
             <!--#模板目录-->
-            <generator:template>template/glodon/enterprise</generator:template>
+<!--            <generator:template>template/glodon/enterprise</generator:template>-->
+            <generator:template>template/glodon/project</generator:template>
             <!--#过滤文件-->
             <generator:extensions>
                 <generator:list>

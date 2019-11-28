@@ -8,6 +8,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.*;
 
 import java.util.Map;
+
 @Slf4j
 public class GeneratorListener implements ApplicationContextAware, ApplicationListener {
     private ApplicationContext applicationContext;
@@ -19,12 +20,12 @@ public class GeneratorListener implements ApplicationContextAware, ApplicationLi
      */
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
-        if (event instanceof PayloadApplicationEvent && event.getSource() instanceof String && ((String) event.getSource()).equals("generator")) {
+        if (event instanceof PayloadApplicationEvent && "generator".equals(event.getSource())) {
             log.info("调用成功");
-            Map map = ((PayloadApplicationEvent<Map>) event).getPayload();
+            Map<String,String> map = ((PayloadApplicationEvent<Map<String, String>>)event).getPayload();
             Generator generator = applicationContext.getBean(Generator.class);
-            generator.dataSourceName(map.get("dataSource").toString())
-                .tableName(map.get("tableName").toString())
+            generator.dataSourceName(map.get("dataSource"))
+                .tableName(map.get("tableName"))
                 .generate();
         }
     }

@@ -1,10 +1,10 @@
-package io.github.thinkframework.boot.generator.condition;
+package io.github.thinkframework.generator.boot.generator.condition;
 
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
-public class LinuxCondition implements Condition {
+public class WindowsCondition implements Condition {
     @Override
     public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
         return false;
