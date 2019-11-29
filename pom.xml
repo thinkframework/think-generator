@@ -5,7 +5,6 @@
         <groupId>io.github.thinkframework</groupId>
         <artifactId>think-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../think-parent</relativePath>
     </parent>
     <artifactId>think-generator</artifactId>
 	<packaging>jar</packaging>
