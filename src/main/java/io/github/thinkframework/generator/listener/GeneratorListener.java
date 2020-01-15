@@ -21,10 +21,9 @@ public class GeneratorListener implements ApplicationContextAware, ApplicationLi
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
         if (event instanceof PayloadApplicationEvent && "generator".equals(event.getSource())) {
-            log.info("调用成功");
             Map<String,String> map = ((PayloadApplicationEvent<Map<String, String>>)event).getPayload();
             Generator generator = applicationContext.getBean(Generator.class);
-            generator.dataSourceName(map.get("dataSource"))
+            generator.dataSourceName(map.get("dataSourceName"))
                 .tableName(map.get("tableName"))
                 .generate();
         }
