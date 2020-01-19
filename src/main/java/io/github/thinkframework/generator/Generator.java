@@ -10,8 +10,7 @@ import io.github.thinkframework.generator.sql.model.impl.TableImpl;
 import io.github.thinkframework.generator.util.GeneratorFreeMarker;
 import io.github.thinkframework.generator.util.StringUtils;
 import io.github.thinkframework.generator.util.TypesUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -23,8 +22,6 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -32,9 +29,8 @@ import java.util.Objects;
  * @author lixiaobin
  * @since 1.0.0
  */
+@Slf4j
 public class Generator implements BeanFactoryAware {
-
-    private final static Logger logger = LoggerFactory.getLogger(Generator.class);
 
     private GeneratorConfiguration generatorConfiguration;
 
@@ -44,7 +40,7 @@ public class Generator implements BeanFactoryAware {
      */
     public void generate() throws GeneratorRuntimeException {
         Assert.notNull(generatorConfiguration,"配置文件不存在");
-        logger.info("传入的表名称:{}",GeneratorContext.get().getTableName());
+        log.info("传入的表名称:{}",GeneratorContext.get().getTableName());
         GeneratorProperties generatorProperties = new GeneratorProperties(generatorConfiguration);
 
         //覆盖数据库类型
@@ -74,7 +70,6 @@ public class Generator implements BeanFactoryAware {
                         .forEach(generatorProvider -> generatorProvider.build(generatorPropertiesClone));//完善数据
 
                     if(StringUtils.isNotEmpty(generatorConfiguration.getTemplate())) {//模板目录必须存在
-                        List<File> files = new ArrayList<>();
                         Files.walkFileTree(Paths.get(new File(generatorConfiguration.getTemplate()).toURI()),new SimpleFileVisitor<Path>(){
                             @Override
                             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
@@ -88,8 +83,9 @@ public class Generator implements BeanFactoryAware {
                                 File output = new File(generatorFreeMarker.process(generatorPropertiesClone.getProperties(),
                                     file.toFile().getPath(),
                                     file.toFile().getPath().replace(generatorConfiguration.getTemplate(),generatorConfiguration.getOutput())));
-                                //TODO 完善一下检测的机制
-                                Files.createDirectories(Paths.get(output.getParentFile().toURI()));
+                                if(!Files.notExists(Paths.get(output.getParentFile().toURI()))) {
+                                    Files.createDirectories(Paths.get(output.getParentFile().toURI()));
+                                }
                                 Files.deleteIfExists(Paths.get(output.toURI()));
                                 Files.createFile(Paths.get(output.toURI()));
                                 //输出文件
@@ -97,6 +93,8 @@ public class Generator implements BeanFactoryAware {
                                 return FileVisitResult.CONTINUE;
                             }
                         });
+                    }else{
+                        throw new GeneratorRuntimeException("模板目录不存在");
                     }
                 } catch (CloneNotSupportedException | IOException e) {
                     throw new GeneratorRuntimeException(e);

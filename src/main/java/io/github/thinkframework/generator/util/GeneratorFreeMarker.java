@@ -21,12 +21,10 @@ import java.util.Map;
 public class GeneratorFreeMarker {
 
     /**
-     * 输出一个文件
-     * @param model
-     * @param input
+     * FreeMarker配置
      * @throws GeneratorRuntimeException
      */
-    public File process(Map model,File input,File output) throws GeneratorRuntimeException {
+    public Configuration configuration() throws GeneratorRuntimeException {
         try {
             Configuration configuration = new Configuration(Configuration.VERSION_2_3_23);
 
@@ -37,12 +35,26 @@ public class GeneratorFreeMarker {
             map.put("StringUtils", stringHelper);
             configuration.setSharedVaribles(map);
 
+
             configuration.setNumberFormat("###############");
             configuration.setBooleanFormat("true,false");
             configuration.setDefaultEncoding("UTF-8");
-            Writer writer = new OutputStreamWriter(new FileOutputStream(output), "UTF-8");
-            new Template(input.getPath(),new FileReader(input),configuration).process(model, writer);
-            writer.close();
+            return configuration;
+        } catch (TemplateException e) {
+            throw new GeneratorRuntimeException(e);
+        }
+    }
+
+    /**
+     * 输出一个文件
+     * @param model
+     * @param input
+     * @throws GeneratorRuntimeException
+     */
+    public File process(Map model,File input,File output) throws GeneratorRuntimeException {
+        try (Writer writer = new OutputStreamWriter(new FileOutputStream(output), "UTF-8")){
+            new Template(input.getPath(),new FileReader(input),configuration())
+                .process(model, writer);
             return output;
         } catch (IOException | TemplateException e) {
             throw new GeneratorRuntimeException(e);
@@ -58,24 +70,9 @@ public class GeneratorFreeMarker {
      * @throws GeneratorRuntimeException
      */
     public String process(Map model,String input,String output) throws GeneratorRuntimeException {
-        try {
-            Configuration configuration = new Configuration(Configuration.VERSION_2_3_23);
-
-            Map map = new HashMap();
-            BeansWrapper wrapper = BeansWrapper.getDefaultInstance();
-            TemplateHashModel staticModels = wrapper.getStaticModels();
-            TemplateHashModel stringHelper = (TemplateHashModel) staticModels.get("io.github.thinkframework.generator.util.StringUtils");
-            map.put("StringUtils", stringHelper);
-            configuration.setSharedVaribles(map);
-
-
-            configuration.setNumberFormat("###############");
-            configuration.setBooleanFormat("true,false");
-            configuration.setDefaultEncoding("UTF-8");
-
+        try (Writer writer = new StringWriter();){
             //模板出路径
-            Writer writer = new StringWriter();
-            new Template(input, new StringReader(output), configuration)
+            new Template(input, new StringReader(output), configuration())
                 .process(model, writer);
             output = writer.toString();
             log.info("\n模板输入路径:{}\n模板输出路径:{}", input, output);
@@ -84,4 +81,5 @@ public class GeneratorFreeMarker {
            throw new GeneratorRuntimeException(e);
         }
     }
+
 }
