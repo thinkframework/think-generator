@@ -11,9 +11,6 @@ import io.github.thinkframework.generator.sql.model.impl.ColumnImpl;
 import io.github.thinkframework.generator.util.StringUtils;
 import io.github.thinkframework.generator.util.TypesUtils;
 
-import java.math.BigInteger;
-import java.sql.Types;
-
 /**
  * 适配数据库的Column和Java字段
  * @author lixiaobin

@@ -1,6 +1,5 @@
 package io.github.thinkframework.generator.sql;
 
-import io.github.thinkframework.generator.context.GeneratorProperties;
 import io.github.thinkframework.generator.sql.model.*;
 import io.github.thinkframework.generator.sql.model.impl.ColumnImpl;
 import io.github.thinkframework.generator.sql.model.impl.TableImpl;

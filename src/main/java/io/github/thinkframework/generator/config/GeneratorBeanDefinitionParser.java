@@ -8,14 +8,7 @@ import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**

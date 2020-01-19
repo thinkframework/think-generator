@@ -12,8 +12,6 @@ import io.github.thinkframework.generator.sql.model.impl.ColumnImpl;
 import io.github.thinkframework.generator.util.StringUtils;
 import io.github.thinkframework.generator.util.TypesUtils;
 
-import java.math.BigInteger;
-import java.sql.Types;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -70,7 +68,7 @@ public class ColumnMethodAdapter implements ClazzMethod,Column {
     public Clazz getReturnType(){
         return clazzMehod.getReturnType();
     }
-    
+
     @Override
     public Collection<Clazz> getParameterTypes(){
         return clazzMehod.getParameterTypes();

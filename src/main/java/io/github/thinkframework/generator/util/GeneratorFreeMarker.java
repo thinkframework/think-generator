@@ -1,12 +1,14 @@
 package io.github.thinkframework.generator.util;
 
 import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.*;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateHashModel;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 

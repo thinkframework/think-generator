@@ -75,7 +75,8 @@
             <generator:namespace>views</generator:namespace>
             <!--#模板目录-->
 <!--            <generator:template>template/glodon/enterprise</generator:template>-->
-            <generator:template>template/glodon/project</generator:template>
+<!--            <generator:template>template/glodon/project</generator:template>-->
+            <generator:template>template/test</generator:template>
             <!--#过滤文件-->
             <generator:extensions>
                 <generator:list>
