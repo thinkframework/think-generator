@@ -41,10 +41,9 @@ public class GeneratorFreeMarker {
             Writer writer = new OutputStreamWriter(new FileOutputStream(output), "UTF-8");
             new Template(input.getPath(),new FileReader(input),configuration).process(model, writer);
             writer.close();
-        } catch (IOException | TemplateException e) {
-            new GeneratorRuntimeException(e);
-        } finally {
             return output;
+        } catch (IOException | TemplateException e) {
+            throw new GeneratorRuntimeException(e);
         }
     }
 
@@ -78,10 +77,9 @@ public class GeneratorFreeMarker {
                 .process(model, writer);
             output = writer.toString();
             log.info("\n模板输入路径:{}\n模板输出路径:{}", input, output);
-        } catch (IOException | TemplateException e) {
-            new GeneratorRuntimeException(e);
-        } finally {
             return output;
+        } catch (IOException | TemplateException e) {
+           throw new GeneratorRuntimeException(e);
         }
     }
 }
