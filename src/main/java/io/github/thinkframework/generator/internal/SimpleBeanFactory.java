@@ -79,6 +79,11 @@ public class SimpleBeanFactory implements BeanFactory {
     }
 
     @Override
+    public Class<?> getType(String name, boolean allowFactoryBeanInit) throws NoSuchBeanDefinitionException {
+        return null;
+    }
+
+    @Override
     public String[] getAliases(String s) {
         return new String[0];
     }
