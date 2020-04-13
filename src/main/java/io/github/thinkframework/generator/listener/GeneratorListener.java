@@ -7,10 +7,13 @@ import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.*;
 
-import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class GeneratorListener implements ApplicationContextAware, ApplicationListener {
+    Pattern pattern = Pattern.compile("(?<generator>).generatro(?<table>\\w+)");
+
     private ApplicationContext applicationContext;
 
     /**
@@ -20,11 +23,10 @@ public class GeneratorListener implements ApplicationContextAware, ApplicationLi
      */
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
-        if (event instanceof PayloadApplicationEvent && "generator".equals(event.getSource())) {
-            Map<String,String> map = ((PayloadApplicationEvent<Map<String, String>>)event).getPayload();
-            Generator generator = applicationContext.getBean(Generator.class);
-            generator.dataSourceName(map.get("dataSourceName"))
-                .tableName(map.get("tableName"))
+        Matcher matcher = pattern.matcher(event.getSource().toString());
+        if (matcher.matches()) {
+            applicationContext.getBean(Generator.class)
+                .tableName(matcher.group("table"))
                 .generate();
         }
     }

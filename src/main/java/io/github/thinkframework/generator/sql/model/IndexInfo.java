@@ -3,7 +3,6 @@ package io.github.thinkframework.generator.sql.model;
 import java.util.Set;
 
 /**
- *
  * @author lixiaobin
  */
 public class IndexInfo {

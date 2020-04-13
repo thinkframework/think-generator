@@ -13,29 +13,30 @@ import io.github.thinkframework.generator.util.TypesUtils;
 
 /**
  * 适配数据库的Column和Java字段
+ *
  * @author lixiaobin
  * @since 2017/5/16.
  */
-public class ColumnFieldAdapter implements ClazzField,Column {
+public class ColumnFieldAdapter implements ClazzField, Column {
     private ClazzField clazzField;
     private Column column;
     private boolean columnField;
     private boolean ignore;
     private String typeScript;
 
-    public ColumnFieldAdapter(Column column){
+    public ColumnFieldAdapter(Column column) {
         this.column = column;
         clazzField = buildField(column);
         typeScript = TypesUtils.ConvertTypeScript(column.getDataType());
         columnField = true;
     }
 
-    public ColumnFieldAdapter(ClazzField clazzField){
+    public ColumnFieldAdapter(ClazzField clazzField) {
         this.clazzField = clazzField;
         column = new ColumnImpl();
     }
 
-    public static ClazzField buildField(Column column){
+    public static ClazzField buildField(Column column) {
         String columnName = column.getColumnName();
         Class clazz = TypesUtils.dataType(column.getDataType());
 
@@ -85,7 +86,7 @@ public class ColumnFieldAdapter implements ClazzField,Column {
 
 
     public boolean getExportedKey() {
-        return ((ColumnImpl)column).isExportedKey();
+        return ((ColumnImpl) column).isExportedKey();
     }
 
     public boolean getIsImportedKey() {
@@ -116,6 +117,7 @@ public class ColumnFieldAdapter implements ClazzField,Column {
 
     /**
      * 设置是否忽略当前字段
+     *
      * @return 是否忽略
      */
     public boolean isIgnore() {
@@ -124,6 +126,7 @@ public class ColumnFieldAdapter implements ClazzField,Column {
 
     /**
      * 设置是否忽略当前字段
+     *
      * @param ignore 是否忽略
      */
     public void setIgnore(boolean ignore) {
@@ -132,6 +135,7 @@ public class ColumnFieldAdapter implements ClazzField,Column {
 
     /**
      * 获取TypeScript类型.
+     *
      * @return TypeScript类型
      */
     public String getTypeScript() {
@@ -140,6 +144,7 @@ public class ColumnFieldAdapter implements ClazzField,Column {
 
     /**
      * 设置TypeScript类型
+     *
      * @param typeScript TypeScript类型
      */
     public void setTypeScript(String typeScript) {

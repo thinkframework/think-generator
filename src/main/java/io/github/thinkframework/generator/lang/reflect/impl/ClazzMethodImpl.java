@@ -47,7 +47,7 @@ public class ClazzMethodImpl extends ClazzMemberImpl implements ClazzMethod {
         annotations.add(annotation);
     }
 
-    public String toString(){
+    public String toString() {
         return name;
     }
 }

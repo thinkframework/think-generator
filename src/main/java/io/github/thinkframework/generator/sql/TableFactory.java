@@ -4,6 +4,7 @@ import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.sql.model.*;
 import io.github.thinkframework.generator.sql.model.impl.ColumnImpl;
 import io.github.thinkframework.generator.sql.model.impl.TableImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,47 +24,49 @@ import java.util.Set;
  * @author lixiaobin
  * @since 2017/3/24.
  */
-public class TableFactory{
+@Slf4j
+public class TableFactory {
     private final Logger logger = LoggerFactory.getLogger(TableFactory.class);
 
     private DataSource dataSource;
 
-    public TableFactory(){
+    public TableFactory() {
     }
 
-    public TableFactory(DataSource dataSource){
+    public TableFactory(DataSource dataSource) {
         setDataSource(dataSource);
     }
+
     /**
      * 获取目录
      * 获取目录
      * 获取目录
+     *
      * @return 目录
      */
     protected String getCatalog() {
         String catalog = null;
-        try(Connection connection = getDataSource().getConnection()){
+        try (Connection connection = getDataSource().getConnection()) {
             catalog = connection.getCatalog();
-            logger.debug("catalog: {}",catalog);
-        }catch(SQLException e){
-            logger.error("catalog: {}",e.getClass().getName());
-        }finally {
+        } catch (SQLException e) {
+            logger.error("catalog: {}", e.getClass().getName());
+        } finally {
             return catalog;
         }
     }
 
     /**
      * 获取模式
+     *
      * @return 模式
      */
     protected String getSchema() {
         String schema = null;
-        try(Connection connection = getDataSource().getConnection()){
+        try (Connection connection = getDataSource().getConnection()) {
             schema = connection.getSchema();
-            logger.debug("schema: {}",schema);
-        }catch(SQLException e){
-            logger.error("schema: {}",e.getClass().getName());
-        }finally {
+        } catch (SQLException e) {
+            logger.error("schema: {}", e.getClass().getName());
+        } finally {
             return schema;
         }
     }
@@ -71,7 +74,6 @@ public class TableFactory{
     protected DataSource getDataSource() {
         return dataSource;
     }
-
 
 
     public TableFactory setDataSource(DataSource dataSource) {
@@ -82,10 +84,11 @@ public class TableFactory{
 
     /**
      * 获得该用户下面的表,支持模糊查询
+     *
      * @return 支持的表类型
      */
     public Collection<String> getTableTypes() throws GeneratorRuntimeException {
-        try(Connection connection = getDataSource().getConnection()){
+        try (Connection connection = getDataSource().getConnection()) {
             DatabaseMetaData dbmd = connection.getMetaData();
             Set<String> set = new LinkedHashSet<>();
             ResultSet rs = dbmd.getTableTypes();
@@ -93,16 +96,16 @@ public class TableFactory{
                 set.add(rs.getString("TABLE_TYPE"));
             }
             return set;
-        }catch(SQLException e){
-            throw new GeneratorRuntimeException("SQL异常",e);
+        } catch (SQLException e) {
+            throw new GeneratorRuntimeException("SQL异常", e);
         }
     }
 
     public TableImpl getTable(String tableName) throws GeneratorRuntimeException {
         Collection<TableImpl> tables = getTables(tableName, getTableTypes().toArray(new String[]{}));
-        if(tables != null && tables.iterator().hasNext()){
+        if (tables != null && tables.iterator().hasNext()) {
             return tables.iterator().next();
-        }else{
+        } else {
             throw new GeneratorRuntimeException("表不存在");
         }
     }
@@ -114,12 +117,13 @@ public class TableFactory{
      * @return 表的集合
      */
     public Set<TableImpl> getTables(String tableName) throws GeneratorRuntimeException {
+        log.info("表名称:{}", tableName);
         Set<TableImpl> tables = getTables(tableName, getTableTypes().toArray(new String[]{}));
         return tables;
     }
 
     protected Set<TableImpl> getTables(final String tableName, final String[] types) throws GeneratorRuntimeException {
-        try(Connection connection = getDataSource().getConnection()){
+        try (Connection connection = getDataSource().getConnection()) {
             DatabaseMetaData dbmd = connection.getMetaData();
             Set<TableImpl> tables = new LinkedHashSet<>();
             TableImpl table;
@@ -141,23 +145,22 @@ public class TableFactory{
 //                    if (StringUtils.isEmpty(table.getRemarks()) && isOracleDataBase()) {
 //                        table.setRemarks(getOracleTableComments(table.getName()));
 //                    }
-                logger.debug("表名称:{}",table);
                 tables.add(table);
             }
             return tables;
-        }catch(SQLException e){
-            throw new GeneratorRuntimeException(e.getMessage(),e);
+        } catch (SQLException e) {
+            throw new GeneratorRuntimeException(e.getMessage(), e);
         }
     }
 
     /**
      * 获得表或视图中的所有列信息
+     *
      * @param tableName 表名称
      * @return 列的集合
-     *
      */
     public Collection<Column> getColumns(final String tableName) throws GeneratorRuntimeException {
-        try(Connection connection = getDataSource().getConnection()){
+        try (Connection connection = getDataSource().getConnection()) {
             DatabaseMetaData dbmd = connection.getMetaData();
             Set<Column> columns = new LinkedHashSet<Column>();
             ResultSet rs = dbmd.getColumns(getCatalog(), getSchema(), tableName, "%");
@@ -206,33 +209,35 @@ public class TableFactory{
                 //IS_AUTOINCREMENT String => 指示此列是否自动增加
                 column.setIsAutoincrement(rs.getString("IS_AUTOINCREMENT"));
 
-                if(!overideColumn(column)){
+                if (!overideColumn(column)) {
                     continue;
                 }
                 columns.add(column);
             }
             return columns;
-        }catch(SQLException e){
-            throw new GeneratorRuntimeException("SQL异常",e);
+        } catch (SQLException e) {
+            throw new GeneratorRuntimeException("SQL异常", e);
         }
     }
 
     /**
      * 允许覆盖一些字段的设置
+     *
      * @param column 列字段
-     * @return 返回true则添加,返回false则忽略
+     * @return 返回true则添加, 返回false则忽略
      */
-    protected  boolean overideColumn(Column column){
+    protected boolean overideColumn(Column column) {
         return true;
     }
 
     /**
      * 获得一个表的主键信息
+     *
      * @param tableName 表名称
      * @return 列的集合
      */
     public Collection<PrimaryKey> getPrimaryKeys(final String tableName) throws GeneratorRuntimeException {
-        try(Connection connection = getDataSource().getConnection()){
+        try (Connection connection = getDataSource().getConnection()) {
             DatabaseMetaData dbmd = connection.getMetaData();
             Set<PrimaryKey> primaryKeys = new LinkedHashSet<PrimaryKey>();
             ResultSet rs = dbmd.getPrimaryKeys(getCatalog(), getSchema(), tableName);
@@ -249,19 +254,20 @@ public class TableFactory{
                 primaryKeys.add(primaryKey);
             }
             return primaryKeys;
-        }catch(SQLException e){
-            throw new GeneratorRuntimeException("SQL异常",e);
+        } catch (SQLException e) {
+            throw new GeneratorRuntimeException("SQL异常", e);
         }
     }
 
 
     /**
      * 获得一个表的索引信息
-     * @param tableName  表名称
+     *
+     * @param tableName 表名称
      * @return 索引的集合
      */
     public Collection<IndexInfo> getIndexInfo(final String tableName) throws GeneratorRuntimeException {
-        try(Connection connection = getDataSource().getConnection()){
+        try (Connection connection = getDataSource().getConnection()) {
             Set<IndexInfo> indexInfos = new HashSet<IndexInfo>();
             DatabaseMetaData dbmd = connection.getMetaData();
             ResultSet rs = dbmd.getIndexInfo(getCatalog(), getSchema(), tableName, false, false);
@@ -283,25 +289,26 @@ public class TableFactory{
             	tableIndexOther - 此为某种其他样
             	short => 索引类型： 式的索引
             	*/
-            	indexInfo.setType(rs.getShort("TYPE"));
+                indexInfo.setType(rs.getShort("TYPE"));
                 //short => 索引中的列序列号；TYPE 为 tableIndexStatistic 时该序列号为零
                 indexInfo.setOrdinalPosition(rs.getShort("ORDINAL_POSITION"));
                 indexInfos.add(indexInfo);
             }
             return indexInfos;
-        }catch(SQLException e){
-            throw new GeneratorRuntimeException("SQL异常",e);
+        } catch (SQLException e) {
+            throw new GeneratorRuntimeException("SQL异常", e);
         }
     }
 
 
     /**
      * 获得一个表的外键信息
-     * @param tableName  表名称
+     *
+     * @param tableName 表名称
      * @return 主键的集合
      */
     public Collection<ImportedKey> getImportedKeys(final String tableName) throws GeneratorRuntimeException {
-        try(Connection connection = getDataSource().getConnection()){
+        try (Connection connection = getDataSource().getConnection()) {
             DatabaseMetaData dbmd = connection.getMetaData();
             Set<ImportedKey> importedKeys = new HashSet<ImportedKey>();
             ResultSet rs = dbmd.getImportedKeys(getCatalog(), getSchema(), tableName);
@@ -325,19 +332,20 @@ public class TableFactory{
                 importedKeys.add(importedKey);
             }
             return importedKeys;
-        }catch(SQLException e){
-            throw new GeneratorRuntimeException("SQL异常",e);
+        } catch (SQLException e) {
+            throw new GeneratorRuntimeException("SQL异常", e);
         }
     }
 
 
     /**
      * 获得一个表的外键信息
-     * @param tableName  表名称
+     *
+     * @param tableName 表名称
      * @return 外键的集合
      */
     public Collection<ExportedKey> getExportedKeys(final String tableName) throws GeneratorRuntimeException {
-        try(Connection connection = getDataSource().getConnection()){
+        try (Connection connection = getDataSource().getConnection()) {
             DatabaseMetaData dbmd = connection.getMetaData();
             Set<ExportedKey> exportedKeys = new LinkedHashSet<>();
             ResultSet rs = dbmd.getExportedKeys(getCatalog(), getSchema(), tableName);
@@ -360,8 +368,8 @@ public class TableFactory{
                 exportedKeys.add(exportedKey);
             }
             return exportedKeys;
-        }catch(SQLException e){
-            throw new GeneratorRuntimeException("SQL异常",e);
+        } catch (SQLException e) {
+            throw new GeneratorRuntimeException("SQL异常", e);
         }
     }
 }

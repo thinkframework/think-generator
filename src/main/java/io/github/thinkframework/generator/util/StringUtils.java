@@ -4,97 +4,97 @@ import java.util.regex.Pattern;
 
 public class StringUtils {
 
-	public static boolean isEmpty(CharSequence cs) {
-		return cs == null || cs.length() == 0;
-	}
+    public static boolean isEmpty(CharSequence cs) {
+        return cs == null || cs.length() == 0;
+    }
 
-	public static boolean isNotEmpty(CharSequence cs) {
-		return !isEmpty(cs);
-	}
+    public static boolean isNotEmpty(CharSequence cs) {
+        return !isEmpty(cs);
+    }
 
-	public static String className(String sqlName) {
-		if(sqlName == null || sqlName.length() == 0){
-			//fixme 外键 空指针的情况 lixiaobin
-			return "";
-		}
-		String[] strs = sqlName.toLowerCase().split("_");
-		String result = "";
-		if(strs.length>1){
-			for(int i = 0; i < strs.length; i++) {
-				if(strs[i] == null || strs[i].length() == 0){
-					continue;
-				}
-				result += strs[i].substring(0,1).toUpperCase();
-				result += strs[i].substring(1).toLowerCase();
-			}
-		}else{
-			result = sqlName.substring(0, 1).toUpperCase() + sqlName.substring(1).toLowerCase();
-		}
-		return result;
-	}
+    public static String className(String sqlName) {
+        if (sqlName == null || sqlName.length() == 0) {
+            //fixme 外键 空指针的情况 lixiaobin
+            return "";
+        }
+        String[] strs = sqlName.toLowerCase().split("_");
+        String result = "";
+        if (strs.length > 1) {
+            for (int i = 0; i < strs.length; i++) {
+                if (strs[i] == null || strs[i].length() == 0) {
+                    continue;
+                }
+                result += strs[i].substring(0, 1).toUpperCase();
+                result += strs[i].substring(1).toLowerCase();
+            }
+        } else {
+            result = sqlName.substring(0, 1).toUpperCase() + sqlName.substring(1).toLowerCase();
+        }
+        return result;
+    }
 
-	public static String classNameWithSpace(String sqlName) {
-		String[] strs = sqlName.toLowerCase().split("_");
-		String result = "";
-		if(strs.length>1){
-			for(int i = 0; i < strs.length; i++) {
-				if(i != 0){
-					result += " ";
-				}
-				result += strs[i].substring(0,1).toUpperCase();
-				result += strs[i].substring(1).toLowerCase();
-			}
-		}else{
-			result = sqlName.substring(0,1).toUpperCase()+sqlName.substring(1).toLowerCase();
-		}
-		return result;
-	}
-
-
-	public static String fieldName(String sqlName) {
-		String[] strs = sqlName.toLowerCase().split("_");
-		String result = "";
-		if(strs.length>1){
-			if(strs[0].length() > 0) {
-				result += strs[0].substring(0, 1).toLowerCase();
-				result += strs[0].substring(1).toLowerCase();
-			}
-			for(int i = 1; i < strs.length; i++) {
-				result += strs[i].substring(0,1).toUpperCase();
-				result += strs[i].substring(1).toLowerCase();
-			}
-		}else{
-			Pattern a = Pattern.compile("[a-z]");
-			Pattern b = Pattern.compile("[A-Z]");
-			if(a.matcher(sqlName).find() && b.matcher(sqlName).find()) {
-				result = sqlName.substring(0,1).toLowerCase()+sqlName.substring(1);
-			}else{
-				result = sqlName.substring(0,1).toLowerCase()+sqlName.substring(1).toLowerCase();
-			}
-		}
-		return result;
-	}
+    public static String classNameWithSpace(String sqlName) {
+        String[] strs = sqlName.toLowerCase().split("_");
+        String result = "";
+        if (strs.length > 1) {
+            for (int i = 0; i < strs.length; i++) {
+                if (i != 0) {
+                    result += " ";
+                }
+                result += strs[i].substring(0, 1).toUpperCase();
+                result += strs[i].substring(1).toLowerCase();
+            }
+        } else {
+            result = sqlName.substring(0, 1).toUpperCase() + sqlName.substring(1).toLowerCase();
+        }
+        return result;
+    }
 
 
-	public static String methodName(String sqlName) {
-		String[] strs = sqlName.toLowerCase().split("_");
-		String result = "";
-		if(strs.length>1){
-			for(int i = 0; i < strs.length; i++) {
-				result += strs[i].substring(0,1).toUpperCase();
-				result += strs[i].substring(1).toLowerCase();
-			}
-		}else{
-			Pattern a = Pattern.compile("[a-z]");
-			Pattern b = Pattern.compile("[A-Z]");
-			if(a.matcher(sqlName).find() && b.matcher(sqlName).find()) {
-				result = sqlName.substring(0,1).toUpperCase()+sqlName.substring(1);
-			}else{
-				result = sqlName.substring(0,1).toUpperCase()+sqlName.substring(1).toLowerCase();
-			}
-		}
-		return result;
-	}
+    public static String fieldName(String sqlName) {
+        String[] strs = sqlName.toLowerCase().split("_");
+        String result = "";
+        if (strs.length > 1) {
+            if (strs[0].length() > 0) {
+                result += strs[0].substring(0, 1).toLowerCase();
+                result += strs[0].substring(1).toLowerCase();
+            }
+            for (int i = 1; i < strs.length; i++) {
+                result += strs[i].substring(0, 1).toUpperCase();
+                result += strs[i].substring(1).toLowerCase();
+            }
+        } else {
+            Pattern a = Pattern.compile("[a-z]");
+            Pattern b = Pattern.compile("[A-Z]");
+            if (a.matcher(sqlName).find() && b.matcher(sqlName).find()) {
+                result = sqlName.substring(0, 1).toLowerCase() + sqlName.substring(1);
+            } else {
+                result = sqlName.substring(0, 1).toLowerCase() + sqlName.substring(1).toLowerCase();
+            }
+        }
+        return result;
+    }
+
+
+    public static String methodName(String sqlName) {
+        String[] strs = sqlName.toLowerCase().split("_");
+        String result = "";
+        if (strs.length > 1) {
+            for (int i = 0; i < strs.length; i++) {
+                result += strs[i].substring(0, 1).toUpperCase();
+                result += strs[i].substring(1).toLowerCase();
+            }
+        } else {
+            Pattern a = Pattern.compile("[a-z]");
+            Pattern b = Pattern.compile("[A-Z]");
+            if (a.matcher(sqlName).find() && b.matcher(sqlName).find()) {
+                result = sqlName.substring(0, 1).toUpperCase() + sqlName.substring(1);
+            } else {
+                result = sqlName.substring(0, 1).toUpperCase() + sqlName.substring(1).toLowerCase();
+            }
+        }
+        return result;
+    }
 
     public static String capitalize(final String str) {
         int strLen;
@@ -113,7 +113,8 @@ public class StringUtils {
             .append(str.substring(1))
             .toString();
     }
-//
+
+    //
     public static String uncapitalize(final String str) {
         int strLen;
         if (str == null || (strLen = str.length()) == 0) {
@@ -132,25 +133,26 @@ public class StringUtils {
             .toString();
     }
 
-	/**
-	 * 表名称的前缀
-     * @param  prefixs
-	 * @param string
-	 * @return
-	 */
-	public static String replacePrefix(String[] prefixs,String string){
-		if(string == null){
-			return "";
-		}
-		for (String prefix: prefixs) {
-			if(string.toUpperCase().startsWith(prefix)){
-				//忽略大小写,不能用replace
-				string = string.substring(prefix.length());
-				break;
-			}
-		}
-		return string;
-	}
+    /**
+     * 表名称的前缀
+     *
+     * @param prefixs
+     * @param string
+     * @return
+     */
+    public static String replacePrefix(String[] prefixs, String string) {
+        if (string == null) {
+            return "";
+        }
+        for (String prefix : prefixs) {
+            if (string.toUpperCase().startsWith(prefix)) {
+                //忽略大小写,不能用replace
+                string = string.substring(prefix.length());
+                break;
+            }
+        }
+        return string;
+    }
 //
 //
 //
@@ -201,6 +203,6 @@ public class StringUtils {
 //        }
 //        return result;
 //    }
-    
+
 }
 

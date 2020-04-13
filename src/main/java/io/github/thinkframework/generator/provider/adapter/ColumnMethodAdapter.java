@@ -18,28 +18,30 @@ import java.util.Set;
 
 /**
  * 适配数据库的Column和Java字段
+ *
  * @author lixiaobin
  * @since 2017/5/16.
  */
-public class ColumnMethodAdapter implements ClazzMethod,Column {
+public class ColumnMethodAdapter implements ClazzMethod, Column {
     private ClazzMethod clazzMehod;
     private Column column;
     private boolean columnField;
     private boolean ignore;
     private String typeScript;
-    public ColumnMethodAdapter(Column column){
+
+    public ColumnMethodAdapter(Column column) {
         this.column = column;
         clazzMehod = buildMethod(column);
         columnField = true;
     }
 
-    public ColumnMethodAdapter(ClazzMethod clazzMehod){
+    public ColumnMethodAdapter(ClazzMethod clazzMehod) {
         this.clazzMehod = clazzMehod;
         column = new ColumnImpl();
     }
 
 
-    public static ClazzMethod buildMethod(Column column){
+    public static ClazzMethod buildMethod(Column column) {
 
         String columnName = column.getColumnName();
         Class clazz = TypesUtils.dataType(column.getDataType());
@@ -65,12 +67,12 @@ public class ColumnMethodAdapter implements ClazzMethod,Column {
     }
 
     @Override
-    public Clazz getReturnType(){
+    public Clazz getReturnType() {
         return clazzMehod.getReturnType();
     }
 
     @Override
-    public Collection<Clazz> getParameterTypes(){
+    public Collection<Clazz> getParameterTypes() {
         return clazzMehod.getParameterTypes();
     }
 
@@ -101,15 +103,15 @@ public class ColumnMethodAdapter implements ClazzMethod,Column {
 
 
     public boolean getExportedKey() {
-        return ((ColumnImpl)column).isExportedKey();
+        return ((ColumnImpl) column).isExportedKey();
     }
 
     public boolean getIsImportedKey() {
-        return ((ColumnImpl)column).getIsImportedKey();
+        return ((ColumnImpl) column).getIsImportedKey();
     }
 
     public ImportedKey getImportedKey() {
-        return ((ColumnImpl)column).getImportedKey();
+        return ((ColumnImpl) column).getImportedKey();
     }
 
     @Override
@@ -132,6 +134,7 @@ public class ColumnMethodAdapter implements ClazzMethod,Column {
 
     /**
      * 设置是否忽略当前字段
+     *
      * @return 是否忽略
      */
     public boolean isIgnore() {
@@ -140,6 +143,7 @@ public class ColumnMethodAdapter implements ClazzMethod,Column {
 
     /**
      * 设置是否忽略当前字段
+     *
      * @param ignore 是否忽略
      */
     public void setIgnore(boolean ignore) {
@@ -148,6 +152,7 @@ public class ColumnMethodAdapter implements ClazzMethod,Column {
 
     /**
      * 获取TypeScript类型.
+     *
      * @return TypeScript类型
      */
     public String getTypeScript() {
@@ -156,6 +161,7 @@ public class ColumnMethodAdapter implements ClazzMethod,Column {
 
     /**
      * 设置TypeScript类型
+     *
      * @param typeScript TypeScript类型
      */
     public void setTypeScript(String typeScript) {

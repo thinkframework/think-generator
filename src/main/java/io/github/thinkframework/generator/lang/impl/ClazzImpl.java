@@ -17,8 +17,8 @@ import java.util.HashSet;
 public class ClazzImpl implements Clazz {
     private ClazzPackage clazzPackage;
     private String name;
-    private String generic="";
-    private String simpleName="";
+    private String generic = "";
+    private String simpleName = "";
     private Collection<ClazzField> fields = new HashSet<>();
     private Collection<ClazzField> importedFields = new HashSet<>();
     private Collection<ClazzField> exportedFields = new HashSet<>();
@@ -29,27 +29,27 @@ public class ClazzImpl implements Clazz {
     private Collection<ClazzMethod> exportedMethods = new HashSet<>();
     private ClazzAnnotations annotations = new ClazzAnnotations();
 
-    public ClazzImpl(){
+    public ClazzImpl() {
 
     }
 
-    public ClazzImpl(String simpleName,String generic,String name){
+    public ClazzImpl(String simpleName, String generic, String name) {
         this.simpleName = simpleName;
         this.generic = generic;
         this.name = name;
     }
 
-    public ClazzImpl(Class clazz){
+    public ClazzImpl(Class clazz) {
         setName(clazz.getName());
         setSimpleName(clazz.getSimpleName());
     }
 
-    public ClazzImpl(String simpleName){
+    public ClazzImpl(String simpleName) {
         setSimpleName(simpleName);
     }
 
 
-    public ClazzImpl(String packageName,String simpleName){
+    public ClazzImpl(String packageName, String simpleName) {
         clazzPackage = new ClazzPackageImpl(packageName);
         setSimpleName(simpleName);
     }
@@ -147,7 +147,7 @@ public class ClazzImpl implements Clazz {
 
     @Override
     public String toString() {
-        return simpleName+generic;
+        return simpleName + generic;
     }
 
     public void setName(String name) {

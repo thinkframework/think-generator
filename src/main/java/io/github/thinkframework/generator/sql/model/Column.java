@@ -1,19 +1,19 @@
 package io.github.thinkframework.generator.sql.model;
 
 public interface Column {
-	String getColumnName();
+    String getColumnName();
 
-	String getRemarks();
+    String getRemarks();
 
-	int getDataType();
+    int getDataType();
 
-	boolean getPrimaryKey();
+    boolean getPrimaryKey();
 
-	boolean getIsImportedKey();
+    boolean getIsImportedKey();
 
-	ImportedKey getImportedKey();
+    ImportedKey getImportedKey();
 
-	String getIsNullable();
+    String getIsNullable();
 
-	int getColumnSize();
+    int getColumnSize();
 }

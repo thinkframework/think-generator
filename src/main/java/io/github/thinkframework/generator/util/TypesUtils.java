@@ -11,46 +11,47 @@ import java.util.Map;
 /**
  * 数据库类型映射
  * 做一些适当的修改
+ *
  * @author lixiaobin
  */
 public class TypesUtils {
 
-	public final static Map<Integer,Class> map = new HashMap<Integer, Class>();
-	private final static Map<Class,Class> classConvert = new HashMap<Class, Class>();
+    public final static Map<Integer, Class> map = new HashMap<Integer, Class>();
+    private final static Map<Class, Class> classConvert = new HashMap<Class, Class>();
 
-	/**
-	 * 日期时间类型转换为JDK8的类型.
-	 */
-	static {
-		map.put(Types.CHAR,String.class);
-		map.put(Types.VARCHAR,String.class);
-		map.put(Types.LONGVARCHAR,String.class);
+    /**
+     * 日期时间类型转换为JDK8的类型.
+     */
+    static {
+        map.put(Types.CHAR, String.class);
+        map.put(Types.VARCHAR, String.class);
+        map.put(Types.LONGVARCHAR, String.class);
 
-		map.put(Types.NUMERIC,BigDecimal.class);
-		map.put(Types.DECIMAL,BigDecimal.class);
+        map.put(Types.NUMERIC, BigDecimal.class);
+        map.put(Types.DECIMAL, BigDecimal.class);
 
-		map.put(Types.BIT,Boolean.class);
+        map.put(Types.BIT, Boolean.class);
 
-		map.put(Types.TINYINT,Integer.class);
-		map.put(Types.SMALLINT,Integer.class);
-		map.put(Types.INTEGER,Integer.class);
+        map.put(Types.TINYINT, Integer.class);
+        map.put(Types.SMALLINT, Integer.class);
+        map.put(Types.INTEGER, Integer.class);
 
-		map.put(Types.BIGINT,Long.class);
+        map.put(Types.BIGINT, Long.class);
 
-		map.put(Types.REAL,Float.class);
+        map.put(Types.REAL, Float.class);
 
-		map.put(Types.FLOAT,Double.class);
-		map.put(Types.DOUBLE,Double.class);
+        map.put(Types.FLOAT, Double.class);
+        map.put(Types.DOUBLE, Double.class);
 
-		map.put(Types.BINARY,byte[].class);
-		map.put(Types.VARBINARY,byte[].class);
-		map.put(Types.LONGVARBINARY,byte[].class);
+        map.put(Types.BINARY, byte[].class);
+        map.put(Types.VARBINARY, byte[].class);
+        map.put(Types.LONGVARBINARY, byte[].class);
 
-		map.put(Types.DATE,Date.class);
+        map.put(Types.DATE, Date.class);
 
-		map.put(Types.TIME,Time.class);
+        map.put(Types.TIME, Time.class);
 
-		map.put(Types.TIMESTAMP,Timestamp.class);
+        map.put(Types.TIMESTAMP, Timestamp.class);
 //不支持的数据类型
 //		next.put(Types.NULL,String.class);
 //		next.put(Types.OTHER,String.class);
@@ -73,13 +74,13 @@ public class TypesUtils {
 //		next.put(Types.TIME_WITH_TIMEZONE,String.class);
 //		next.put(Types.TIMESTAMP_WITH_TIMEZONE,String.class);
 
-	}
+    }
 
-	public static Class dataType(Integer dataType){
+    public static Class dataType(Integer dataType) {
 
-		Class clazz = map.get(dataType);
-		return clazz != null ? clazz : Object.class;
-	}
+        Class clazz = map.get(dataType);
+        return clazz != null ? clazz : Object.class;
+    }
 
 //	protected static Class convertJavaClass(Class clazz){
 //		Properties properties = GeneratorContext.get().getProperties();
@@ -131,26 +132,26 @@ public class TypesUtils {
 //		}
 //	}
 
-	public static String ConvertTypeScript(Integer dataType){
-		Map<Integer,String> typescript = new HashMap<Integer, String>();
+    public static String ConvertTypeScript(Integer dataType) {
+        Map<Integer, String> typescript = new HashMap<Integer, String>();
 
-		typescript.put(Types.CHAR,"string");
-		typescript.put(Types.VARCHAR,"string");
-		typescript.put(Types.LONGVARCHAR,"string");
+        typescript.put(Types.CHAR, "string");
+        typescript.put(Types.VARCHAR, "string");
+        typescript.put(Types.LONGVARCHAR, "string");
 
-		typescript.put(Types.BIGINT,"number");
-		typescript.put(Types.NUMERIC,"number");
-		typescript.put(Types.DECIMAL,"number");
+        typescript.put(Types.BIGINT, "number");
+        typescript.put(Types.NUMERIC, "number");
+        typescript.put(Types.DECIMAL, "number");
 
-		typescript.put(Types.DATE,"Date");
+        typescript.put(Types.DATE, "Date");
 
-		String clazz = typescript.get(dataType);
-		//其他数据类型
-		return clazz != null ? clazz : "any";
+        String clazz = typescript.get(dataType);
+        //其他数据类型
+        return clazz != null ? clazz : "any";
 
-	}
+    }
 
-	public static void put(Integer integer,Class clazz){
-		map.put(integer,clazz);
-	}
+    public static void put(Integer integer, Class clazz) {
+        map.put(integer, clazz);
+    }
 }

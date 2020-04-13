@@ -1,33 +1,39 @@
 package io.github.thinkframework.generator;
 
 import io.github.thinkframework.generator.config.GeneratorConfiguration;
+import io.github.thinkframework.generator.provider.GeneratorProvider;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+
+import java.util.stream.Collectors;
 
 /**
  * 工厂模式
  */
-public class GeneratorFactoryBean implements BeanFactoryAware, FactoryBean, InitializingBean{//, BeanFactoryPostProcessor {
+public class GeneratorFactoryBean implements BeanFactoryAware, BeanNameAware, FactoryBean, BeanFactoryPostProcessor {
 
     private BeanFactory beanFactory;
 
-    //TODO 要不要使用依赖注入
-    @Autowired
+    private String name;
+
     private GeneratorConfiguration generatorConfiguration;
 
     private Generator generator;
 
-    public GeneratorFactoryBean(){
+    public GeneratorFactoryBean() {
 
     }
 
     @Override
     public Generator getObject() throws Exception {
-        return generator;
+        return generator
+            .generatorProviders(beanFactory.getBeanProvider(GeneratorProvider.class)
+                .orderedStream().collect(Collectors.toList()));
     }
 
     @Override
@@ -36,18 +42,14 @@ public class GeneratorFactoryBean implements BeanFactoryAware, FactoryBean, Init
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
-        generator = new Generator()
-            .beanFactory(beanFactory)
-            .generatorConfiguration(generatorConfiguration);
-    }
-
-
-    @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
         this.beanFactory = beanFactory;
     }
 
+    @Override
+    public void setBeanName(String name) {
+        this.name = name;
+    }
 
     public GeneratorFactoryBean beanFactory(BeanFactory beanFactory) throws BeansException {
         this.beanFactory = beanFactory;
@@ -70,8 +72,9 @@ public class GeneratorFactoryBean implements BeanFactoryAware, FactoryBean, Init
     }
 
 
-//    @Override
-//    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-//
-//    }
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        generator = new Generator()
+            .generatorConfiguration(generatorConfiguration);
+    }
 }

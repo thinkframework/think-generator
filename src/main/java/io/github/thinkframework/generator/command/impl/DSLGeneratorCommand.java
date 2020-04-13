@@ -5,6 +5,7 @@ import io.github.thinkframework.generator.command.Command;
 /**
  * DSL的构建命令
  * 只是一个计划
+ *
  * @author lixbiaobin
  */
 public class DSLGeneratorCommand implements Command {

@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * 命令行运行类
+ *
  * @author lixiaobin
  */
 @SpringBootApplication

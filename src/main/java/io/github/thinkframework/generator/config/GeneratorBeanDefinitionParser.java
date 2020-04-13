@@ -32,20 +32,26 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
 //        super.doParse(element, parserContext, builder);
         // 从标签中取出对应的属性值
         String id = element.getAttribute("id");
-        logger.debug("初始化BeanDefinition: {}", id);
-        parseConfiguration(element, parserContext);
-        builder.addPropertyReference("generatorConfiguration", "generatorConfiguration");
+        logger.debug("加载 BeanDefinition: {}", id);
+//        parserContext.getRegistry().registerBeanDefinition(id+"GeneratorConfiguration", parseConfiguration(element).getBeanDefinition());
+//        builder.addPropertyReference("generatorConfiguration", id+"GeneratorConfiguration");
+        builder.addPropertyValue("generatorConfiguration", generatorConfiguration(element));
         builder.getBeanDefinition().setBeanClass(GeneratorFactoryBean.class);
+        parserContext.getRegistry().registerBeanDefinition(id, builder.getBeanDefinition());
     }
 
-    private void parseConfiguration(Element element, ParserContext parserContext) {
+    /**
+     * @param element
+     * @return
+     */
+    private BeanDefinitionBuilder parseConfiguration(Element element) {
 
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition();
         element = DomUtils.getChildElementByTagName(element, "generatorConfiguration");
 
         builder.getBeanDefinition().setBeanClass(GeneratorConfiguration.class);
 
-        builder.addPropertyValue("dataSourceName", DomUtils.getChildElementValueByTagName(element, "dataSourceName"));//数据源
+//        builder.addPropertyReference("dataSource", DomUtils.getChildElementValueByTagName(element, "dataSource"));//数据源
         builder.addPropertyValue("frameName", DomUtils.getChildElementValueByTagName(element, "frameName"));//框架包
         builder.addPropertyValue("companyName", DomUtils.getChildElementValueByTagName(element, "companyName"));//公司名称
         builder.addPropertyValue("appName", DomUtils.getChildElementValueByTagName(element, "appName"));//应用名称
@@ -84,24 +90,58 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
             DomUtils.getChildElementsByTagName(element, "converts")
                 .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "map").stream())
                 .flatMap(child -> DomUtils.getChildElementsByTagName(child, "entity").stream())
-                .collect(Collectors.toMap(child ->child.getAttribute("key"),child -> child.getAttribute("value"))));
-
-//        try {
-//            XPathFactory xPathFactory = XPathFactory.newInstance();
-//            XPath xPath = xPathFactory.newXPath();
-//            NodeList prefixsList = (NodeList) xPath.evaluate("prefixs/list/value", element, XPathConstants.NODESET);
-//            List<String> prefixs = new ArrayList<>();
-//            for (int i = 0; i < prefixsList.getLength(); i++) {
-//                prefixs.add(xPath.evaluate("text()", prefixsList.item(i)));
-//            }
-//
-//            builder.addPropertyValue("prefixs", prefixs);//表前缀
-//        } catch (XPathExpressionException e) {
-//            logger.error("xpath异常",e);
-//        }
-
-        //TODO 写死了...
-        parserContext.getRegistry().registerBeanDefinition("generatorConfiguration", builder.getBeanDefinition());
+                .collect(Collectors.toMap(child -> child.getAttribute("key"), child -> child.getAttribute("value"))));
+        return builder;
     }
 
+
+    private GeneratorConfiguration generatorConfiguration(Element element) {
+
+        String id = element.getAttribute("id");
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition();
+        element = DomUtils.getChildElementByTagName(element, "generatorConfiguration");
+
+        builder.getBeanDefinition().setBeanClass(GeneratorConfiguration.class);
+        GeneratorConfiguration generatorConfiguration = new GeneratorConfiguration();
+        generatorConfiguration.setFrameName(DomUtils.getChildElementValueByTagName(element, "frameName"));//框架包
+        generatorConfiguration.setCompanyName(DomUtils.getChildElementValueByTagName(element, "companyName"));//公司名称
+        generatorConfiguration.setAppName(DomUtils.getChildElementValueByTagName(element, "appName"));//应用名称
+        generatorConfiguration.setModuleName(DomUtils.getChildElementValueByTagName(element, "moduleName"));//模块名称
+        generatorConfiguration.setAuthorName(DomUtils.getChildElementValueByTagName(element, "authorName"));//作者名称
+        generatorConfiguration.setNamespace(DomUtils.getChildElementValueByTagName(element, "namespace"));//命名空间
+        generatorConfiguration.setTemplate(DomUtils.getChildElementValueByTagName(element, "template"));//模板目录
+        generatorConfiguration.setOutput(DomUtils.getChildElementValueByTagName(element, "output"));//输出目录
+
+        generatorConfiguration.setPrefixs(
+            DomUtils.getChildElementsByTagName(element, "prefixs")
+                .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "list").stream())
+                .flatMap(child -> DomUtils.getChildElementsByTagName(child, "value").stream())
+                .map(child -> DomUtils.getTextValue(child))
+                .collect(Collectors.toList()));
+
+
+        generatorConfiguration.setIgnores(
+            DomUtils.getChildElementsByTagName(element, "ignores")
+                .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "list").stream())
+                .flatMap(child -> DomUtils.getChildElementsByTagName(child, "value").stream())
+                .map(child -> DomUtils.getTextValue(child))
+                .collect(Collectors.toList()));
+
+
+        generatorConfiguration.setExtensions(
+            DomUtils.getChildElementsByTagName(element, "extensions")
+                .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "list").stream())
+                .flatMap(child -> DomUtils.getChildElementsByTagName(child, "value").stream())
+                .map(child -> DomUtils.getTextValue(child))
+                .collect(Collectors.toList()));
+
+
+        generatorConfiguration.setConverts(
+            DomUtils.getChildElementsByTagName(element, "converts")
+                .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "map").stream())
+                .flatMap(child -> DomUtils.getChildElementsByTagName(child, "entity").stream())
+                .collect(Collectors.toMap(child -> child.getAttribute("key"), child -> child.getAttribute("value"))));
+
+        return generatorConfiguration;
+    }
 }

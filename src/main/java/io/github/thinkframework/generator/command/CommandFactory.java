@@ -5,6 +5,7 @@ import org.springframework.beans.factory.BeanFactory;
 
 /**
  * 工厂方法
+ *
  * @author lixiaobin
  */
 public class CommandFactory {
@@ -19,7 +20,7 @@ public class CommandFactory {
         commandFactory = new CommandFactoryImpl(generatorPropertis);
     }
 
-    public Command newCommand(){
+    public Command newCommand() {
         return commandFactory.newCommand();
     }
 

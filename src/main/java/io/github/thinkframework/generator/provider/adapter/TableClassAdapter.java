@@ -12,6 +12,7 @@ import java.util.Collection;
 
 /**
  * 适配数据库表和Java类
+ *
  * @author lixiaobin
  * @since 2017/5/12.
  */
@@ -22,13 +23,13 @@ public class TableClassAdapter implements Clazz, Table {
     public TableClassAdapter() {
     }
 
-    public TableClassAdapter table(Table table){
+    public TableClassAdapter table(Table table) {
         this.table = table;
         return this;
     }
 
 
-    public TableClassAdapter clazz(Clazz clazz){
+    public TableClassAdapter clazz(Clazz clazz) {
         this.clazz = clazz;
         return this;
     }
@@ -100,19 +101,19 @@ public class TableClassAdapter implements Clazz, Table {
     }
 
     public Collection<ClazzField> getImportedFields() {
-        return ((ClazzImpl)clazz).getImportedFields();
+        return ((ClazzImpl) clazz).getImportedFields();
     }
 
     public Collection<ClazzField> getExportedFields() {
-        return ((ClazzImpl)clazz).getExportedFields();
+        return ((ClazzImpl) clazz).getExportedFields();
     }
 
     public Collection<ClazzMethod> getImportedMethods() {
-        return ((ClazzImpl)clazz).getImportedMethods();
+        return ((ClazzImpl) clazz).getImportedMethods();
     }
 
     public Collection<ClazzMethod> getExportedMethods() {
-        return ((ClazzImpl)clazz).getExportedMethods();
+        return ((ClazzImpl) clazz).getExportedMethods();
     }
 
     public Collection<IndexInfo> getIndexInfos() {

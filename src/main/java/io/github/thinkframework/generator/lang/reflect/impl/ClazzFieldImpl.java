@@ -13,11 +13,11 @@ public class ClazzFieldImpl extends ClazzMemberImpl implements ClazzField {
     protected Clazz type;
     private ClazzAnnotations annotations = new ClazzAnnotations();
 
-    public ClazzFieldImpl(){
+    public ClazzFieldImpl() {
 
     }
 
-    public ClazzFieldImpl(String name,Clazz type){
+    public ClazzFieldImpl(String name, Clazz type) {
         setName(name);
         setType(type);
     }
@@ -44,7 +44,7 @@ public class ClazzFieldImpl extends ClazzMemberImpl implements ClazzField {
         annotations.add(annotation);
     }
 
-    public String toString(){
+    public String toString() {
         return name;
     }
 

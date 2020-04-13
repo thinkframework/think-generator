@@ -9,10 +9,10 @@ import io.github.thinkframework.generator.lang.ClazzPackage;
 public class ClazzPackageImpl implements ClazzPackage {
     private String name;
 
-    public ClazzPackageImpl(){
+    public ClazzPackageImpl() {
     }
 
-    public ClazzPackageImpl(String name){
+    public ClazzPackageImpl(String name) {
         setName(name);
     }
 

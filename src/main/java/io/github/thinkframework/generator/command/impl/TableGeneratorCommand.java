@@ -6,6 +6,7 @@ import io.github.thinkframework.generator.context.GeneratorProperties;
 
 /**
  * 数据库模型的脚本构建
+ *
  * @author lixbiaobin
  */
 public class TableGeneratorCommand implements Command {

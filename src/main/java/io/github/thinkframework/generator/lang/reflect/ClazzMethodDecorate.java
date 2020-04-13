@@ -9,7 +9,7 @@ import java.util.Collection;
  * @author lixiaobin
  * @since 2017/3/24
  */
-public class ClazzMethodDecorate implements ClazzMethod{
+public class ClazzMethodDecorate implements ClazzMethod {
     ClazzMethod cl;
 
 
@@ -18,17 +18,19 @@ public class ClazzMethodDecorate implements ClazzMethod{
         return null;
     }
 
-    public Clazz getReturnType(){
+    public Clazz getReturnType() {
         return cl.getReturnType();
     }
-    public Collection<Clazz> getParameterTypes(){
+
+    public Collection<Clazz> getParameterTypes() {
         return cl.getParameterTypes();
     }
-    public ClazzAnnotations getAnnotations(){
-        return  cl.getAnnotations();
+
+    public ClazzAnnotations getAnnotations() {
+        return cl.getAnnotations();
     }
 
-    public String getFkString(){
+    public String getFkString() {
         return "";
     }
 }

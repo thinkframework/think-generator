@@ -3,165 +3,63 @@ package io.github.thinkframework.generator.context;
 import io.github.thinkframework.generator.config.GeneratorConfiguration;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.util.BeanUtils;
-import io.github.thinkframework.generator.util.TypesUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.springframework.beans.factory.InitializingBean;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Types;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
  * 配置文件解析.
  * 基于xpath
  * 实现原型设计模式
+ *
  * @author lixiaobin
  * @since 1.0.0
  */
-public class GeneratorProperties implements Cloneable{
+public class GeneratorProperties implements InitializingBean, Cloneable {
 
     private static final String CLASS_PATH = "classpath://";
     private static final String FILE = "file://";
-    private GeneratorConfiguration generatorConfiguration;
-    private String clonfigLocation;
+
     private String clonfigProperties;
 
     private Properties properties = new Properties();
 
-    private List<String> prefixs = new ArrayList<>();
-    private List<String> ignores = new ArrayList<>();
-
     @SuppressWarnings("unused")
     private GeneratorProperties() {
+        //设置系统变量
+        Iterator iterator = System.getProperties().entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            properties.put("env_" + ((String) entry.getKey()).replaceAll("\\.", "_"), entry.getValue());
+        }
     }
-
 
     public GeneratorProperties(GeneratorConfiguration generatorConfiguration) {
-        this.generatorConfiguration = generatorConfiguration;
-        build(BeanUtils.describe(generatorConfiguration));
+        this();
+        //解析GeneratorConfiguration
+        BeanUtils.describe(generatorConfiguration).forEach((key, value) -> {
+            //设置GeneratorConfiguration属性
+            properties.put(key.toString().replace("generator.", ""), value);
+            if (value instanceof String) {//转换成路径
+                properties.put(key.toString().replace("generator.", "") + "_path",
+                    value.toString().replace(".", "/"));
+            }
+        });
     }
 
-    public GeneratorProperties setProperties(Properties properties){
+    public GeneratorProperties setProperties(Properties properties) {
         this.properties = properties;
         return this;
     }
 
-    public GeneratorProperties setProperties(String properties){
+    public GeneratorProperties setProperties(String properties) {
         this.clonfigProperties = properties;
         return this;
-    }
-    /**
-     * 生成配置信息
-     * @return
-     */
-    public GeneratorProperties build(Map configuration) {
-        Optional.ofNullable(clonfigProperties).ifPresent(properties ->{
-            try (InputStream inputStream = getInputStream(properties)) {
-                this.properties.load(inputStream);
-            } catch (IOException e) {
-                throw new GeneratorRuntimeException("IO异常", e);
-            }
-        });
-        //2.读取xml文件,默认applicationContext.xml
-        Optional.ofNullable(clonfigLocation).ifPresent(location -> {
-            try (InputStream inputStream = getInputStream(location)){
-                DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-                Document document = documentBuilder.parse(inputStream);
-                XPathFactory xPathFactory = XPathFactory.newInstance();
-                XPath xPath = xPathFactory.newXPath();
-                Element element = (Element) xPath.evaluate("//*[local-name()='generator']/*[local-name()='generatorConfiguration']", document, XPathConstants.NODE);
-                String dataSource = xPath.evaluate("dataSource", element);
-                String core = xPath.evaluate("core", element);
-                String frameName = xPath.evaluate("frameName", element);
-                String companyName = xPath.evaluate("companyName", element);
-                String appName = xPath.evaluate("appName", element);
-                String moduleName = xPath.evaluate("moduleName", element);
-                String authorName = xPath.evaluate("authorName", element);
-                String namespace = xPath.evaluate("namespace", element);
-                String template = xPath.evaluate("template", element);
-                String extensions = xPath.evaluate("extensions", element);
-                NodeList prefixsList = (NodeList) xPath.evaluate("prefixs/list/value", element,XPathConstants.NODESET);
-                String prefix ="",ignore="";
-                for(int i=0;i<prefixsList.getLength();i++){
-                    prefixs.add(xPath.evaluate("text()", prefixsList.item(i)));
-                    prefix += xPath.evaluate("text()", prefixsList.item(i)) + ",";
-                }
-                NodeList ignoresList = (NodeList) xPath.evaluate("ignores/list/value", element,XPathConstants.NODESET);
-                for(int i=0;i<ignoresList.getLength();i++){
-                    ignores.add(xPath.evaluate("text()", ignoresList.item(i)));
-                    ignore += xPath.evaluate("text()", ignoresList.item(i)) + ",";
-                }
-
-                NodeList convertsList = (NodeList) xPath.evaluate("converts/props/prop", element,XPathConstants.NODESET);
-                for(int i=0;i<convertsList.getLength();i++){
-                    Integer type = Types.class.getField(xPath.evaluate("@key", convertsList.item(i)).replace("java.sql.Types.",""))
-                        .getInt(Types.class);
-                    Class clazz = Class.forName(xPath.evaluate("text()", convertsList.item(i)));
-                    TypesUtils.put(type, clazz);
-                }
-                convertsList = (NodeList) xPath.evaluate("converts/map/entity", element,XPathConstants.NODESET);
-                for(int i=0;i<convertsList.getLength();i++){
-                    Integer type = Types.class.getField(xPath.evaluate("@key", convertsList.item(i)).replace("java.sql.Types.",""))
-                        .getInt(Types.class);
-                    Class clazz = Class.forName(xPath.evaluate("@value", convertsList.item(i)));
-                    TypesUtils.put(type, clazz);
-                }
-
-                String output = xPath.evaluate("output", element);
-
-                Properties loadProperties = new Properties();
-                loadProperties.put("dataSource", dataSource);
-                loadProperties.put("core", core);
-                loadProperties.put("frameName", frameName);
-                loadProperties.put("companyName", companyName);
-                loadProperties.put("appName", appName);
-                loadProperties.put("moduleName", moduleName);
-                loadProperties.put("authorName", authorName);
-                loadProperties.put("namespace", namespace);
-                loadProperties.put("template", template);
-                loadProperties.put("extensions", extensions);
-                loadProperties.put("prefix", prefix.length() == 0 ? "" : prefix.substring(0,prefix.length()-1));
-                loadProperties.put("ignore", ignore.length() == 0 ? "" : ignore.substring(0,ignore.length()-1));
-                loadProperties.put("output", output);
-
-                this.properties.putAll(loadProperties);
-            } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException e) {
-                throw new GeneratorRuntimeException("IO异常", e);
-            } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
-                throw new GeneratorRuntimeException("反射异常", e);
-            }
-        });
-
-        Optional.ofNullable(configuration).ifPresent(location -> {
-//            this.properties.putAll(configuration);//这种方式会触发空指针
-            configuration.forEach((key,value) -> {
-                if(value != null) {
-                    this.properties.put(key, value);
-                }
-            });
-        });
-        return this;
-    }
-
-    public GeneratorConfiguration getGeneratorConfiguration() {
-        return generatorConfiguration;
-    }
-
-    public void setGeneratorConfiguration(GeneratorConfiguration generatorConfiguration) {
-        this.generatorConfiguration = generatorConfiguration;
     }
 
     public String getProperty(String key) {
@@ -185,13 +83,13 @@ public class GeneratorProperties implements Cloneable{
     }
 
     protected InputStream getInputStream(String configLocation) throws GeneratorRuntimeException {
-        if(configLocation.startsWith(CLASS_PATH)){
+        if (configLocation.startsWith(CLASS_PATH)) {
             return GeneratorProperties.class.getClassLoader().getResourceAsStream(configLocation.substring(CLASS_PATH.length()));
-        }else if(configLocation.startsWith(FILE)){
+        } else if (configLocation.startsWith(FILE)) {
             try {
                 return new FileInputStream(configLocation.substring(FILE.length()));
-            }catch(FileNotFoundException e){
-                throw new GeneratorRuntimeException("文件未找到",e);
+            } catch (FileNotFoundException e) {
+                throw new GeneratorRuntimeException("文件未找到", e);
             }
         }
         return null;
@@ -199,8 +97,23 @@ public class GeneratorProperties implements Cloneable{
 
     @Override
     public GeneratorProperties clone() throws CloneNotSupportedException {
-        GeneratorProperties clone =  (GeneratorProperties) super.clone();
+        GeneratorProperties clone = (GeneratorProperties) super.clone();
         clone.properties = (Properties) clone.properties.clone();
-        return  clone;
+        return clone;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        //如果设置了properties文件就加载
+        Optional.ofNullable(clonfigProperties).ifPresent(properties -> {
+            try (InputStream inputStream = getInputStream(properties)) {
+                this.properties.load(inputStream);
+            } catch (IOException e) {
+                throw new GeneratorRuntimeException("IO异常", e);
+            }
+        });
+
+        //添加自定义变量
+        properties.put("now_yyyyMMddHHmmss", new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
     }
 }

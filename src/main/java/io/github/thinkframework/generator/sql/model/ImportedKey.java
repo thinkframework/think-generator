@@ -1,7 +1,6 @@
 package io.github.thinkframework.generator.sql.model;
 
 /**
- *
  * @author lixiaobin
  */
 public class ImportedKey {

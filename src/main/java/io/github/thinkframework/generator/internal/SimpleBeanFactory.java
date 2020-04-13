@@ -11,8 +11,9 @@ import java.util.Map;
 
 public class SimpleBeanFactory implements BeanFactory {
 
-    private Map<String,Object> names = new HashMap();
-    private Map<Class,Object> classes = new HashMap<>();
+    private Map<String, Object> names = new HashMap();
+    private Map<Class, Object> classes = new HashMap<>();
+
     @Override
     public Object getBean(String s) throws BeansException {
         return names.get(s);
@@ -20,7 +21,7 @@ public class SimpleBeanFactory implements BeanFactory {
 
     @Override
     public <T> T getBean(String s, Class<T> aClass) throws BeansException {
-        return (T)getBean(s);
+        return (T) getBean(s);
     }
 
     @Override
@@ -88,11 +89,11 @@ public class SimpleBeanFactory implements BeanFactory {
         return new String[0];
     }
 
-    public void add(String key,Object value){
-        names.put(key,value);
+    public void add(String key, Object value) {
+        names.put(key, value);
     }
 
-    public void add(Class key,Object value){
-        classes.put(key,value);
+    public void add(Class key, Object value) {
+        classes.put(key, value);
     }
 }

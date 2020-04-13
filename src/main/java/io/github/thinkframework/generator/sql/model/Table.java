@@ -27,24 +27,28 @@ public interface Table {
 
     /**
      * 列.
+     *
      * @return 列.
      */
     Collection<Column> getColumns();
 
     /**
      * 引用表.
+     *
      * @return 引用表.
      */
     Collection<ExportedKey> getExportedKeys();
 
     /**
      * 外键.
+     *
      * @return 外键
      */
     Collection<ImportedKey> getImportedKeys();
 
     /**
      * 索引.
+     *
      * @return 索引
      */
     Collection<IndexInfo> getIndexInfos();

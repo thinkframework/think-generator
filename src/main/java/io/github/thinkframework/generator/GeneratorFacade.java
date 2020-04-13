@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 /**
  * 生成器门面
  * 引用单例模式
+ *
  * @author lixiaobin
  */
 public class GeneratorFacade implements BeanFactoryAware {
@@ -28,11 +29,10 @@ public class GeneratorFacade implements BeanFactoryAware {
     private Command command;
 
     public GeneratorFacade() {
-        //TODO 单例模式
     }
 
 
-    public static GeneratorFacade getInstance(){
+    public static GeneratorFacade getInstance() {
         return instance;
     }
 
@@ -69,9 +69,10 @@ public class GeneratorFacade implements BeanFactoryAware {
 
     /**
      * 默认初始化
+     *
      * @throws Exception
      */
-    public void execute(DataSource dataSource,String tableName) {
+    public void execute(DataSource dataSource, String tableName) {
 
     }
 

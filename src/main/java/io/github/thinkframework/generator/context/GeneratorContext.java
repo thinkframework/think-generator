@@ -1,26 +1,38 @@
 package io.github.thinkframework.generator.context;
 
-import org.springframework.beans.factory.BeanFactory;
+import io.github.thinkframework.generator.config.GeneratorConfiguration;
+import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
+
+import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * ThreadLocal Mediator（中介者）.
  * 线程绑定
  */
 public class GeneratorContext {
+
     private GeneratorProperties generatorProperties;
 
-    private BeanFactory beanFactory;
+    private GeneratorConfiguration generatorConfiguration;
 
-    private String dastSourceName;
+    private DataSource dataSource;
 
     private String tableName;
 
-    private static ThreadLocal<GeneratorContext> context =  ThreadLocal.withInitial(() ->{
+    private static ThreadLocal<GeneratorContext> context = ThreadLocal.withInitial(() -> {
         GeneratorContext generatorContext = new GeneratorContext();
-        //设置默认数据源,支持多数据源场景
-        generatorContext.setDastSourceName(GeneratorEnum.DEFAULT_DATA_SOURCE_NAME.value());
         return generatorContext;
     });
+
+    /**
+     * 获取线程绑定的GeneratorContext
+     *
+     * @return GeneratorContext
+     */
+    public static GeneratorContext get(GeneratorConfiguration generatorConfiguration) {
+        return context.get().generatorConfiguration(generatorConfiguration);
+    }
 
     /**
      * 获取线程绑定的GeneratorContext
@@ -31,31 +43,60 @@ public class GeneratorContext {
         return context.get();
     }
 
-    public BeanFactory getBeanFactory() {
-        return beanFactory;
+
+    public GeneratorConfiguration getGeneratorConfiguration() {
+        return generatorConfiguration;
     }
 
-    public void setBeanFactory(BeanFactory beanFactory) {
-        this.beanFactory = beanFactory;
+    public GeneratorContext generatorConfiguration(GeneratorConfiguration generatorConfiguration) throws GeneratorRuntimeException {
+        this.generatorConfiguration = generatorConfiguration;
+        try {
+            generatorProperties = new GeneratorProperties(generatorConfiguration).clone();
+        } catch (CloneNotSupportedException e) {
+            throw new GeneratorRuntimeException(e);
+        }
+        return this;
     }
 
-    public String getDastSourceName() {
-        return dastSourceName;
+    public void setGeneratorConfiguration(GeneratorConfiguration generatorConfiguration) {
+        this.generatorConfiguration = generatorConfiguration;
     }
 
-    public void setDastSourceName(String dastSourceName) {
-        this.dastSourceName = dastSourceName;
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public GeneratorContext dataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+        return this;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public String getTableName() {
         return tableName;
     }
 
+    public GeneratorContext tableName(String tableName) {
+        this.tableName = tableName;
+        return this;
+    }
+
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
 
-    public <T> T getBean(String name,Class<T> requiredType){
-        return beanFactory.getBean(name,requiredType);
+    public GeneratorProperties getGeneratorProperties() {
+        return generatorProperties;
+    }
+
+    public void setGeneratorProperties(GeneratorProperties generatorProperties) {
+        this.generatorProperties = generatorProperties;
+    }
+
+    public Properties getProperties() {
+        return generatorProperties.getProperties();
     }
 }

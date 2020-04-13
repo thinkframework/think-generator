@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.provider.adapter;
 
-import io.github.thinkframework.generator.context.GeneratorProperties;
+import io.github.thinkframework.generator.context.GeneratorContext;
 import io.github.thinkframework.generator.lang.Clazz;
 import io.github.thinkframework.generator.lang.impl.ClazzImpl;
 import io.github.thinkframework.generator.lang.impl.ClazzPackageImpl;
@@ -14,19 +14,24 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * 通过表生成对应的类
+ *
+ * @author lixiaobin
+ */
 public class TableClassBuild {
 
-    private GeneratorProperties generatorProperties;
+    private GeneratorContext generatorContext;
 
-    public TableClassBuild(GeneratorProperties generatorProperties) {
-        this.generatorProperties = generatorProperties;
+    public TableClassBuild(GeneratorContext generatorContext) {
+        this.generatorContext = generatorContext;
     }
 
     public Clazz buildClass(Table table) {
-        generatorProperties.getGeneratorConfiguration().getPrefixs().forEach(prefix -> {
+        generatorContext.getGeneratorConfiguration().getPrefixs().forEach(prefix -> {
             //TODO 要不要遍历
-            if(table.getTableName().toLowerCase().startsWith(prefix.toLowerCase())){//生成对象的时候忽略表名前置
-                ((TableImpl)table).setTableName(table.getTableName().toLowerCase().replace(prefix.toLowerCase(),""));
+            if (table.getTableName().toLowerCase().startsWith(prefix.toLowerCase())) {//生成对象的时候忽略表名前置
+                ((TableImpl) table).setTableName(table.getTableName().toLowerCase().replace(prefix.toLowerCase(), ""));
             }
         });
         String className = StringUtils.className(table.getTableName());
@@ -54,26 +59,27 @@ public class TableClassBuild {
      */
     private Set<ClazzField> buildField(Table table) {
         return table.getColumns().stream()
-                .map(column -> {
-                    ColumnFieldAdapter columnFieldAdapter = new ColumnFieldAdapter(column);
-                    columnFieldAdapter.setIgnore(TableClassBuild.this.generatorProperties.getGeneratorConfiguration().getIgnores().contains(column.getColumnName()));
-                    return columnFieldAdapter;
-                }).collect(Collectors.toCollection(LinkedHashSet::new));
+            .map(column -> {
+                ColumnFieldAdapter columnFieldAdapter = new ColumnFieldAdapter(column);
+                columnFieldAdapter.setIgnore(TableClassBuild.this.generatorContext.getGeneratorConfiguration().getIgnores().contains(column.getColumnName()));
+                return columnFieldAdapter;
+            }).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     /**
      * 根据列生成方法信息
+     *
      * @param table
      * @return 方法信息
      */
     private Set<ClazzMethod> buildMethod(Table table) {
         return table.getColumns().stream()
-                .map(column -> {
-                    ColumnMethodAdapter columnMethodAdapter = new ColumnMethodAdapter(column);
-                    columnMethodAdapter.setIgnore(TableClassBuild.this.generatorProperties.getGeneratorConfiguration().getIgnores().contains(column.getColumnName()));
-                    return columnMethodAdapter;
-                })
-                .collect(Collectors.toCollection(LinkedHashSet::new));
+            .map(column -> {
+                ColumnMethodAdapter columnMethodAdapter = new ColumnMethodAdapter(column);
+                columnMethodAdapter.setIgnore(TableClassBuild.this.generatorContext.getGeneratorConfiguration().getIgnores().contains(column.getColumnName()));
+                return columnMethodAdapter;
+            })
+            .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
 //    /**

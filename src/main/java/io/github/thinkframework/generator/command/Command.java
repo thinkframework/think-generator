@@ -2,6 +2,7 @@ package io.github.thinkframework.generator.command;
 
 /**
  * 命令接口
+ *
  * @author lixiaobin
  */
 public interface Command {

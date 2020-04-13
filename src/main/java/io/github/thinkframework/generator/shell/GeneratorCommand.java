@@ -16,6 +16,7 @@ import java.sql.SQLException;
 
 /**
  * 命令行
+ *
  * @author lixiaobin
  */
 @Slf4j
@@ -25,31 +26,31 @@ public class GeneratorCommand implements ApplicationContextAware {
 
     @ShellMethod("datasources")
     public void datasources() {
-        log.info("$s",applicationContext.getBeanNamesForType(DataSource.class));
+        log.info("$s", applicationContext.getBeanNamesForType(DataSource.class));
     }
 
     @ShellMethod("tables")
     public void tables(String datasource) {
-        try(Connection connection = applicationContext.getBean(datasource,DataSource.class).getConnection()){
-            connection.getMetaData().getTables(null,null,null,null);
-        } catch (SQLException e){
-            log.error("",e);
+        try (Connection connection = applicationContext.getBean(datasource, DataSource.class).getConnection()) {
+            connection.getMetaData().getTables(null, null, null, null);
+        } catch (SQLException e) {
+            log.error("", e);
         }
     }
 
     @ShellMethod("generator")
     public void generator(String datasource, String tablename, @ShellOption(defaultValue = "generator") String generator) {
-        applicationContext.getBean(Generator.class).dataSourceName(datasource).tableName(tablename).generate();
+        applicationContext.getBean(Generator.class).tableName(tablename).generate();
     }
 
     @ShellMethodAvailability({"tables", "generator"})
     public Availability dataSourceExists() {
-        return applicationContext.getBeanNamesForType(DataSource.class) != null ? Availability.available():Availability.unavailable("数据源不存在");
+        return applicationContext.getBeanNamesForType(DataSource.class) != null ? Availability.available() : Availability.unavailable("数据源不存在");
     }
 
     @ShellMethodAvailability({"generator"})
     public Availability generatorExists() {
-        return applicationContext.getBeanNamesForType(Generator.class) != null ? Availability.available():Availability.unavailable("生成器不存在");
+        return applicationContext.getBeanNamesForType(Generator.class) != null ? Availability.available() : Availability.unavailable("生成器不存在");
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.BeanFactory;
 
 /**
  * 对象工厂
+ *
  * @author lixiaobin
  */
 public class CommandFactoryImpl {
@@ -18,7 +19,7 @@ public class CommandFactoryImpl {
         this.generatorPropertis = generatorPropertis;
     }
 
-    public Command newCommand(){
+    public Command newCommand() {
         return new TableGeneratorCommand();
     }
 

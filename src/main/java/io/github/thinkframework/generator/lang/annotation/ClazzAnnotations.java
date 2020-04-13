@@ -4,13 +4,14 @@ import io.github.thinkframework.generator.lang.annotation.impl.ClazzAnnotationsI
 
 /**
  * 有序集合
+ *
  * @author lixiaobin
  * @since 2017/5/25.
  */
 public class ClazzAnnotations {
     ClazzAnnotationsImpl clazzAnnotations = new ClazzAnnotationsImpl();
 
-    public boolean add(ClazzAnnotation clazzAnnotation){
+    public boolean add(ClazzAnnotation clazzAnnotation) {
         return clazzAnnotations.add(clazzAnnotation);
     }
 

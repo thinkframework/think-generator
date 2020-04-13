@@ -7,12 +7,13 @@ import java.util.Iterator;
 
 /**
  * 有序集合
+ *
  * @author lixiaobin
  * @since 2017/5/25.
  */
-public class ClazzAnnotationsImpl extends ArrayList<ClazzAnnotation>{
+public class ClazzAnnotationsImpl extends ArrayList<ClazzAnnotation> {
 
-    public ClazzAnnotationsImpl(){
+    public ClazzAnnotationsImpl() {
         super();
     }
 
@@ -25,7 +26,7 @@ public class ClazzAnnotationsImpl extends ArrayList<ClazzAnnotation>{
         while (it.hasNext()) {
             e = it.next();
             sb.append(e.toString());
-            if(it.hasNext()) {
+            if (it.hasNext()) {
                 sb.append(System.getProperty("line.separator")).append("\t");
             }
         }
