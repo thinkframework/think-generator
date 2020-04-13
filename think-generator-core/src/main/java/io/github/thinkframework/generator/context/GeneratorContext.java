@@ -1,6 +1,7 @@
 package io.github.thinkframework.generator.context;
 
-import io.github.thinkframework.generator.config.GeneratorConfiguration;
+import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
+import io.github.thinkframework.generator.config.GeneratorProperties;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 
 import javax.sql.DataSource;

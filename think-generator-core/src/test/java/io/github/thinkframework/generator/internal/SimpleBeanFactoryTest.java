@@ -1,7 +1,7 @@
 package io.github.thinkframework.generator.internal;
 
 import io.github.thinkframework.generator.GeneratorFactoryBean;
-import io.github.thinkframework.generator.config.GeneratorConfiguration;
+import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
 import io.github.thinkframework.generator.provider.TableGeneratorProvider;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.After;
@@ -61,12 +61,13 @@ public class SimpleBeanFactoryTest {
     public void application() throws Exception {
 
         GeneratorConfiguration generatorConfiguration = new GeneratorConfiguration()
-            .setFrameName("com.glodon.bim5d")
-            .setCompanyName("com.glodon.bim5d")
-            .setAppName("app")
-            .setModuleName("costenterprise")
-            .setAuthorName("unascribed")
-            .setTemplate("template/glodon/enterprise");
+//            .setFrameName("com.glodon.bim5d")
+//            .setCompanyName("com.glodon.bim5d")
+//            .setAppName("app")
+//            .setModuleName("costenterprise")
+//            .setAuthorName("unascribed")
+//            .setTemplate("template/glodon/enterprise")
+            ;
 
         SimpleBeanFactory simpleBeanFactory = new SimpleBeanFactory();
         simpleBeanFactory.add("generator",new GeneratorFactoryBean().generatorConfiguration(generatorConfiguration));

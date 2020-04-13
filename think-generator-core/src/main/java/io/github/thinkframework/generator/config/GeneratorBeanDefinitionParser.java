@@ -1,5 +1,6 @@
 package io.github.thinkframework.generator.config;
 
+import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
 import io.github.thinkframework.generator.GeneratorFactoryBean;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;

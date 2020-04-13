@@ -8,6 +8,7 @@ spring:
         schema: sql/create-db.sql
 think:
     generator:
+        enabled: true
         configuration:
             frame-name: io.think
             company-name: com.hdhxby
@@ -16,20 +17,20 @@ think:
             author-name: unascribed
             namespace: view
             template: template/test
-            extensions:
-                - java
-                - js
-                - jsp
-                - xml
-                - ts
-                - html
-                - json
-                - sql
-            converts: {
-                          "java.sql.Types.BIGINT" : "java.math.BigInteger"
-            }
-            prefixs:
-                - T_
-            ignores:
-                - sys_revision
-            output: generator_output
+#            extensions:
+#                - java
+#                - js
+#                - jsp
+#                - xml
+#                - ts
+#                - html
+#                - json
+#                - sql
+#            converts: {
+#                          "java.sql.Types.BIGINT" : "java.math.BigInteger"
+#            }
+#            prefixs:
+#                - T_
+#            ignores:
+#                - sys_revision
+#            output: generator_output

@@ -1,18 +1,15 @@
-package io.github.thinkframework.generator;
+package io.github.thinkframework.generator.test;
 
-import io.github.thinkframework.generator.config.GeneratorConfiguration;
-import io.github.thinkframework.generator.provider.GeneratorProvider;
-import io.github.thinkframework.generator.provider.TableGeneratorProvider;
+import io.github.thinkframework.generator.GeneratorTable;
+import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
@@ -27,7 +24,10 @@ import java.io.IOException;
 public class GeneratorApplicationTest {
 
     @Autowired
-    private Generator<DataSource,String> generator;
+    private ApplicationContext applicationContext;
+
+//    @Autowired
+    private GeneratorTable generator;
 
     @Autowired
     private DataSource dataSource;

@@ -110,7 +110,7 @@
 <!--                        <manifest>-->
 <!--                            <addClasspath>true</addClasspath>-->
 <!--                            <classpathPrefix>lib/</classpathPrefix>-->
-<!--                            <mainClass>io.github.thinkframework.generator.GeneratorApplication</mainClass>-->
+<!--                            <mainClass>io.github.thinkframework.generator.test.GeneratorApplication</mainClass>-->
 <!--                        </manifest>-->
 <!--                    </archive>-->
 <!--                </configuration>-->

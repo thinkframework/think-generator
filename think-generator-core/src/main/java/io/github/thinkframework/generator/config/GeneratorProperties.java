@@ -1,9 +1,10 @@
-package io.github.thinkframework.generator.context;
+package io.github.thinkframework.generator.config;
 
-import io.github.thinkframework.generator.config.GeneratorConfiguration;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.util.BeanUtils;
+import lombok.Data;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,6 +21,7 @@ import java.util.*;
  * @author lixiaobin
  * @since 1.0.0
  */
+@ConfigurationProperties("think.generator")
 public class GeneratorProperties implements InitializingBean, Cloneable {
 
     private static final String CLASS_PATH = "classpath://";
@@ -29,8 +31,9 @@ public class GeneratorProperties implements InitializingBean, Cloneable {
 
     private Properties properties = new Properties();
 
-    @SuppressWarnings("unused")
-    private GeneratorProperties() {
+    private GeneratorConfiguration configuration = new GeneratorConfiguration();
+
+    public GeneratorProperties() {
         //设置系统变量
         Iterator iterator = System.getProperties().entrySet().iterator();
         while (iterator.hasNext()) {
@@ -41,8 +44,20 @@ public class GeneratorProperties implements InitializingBean, Cloneable {
 
     public GeneratorProperties(GeneratorConfiguration generatorConfiguration) {
         this();
+        configuration(generatorConfiguration);
+    }
+
+    public GeneratorConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public GeneratorConfiguration getConfiguration(GeneratorConfiguration configuration){
+        return configuration;
+    }
+
+    public GeneratorProperties configuration(GeneratorConfiguration configuration) {
         //解析GeneratorConfiguration
-        BeanUtils.describe(generatorConfiguration).forEach((key, value) -> {
+        BeanUtils.describe(configuration).forEach((key, value) -> {
             //设置GeneratorConfiguration属性
             properties.put(key.toString().replace("generator.", ""), value);
             if (value instanceof String) {//转换成路径
@@ -50,6 +65,11 @@ public class GeneratorProperties implements InitializingBean, Cloneable {
                     value.toString().replace(".", "/"));
             }
         });
+        return this;
+    }
+
+    public void setConfiguration(GeneratorConfiguration configuration) {
+        this.configuration = configuration;
     }
 
     public GeneratorProperties setProperties(Properties properties) {
@@ -115,5 +135,21 @@ public class GeneratorProperties implements InitializingBean, Cloneable {
 
         //添加自定义变量
         properties.put("now_yyyyMMddHHmmss", new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+    }
+
+    @Data
+    public static class GeneratorConfiguration {
+        private String frameName;
+        private String companyName;
+        private String appName;
+        private String moduleName;
+        private String authorName;
+        private String namespace;
+        private String template;
+        private List<String> extensions;
+        private Map<String, String> converts;
+        private List<String> prefixs;
+        private List<String> ignores;
+        private String output;
     }
 }

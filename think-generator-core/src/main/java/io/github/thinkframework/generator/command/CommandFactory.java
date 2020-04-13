@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.command;
 
-import io.github.thinkframework.generator.context.GeneratorProperties;
+import io.github.thinkframework.generator.config.GeneratorProperties;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
