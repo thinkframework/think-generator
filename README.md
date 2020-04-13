@@ -40,8 +40,6 @@
     <!-- 监听器 -->
     <bean id="generatorListener" class="io.github.thinkframework.generator.listener.GeneratorListener"></bean>
     <!-- 数据提供者 -->
-    <bean id="propertiesGeneratorProvider" class="io.github.thinkframework.generator.provider.PropertiesGeneratorProvider"></bean>
-
     <bean id="tableGeneratorProvider" class="io.github.thinkframework.generator.provider.TableGeneratorProvider"></bean>
 
     <generator:generator id="generator">

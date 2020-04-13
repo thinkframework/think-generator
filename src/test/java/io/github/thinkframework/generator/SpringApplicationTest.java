@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
 
@@ -27,6 +28,9 @@ public class SpringApplicationTest {
     @Autowired
     private Generator generator;
 
+    @Autowired
+    private DataSource dataSource;
+
     @Before
     public void before() throws IOException {
         logger.debug("before");
@@ -40,7 +44,7 @@ public class SpringApplicationTest {
     @Test
     public void application() throws Exception {
         generator
-            .dataSourceName("dataSource")
+            .dataSource(dataSource)
             .tableName("TEST")
             .generate();
     }

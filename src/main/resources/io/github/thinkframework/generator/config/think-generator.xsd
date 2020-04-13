@@ -28,7 +28,7 @@
     <xsd:element name="generatorConfiguration">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="dataSourceName" type="xsd:string" minOccurs="0" default="dataSource">
+                <xsd:element name="dataSource" type="xsd:string" minOccurs="0" default="dataSource">
                     <xsd:annotation>
                         <xsd:documentation>
                             数据源

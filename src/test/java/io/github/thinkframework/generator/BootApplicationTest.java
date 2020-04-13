@@ -43,7 +43,6 @@ public class BootApplicationTest {
     @Test
     public void application() throws Exception {
         generator
-            .dataSourceName("dataSource")
             .tableName("TEST")
             .generate();
     }

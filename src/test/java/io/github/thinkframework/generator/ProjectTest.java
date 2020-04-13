@@ -36,7 +36,6 @@ public class ProjectTest {
     @Test
     public void enterprise() throws Exception {
         generator
-            .dataSourceName("project")
             .tableName("bim5d_cost_cztj_summary")
             .generate();
     }
@@ -48,27 +47,22 @@ public class ProjectTest {
     @Test
     public void project() throws Exception {
         generator
-            .dataSourceName("project")
             .tableName("bim5d_cost_cbkm_bidsummary")
             .generate();
 
         generator
-            .dataSourceName("project")
             .tableName("bim5d_cost_geqsummary")
             .generate();
 
         generator
-            .dataSourceName("project")
             .tableName("bim5d_cost_geqcbkm_contrast")
             .generate();
 
         generator
-            .dataSourceName("project")
             .tableName("bim5d_cost_geqnewcbkm_contrast")
             .generate();
 
         generator
-            .dataSourceName("project")
             .tableName("bim5d_cost_geqcbkm_contrastdetail")
             .generate();
 

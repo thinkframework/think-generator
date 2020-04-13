@@ -42,7 +42,6 @@ public class ListenerTest {
     @Test
     public void enterprise() throws Exception {
         generator
-            .dataSourceName("project")
             .tableName("bim5d_cost_cztj_summary")
             .generate();
     }

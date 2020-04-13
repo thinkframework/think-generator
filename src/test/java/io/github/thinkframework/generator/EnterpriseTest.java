@@ -38,7 +38,6 @@ public class EnterpriseTest {
     @Test
     public void enterprise() throws Exception {
         generator
-            .dataSourceName("enterprise")
             .tableName("revise_local_norm")
             .generate();
     }
@@ -50,7 +49,6 @@ public class EnterpriseTest {
     @Test
     public void project() throws Exception {
         generator
-            .dataSourceName("project")
             .tableName("TEST")
             .generate();
     }

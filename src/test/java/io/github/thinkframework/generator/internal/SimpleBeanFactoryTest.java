@@ -2,6 +2,7 @@ package io.github.thinkframework.generator.internal;
 
 import io.github.thinkframework.generator.GeneratorFactoryBean;
 import io.github.thinkframework.generator.config.GeneratorConfiguration;
+import io.github.thinkframework.generator.provider.TableGeneratorProvider;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.After;
 import org.junit.Before;
@@ -59,23 +60,25 @@ public class SimpleBeanFactoryTest {
     @Test
     public void application() throws Exception {
 
-        GeneratorConfiguration generatorConfiguration = new GeneratorConfiguration();
-        generatorConfiguration.setDataSourceName("dataSource");
-        generatorConfiguration.setFrameName("com.glodon.bim5d");
-        generatorConfiguration.setCompanyName("com.glodon.bim5d");
-        generatorConfiguration.setAppName("app");
-        generatorConfiguration.setModuleName("costenterprise");
-        generatorConfiguration.setAuthorName("unascribed");
-        generatorConfiguration.setTemplate("template/glodon/enterprise");
+        GeneratorConfiguration generatorConfiguration = new GeneratorConfiguration()
+            .setFrameName("com.glodon.bim5d")
+            .setCompanyName("com.glodon.bim5d")
+            .setAppName("app")
+            .setModuleName("costenterprise")
+            .setAuthorName("unascribed")
+            .setTemplate("template/glodon/enterprise");
 
         SimpleBeanFactory simpleBeanFactory = new SimpleBeanFactory();
+        simpleBeanFactory.add("generator",new GeneratorFactoryBean().generatorConfiguration(generatorConfiguration));
+        simpleBeanFactory.add("tableGeneratorProvider",new TableGeneratorProvider());
         simpleBeanFactory.add("dataSource",dataSource);
-        simpleBeanFactory.add("generator",new GeneratorFactoryBean());
 
         GeneratorFactoryBean generatorFactoryBean = simpleBeanFactory.getBean("generator",GeneratorFactoryBean.class);
-        generatorFactoryBean.beanFactory(simpleBeanFactory).generatorConfiguration(generatorConfiguration).afterPropertiesSet();
+        generatorFactoryBean.beanFactory(simpleBeanFactory)
+            .postProcessBeanFactory(null);
         generatorFactoryBean.getObject()
-            .dataSourceName("dataSource").tableName("TEST")
+            .dataSource(dataSource)
+            .tableName("TEST")
             .generate();
 
     }
