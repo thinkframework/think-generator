@@ -1,6 +1,7 @@
 package io.github.thinkframework.generator.config;
 
 import io.github.thinkframework.generator.GeneratorFactoryBean;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -17,8 +18,8 @@ import java.util.stream.Collectors;
  * @author lixiaobin
  * @since 2017/3/24
  */
+@Slf4j
 public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
-    Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 不要调用registerBeanDefinition方法
@@ -32,10 +33,12 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
 //        super.doParse(element, parserContext, builder);
         // 从标签中取出对应的属性值
         String id = element.getAttribute("id");
-        logger.debug("加载 BeanDefinition: {}", id);
+        String clazz = element.getAttribute("clazz");
+        log.debug("加载 BeanDefinition: {}", id);
 //        parserContext.getRegistry().registerBeanDefinition(id+"GeneratorConfiguration", parseConfiguration(element).getBeanDefinition());
 //        builder.addPropertyReference("generatorConfiguration", id+"GeneratorConfiguration");
         builder.addPropertyValue("generatorConfiguration", generatorConfiguration(element));
+        builder.addPropertyValue("clazz", clazz);
         builder.getBeanDefinition().setBeanClass(GeneratorFactoryBean.class);
         parserContext.getRegistry().registerBeanDefinition(id, builder.getBeanDefinition());
     }

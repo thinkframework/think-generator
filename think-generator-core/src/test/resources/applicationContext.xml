@@ -25,7 +25,7 @@
 
     <bean id="tableGeneratorProvider" class="io.github.thinkframework.generator.provider.TableGeneratorProvider"></bean>
 
-    <generator:generator id="generator">
+    <generator:generator id="generator" clazz="io.github.thinkframework.generator.GeneratorTable">
         <generator:generatorConfiguration>
             <!-- 数据源 -->
             <generator:dataSource>dataSource</generator:dataSource>

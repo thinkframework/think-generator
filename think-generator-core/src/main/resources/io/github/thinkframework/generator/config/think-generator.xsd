@@ -22,21 +22,19 @@
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
+            <xsd:attribute name="clazz" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        和Spring的id节点相同
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
         </xsd:complexType>
     </xsd:element>
 
     <xsd:element name="generatorConfiguration">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="dataSource" type="xsd:string" minOccurs="0" default="dataSource">
-                    <xsd:annotation>
-                        <xsd:documentation>
-                            数据源
-                            不是必须的
-                            比一定是DataSource接口的实现类,引用一个数据提供者就可以
-                        </xsd:documentation>
-                    </xsd:annotation>
-                </xsd:element>
                 <xsd:element name="frameName" type="xsd:string">
                     <xsd:annotation>
                         <xsd:documentation>

@@ -18,66 +18,16 @@ import javax.sql.DataSource;
  *
  * @author lixiaobin
  */
-public class GeneratorFacade implements BeanFactoryAware {
+public class GeneratorFacade {
+    private Generator tableGenerator;
 
-    private Logger logger = LoggerFactory.getLogger(GeneratorContext.class);
+    private Generator ClassGenerator;
 
-    private static GeneratorFacade instance = new GeneratorFacade();
-
-    private BeanFactory beanFactory;
-
-    private Command command;
-
-    public GeneratorFacade() {
-    }
-
-
-    public static GeneratorFacade getInstance() {
-        return instance;
-    }
-
-    public GeneratorFacade(BeanFactory beanFactory) {
-        this.beanFactory = beanFactory;
-    }
-
-
-    public GeneratorFacade command(Command command) {
-        this.command = command;
-        return this;
-    }
-
-
-    public GeneratorFacade command() {
-        this.command = new TableGeneratorCommand(new Generator());
-        return this;
-    }
-
-    public GeneratorFacade beanFactory(BeanFactory beanFactory) throws BeansException {
-        setBeanFactory(beanFactory);
-        return this;
-    }
-
-    public void execute() throws GeneratorRuntimeException {
-        command.execute();
-    }
-
-
-    public void unDo() throws GeneratorRuntimeException {
-        command.unDo();
-    }
-
-
-    /**
-     * 默认初始化
-     *
-     * @throws Exception
-     */
-    public void execute(DataSource dataSource, String tableName) {
+    private void geteratorTable(){
 
     }
 
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
+    private void geteratorClass(){
+
     }
 }

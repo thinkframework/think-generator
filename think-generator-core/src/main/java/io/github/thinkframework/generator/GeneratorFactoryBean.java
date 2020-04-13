@@ -3,10 +3,7 @@ package io.github.thinkframework.generator;
 import io.github.thinkframework.generator.config.GeneratorConfiguration;
 import io.github.thinkframework.generator.provider.GeneratorProvider;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.BeanNameAware;
-import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
@@ -17,9 +14,12 @@ import java.util.stream.Collectors;
  */
 public class GeneratorFactoryBean implements BeanFactoryAware, BeanNameAware, FactoryBean, BeanFactoryPostProcessor {
 
+
     private BeanFactory beanFactory;
 
     private String name;
+
+    private String clazz;
 
     private GeneratorConfiguration generatorConfiguration;
 
@@ -56,6 +56,17 @@ public class GeneratorFactoryBean implements BeanFactoryAware, BeanNameAware, Fa
         return this;
     }
 
+    public String getClazz() {
+        return clazz;
+    }
+
+    public GeneratorFactoryBean clazz(String clazz) {
+        this.clazz = clazz;
+        return this;
+    }
+    public void setClazz(String clazz) {
+        this.clazz = clazz;
+    }
 
     public GeneratorConfiguration getGeneratorConfiguration() {
         return generatorConfiguration;
@@ -74,7 +85,11 @@ public class GeneratorFactoryBean implements BeanFactoryAware, BeanNameAware, Fa
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        generator = new Generator()
-            .generatorConfiguration(generatorConfiguration);
+        try {
+            generator = ((Generator<Object, Object>)getClass().getClassLoader().loadClass(clazz).newInstance())
+                .generatorConfiguration(generatorConfiguration);
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            throw new BeanCreationException("bean创建失败",e);
+        }
     }
 }

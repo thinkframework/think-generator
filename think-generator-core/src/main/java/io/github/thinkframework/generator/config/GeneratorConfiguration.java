@@ -14,7 +14,6 @@ import java.util.Map;
 @Data
 @ConfigurationProperties("think.generator.configuration")
 public class GeneratorConfiguration {
-    //    private DataSource dataSource;
     private String frameName;
     private String companyName;
     private String appName;
