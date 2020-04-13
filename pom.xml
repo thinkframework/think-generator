@@ -7,7 +7,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>think-generator</artifactId>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 	<name>think-generator</name>
 	<url>http://maven.apache.org</url>
 
@@ -17,59 +17,12 @@
             <name>lixiaobin</name>
         </developer>
     </developers>
-	<dependencies>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.shell</groupId>-->
-<!--            <artifactId>spring-shell-starter</artifactId>-->
-<!--            <version>2.0.0.RELEASE</version>-->
-<!--        </dependency>-->
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-messaging</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.zaxxer</groupId>
-                    <artifactId>HikariCP</artifactId>
-                </exclusion>
-            </exclusions>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>think-generator-core</module>
+        <module>think-generator-boot-starter</module>
+        <module>think-generator-shell</module>
+    </modules>
 	<build>
         <finalName>generator</finalName>
 <!--        <sourceDirectory>src/main/java</sourceDirectory>-->
