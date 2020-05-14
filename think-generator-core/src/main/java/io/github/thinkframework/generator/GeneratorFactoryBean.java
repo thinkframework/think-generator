@@ -1,19 +1,22 @@
 package io.github.thinkframework.generator;
 
+import io.github.thinkframework.generator.config.GeneratorProperties;
 import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
 import io.github.thinkframework.generator.provider.GeneratorProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.*;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.FactoryBean;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * 工厂模式
  */
-public class GeneratorFactoryBean implements BeanFactoryAware, BeanNameAware, FactoryBean, BeanFactoryPostProcessor {
+@Slf4j
+public class GeneratorFactoryBean implements BeanFactoryAware, BeanNameAware, FactoryBean<Generator> {
 
     public static final String DEFAULT_GENERATOR = "io.github.thinkframework.generator.GeneratorTable";
 
@@ -21,26 +24,21 @@ public class GeneratorFactoryBean implements BeanFactoryAware, BeanNameAware, Fa
 
     private String name;
 
-    private String clazz;
-
-    private GeneratorConfiguration generatorConfiguration;
+    private String clazz = DEFAULT_GENERATOR;
 
     private Generator generator;
 
-    public GeneratorFactoryBean() {
-
-    }
-
     @Override
     public Generator getObject() throws Exception {
-        return generator
-            .generatorConfiguration(generatorConfiguration)
+        generator = ((Generator)Class.forName(clazz).newInstance())
+            .generatorConfiguration(beanFactory.getBean(GeneratorProperties.class).getConfiguration())
             .generatorProviders(beanFactory.getBeanProvider(GeneratorProvider.class)
-                .orderedStream().collect(Collectors.toList()));
+            .orderedStream().collect(Collectors.toList()));
+        return generator;
     }
 
     @Override
-    public Class<?> getObjectType() {
+    public Class<Generator> getObjectType() {
         return Generator.class;
     }
 
@@ -54,44 +52,11 @@ public class GeneratorFactoryBean implements BeanFactoryAware, BeanNameAware, Fa
         this.name = name;
     }
 
-    public GeneratorFactoryBean beanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
-        return this;
-    }
-
     public String getClazz() {
         return clazz;
     }
 
-    public GeneratorFactoryBean clazz(String clazz) {
-        this.clazz = clazz;
-        return this;
-    }
     public void setClazz(String clazz) {
         this.clazz = clazz;
-    }
-
-    public GeneratorConfiguration getGeneratorConfiguration() {
-        return generatorConfiguration;
-    }
-
-
-    public GeneratorFactoryBean generatorConfiguration(GeneratorConfiguration generatorConfiguration) {
-        this.generatorConfiguration = generatorConfiguration;
-        return this;
-    }
-
-    public void setGeneratorConfiguration(GeneratorConfiguration generatorConfiguration) {
-        this.generatorConfiguration = generatorConfiguration;
-    }
-
-
-    @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        try {
-            generator = ((Generator<Object, Object>)getClass().getClassLoader().loadClass(Optional.ofNullable(clazz).orElse(DEFAULT_GENERATOR)).newInstance());
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-            throw new BeanCreationException("bean创建失败",e);
-        }
     }
 }

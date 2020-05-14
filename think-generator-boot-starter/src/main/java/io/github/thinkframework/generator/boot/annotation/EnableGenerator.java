@@ -10,8 +10,7 @@ import java.lang.annotation.*;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@EnableConfigurationProperties(value = {GeneratorProperties.class})
-@Import(value = {GeneratorAutoConfiguration.class})
+@Import(value = {GeneratorAutoConfiguration.class,})
 @Documented
 public @interface EnableGenerator {
 

@@ -13,6 +13,7 @@ import io.github.thinkframework.generator.util.TypesUtils;
 import org.springframework.core.Ordered;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -47,7 +48,7 @@ public class TableGeneratorProvider implements GeneratorProvider, Ordered {
         result.put("clazz", tableClassAdapter);
 
         //根据下划线拆分
-        String[] prefixs = generatorContext.getGeneratorProperties().getProperty("prefix", "").split(",");
+        List<String> prefixs = generatorContext.getGeneratorConfiguration().getPrefixs();
         for (String prefix : prefixs) {
             if (tableName.toUpperCase().startsWith(prefix)) {
                 tableName = tableName.toUpperCase().replaceFirst(prefix, "");
@@ -55,7 +56,8 @@ public class TableGeneratorProvider implements GeneratorProvider, Ordered {
             }
         }
 
-        result.put("className", tableClassAdapter.getClazz().getSimpleName());
+        result.put("tableName", tableClassAdapter.getTableName());
+        result.put("className", tableClassAdapter.getSimpleName());
 
         //全小写,JavaScript需要
         result.put("className_lower_case", tableName.toLowerCase());
@@ -77,6 +79,6 @@ public class TableGeneratorProvider implements GeneratorProvider, Ordered {
 
     @Override
     public int getOrder() {
-        return 0;
+        return 1;
     }
 }

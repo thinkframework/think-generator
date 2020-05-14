@@ -1,10 +1,11 @@
 package io.github.thinkframework.generator.config;
 
-import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
 import io.github.thinkframework.generator.GeneratorFactoryBean;
+import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
+import io.github.thinkframework.generator.listener.GeneratorListener;
+import io.github.thinkframework.generator.provider.ConfigurationGeneratorProvider;
+import io.github.thinkframework.generator.provider.TableGeneratorProvider;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -36,74 +37,32 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
         String id = element.getAttribute("id");
         String clazz = element.getAttribute("clazz");
         log.debug("加载 BeanDefinition: {}", id);
-//        parserContext.getRegistry().registerBeanDefinition(id+"GeneratorConfiguration", parseConfiguration(element).getBeanDefinition());
-//        builder.addPropertyReference("generatorConfiguration", id+"GeneratorConfiguration");
-        builder.addPropertyValue("generatorConfiguration", generatorConfiguration(element));
         builder.addPropertyValue("clazz", clazz);
         builder.getBeanDefinition().setBeanClass(GeneratorFactoryBean.class);
         parserContext.getRegistry().registerBeanDefinition(id, builder.getBeanDefinition());
+
+        BeanDefinitionBuilder generatorProperties =  BeanDefinitionBuilder.genericBeanDefinition();
+        generatorProperties.getBeanDefinition().setBeanClass(GeneratorProperties.class);
+        generatorProperties.addPropertyValue("configuration", generatorConfiguration(element));
+        parserContext.getRegistry().registerBeanDefinition("generatorProperties", generatorProperties.getBeanDefinition());
+
+        BeanDefinitionBuilder configurationGeneratorProvider =  BeanDefinitionBuilder.genericBeanDefinition();
+        configurationGeneratorProvider.getBeanDefinition().setBeanClass(ConfigurationGeneratorProvider.class);
+        parserContext.getRegistry().registerBeanDefinition("configurationGeneratorProvider", configurationGeneratorProvider.getBeanDefinition());
+
+        BeanDefinitionBuilder tableGeneratorProvider =  BeanDefinitionBuilder.genericBeanDefinition();
+        tableGeneratorProvider.getBeanDefinition().setBeanClass(TableGeneratorProvider.class);
+        parserContext.getRegistry().registerBeanDefinition("tableGeneratorProvider", tableGeneratorProvider.getBeanDefinition());
+
+
+        BeanDefinitionBuilder generatorListener =  BeanDefinitionBuilder.genericBeanDefinition();
+        generatorListener.getBeanDefinition().setBeanClass(GeneratorListener.class);
+        parserContext.getRegistry().registerBeanDefinition("generatorListener", generatorListener.getBeanDefinition());
     }
-
-    /**
-     * @param element
-     * @return
-     */
-    private BeanDefinitionBuilder parseConfiguration(Element element) {
-
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition();
-        element = DomUtils.getChildElementByTagName(element, "generatorConfiguration");
-
-        builder.getBeanDefinition().setBeanClass(GeneratorConfiguration.class);
-
-//        builder.addPropertyReference("dataSource", DomUtils.getChildElementValueByTagName(element, "dataSource"));//数据源
-        builder.addPropertyValue("frameName", DomUtils.getChildElementValueByTagName(element, "frameName"));//框架包
-        builder.addPropertyValue("companyName", DomUtils.getChildElementValueByTagName(element, "companyName"));//公司名称
-        builder.addPropertyValue("appName", DomUtils.getChildElementValueByTagName(element, "appName"));//应用名称
-        builder.addPropertyValue("moduleName", DomUtils.getChildElementValueByTagName(element, "moduleName"));//模块名称
-        builder.addPropertyValue("authorName", DomUtils.getChildElementValueByTagName(element, "authorName"));//作者名称
-        builder.addPropertyValue("namespace", DomUtils.getChildElementValueByTagName(element, "namespace"));//命名空间
-        builder.addPropertyValue("template", DomUtils.getChildElementValueByTagName(element, "template"));//模板目录
-        builder.addPropertyValue("output", DomUtils.getChildElementValueByTagName(element, "output"));//输出目录
-
-
-        builder.addPropertyValue("prefixs",
-            DomUtils.getChildElementsByTagName(element, "prefixs")
-                .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "list").stream())
-                .flatMap(child -> DomUtils.getChildElementsByTagName(child, "value").stream())
-                .map(child -> DomUtils.getTextValue(child))
-                .collect(Collectors.toList()));
-
-
-        builder.addPropertyValue("ignores",
-            DomUtils.getChildElementsByTagName(element, "ignores")
-                .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "list").stream())
-                .flatMap(child -> DomUtils.getChildElementsByTagName(child, "value").stream())
-                .map(child -> DomUtils.getTextValue(child))
-                .collect(Collectors.toList()));
-
-
-        builder.addPropertyValue("extensions",
-            DomUtils.getChildElementsByTagName(element, "extensions")
-                .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "list").stream())
-                .flatMap(child -> DomUtils.getChildElementsByTagName(child, "value").stream())
-                .map(child -> DomUtils.getTextValue(child))
-                .collect(Collectors.toList()));
-
-
-        builder.addPropertyValue("converts",
-            DomUtils.getChildElementsByTagName(element, "converts")
-                .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "map").stream())
-                .flatMap(child -> DomUtils.getChildElementsByTagName(child, "entity").stream())
-                .collect(Collectors.toMap(child -> child.getAttribute("key"), child -> child.getAttribute("value"))));
-        return builder;
-    }
-
 
     private GeneratorConfiguration generatorConfiguration(Element element) {
-
-        String id = element.getAttribute("id");
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition();
-        element = DomUtils.getChildElementByTagName(element, "generatorConfiguration");
+        element = DomUtils.getChildElementByTagName(element, "configuration");
 
         builder.getBeanDefinition().setBeanClass(GeneratorConfiguration.class);
         GeneratorConfiguration generatorConfiguration = new GeneratorConfiguration();
@@ -123,14 +82,12 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
                 .map(child -> DomUtils.getTextValue(child))
                 .collect(Collectors.toList()));
 
-
         generatorConfiguration.setIgnores(
             DomUtils.getChildElementsByTagName(element, "ignores")
                 .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "list").stream())
                 .flatMap(child -> DomUtils.getChildElementsByTagName(child, "value").stream())
                 .map(child -> DomUtils.getTextValue(child))
                 .collect(Collectors.toList()));
-
 
         generatorConfiguration.setExtensions(
             DomUtils.getChildElementsByTagName(element, "extensions")

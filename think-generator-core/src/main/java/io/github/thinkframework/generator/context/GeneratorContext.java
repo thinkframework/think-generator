@@ -1,7 +1,6 @@
 package io.github.thinkframework.generator.context;
 
 import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
-import io.github.thinkframework.generator.config.GeneratorProperties;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 
 import javax.sql.DataSource;
@@ -13,7 +12,7 @@ import java.util.Properties;
  */
 public class GeneratorContext {
 
-    private GeneratorProperties generatorProperties;
+    private Properties properties = new Properties();
 
     private GeneratorConfiguration generatorConfiguration;
 
@@ -51,11 +50,6 @@ public class GeneratorContext {
 
     public GeneratorContext generatorConfiguration(GeneratorConfiguration generatorConfiguration) throws GeneratorRuntimeException {
         this.generatorConfiguration = generatorConfiguration;
-        try {
-            generatorProperties = new GeneratorProperties(generatorConfiguration).clone();
-        } catch (CloneNotSupportedException e) {
-            throw new GeneratorRuntimeException(e);
-        }
         return this;
     }
 
@@ -89,15 +83,7 @@ public class GeneratorContext {
         this.tableName = tableName;
     }
 
-    public GeneratorProperties getGeneratorProperties() {
-        return generatorProperties;
-    }
-
-    public void setGeneratorProperties(GeneratorProperties generatorProperties) {
-        this.generatorProperties = generatorProperties;
-    }
-
     public Properties getProperties() {
-        return generatorProperties.getProperties();
+        return properties;
     }
 }

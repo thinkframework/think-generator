@@ -70,13 +70,13 @@ public class SimpleBeanFactoryTest {
             ;
 
         SimpleBeanFactory simpleBeanFactory = new SimpleBeanFactory();
-        simpleBeanFactory.add("generator",new GeneratorFactoryBean().generatorConfiguration(generatorConfiguration));
+        simpleBeanFactory.add("generator",new GeneratorFactoryBean());
         simpleBeanFactory.add("tableGeneratorProvider",new TableGeneratorProvider());
         simpleBeanFactory.add("dataSource",dataSource);
 
         GeneratorFactoryBean generatorFactoryBean = simpleBeanFactory.getBean("generator",GeneratorFactoryBean.class);
-        generatorFactoryBean.beanFactory(simpleBeanFactory)
-            .postProcessBeanFactory(null);
+//        generatorFactoryBean.beanFactory(simpleBeanFactory)
+//            .postProcessBeanFactory(null);
         generatorFactoryBean.getObject()
             .dataSource(dataSource)
             .tableName("TEST")

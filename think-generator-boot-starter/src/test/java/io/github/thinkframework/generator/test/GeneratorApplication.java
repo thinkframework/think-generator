@@ -1,6 +1,5 @@
 package io.github.thinkframework.generator.test;
 
-import io.github.thinkframework.generator.Generator;
 import io.github.thinkframework.generator.GeneratorFactoryBean;
 import io.github.thinkframework.generator.boot.annotation.EnableGenerator;
 import org.springframework.boot.SpringApplication;
@@ -11,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * @author lixiaobin
  */
-@EnableGenerator
+//@EnableGenerator
 @SpringBootApplication
 public class GeneratorApplication {
 

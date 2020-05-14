@@ -27,7 +27,6 @@ public class ColumnFieldAdapter implements ClazzField, Column {
     public ColumnFieldAdapter(Column column) {
         this.column = column;
         clazzField = buildField(column);
-        typeScript = TypesUtils.ConvertTypeScript(column.getDataType());
         columnField = true;
     }
 

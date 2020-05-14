@@ -1,2 +1,3 @@
-#自动注入,改为通过@EnableGenerator启用
-#io.github.thinkframework.generator.boot.generator.config.GeneratorAutoConfiguration
+#
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.github.thinkframework.generator.boot.config.GeneratorAutoConfiguration

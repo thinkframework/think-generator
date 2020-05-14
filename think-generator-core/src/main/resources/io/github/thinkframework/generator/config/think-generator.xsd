@@ -12,7 +12,7 @@
     <xsd:element name="generator">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element ref="generatorConfiguration">
+                <xsd:element ref="configuration">
                 </xsd:element>
             </xsd:sequence>
             <xsd:attribute name="id" type="xsd:string">
@@ -32,7 +32,7 @@
         </xsd:complexType>
     </xsd:element>
 
-    <xsd:element name="generatorConfiguration">
+    <xsd:element name="configuration">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="frameName" type="xsd:string">

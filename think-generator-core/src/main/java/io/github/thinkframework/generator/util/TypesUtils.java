@@ -14,6 +14,7 @@ import java.util.Map;
  *
  * @author lixiaobin
  */
+
 public class TypesUtils {
 
     public final static Map<Integer, Class> map = new HashMap<Integer, Class>();
@@ -77,9 +78,7 @@ public class TypesUtils {
     }
 
     public static Class dataType(Integer dataType) {
-
-        Class clazz = map.get(dataType);
-        return clazz != null ? clazz : Object.class;
+        return map.getOrDefault(dataType,Object.class);
     }
 
 //	protected static Class convertJavaClass(Class clazz){
@@ -131,25 +130,25 @@ public class TypesUtils {
 //			return clazz;
 //		}
 //	}
-
-    public static String ConvertTypeScript(Integer dataType) {
-        Map<Integer, String> typescript = new HashMap<Integer, String>();
-
-        typescript.put(Types.CHAR, "string");
-        typescript.put(Types.VARCHAR, "string");
-        typescript.put(Types.LONGVARCHAR, "string");
-
-        typescript.put(Types.BIGINT, "number");
-        typescript.put(Types.NUMERIC, "number");
-        typescript.put(Types.DECIMAL, "number");
-
-        typescript.put(Types.DATE, "Date");
-
-        String clazz = typescript.get(dataType);
-        //其他数据类型
-        return clazz != null ? clazz : "any";
-
-    }
+//
+//    public static String ConvertTypeScript(Integer dataType) {
+//        Map<Integer, String> typescript = new HashMap<Integer, String>();
+//
+//        typescript.put(Types.CHAR, "string");
+//        typescript.put(Types.VARCHAR, "string");
+//        typescript.put(Types.LONGVARCHAR, "string");
+//
+//        typescript.put(Types.BIGINT, "number");
+//        typescript.put(Types.NUMERIC, "number");
+//        typescript.put(Types.DECIMAL, "number");
+//
+//        typescript.put(Types.DATE, "Date");
+//
+//        String clazz = typescript.get(dataType);
+//        //其他数据类型
+//        return clazz != null ? clazz : "any";
+//
+//    }
 
     public static void put(Integer integer, Class clazz) {
         map.put(integer, clazz);

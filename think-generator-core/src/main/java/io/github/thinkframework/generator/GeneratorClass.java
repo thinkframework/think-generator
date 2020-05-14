@@ -25,7 +25,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 
 /**
- * 生成器对象
+ * 根据Class生成
  *
  * @author lixiaobin
  * @since 1.0.0

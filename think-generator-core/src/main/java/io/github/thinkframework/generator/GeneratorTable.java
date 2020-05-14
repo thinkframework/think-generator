@@ -8,10 +8,7 @@ import io.github.thinkframework.generator.sql.TableFactory;
 import io.github.thinkframework.generator.sql.model.impl.TableImpl;
 import io.github.thinkframework.generator.util.GeneratorFreeMarker;
 import io.github.thinkframework.generator.util.StringUtils;
-import io.github.thinkframework.generator.util.TypesUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
@@ -19,19 +16,18 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.sql.Types;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 
 /**
- * 生成器对象
+ * 根据数据库生成
  *
  * @author lixiaobin
  * @since 1.0.0
  */
 @Slf4j
-public class GeneratorTable implements Generator<DataSource,String>,InitializingBean {
+public class GeneratorTable implements Generator<DataSource,String> {
 
     private GeneratorConfiguration generatorConfiguration;
 
@@ -54,7 +50,7 @@ public class GeneratorTable implements Generator<DataSource,String>,Initializing
             .getTables(tableName)//获取表,模糊查询
             .parallelStream()//并行执行
             .map(TableImpl::getTableName)//获取表名称
-            .map(tableName -> GeneratorContext.get(generatorConfiguration).dataSource(dataSource).tableName(tableName))//设置环境上下文
+            .map(tableName -> GeneratorContext.get().generatorConfiguration(generatorConfiguration).dataSource(dataSource).tableName(tableName))//设置环境上下文
             .peek(generatorContext -> generatorProviders.forEach(generatorProvider -> generatorProvider.build(generatorContext)))//调用所有的提供者,填充数据
             .forEach(generatorContext -> {
                 //调用输出
@@ -140,19 +136,5 @@ public class GeneratorTable implements Generator<DataSource,String>,Initializing
     public GeneratorTable tableName(String tableName) {
         this.tableName = tableName;
         return this;
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        //覆盖数据库类型
-        generatorConfiguration.getConverts().forEach((key, value) -> {
-            try {
-                TypesUtils.put(Types.class.getField((key).replace("java.sql.Types.", ""))
-                        .getInt(Types.class),
-                    Class.forName(value));
-            } catch (ClassNotFoundException | IllegalAccessException | NoSuchFieldException e) {
-                throw new GeneratorRuntimeException("反射异常", e);
-            }
-        });
     }
 }
