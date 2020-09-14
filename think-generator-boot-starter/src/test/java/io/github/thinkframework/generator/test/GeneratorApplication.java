@@ -1,9 +1,9 @@
 package io.github.thinkframework.generator.test;
 
 import io.github.thinkframework.generator.GeneratorFactoryBean;
-import io.github.thinkframework.generator.boot.annotation.EnableGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.util.Assert;
 
 /**
  * 命令行运行类
@@ -16,6 +16,6 @@ public class GeneratorApplication {
 
     public static void main(String[] args) throws Exception {
         GeneratorFactoryBean generator = SpringApplication.run(GeneratorApplication.class, args).getBean(GeneratorFactoryBean.class);
-        System.out.println(generator);
+        Assert.notNull(generator,"generator创建失败!");
     }
 }

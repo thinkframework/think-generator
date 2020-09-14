@@ -27,7 +27,7 @@ import java.util.regex.Matcher;
  * @since 1.0.0
  */
 @Slf4j
-public class GeneratorTable implements Generator<DataSource,String> {
+public class GeneratorTable implements GeneratorStrategy<DataSource,String> {
 
     private GeneratorConfiguration generatorConfiguration;
 

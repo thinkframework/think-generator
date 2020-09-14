@@ -14,7 +14,6 @@ public class Json1Test {
         String raw = "{\"id\":1,\"name\":\"martin\"}";
         Map<String,String> map = JsonUtils.toMap(raw);
 
-        new
     }
 
     private void json(String raw){

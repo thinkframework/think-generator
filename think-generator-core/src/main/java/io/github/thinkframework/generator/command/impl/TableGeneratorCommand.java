@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.command.impl;
 
-import io.github.thinkframework.generator.Generator;
+import io.github.thinkframework.generator.GeneratorStrategy;
 import io.github.thinkframework.generator.command.Command;
 import io.github.thinkframework.generator.config.GeneratorProperties;
 
@@ -13,7 +13,7 @@ public class TableGeneratorCommand implements Command {
 
     private GeneratorProperties generatorProperties;
 
-    private Generator generator;
+    private GeneratorStrategy generator;
 
     public TableGeneratorCommand() {
     }
@@ -22,7 +22,7 @@ public class TableGeneratorCommand implements Command {
 //        generator = new Generator(generatorProperties);
 //    }
 
-    public TableGeneratorCommand(Generator generator) {
+    public TableGeneratorCommand(GeneratorStrategy generator) {
         this.generator = generator;
     }
 

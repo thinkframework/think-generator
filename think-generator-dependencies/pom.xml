@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Sonatype, Inc. All rights reserved.
+  ~
+  ~ This program is licensed to you under the Apache License Version 2.0,
+  ~ and you may not use this file except in compliance with the Apache License Version 2.0.
+  ~ You may obtain a copy of the Apache License Version 2.0 at http://www.apache.org/licenses/LICENSE-2.0.
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the Apache License Version 2.0 is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>io.github.thinkframework</groupId>
+        <artifactId>think-generator</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.github.thinkframework</groupId>
+    <artifactId>think-generator-dependencies</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <description>
+        作为spring boot dependencies的补充
+    </description>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>https://github.com/think-projects/think-framework.git</connection>
+        <developerConnection>https://github.com/think-projects/think-framework.git</developerConnection>
+        <url>https://github.com/think-projects/think-framework</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>lixiaobin</id>
+            <name>lixiaobin</name>
+            <email>hdhxby@qq.com</email>
+        </developer>
+    </developers>
+
+    <properties>
+        <!-- Build properties -->
+        <maven.version>3.0.0</maven.version>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <!-- Dependency versions -->
+        <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
+        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
+        <spring-security.version>5.2.1.RELEASE</spring-security.version>
+<!--        <jhipster-dependencies.version>2.1.1</jhipster-dependencies.version>-->
+<!--        &lt;!&ndash; The spring-boot version should match the one managed by-->
+<!--        https://mvnrepository.com/artifact/io.github.jhipster/jhipster-dependencies/${jhipster-dependencies.version} &ndash;&gt;-->
+<!--        &lt;!&ndash; The hibernate version should match the one managed by-->
+<!--        https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} &ndash;&gt;-->
+        <hibernate.version>5.2.17.Final</hibernate.version>
+<!--        &lt;!&ndash; The javassist version should match the one managed by-->
+<!--        https://mvnrepository.com/artifact/org.hibernate/hibernate-core/${hibernate.version} &ndash;&gt;-->
+<!--        <javassist.version>3.22.0-GA</javassist.version>-->
+<!--        &lt;!&ndash; The liquibase version should match the one managed by-->
+<!--        https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} &ndash;&gt;-->
+<!--        <liquibase.version>3.5.5</liquibase.version>-->
+<!--        <liquibase-hibernate5.version>3.6</liquibase-hibernate5.version>-->
+<!--        <validation-api.version>2.0.1.Final</validation-api.version>-->
+        <mapstruct.version>1.2.0.Final</mapstruct.version>
+
+        <druid.version>1.1.16</druid.version>
+
+        <guava.version>28.0-jre</guava.version>
+
+
+        <!-- Plugin versions -->
+<!--        <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>-->
+<!--        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>-->
+<!--        <maven-eclipse-plugin.version>2.10</maven-eclipse-plugin.version>-->
+<!--        <maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>-->
+<!--        <maven-idea-plugin.version>2.2.1</maven-idea-plugin.version>-->
+<!--        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>-->
+<!--        <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>-->
+<!--        <maven-war-plugin.version>3.2.2</maven-war-plugin.version>-->
+<!--        <jib-maven-plugin.version>0.9.11</jib-maven-plugin.version>-->
+        <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
+<!--        <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>-->
+<!--        <scala-maven-plugin.version>3.4.2</scala-maven-plugin.version>-->
+        <sonar-maven-plugin.version>3.5.0.1254</sonar-maven-plugin.version>
+<!--        <openapi-generator-maven-plugin.version>3.3.0</openapi-generator-maven-plugin.version>-->
+<!--        <git-commit-id-plugin.version>2.2.5</git-commit-id-plugin.version>-->
+
+        <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.thinkframework</groupId>
+                <artifactId>think-generator-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.thinkframework</groupId>
+                <artifactId>think-generator-plugin</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

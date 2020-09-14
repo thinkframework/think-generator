@@ -12,16 +12,16 @@ import java.util.List;
  * @author lixiaobin
  * @since 1.0.0
  */
-public interface Generator<S,T> {
+public interface GeneratorStrategy<S,T> {
 
     void generate() throws GeneratorRuntimeException;
 
-    Generator generatorConfiguration(GeneratorConfiguration generatorConfiguration);
+    GeneratorStrategy generatorConfiguration(GeneratorConfiguration generatorConfiguration);
 
-    Generator generatorProviders(List<GeneratorProvider> generatorProviders);
+    GeneratorStrategy generatorProviders(List<GeneratorProvider> generatorProviders);
 
-    Generator dataSource(S dataSource);
+    GeneratorStrategy dataSource(S dataSource);
 
-    Generator tableName(T tableName);
+    GeneratorStrategy tableName(T tableName);
 
 }

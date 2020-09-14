@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.listener;
 
-import io.github.thinkframework.generator.Generator;
+import io.github.thinkframework.generator.GeneratorStrategy;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -24,7 +24,7 @@ public class ListenerTest {
     Logger logger = LoggerFactory.getLogger(ListenerTest.class);
 
     @Autowired
-    private Generator generator;
+    private GeneratorStrategy generator;
 
     @Autowired
     ApplicationEventPublisher applicationEventPublisher;

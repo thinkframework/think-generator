@@ -1,4 +1,4 @@
-package io.github.thinkframework.generator.boot.config;
+package io.github.thinkframework.boot.autoconfigure;
 
 import io.github.thinkframework.generator.GeneratorFactoryBean;
 import io.github.thinkframework.generator.config.GeneratorProperties;

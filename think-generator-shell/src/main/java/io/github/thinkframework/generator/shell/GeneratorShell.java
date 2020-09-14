@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.shell;
 
-import io.github.thinkframework.generator.Generator;
+import io.github.thinkframework.generator.GeneratorStrategy;
 import io.github.thinkframework.generator.GeneratorFactoryBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -9,7 +9,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellMethodAvailability;
 import org.springframework.shell.standard.ShellOption;
 
 import javax.sql.DataSource;
@@ -63,7 +62,7 @@ public class GeneratorShell implements ApplicationContextAware {
     }
 
     public Availability generatoAvailability() {
-        return applicationContext.getBeanNamesForType(Generator.class) != null ? Availability.available() : Availability.unavailable("生成器不存在");
+        return applicationContext.getBeanNamesForType(GeneratorStrategy.class) != null ? Availability.available() : Availability.unavailable("生成器不存在");
     }
 
     @Override

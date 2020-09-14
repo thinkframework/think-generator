@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.config;
 
-import io.github.thinkframework.generator.Generator;
+import io.github.thinkframework.generator.GeneratorStrategy;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
 public class CoreNamespaceHandlerTest extends AbstractJUnit4SpringContextTests {
     @Autowired
-    private Generator generator;
+    private GeneratorStrategy generator;
 
     @Test
     public void test(){

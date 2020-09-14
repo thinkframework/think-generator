@@ -25,7 +25,7 @@ public class GeneratorApplicationTest {
     Logger logger = LoggerFactory.getLogger(GeneratorApplicationTest.class);
 
     @Autowired
-    private Generator generator;
+    private GeneratorStrategy generator;
 
     @Autowired
     private DataSource dataSource;

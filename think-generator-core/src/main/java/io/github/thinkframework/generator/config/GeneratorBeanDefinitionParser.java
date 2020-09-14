@@ -2,7 +2,6 @@ package io.github.thinkframework.generator.config;
 
 import io.github.thinkframework.generator.GeneratorFactoryBean;
 import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
-import io.github.thinkframework.generator.listener.GeneratorListener;
 import io.github.thinkframework.generator.provider.ConfigurationGeneratorProvider;
 import io.github.thinkframework.generator.provider.TableGeneratorProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -55,9 +54,9 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
         parserContext.getRegistry().registerBeanDefinition("tableGeneratorProvider", tableGeneratorProvider.getBeanDefinition());
 
 
-        BeanDefinitionBuilder generatorListener =  BeanDefinitionBuilder.genericBeanDefinition();
-        generatorListener.getBeanDefinition().setBeanClass(GeneratorListener.class);
-        parserContext.getRegistry().registerBeanDefinition("generatorListener", generatorListener.getBeanDefinition());
+//        BeanDefinitionBuilder generatorListener =  BeanDefinitionBuilder.genericBeanDefinition();
+//        generatorListener.getBeanDefinition().setBeanClass(GeneratorListener.class);
+//        parserContext.getRegistry().registerBeanDefinition("generatorListener", generatorListener.getBeanDefinition());
     }
 
     private GeneratorConfiguration generatorConfiguration(Element element) {
@@ -95,7 +94,6 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
                 .flatMap(child -> DomUtils.getChildElementsByTagName(child, "value").stream())
                 .map(child -> DomUtils.getTextValue(child))
                 .collect(Collectors.toList()));
-
 
         generatorConfiguration.setConverts(
             DomUtils.getChildElementsByTagName(element, "converts")
