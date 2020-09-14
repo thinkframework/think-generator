@@ -1,7 +1,6 @@
 package io.github.thinkframework.generator.annotation;
 
-import io.github.thinkframework.boot.autoconfigure.GeneratorAutoConfiguration;
-import io.github.thinkframework.generator.config.GeneratorImportBeanDefinitionRegistrar;
+import io.github.thinkframework.generator.config.GeneratorProperties;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -12,7 +11,7 @@ import java.lang.annotation.*;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import(value = {GeneratorImportBeanDefinitionRegistrar.class,})
+@Import(value = {GeneratorProperties.class,GeneratorImportBeanDefinitionRegistrar.class,})
 @Documented
 public @interface EnableGenerator {
 

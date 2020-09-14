@@ -32,7 +32,7 @@ public class ColumnFieldAdapter implements ClazzField, Column {
 
     public ColumnFieldAdapter(ClazzField clazzField) {
         this.clazzField = clazzField;
-        column = new ColumnImpl();
+        column = buildColumn(clazzField);
     }
 
     public static ClazzField buildField(Column column) {
@@ -46,6 +46,14 @@ public class ColumnFieldAdapter implements ClazzField, Column {
         field.setType(classType);
         field.setName(fieldName);
         return field;
+    }
+
+    public static Column buildColumn(ClazzField clazzField) {
+        String columnName = clazzField.getName();
+//        Class clazz = TypesUtils.dataType(clazzField.getDataType());
+
+        ColumnImpl column = new ColumnImpl(columnName);
+        return column;
     }
 
     @Override

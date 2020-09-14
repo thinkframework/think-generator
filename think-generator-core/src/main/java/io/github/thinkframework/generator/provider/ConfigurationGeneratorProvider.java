@@ -20,6 +20,14 @@ public class ConfigurationGeneratorProvider implements GeneratorProvider, Ordere
 
     @Override
     public GeneratorContext build(GeneratorContext generatorContext) {
+        BeanUtils.describe(generatorContext.getGeneratorConfiguration()).forEach((key, value) -> {
+            //设置GeneratorConfiguration属性
+            generatorContext.getProperties().put(key, value);
+            if (value instanceof String) {//转换成路径
+                generatorContext.getProperties().put(key+"_"+"path", value.toString().replace(".", Matcher.quoteReplacement(File.separator)));
+            }
+        });
+
         generatorContext.getGeneratorConfiguration().getConverts().forEach((key,value) -> {
             if(key.startsWith("java.sql.Types.")) {
                 try {
@@ -27,14 +35,6 @@ public class ConfigurationGeneratorProvider implements GeneratorProvider, Ordere
                 } catch (IllegalAccessException | NoSuchFieldException | ClassNotFoundException e) {
                     throw new GeneratorRuntimeException(e);
                 }
-            }
-        });
-
-        BeanUtils.describe(generatorContext.getGeneratorConfiguration()).forEach((key, value) -> {
-            //设置GeneratorConfiguration属性
-            generatorContext.getProperties().put(key, value);
-            if (value instanceof String) {//转换成路径
-                generatorContext.getProperties().put(key+"_"+"path", value.toString().replace(".", Matcher.quoteReplacement(File.separator)));
             }
         });
         return generatorContext;

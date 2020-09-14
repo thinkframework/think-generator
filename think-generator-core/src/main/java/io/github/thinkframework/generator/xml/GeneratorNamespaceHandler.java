@@ -1,5 +1,6 @@
-package io.github.thinkframework.generator.config;
+package io.github.thinkframework.generator.xml;
 
+import io.github.thinkframework.generator.xml.GeneratorBeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**

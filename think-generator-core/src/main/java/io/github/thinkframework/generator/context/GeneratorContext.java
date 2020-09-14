@@ -3,22 +3,21 @@ package io.github.thinkframework.generator.context;
 import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 
-import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
  * ThreadLocal Mediator（中介者）.
  * 线程绑定
  */
-public class GeneratorContext {
+public class GeneratorContext<T> {
 
     private Properties properties = new Properties();
 
     private GeneratorConfiguration generatorConfiguration;
 
-    private DataSource dataSource;
+    private T source;
 
-    private String tableName;
+    private String target;
 
     private static ThreadLocal<GeneratorContext> context = ThreadLocal.withInitial(() -> {
         GeneratorContext generatorContext = new GeneratorContext();
@@ -57,30 +56,30 @@ public class GeneratorContext {
         this.generatorConfiguration = generatorConfiguration;
     }
 
-    public DataSource getDataSource() {
-        return dataSource;
+    public T getSource() {
+        return source;
     }
 
-    public GeneratorContext dataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public GeneratorContext source(T source) {
+        this.source = source;
         return this;
     }
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public void setSource(T source) {
+        this.source = source;
     }
 
-    public String getTableName() {
-        return tableName;
+    public String getTarget() {
+        return target;
     }
 
-    public GeneratorContext tableName(String tableName) {
-        this.tableName = tableName;
+    public GeneratorContext target(String target) {
+        this.target = target;
         return this;
     }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public void setTarget(String target) {
+        this.target = target;
     }
 
     public Properties getProperties() {

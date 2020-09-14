@@ -26,7 +26,6 @@ import java.util.Set;
  */
 @Slf4j
 public class TableFactory {
-    private final Logger logger = LoggerFactory.getLogger(TableFactory.class);
 
     private DataSource dataSource;
 
@@ -49,7 +48,7 @@ public class TableFactory {
         try (Connection connection = getDataSource().getConnection()) {
             catalog = connection.getCatalog();
         } catch (SQLException e) {
-            logger.error("catalog: {}", e.getClass().getName());
+            log.error("catalog: {}", e.getClass().getName());
         } finally {
             return catalog;
         }
@@ -65,7 +64,7 @@ public class TableFactory {
         try (Connection connection = getDataSource().getConnection()) {
             schema = connection.getSchema();
         } catch (SQLException e) {
-            logger.error("schema: {}", e.getClass().getName());
+            log.error("schema: {}", e.getClass().getName());
         } finally {
             return schema;
         }

@@ -1,41 +1,40 @@
-package io.github.thinkframework.generator;
+package io.github.thinkframework.generator.strategy;
 
+import io.github.thinkframework.generator.GeneratorStrategy;
 import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
 import io.github.thinkframework.generator.context.GeneratorContext;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
+import io.github.thinkframework.generator.lang.Clazz;
+import io.github.thinkframework.generator.lang.ClazzFactory;
 import io.github.thinkframework.generator.provider.GeneratorProvider;
-import io.github.thinkframework.generator.sql.TableFactory;
-import io.github.thinkframework.generator.sql.model.impl.TableImpl;
 import io.github.thinkframework.generator.util.GeneratorFreeMarker;
 import io.github.thinkframework.generator.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
 import org.springframework.util.Assert;
 
-import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 /**
- * 根据数据库生成
+ * 根据Class生成
  *
  * @author lixiaobin
  * @since 1.0.0
  */
 @Slf4j
-public class GeneratorTable implements GeneratorStrategy<DataSource,String> {
+public class GeneratorClass implements GeneratorStrategy<Class,String> {
 
     private GeneratorConfiguration generatorConfiguration;
 
-    private List<GeneratorProvider> generatorProviders;
+    private Class dataSource;
 
-    private DataSource dataSource;
-
-    private String tableName;
+    private String fileName;
 
     /**
      * 生成
@@ -44,15 +43,25 @@ public class GeneratorTable implements GeneratorStrategy<DataSource,String> {
      */
     public void generate() throws GeneratorRuntimeException {
         Assert.notNull(generatorConfiguration, "配置文件不存在");
-        log.info("传入的表名称:{}", tableName);
+        log.info("传入的表名称:{}", fileName);
 
-        new TableFactory(dataSource)
-            .getTables(tableName)//获取表,模糊查询
-            .parallelStream()//并行执行
-            .map(TableImpl::getTableName)//获取表名称
-            .map(tableName -> GeneratorContext.get().generatorConfiguration(generatorConfiguration).dataSource(dataSource).tableName(tableName))//设置环境上下文
-            .peek(generatorContext -> generatorProviders.forEach(generatorProvider -> generatorProvider.build(generatorContext)))//调用所有的提供者,填充数据
-            .forEach(generatorContext -> {
+        Optional.of(new ClazzFactory(dataSource).getClazz())
+            .map(Clazz::getName)//获取表名称
+            .map(tableName -> GeneratorContext.get(generatorConfiguration))//设置环境上下文
+            .map(generatorContext -> {
+                generatorConfiguration.getProviders()
+                .stream().map(provider -> {
+                    GeneratorProvider generatorProvider = null;
+                    try {
+                        generatorProvider = (GeneratorProvider) Class.forName(provider).newInstance();
+                    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                        log.error("",e);
+                    }
+                    return generatorProvider;
+                }).forEach(generatorProvider -> generatorProvider.build(generatorContext));
+                return generatorContext;
+            })//调用所有的提供者,填充数据
+            .map(generatorContext -> {
                 //调用输出
                 try {
                     if (StringUtils.isNotEmpty(generatorConfiguration.getTemplate())) {//模板目录必须存在
@@ -91,14 +100,15 @@ public class GeneratorTable implements GeneratorStrategy<DataSource,String> {
                 } catch (IOException e) {
                     throw new GeneratorRuntimeException(e);
                 }
-            });
+                return generatorContext;
+            }).get();
     }
 
     public GeneratorConfiguration getGeneratorConfiguration() {
         return generatorConfiguration;
     }
 
-    public GeneratorTable generatorConfiguration(GeneratorConfiguration generatorConfiguration) {
+    public GeneratorClass generatorConfiguration(GeneratorConfiguration generatorConfiguration) throws BeansException {
         this.generatorConfiguration = generatorConfiguration;
         return this;
     }
@@ -107,34 +117,21 @@ public class GeneratorTable implements GeneratorStrategy<DataSource,String> {
         this.generatorConfiguration = generatorConfiguration;
     }
 
-    public DataSource getDataSource() {
+    public Class getDataSource() {
         return dataSource;
     }
 
-    public GeneratorTable dataSource(DataSource dataSource) {
+    public GeneratorClass dataSource(Class dataSource) {
         this.dataSource = dataSource;
         return this;
     }
 
-    public void setDataSource(DataSource dataSource) {
+    public void setDataSource(Class dataSource) {
         this.dataSource = dataSource;
     }
 
-    public List<GeneratorProvider> getGeneratorProviders() {
-        return generatorProviders;
-    }
-
-    public GeneratorTable generatorProviders(List<GeneratorProvider> generatorProviders) {
-        this.generatorProviders = generatorProviders;
-        return this;
-    }
-
-    public void setGeneratorProviders(List<GeneratorProvider> generatorProviders) {
-        this.generatorProviders = generatorProviders;
-    }
-
-    public GeneratorTable tableName(String tableName) {
-        this.tableName = tableName;
+    public GeneratorClass tableName(String fileName) {
+        this.fileName = fileName;
         return this;
     }
 }

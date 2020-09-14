@@ -1,7 +1,5 @@
 /**
- * Spring NamespaceHandler.
- * 与spring集成
- *
+ * 配置文件
  * @author lixiaobin
  * @see org.springframework.beans.factory.xml.NamespaceHandler
  */

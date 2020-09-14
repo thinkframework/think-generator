@@ -1,9 +1,8 @@
-package io.github.thinkframework.generator.config;
+package io.github.thinkframework.generator.xml;
 
 import io.github.thinkframework.generator.GeneratorFactoryBean;
+import io.github.thinkframework.generator.config.GeneratorProperties;
 import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
-import io.github.thinkframework.generator.provider.ConfigurationGeneratorProvider;
-import io.github.thinkframework.generator.provider.TableGeneratorProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
@@ -34,36 +33,19 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
 //        super.doParse(element, parserContext, builder);
         // 从标签中取出对应的属性值
         String id = element.getAttribute("id");
-        String clazz = element.getAttribute("clazz");
         log.debug("加载 BeanDefinition: {}", id);
-        builder.addPropertyValue("clazz", clazz);
         builder.getBeanDefinition().setBeanClass(GeneratorFactoryBean.class);
+        GeneratorProperties generatorProperties = new GeneratorProperties();
+        generatorProperties.setStragegy(DomUtils.getChildElementValueByTagName(element, "strategy"));
+        generatorProperties.setConfiguration(generatorConfiguration(element));
+        builder.addPropertyValue("properties",generatorProperties);
         parserContext.getRegistry().registerBeanDefinition(id, builder.getBeanDefinition());
 
-        BeanDefinitionBuilder generatorProperties =  BeanDefinitionBuilder.genericBeanDefinition();
-        generatorProperties.getBeanDefinition().setBeanClass(GeneratorProperties.class);
-        generatorProperties.addPropertyValue("configuration", generatorConfiguration(element));
-        parserContext.getRegistry().registerBeanDefinition("generatorProperties", generatorProperties.getBeanDefinition());
-
-        BeanDefinitionBuilder configurationGeneratorProvider =  BeanDefinitionBuilder.genericBeanDefinition();
-        configurationGeneratorProvider.getBeanDefinition().setBeanClass(ConfigurationGeneratorProvider.class);
-        parserContext.getRegistry().registerBeanDefinition("configurationGeneratorProvider", configurationGeneratorProvider.getBeanDefinition());
-
-        BeanDefinitionBuilder tableGeneratorProvider =  BeanDefinitionBuilder.genericBeanDefinition();
-        tableGeneratorProvider.getBeanDefinition().setBeanClass(TableGeneratorProvider.class);
-        parserContext.getRegistry().registerBeanDefinition("tableGeneratorProvider", tableGeneratorProvider.getBeanDefinition());
-
-
-//        BeanDefinitionBuilder generatorListener =  BeanDefinitionBuilder.genericBeanDefinition();
-//        generatorListener.getBeanDefinition().setBeanClass(GeneratorListener.class);
-//        parserContext.getRegistry().registerBeanDefinition("generatorListener", generatorListener.getBeanDefinition());
     }
 
     private GeneratorConfiguration generatorConfiguration(Element element) {
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition();
         element = DomUtils.getChildElementByTagName(element, "configuration");
 
-        builder.getBeanDefinition().setBeanClass(GeneratorConfiguration.class);
         GeneratorConfiguration generatorConfiguration = new GeneratorConfiguration();
         generatorConfiguration.setFrameName(DomUtils.getChildElementValueByTagName(element, "frameName"));//框架包
         generatorConfiguration.setCompanyName(DomUtils.getChildElementValueByTagName(element, "companyName"));//公司名称
@@ -90,6 +72,13 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
 
         generatorConfiguration.setExtensions(
             DomUtils.getChildElementsByTagName(element, "extensions")
+                .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "list").stream())
+                .flatMap(child -> DomUtils.getChildElementsByTagName(child, "value").stream())
+                .map(child -> DomUtils.getTextValue(child))
+                .collect(Collectors.toList()));
+
+        generatorConfiguration.setProviders(
+            DomUtils.getChildElementsByTagName(element, "providers")
                 .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "list").stream())
                 .flatMap(child -> DomUtils.getChildElementsByTagName(child, "value").stream())
                 .map(child -> DomUtils.getTextValue(child))

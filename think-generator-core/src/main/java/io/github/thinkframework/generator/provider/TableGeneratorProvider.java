@@ -12,6 +12,7 @@ import io.github.thinkframework.generator.util.StringUtils;
 import io.github.thinkframework.generator.util.TypesUtils;
 import org.springframework.core.Ordered;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +28,13 @@ public class TableGeneratorProvider implements GeneratorProvider, Ordered {
 
     @Override
     public GeneratorContext build(GeneratorContext generatorContext) {
+        if(!(generatorContext.getSource() instanceof DataSource)){
+            return generatorContext;
+        }
+
         Map result = new HashMap();
-        TableFactory tableFactory = new TableFactory(generatorContext.getDataSource());
-        String tableName = generatorContext.getTableName();
+        TableFactory tableFactory = new TableFactory((DataSource) generatorContext.getSource());
+        String tableName = generatorContext.getTarget();
         //设置表的属性
         Table table = new TableBuilder()
             .addTable(tableFactory.getTable(tableName))

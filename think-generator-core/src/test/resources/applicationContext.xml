@@ -19,7 +19,8 @@
         <jdbc:script location="schema-h2.sql"></jdbc:script>
     </jdbc:embedded-database>
 
-    <generator:generator id="generator" clazz="io.github.thinkframework.generator.GeneratorTable">
+    <generator:generator id="generator">
+        <generator:strategy>io.github.thinkframework.generator.strategy.GeneratorTable</generator:strategy>
         <generator:configuration>
             <!-- 框架包的名称 -->
             <generator:frameName>com.glodon.bim5d</generator:frameName>
@@ -54,6 +55,12 @@
                     <generator:value>sql</generator:value>
                 </generator:list>
             </generator:extensions>
+            <generator:providers>
+                <generator:list>
+                    <generator:value>io.github.thinkframework.generator.provider.ConfigurationGeneratorProvider</generator:value>
+                    <generator:value>io.github.thinkframework.generator.provider.TableGeneratorProvider</generator:value>
+                </generator:list>
+            </generator:providers>
             <generator:converts>
                 <generator:map>
                     <generator:entity key="java.sql.Types.BIGINT" value="java.math.BigInteger"/>

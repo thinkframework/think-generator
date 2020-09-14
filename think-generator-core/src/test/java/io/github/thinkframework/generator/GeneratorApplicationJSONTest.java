@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
@@ -19,10 +19,10 @@ import java.io.IOException;
  * 容器测试
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-public class GeneratorApplicationTest {
+@SpringBootTest(classes = GeneratorApplication.class)
+public class GeneratorApplicationJSONTest {
 
-    Logger logger = LoggerFactory.getLogger(GeneratorApplicationTest.class);
+    Logger logger = LoggerFactory.getLogger(GeneratorApplicationJSONTest.class);
 
     @Autowired
     private GeneratorStrategy generator;
@@ -43,8 +43,8 @@ public class GeneratorApplicationTest {
     @Test
     public void application() throws Exception {
         generator
-            .dataSource(dataSource)
-            .tableName("TEST")
+            .dataSource("{\"id\":1,\"name\":\"n\"}")
+            .tableName("Person")
             .generate();
     }
 

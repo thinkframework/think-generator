@@ -17,7 +17,6 @@ import java.util.HashSet;
 @Slf4j
 public class TableBuilder {
 
-    private String tableName = "";
     private TableImpl table = new TableImpl();
     private Collection<Column> columns = new HashSet<Column>();
     private Collection<PrimaryKey> primaryKeys = new HashSet<PrimaryKey>();
