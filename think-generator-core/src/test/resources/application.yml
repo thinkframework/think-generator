@@ -11,8 +11,8 @@ think:
         stragegy:
             clazz: io.github.thinkframework.generator.design.strategy.impl.GeneratorTable
             responsibilitys:
-                - io.github.thinkframework.generator.design.chain.of.responsibility.ConfigurationGeneratorResponsibility
-                - io.github.thinkframework.generator.design.chain.of.responsibility.TableGeneratorResponsibility
+                - io.github.thinkframework.generator.design.chainofresponsibility.ConfigurationGeneratorResponsibility
+                - io.github.thinkframework.generator.design.chainofresponsibility.TableGeneratorResponsibility
         configuration:
             frame-name: io.think
             company-name: com.hdhxby

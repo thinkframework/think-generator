@@ -33,13 +33,21 @@ public class GeneratorImpl<S,T> implements Generator<S,T>{
         return this;
     }
 
-    public GeneratorContext generatorContext(){
+    /**
+     * 生成一个运行上下文
+     * @return
+     */
+    protected GeneratorContext generatorContext(){
         return new GeneratorContext()
             .generatorConfiguration(configuration)
             .source(soure)
             .target(target);
     }
 
+    /**
+     * 运行
+     * @throws GeneratorRuntimeException
+     */
     @Override
     public void generate() throws GeneratorRuntimeException{
         generatorStrategy.generate(generatorContext());

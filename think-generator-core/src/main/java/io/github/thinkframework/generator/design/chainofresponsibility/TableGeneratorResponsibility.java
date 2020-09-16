@@ -1,20 +1,19 @@
-package io.github.thinkframework.generator.design.chain.of.responsibility;
+package io.github.thinkframework.generator.design.chainofresponsibility;
 
 import io.github.thinkframework.generator.context.GeneratorContext;
-import io.github.thinkframework.generator.lang.impl.ClazzImpl;
-import io.github.thinkframework.generator.lang.reflect.impl.ClazzFieldImpl;
+import io.github.thinkframework.generator.internal.lang.impl.ClazzImpl;
+import io.github.thinkframework.generator.internal.lang.reflect.impl.ClazzFieldImpl;
 import io.github.thinkframework.generator.design.adapter.TableClassAdapter;
-import io.github.thinkframework.generator.design.builder.TableClassBuild;
-import io.github.thinkframework.generator.sql.TableBuilder;
-import io.github.thinkframework.generator.sql.TableFactory;
-import io.github.thinkframework.generator.sql.model.Table;
+import io.github.thinkframework.generator.design.builder.TableClassBuilder;
+import io.github.thinkframework.generator.design.builder.TableBuilder;
+import io.github.thinkframework.generator.internal.sql.GeneratorDatabaseMetaData;
+import io.github.thinkframework.generator.internal.sql.databasemetadata.Table;
 import io.github.thinkframework.generator.util.StringUtils;
 import io.github.thinkframework.generator.util.TypesUtils;
 import org.springframework.core.Ordered;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -33,14 +32,14 @@ public class TableGeneratorResponsibility implements GeneratorResponsibility, Or
         }
 
         Map result = new HashMap();
-        TableFactory tableFactory = new TableFactory((DataSource) generatorContext.getSource());
+        GeneratorDatabaseMetaData generatorDatabaseMetaData = new GeneratorDatabaseMetaData((DataSource) generatorContext.getSource());
         String tableName = (String) generatorContext.getTarget();
         //设置表的属性
         Table table = new TableBuilder()
-            .addTable(tableFactory.getTable(tableName))
-            .addColumn(tableFactory.getColumns(tableName))
-            .addPrimaryKey(tableFactory.getPrimaryKeys(tableName))
-            .addIndexInfo(tableFactory.getIndexInfo(tableName))
+            .addTable(generatorDatabaseMetaData.getTable(tableName))
+            .addColumn(generatorDatabaseMetaData.getColumns(tableName))
+            .addPrimaryKey(generatorDatabaseMetaData.getPrimaryKeys(tableName))
+            .addIndexInfo(generatorDatabaseMetaData.getIndexInfo(tableName))
 //                .addExportedKey(tableFactory.getExportedKeys(tableName))
 //                .addImportedKey(tableFactory.getImportedKeys(tableName))
             .build();
@@ -48,27 +47,9 @@ public class TableGeneratorResponsibility implements GeneratorResponsibility, Or
         //适配器,同时提供表和类的字段
         TableClassAdapter tableClassAdapter = new TableClassAdapter();
         tableClassAdapter.table(table);
-        tableClassAdapter.clazz(new TableClassBuild(generatorContext).buildClass(table));
+        tableClassAdapter.clazz(new TableClassBuilder().buildClass(table));
         result.put("table", tableClassAdapter);
         result.put("clazz", tableClassAdapter);
-
-        //根据下划线拆分
-        List<String> prefixs = generatorContext.getGeneratorConfiguration().getPrefixs();
-        for (String prefix : prefixs) {
-            if (tableName.toUpperCase().startsWith(prefix)) {
-                tableName = tableName.toUpperCase().replaceFirst(prefix, "");
-                break;
-            }
-        }
-
-        result.put("tableName", tableClassAdapter.getTableName());
-        result.put("className", tableClassAdapter.getSimpleName());
-
-        //全小写,JavaScript需要
-        result.put("className_lower_case", tableName.toLowerCase());
-        result.put("className-lower-case", tableName.replaceAll("_", "-").toLowerCase());
-        //空格拆分的单词,国际化需要
-        result.put("className_space", StringUtils.classNameWithSpace(tableName));
 
         Optional.ofNullable(table.getPrimaryKey())
             .ifPresent(primaryKey -> {//有主键的话

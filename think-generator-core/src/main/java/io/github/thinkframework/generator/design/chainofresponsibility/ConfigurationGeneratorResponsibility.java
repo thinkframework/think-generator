@@ -1,13 +1,16 @@
-package io.github.thinkframework.generator.design.chain.of.responsibility;
+package io.github.thinkframework.generator.design.chainofresponsibility;
 
 import io.github.thinkframework.generator.context.GeneratorContext;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.util.BeanUtils;
+import io.github.thinkframework.generator.util.StringUtils;
 import io.github.thinkframework.generator.util.TypesUtils;
 import org.springframework.core.Ordered;
 
 import java.io.File;
 import java.sql.Types;
+import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 /**
@@ -36,6 +39,21 @@ public class ConfigurationGeneratorResponsibility implements GeneratorResponsibi
                     throw new GeneratorRuntimeException(e);
                 }
             }
+        });
+        Optional.ofNullable(generatorContext.getTarget()).ifPresent(target -> {
+            String name = target.toString();
+            generatorContext.getProperties().put("tableName", StringUtils.underScoreCase(name));
+
+            //根据下划线拆分
+            List<String> prefixs = generatorContext.getGeneratorConfiguration().getPrefixs();
+            for (String prefix : prefixs) {
+                if (name.toUpperCase().startsWith(prefix)) {
+                    name = name.toUpperCase().replaceFirst(prefix, "");
+                    break;
+                }
+            }
+            generatorContext.getProperties().put("className", StringUtils.camelCase(name));
+
         });
         return generatorContext;
     }

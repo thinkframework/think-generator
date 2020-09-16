@@ -1,9 +1,9 @@
 package io.github.thinkframework.generator.design.decorator.impl;
 
 import io.github.thinkframework.generator.design.decorator.RemakrsDecorator;
-import io.github.thinkframework.generator.lang.Clazz;
-import io.github.thinkframework.generator.lang.annotation.ClazzAnnotations;
-import io.github.thinkframework.generator.lang.reflect.ClazzMethod;
+import io.github.thinkframework.generator.internal.lang.Clazz;
+import io.github.thinkframework.generator.internal.lang.annotation.ClazzAnnotations;
+import io.github.thinkframework.generator.internal.lang.reflect.ClazzMethod;
 
 import java.util.Collection;
 

@@ -1,4 +1,4 @@
-package io.github.thinkframework.generator.design.chain.of.responsibility;
+package io.github.thinkframework.generator.design.chainofresponsibility;
 
 import io.github.thinkframework.generator.context.GeneratorContext;
 

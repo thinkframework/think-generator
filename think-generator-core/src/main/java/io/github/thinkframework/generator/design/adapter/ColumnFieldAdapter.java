@@ -1,14 +1,14 @@
 package io.github.thinkframework.generator.design.adapter;
 
-import io.github.thinkframework.generator.lang.Clazz;
-import io.github.thinkframework.generator.lang.annotation.ClazzAnnotations;
-import io.github.thinkframework.generator.lang.impl.ClazzImpl;
-import io.github.thinkframework.generator.lang.reflect.ClazzField;
+import io.github.thinkframework.generator.internal.lang.Clazz;
+import io.github.thinkframework.generator.internal.lang.annotation.ClazzAnnotations;
+import io.github.thinkframework.generator.internal.lang.impl.ClazzImpl;
+import io.github.thinkframework.generator.internal.lang.reflect.ClazzField;
 import io.github.thinkframework.generator.design.decorator.impl.ClazzFieldRemarksDecorator;
-import io.github.thinkframework.generator.lang.reflect.impl.ClazzFieldImpl;
-import io.github.thinkframework.generator.sql.model.Column;
-import io.github.thinkframework.generator.sql.model.ImportedKey;
-import io.github.thinkframework.generator.sql.model.impl.ColumnImpl;
+import io.github.thinkframework.generator.internal.lang.reflect.impl.ClazzFieldImpl;
+import io.github.thinkframework.generator.internal.sql.databasemetadata.Column;
+import io.github.thinkframework.generator.internal.sql.databasemetadata.ImportedKey;
+import io.github.thinkframework.generator.internal.sql.databasemetadata.impl.ColumnImpl;
 import io.github.thinkframework.generator.util.StringUtils;
 import io.github.thinkframework.generator.util.TypesUtils;
 

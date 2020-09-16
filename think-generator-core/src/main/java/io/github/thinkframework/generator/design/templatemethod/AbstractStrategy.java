@@ -2,13 +2,12 @@ package io.github.thinkframework.generator.design.templatemethod;
 
 import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
 import io.github.thinkframework.generator.context.GeneratorContext;
-import io.github.thinkframework.generator.design.chain.of.responsibility.GeneratorResponsibility;
+import io.github.thinkframework.generator.design.chainofresponsibility.GeneratorResponsibility;
 import io.github.thinkframework.generator.design.strategy.GeneratorStrategy;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.util.GeneratorFreeMarker;
 import io.github.thinkframework.generator.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.Assert;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +15,6 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.regex.Matcher;
 
 /**
@@ -45,22 +43,24 @@ public abstract class AbstractStrategy<T,S> implements GeneratorStrategy<T,S> {
     }
 
 
-    /**
-     *
-     * @param source
-     * @param target
-     * @throws GeneratorRuntimeException
-     */
-    public void generate(S source,T target) throws GeneratorRuntimeException{
-        generate(new GeneratorContext<>().source(source).target(target));
+    @Override
+    public void generate(GeneratorContext<T,S> generatorContext) throws GeneratorRuntimeException{
+        internal(generatorContext);
     }
 
+    public abstract void internal(GeneratorContext<T,S> generatorContext) throws GeneratorRuntimeException;
 
-    @Override
-    public abstract void generate(GeneratorContext<T,S> generatorContext) throws GeneratorRuntimeException;
+    protected void responsibilitys(GeneratorContext<T,S> generatorContext) throws GeneratorRuntimeException{
+            responsibilitys.stream()
+                .forEach(responsibility -> {
+                    responsibility.process(generatorContext);
+                });//调用所有的提供者,填充数据
+            process(generatorContext);
+    }
 
     /**
      * 输出
+     * 可以抽到责任链,不值当的
      * @param generatorContext
      */
     protected void process(GeneratorContext<T,S> generatorContext){

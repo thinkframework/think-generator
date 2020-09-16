@@ -44,7 +44,7 @@ public class GeneratorApplicationAnnotationTest {
     public void application() throws Exception {
         generator
             .source(dataSource)
-            .target("TEST")
+            .target("%")
             .generate();
     }
 

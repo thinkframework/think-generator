@@ -1,5 +1,6 @@
 package io.github.thinkframework.generator.util;
 
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 public class StringUtils {
@@ -12,7 +13,7 @@ public class StringUtils {
         return !isEmpty(cs);
     }
 
-    public static String className(String sqlName) {
+    public static String camelCase(String sqlName) {
         if (sqlName == null || sqlName.length() == 0) {
             //fixme 外键 空指针的情况 lixiaobin
             return "";
@@ -32,6 +33,17 @@ public class StringUtils {
         }
         return result;
     }
+
+    public static String underScoreCase(String className) {
+        if (!Optional.ofNullable(className).isPresent()) {
+            return "";
+        }
+        if(className.indexOf("_") > -1 || className.matches("^[A-Z]+$")){
+            return className;
+        }
+        return className.replaceAll("[A-Z]","_$0").toUpperCase();
+    }
+
 
     public static String classNameWithSpace(String sqlName) {
         String[] strs = sqlName.toLowerCase().split("_");
@@ -97,13 +109,6 @@ public class StringUtils {
     }
 
 
-    public static String tableName(String className) {
-        if (className == null || className.length() == 0) {
-            //fixme 外键 空指针的情况 lixiaobin
-            return "";
-        }
-        return className.replaceAll("[A-Z]","_$0").toUpperCase();
-    }
 
     public static String capitalize(final String str) {
         int strLen;

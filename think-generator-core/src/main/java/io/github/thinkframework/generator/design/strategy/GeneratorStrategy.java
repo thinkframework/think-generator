@@ -3,7 +3,7 @@ package io.github.thinkframework.generator.design.strategy;
 import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
 import io.github.thinkframework.generator.context.GeneratorContext;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
-import io.github.thinkframework.generator.design.chain.of.responsibility.GeneratorResponsibility;
+import io.github.thinkframework.generator.design.chainofresponsibility.GeneratorResponsibility;
 import io.github.thinkframework.generator.util.GeneratorFreeMarker;
 import io.github.thinkframework.generator.util.StringUtils;
 import org.slf4j.Logger;

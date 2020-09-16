@@ -1,9 +1,9 @@
-package io.github.thinkframework.generator.design.chain.of.responsibility;
+package io.github.thinkframework.generator.design.chainofresponsibility;
 
 import io.github.thinkframework.generator.context.GeneratorContext;
-import io.github.thinkframework.generator.lang.ClassConvert;
-import io.github.thinkframework.generator.lang.Clazz;
-import io.github.thinkframework.generator.design.builder.ClassTableBuild;
+import io.github.thinkframework.generator.internal.lang.ClassConvert;
+import io.github.thinkframework.generator.internal.lang.Clazz;
+import io.github.thinkframework.generator.design.builder.ClassTableBuilder;
 import io.github.thinkframework.generator.design.adapter.TableClassAdapter;
 import org.springframework.core.Ordered;
 
@@ -41,12 +41,10 @@ public class ClassGeneratorResponsibility implements GeneratorResponsibility, Or
         //适配器,同时提供表和类的字段
         TableClassAdapter tableClassAdapter = new TableClassAdapter();
         tableClassAdapter.clazz(clazz);
-        tableClassAdapter.setTable(new ClassTableBuild().buildTable(clazz));
+        tableClassAdapter.setTable(new ClassTableBuilder().buildTable(clazz));
         result.put("table",tableClassAdapter);
         result.put("clazz",tableClassAdapter);
 
-        result.put("tableName", tableClassAdapter.getTableName());
-        result.put("className", tableClassAdapter.getSimpleName());
 
         generatorContext.getProperties().putAll(result);
         return generatorContext;

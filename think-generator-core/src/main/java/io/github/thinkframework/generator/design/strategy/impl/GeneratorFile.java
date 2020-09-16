@@ -29,34 +29,20 @@ public class GeneratorFile extends AbstractStrategy<File,String> {
      * @return
      */
     @Override
-    public void generate(GeneratorContext<File,String> generatorContext) throws GeneratorRuntimeException {
-        Assert.notNull(configuration, "配置文件不存在");
-        log.info("传入的表名称:{}", generatorContext.getTarget());
+    public void internal(GeneratorContext<File,String> generatorContext) throws GeneratorRuntimeException {
+        log.info("传入的文件名称:{}", generatorContext.getTarget());
 
         try {
             Files.list(Paths.get(generatorContext.getSource().toURI()))
                 .map(Path::getFileName)//获取表名称
+                .filter(fileName -> fileName.equals(generatorContext.getTarget()))
                 .map(fileName ->
                     GeneratorPrototype.clone(generatorContext)
                         .source(generatorContext.getSource())
                         .target(fileName))//设置环境上下文
-                .peek(context -> responsibilitys.stream()
-                    .forEach(generatorProvider -> {
-                        generatorProvider.process(context);
-                    }))//调用所有的提供者,填充数据
-                .forEach(this::process);
-
+                .peek(super::responsibilitys);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new GeneratorRuntimeException(e);
         }
-        Optional.of(new GeneratorContext<>().generatorConfiguration(configuration)
-                    .source(generatorContext.getSource())
-                    .target(generatorContext.getTarget()))
-            .ifPresent(context -> {responsibilitys.stream()
-                .forEach(generatorProvider -> {
-                    generatorProvider.process(context);
-                });
-                process(context);
-            });
     }
 }

@@ -10,12 +10,12 @@
     <generators:generator id="generator">
         <generators:strategy>
             <generators:clazz>io.github.thinkframework.generator.design.strategy.impl.GeneratorTable</generators:clazz>
-            <generators:providers>
+            <generators:responsibilitys>
                 <generators:list>
-                    <generators:value>io.github.thinkframework.generator.design.chain.of.responsibility.ConfigurationGeneratorResponsibility</generators:value>
-                    <generators:value>io.github.thinkframework.generator.design.chain.of.responsibility.TableGeneratorResponsibility</generators:value>
+                    <generators:value>io.github.thinkframework.generator.design.chainofresponsibility.ConfigurationGeneratorResponsibility</generators:value>
+                    <generators:value>io.github.thinkframework.generator.design.chainofresponsibility.TableGeneratorResponsibility</generators:value>
                 </generators:list>
-            </generators:providers>
+            </generators:responsibilitys>
         </generators:strategy>
         <generators:configuration>
             <!-- 框架包的名称 -->

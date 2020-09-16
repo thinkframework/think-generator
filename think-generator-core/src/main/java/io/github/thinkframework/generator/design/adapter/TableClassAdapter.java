@@ -1,12 +1,12 @@
 package io.github.thinkframework.generator.design.adapter;
 
-import io.github.thinkframework.generator.lang.Clazz;
-import io.github.thinkframework.generator.lang.ClazzPackage;
-import io.github.thinkframework.generator.lang.annotation.ClazzAnnotations;
-import io.github.thinkframework.generator.lang.impl.ClazzImpl;
-import io.github.thinkframework.generator.lang.reflect.ClazzField;
-import io.github.thinkframework.generator.lang.reflect.ClazzMethod;
-import io.github.thinkframework.generator.sql.model.*;
+import io.github.thinkframework.generator.internal.lang.Clazz;
+import io.github.thinkframework.generator.internal.lang.ClazzPackage;
+import io.github.thinkframework.generator.internal.lang.annotation.ClazzAnnotations;
+import io.github.thinkframework.generator.internal.lang.impl.ClazzImpl;
+import io.github.thinkframework.generator.internal.lang.reflect.ClazzField;
+import io.github.thinkframework.generator.internal.lang.reflect.ClazzMethod;
+import io.github.thinkframework.generator.internal.sql.databasemetadata.*;
 
 import java.util.Collection;
 

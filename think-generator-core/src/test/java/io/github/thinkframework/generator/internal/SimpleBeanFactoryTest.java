@@ -2,7 +2,7 @@ package io.github.thinkframework.generator.internal;
 
 import io.github.thinkframework.generator.GeneratorFactoryBean;
 import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
-import io.github.thinkframework.generator.design.chain.of.responsibility.TableGeneratorResponsibility;
+import io.github.thinkframework.generator.design.chainofresponsibility.TableGeneratorResponsibility;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.After;
 import org.junit.Before;
