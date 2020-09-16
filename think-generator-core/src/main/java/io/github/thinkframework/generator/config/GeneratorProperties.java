@@ -44,6 +44,6 @@ public class GeneratorProperties {
     @Data
     public static class StragegyConfiguration {
         private String clazz;
-        private List<String> providers;
+        private List<String> responsibilitys;
     }
 }

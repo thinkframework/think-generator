@@ -9,10 +9,10 @@ think:
     generator:
         enabled: true
         stragegy:
-            clazz: io.github.thinkframework.generator.strategy.GeneratorTable
-            providers:
-                - io.github.thinkframework.generator.provider.ConfigurationGeneratorProvider
-                - io.github.thinkframework.generator.provider.TableGeneratorProvider
+            clazz: io.github.thinkframework.generator.design.strategy.impl.GeneratorTable
+            responsibilitys:
+                - io.github.thinkframework.generator.design.chain.of.responsibility.ConfigurationGeneratorResponsibility
+                - io.github.thinkframework.generator.design.chain.of.responsibility.TableGeneratorResponsibility
         configuration:
             frame-name: io.think
             company-name: com.hdhxby

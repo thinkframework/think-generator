@@ -1,7 +1,7 @@
 package io.github.thinkframework.generator;
 
 import io.github.thinkframework.generator.config.GeneratorProperties;
-import io.github.thinkframework.generator.strategy.GeneratorStrategy;
+import io.github.thinkframework.generator.design.strategy.GeneratorStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.FactoryBean;
 
@@ -25,7 +25,7 @@ public class GeneratorFactoryBean implements FactoryBean<Generator> {
     @Override
     public Generator getObject() throws Exception {
         GeneratorStrategy generatorStrategy = (GeneratorStrategy)Class.forName(properties.getStragegy().getClazz()).newInstance();
-        generatorStrategy.providers(properties.getStragegy().getProviders().stream().map(provider ->{
+        generatorStrategy.responsibilitys(properties.getStragegy().getResponsibilitys().stream().map(provider ->{
             //TODO
             try {
                 return Class.forName(provider).newInstance();

@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.config;
 
-import io.github.thinkframework.generator.strategy.GeneratorStrategy;
+import io.github.thinkframework.generator.design.strategy.GeneratorStrategy;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;

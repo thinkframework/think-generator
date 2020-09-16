@@ -1,7 +1,6 @@
 package io.github.thinkframework.generator.shell;
 
-import io.github.thinkframework.generator.strategy.GeneratorStrategy;
-import io.github.thinkframework.generator.GeneratorFactoryBean;
+import io.github.thinkframework.generator.design.strategy.GeneratorStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

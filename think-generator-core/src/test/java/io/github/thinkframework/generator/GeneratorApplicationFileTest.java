@@ -34,7 +34,7 @@ public class GeneratorApplicationFileTest {
         FileUtils.forceDeleteOnExit(new File("generator_output"));
 
         generator.getProperties().getStragegy().setClazz("io.github.thinkframework.generator.strategy.GeneratorFile");
-        generator.getProperties().getStragegy().setProviders(
+        generator.getProperties().getStragegy().setResponsibilitys(
             Stream.of("io.github.thinkframework.generator.provider.ConfigurationGeneratorProvider",
             "io.github.thinkframework.generator.provider.ClassGeneratorProvider")
                 .collect(Collectors.toList()));

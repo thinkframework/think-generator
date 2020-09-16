@@ -2,7 +2,7 @@ package io.github.thinkframework.generator.internal;
 
 import io.github.thinkframework.generator.GeneratorFactoryBean;
 import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
-import io.github.thinkframework.generator.provider.TableGeneratorProvider;
+import io.github.thinkframework.generator.design.chain.of.responsibility.TableGeneratorResponsibility;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.After;
 import org.junit.Before;
@@ -71,7 +71,7 @@ public class SimpleBeanFactoryTest {
 
         SimpleBeanFactory simpleBeanFactory = new SimpleBeanFactory();
         simpleBeanFactory.add("generator",new GeneratorFactoryBean());
-        simpleBeanFactory.add("tableGeneratorProvider",new TableGeneratorProvider());
+        simpleBeanFactory.add("tableGeneratorProvider",new TableGeneratorResponsibility());
         simpleBeanFactory.add("dataSource",dataSource);
 
         GeneratorFactoryBean generatorFactoryBean = simpleBeanFactory.getBean("generator",GeneratorFactoryBean.class);

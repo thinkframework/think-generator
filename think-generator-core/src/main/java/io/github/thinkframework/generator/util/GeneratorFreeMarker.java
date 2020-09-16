@@ -1,12 +1,10 @@
 package io.github.thinkframework.generator.util;
 
-import freemarker.cache.FileTemplateLoader;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateHashModel;
-import io.github.thinkframework.generator.context.GeneratorContext;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,28 +20,28 @@ import java.util.Map;
 @Slf4j
 public class GeneratorFreeMarker {
 
-    Configuration configuration = new Configuration(Configuration.VERSION_2_3_23);
 
     /**
      * FreeMarker配置
      *
      * @throws GeneratorRuntimeException
      */
-    public GeneratorFreeMarker configuration(GeneratorContext generatorContext) throws GeneratorRuntimeException {
+    private Configuration configuration(String template) throws GeneratorRuntimeException {
+        Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         try {
-
             Map map = new HashMap();
             BeansWrapper wrapper = BeansWrapper.getDefaultInstance();
             TemplateHashModel staticModels = wrapper.getStaticModels();
             TemplateHashModel stringHelper = (TemplateHashModel) staticModels.get("io.github.thinkframework.generator.util.StringUtils");
             map.put("StringUtils", stringHelper);
             configuration.setSharedVaribles(map);
-            configuration.setTemplateLoader(new FileTemplateLoader(new File(generatorContext.getGeneratorConfiguration().getTemplate())));
+            //TODO 如果要支持include的话
+//            configuration.setTemplateLoader(new FileTemplateLoader(new File(template)));
             configuration.setNumberFormat("###############");
             configuration.setBooleanFormat("true,false");
             configuration.setDefaultEncoding("UTF-8");
-            return this;
-        } catch (TemplateException | IOException e) {
+            return configuration;
+        } catch (TemplateException  e) {
             throw new GeneratorRuntimeException(e);
         }
     }
@@ -57,7 +55,7 @@ public class GeneratorFreeMarker {
      */
     public File process(Map model, File input, File output) throws GeneratorRuntimeException {
         try (Writer writer = new OutputStreamWriter(new FileOutputStream(output), "UTF-8")) {
-            new Template(input.getPath(), new FileReader(input), configuration)
+            new Template(input.getPath(), new FileReader(input), configuration(model.get("template_path").toString()))
                 .process(model, writer);
             return output;
         } catch (IOException | TemplateException e) {
@@ -75,16 +73,13 @@ public class GeneratorFreeMarker {
      * @throws GeneratorRuntimeException
      */
     public String process(Map model, String input, String output) throws GeneratorRuntimeException {
-        try (Writer writer = new StringWriter();) {
+        try (Writer writer = new StringWriter()) {
             //模板出路径
-            new Template(input, new StringReader(output), configuration)
+            new Template(input, new StringReader(output), new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS))
                 .process(model, writer);
-            output = writer.toString();
-            log.info(":{}\t > \t:{}", input, output);
-            return output;
+            return writer.toString();
         } catch (IOException | TemplateException e) {
             throw new GeneratorRuntimeException(e);
         }
     }
-
 }

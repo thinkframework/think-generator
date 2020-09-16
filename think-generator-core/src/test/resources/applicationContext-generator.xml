@@ -9,11 +9,11 @@
            http://thinkframework.github.io/schema/generator/think-generator.xsd">
     <generators:generator id="generator">
         <generators:strategy>
-            <generators:clazz>io.github.thinkframework.generator.strategy.GeneratorTable</generators:clazz>
+            <generators:clazz>io.github.thinkframework.generator.design.strategy.impl.GeneratorTable</generators:clazz>
             <generators:providers>
                 <generators:list>
-                    <generators:value>io.github.thinkframework.generator.provider.ConfigurationGeneratorProvider</generators:value>
-                    <generators:value>io.github.thinkframework.generator.provider.TableGeneratorProvider</generators:value>
+                    <generators:value>io.github.thinkframework.generator.design.chain.of.responsibility.ConfigurationGeneratorResponsibility</generators:value>
+                    <generators:value>io.github.thinkframework.generator.design.chain.of.responsibility.TableGeneratorResponsibility</generators:value>
                 </generators:list>
             </generators:providers>
         </generators:strategy>

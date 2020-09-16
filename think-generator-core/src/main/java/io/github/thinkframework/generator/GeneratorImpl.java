@@ -3,10 +3,7 @@ package io.github.thinkframework.generator;
 import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
 import io.github.thinkframework.generator.context.GeneratorContext;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
-import io.github.thinkframework.generator.provider.GeneratorProvider;
-import io.github.thinkframework.generator.strategy.GeneratorStrategy;
-
-import java.util.List;
+import io.github.thinkframework.generator.design.strategy.GeneratorStrategy;
 
 /**
  * 生成器对象

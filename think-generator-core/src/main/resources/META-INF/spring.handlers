@@ -1,2 +1,2 @@
-http\://thinkframework.github.io/schema/generator=io.github.thinkframework.generator.xml.GeneratorNamespaceHandler
+http\://thinkframework.github.io/schema/generator=io.github.thinkframework.generator.beans.factory.xml.GeneratorNamespaceHandler
 
