@@ -3,8 +3,8 @@ package io.github.thinkframework.generator.provider;
 import io.github.thinkframework.generator.context.GeneratorContext;
 import io.github.thinkframework.generator.lang.impl.ClazzImpl;
 import io.github.thinkframework.generator.lang.reflect.impl.ClazzFieldImpl;
-import io.github.thinkframework.generator.provider.adapter.TableClassAdapter;
-import io.github.thinkframework.generator.provider.adapter.TableClassBuild;
+import io.github.thinkframework.generator.adapter.TableClassAdapter;
+import io.github.thinkframework.generator.builder.TableClassBuild;
 import io.github.thinkframework.generator.sql.TableBuilder;
 import io.github.thinkframework.generator.sql.TableFactory;
 import io.github.thinkframework.generator.sql.model.Table;
@@ -34,7 +34,7 @@ public class TableGeneratorProvider implements GeneratorProvider, Ordered {
 
         Map result = new HashMap();
         TableFactory tableFactory = new TableFactory((DataSource) generatorContext.getSource());
-        String tableName = generatorContext.getTarget();
+        String tableName = (String) generatorContext.getTarget();
         //设置表的属性
         Table table = new TableBuilder()
             .addTable(tableFactory.getTable(tableName))

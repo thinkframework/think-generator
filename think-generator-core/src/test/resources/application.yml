@@ -1,6 +1,5 @@
 spring:
     datasource:
-        type: com.alibaba.druid.pool.DruidDataSource
         url: jdbc:h2:mem:generator;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
         name:
         username:
@@ -9,7 +8,11 @@ spring:
 think:
     generator:
         enabled: true
-        stragegy: io.github.thinkframework.generator.strategy.GeneratorTable
+        stragegy:
+            clazz: io.github.thinkframework.generator.strategy.GeneratorTable
+            providers:
+                - io.github.thinkframework.generator.provider.ConfigurationGeneratorProvider
+                - io.github.thinkframework.generator.provider.TableGeneratorProvider
         configuration:
             frame-name: io.think
             company-name: com.hdhxby
@@ -27,9 +30,6 @@ think:
                 - html
                 - json
                 - sql
-            providers:
-                - io.github.thinkframework.generator.provider.ConfigurationGeneratorProvider
-                - io.github.thinkframework.generator.provider.TableGeneratorProvider
             converts: {
               "java.sql.Types.BIGINT" : "java.math.BigInteger"
             }

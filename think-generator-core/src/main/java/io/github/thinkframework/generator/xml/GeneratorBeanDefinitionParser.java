@@ -31,18 +31,26 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
     @Override
     protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
 //        super.doParse(element, parserContext, builder);
+        if("generators".equals(element.getTagName())){
+            return;
+        }
         // 从标签中取出对应的属性值
         String id = element.getAttribute("id");
         log.debug("加载 BeanDefinition: {}", id);
         builder.getBeanDefinition().setBeanClass(GeneratorFactoryBean.class);
         GeneratorProperties generatorProperties = new GeneratorProperties();
-        generatorProperties.setStragegy(DomUtils.getChildElementValueByTagName(element, "strategy"));
+
+        generatorProperties.setStragegy(generatorStrategy(element));
         generatorProperties.setConfiguration(generatorConfiguration(element));
         builder.addPropertyValue("properties",generatorProperties);
-        parserContext.getRegistry().registerBeanDefinition(id, builder.getBeanDefinition());
 
     }
 
+    /**
+     * 设置配置
+     * @param element
+     * @return
+     */
     private GeneratorConfiguration generatorConfiguration(Element element) {
         element = DomUtils.getChildElementByTagName(element, "configuration");
 
@@ -77,18 +85,34 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
                 .map(child -> DomUtils.getTextValue(child))
                 .collect(Collectors.toList()));
 
-        generatorConfiguration.setProviders(
-            DomUtils.getChildElementsByTagName(element, "providers")
-                .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "list").stream())
-                .flatMap(child -> DomUtils.getChildElementsByTagName(child, "value").stream())
-                .map(child -> DomUtils.getTextValue(child))
-                .collect(Collectors.toList()));
 
         generatorConfiguration.setConverts(
             DomUtils.getChildElementsByTagName(element, "converts")
                 .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "map").stream())
                 .flatMap(child -> DomUtils.getChildElementsByTagName(child, "entity").stream())
                 .collect(Collectors.toMap(child -> child.getAttribute("key"), child -> child.getAttribute("value"))));
+
+        return generatorConfiguration;
+    }
+
+
+    /**
+     * 设置策略
+     * @param element
+     * @return
+     */
+    private GeneratorProperties.StragegyConfiguration generatorStrategy(Element element) {
+        element = DomUtils.getChildElementByTagName(element, "strategy");
+
+        GeneratorProperties.StragegyConfiguration generatorConfiguration = new GeneratorProperties.StragegyConfiguration();
+        generatorConfiguration.setClazz(DomUtils.getChildElementValueByTagName(element, "clazz"));//策略类
+
+        generatorConfiguration.setProviders(
+            DomUtils.getChildElementsByTagName(element, "providers")
+                .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "list").stream())
+                .flatMap(child -> DomUtils.getChildElementsByTagName(child, "value").stream())
+                .map(child -> DomUtils.getTextValue(child))
+                .collect(Collectors.toList()));
 
         return generatorConfiguration;
     }

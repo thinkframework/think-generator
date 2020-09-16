@@ -1,15 +1,18 @@
 package io.github.thinkframework.generator.provider;
 
 import io.github.thinkframework.generator.context.GeneratorContext;
+import io.github.thinkframework.generator.lang.ClassConvert;
 import io.github.thinkframework.generator.lang.Clazz;
-import io.github.thinkframework.generator.lang.ClazzBuilder;
-import io.github.thinkframework.generator.lang.ClazzFactory;
-import io.github.thinkframework.generator.provider.adapter.TableClassAdapter;
+import io.github.thinkframework.generator.builder.ClassTableBuild;
+import io.github.thinkframework.generator.adapter.TableClassAdapter;
 import org.springframework.core.Ordered;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * 适配器
@@ -20,56 +23,63 @@ public class ClassGeneratorProvider implements GeneratorProvider, Ordered {
 
     @Override
     public GeneratorContext build(GeneratorContext generatorContext) {
-        if(!(generatorContext.getSource() instanceof Class)){
+        if(!(generatorContext.getSource() instanceof File) || !(generatorContext.getTarget().toString().contains("class"))){
             return generatorContext;
         }
         Map result = new HashMap();
-        ClazzFactory clazzFactory = new ClazzFactory((Class) generatorContext.getSource());
-        String tableName = generatorContext.getTarget();
+
+        Class aClass = null;
+        try {
+            aClass = new FileLoader().findClass(((File) generatorContext.getSource()).getPath()+File.separator+generatorContext.getTarget());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        Clazz clazz = ClassConvert.convert(aClass);
+        String tableName = (String)generatorContext.getTarget();
         //设置表的属性
-        Clazz clazz = new ClazzBuilder()
-                .addClass(clazzFactory.getClazz())
-                .addColumn(tableFactory.getColumns(tableName))
-                .build();
 
         //适配器,同时提供表和类的字段
         TableClassAdapter tableClassAdapter = new TableClassAdapter();
         tableClassAdapter.clazz(clazz);
-        tableClassAdapter.clazz(new TableClassBuild(generatorProperties).buildClass(table));
+        tableClassAdapter.setTable(new ClassTableBuild().buildTable(clazz));
         result.put("table",tableClassAdapter);
         result.put("clazz",tableClassAdapter);
 
-        //根据下划线拆分
-        String[] prefixs = generatorProperties.getProperty("prefix", "").split(",");
-        for (String prefix: prefixs) {
-            if(tableName.toUpperCase().startsWith(prefix)){
-                tableName = tableName.toUpperCase().replaceFirst(prefix,"");
-                break;
-            }
-        }
+        result.put("tableName", tableClassAdapter.getTableName());
+        result.put("className", tableClassAdapter.getSimpleName());
 
-        result.put("className",tableClassAdapter.getClazz().getSimpleName());
-
-        //全小写,JavaScript需要
-        result.put("className_lower_case",tableName.toLowerCase());
-        result.put("className-lower-case",tableName.replaceAll("_","-").toLowerCase());
-        //空格拆分的单词,国际化需要
-        result.put("className_space", StringUtils.classNameWithSpace(tableName));
-
-        Optional.ofNullable(table.getPrimaryKey())
-            .ifPresent(primaryKey -> {//有主键的话
-                table.getColumns()
-                .stream().filter(column -> primaryKey.getColumnName().equals(column.getColumnName()))
-                .findFirst().ifPresent(column -> {
-                    result.put("id", new ClazzFieldImpl(StringUtils.fieldName(column.getColumnName()), new ClazzImpl(TypesUtils.dataType(column.getDataType()))));
-                });
-        });
-        generatorProperties.getProperties().putAll(result);
+        generatorContext.getProperties().putAll(result);
         return generatorContext;
     }
 
     @Override
     public int getOrder() {
         return 0;
+    }
+
+
+    class FileLoader extends ClassLoader {
+
+        @Override
+        public Class findClass(String name) throws ClassNotFoundException {
+            byte[] b = loadClassFromFile(name);
+            return defineClass(name, b, 0, b.length);
+        }
+
+        private byte[] loadClassFromFile(String fileName)  {
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
+            byte[] buffer;
+            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+            int nextValue = 0;
+            try {
+                while ( (nextValue = inputStream.read()) != -1 ) {
+                    byteStream.write(nextValue);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            buffer = byteStream.toByteArray();
+            return buffer;
+        }
     }
 }

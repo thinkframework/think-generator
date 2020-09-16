@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:generators="http://thinkframework.github.io/schema/generator"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://thinkframework.github.io/schema/generator
+           http://thinkframework.github.io/schema/generator/think-generator.xsd">
+    <generators:generator id="generator">
+        <generators:strategy>
+            <generators:clazz>io.github.thinkframework.generator.strategy.GeneratorTable</generators:clazz>
+            <generators:providers>
+                <generators:list>
+                    <generators:value>io.github.thinkframework.generator.provider.ConfigurationGeneratorProvider</generators:value>
+                    <generators:value>io.github.thinkframework.generator.provider.TableGeneratorProvider</generators:value>
+                </generators:list>
+            </generators:providers>
+        </generators:strategy>
+        <generators:configuration>
+            <!-- 框架包的名称 -->
+            <generators:frameName>com.glodon.bim5d</generators:frameName>
+            <!--#公司名称-->
+            <generators:companyName>com.glodon.bim5d</generators:companyName>
+            <!--#应用名称-->
+            <generators:appName>app</generators:appName>
+            <!--#模块名称-->
+            <!--<generators:moduleName>auth</generators:moduleName>-->
+            <!--<generators:moduleName>param</generators:moduleName>-->
+            <!--            <generators:moduleName>costenterprise</generators:moduleName>-->
+            <generators:moduleName>costproject</generators:moduleName>
+            <!--#作者名称-->
+            <!--<generators:authorName>lixiaobin</generators:authorName>-->
+            <generators:authorName>unascribed</generators:authorName>
+            <!--#jsp namespace: web/${namespace}/${className}/get:jsp-->
+            <generators:namespace>views</generators:namespace>
+            <!--#模板目录-->
+            <!--            <generators:template>template/glodon/enterprise</generators:template>-->
+            <!--            <generators:template>template/glodon/project</generators:template>-->
+            <generators:template>template/test</generators:template>
+            <!--#过滤文件-->
+            <generators:extensions>
+                <generators:list>
+                    <generators:value>java</generators:value>
+                    <generators:value>js</generators:value>
+                    <generators:value>jsp</generators:value>
+                    <generators:value>xml</generators:value>
+                    <generators:value>ts</generators:value>
+                    <generators:value>html</generators:value>
+                    <generators:value>json</generators:value>
+                    <generators:value>sql</generators:value>
+                </generators:list>
+            </generators:extensions>
+            <generators:converts>
+                <generators:map>
+                    <generators:entity key="java.sql.Types.BIGINT" value="java.math.BigInteger"/>
+                    <!--                    <generators:entity key="java.sql.Types.DATE" value="java.time.LocalDate"/>-->
+                    <!--                    <generators:entity key="java.sql.Types.TIMESTAMP" value="java.time.Instant"/>-->
+                </generators:map>
+                <!--<generators:props>-->
+                <!--<generators:prop key="java.sql.Types.DATE">java.time.LocalDate</generators:prop>-->
+                <!--<generators:prop key="java.sql.Types.TIMESTAMP">java.time.Instant</generators:prop>-->
+                <!--</generators:props>-->
+            </generators:converts>
+            <!--#需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,tm_-->
+            <generators:prefixs>
+                <generators:list>
+                    <generators:value>T_</generators:value>
+                    <generators:value>RBAC_</generators:value>
+                    <generators:value>PARAM_</generators:value>
+                    <generators:value>AUTH_</generators:value>
+                    <generators:value>PROJECT_</generators:value>
+                    <generators:value>bim5d_cost_</generators:value>
+                </generators:list>
+            </generators:prefixs>
+            <!--#需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,tm_-->
+            <generators:ignores>
+                <generators:list>
+                    <generators:value>sys_create_time</generators:value>
+                    <generators:value>sys_modified_time</generators:value>
+                    <generators:value>sys_revision</generators:value>
+                    <generators:value>sys_creator_id</generators:value>
+                    <generators:value>sys_modifier_id</generators:value>
+                </generators:list>
+            </generators:ignores>
+            <!--#输出目录-->
+            <generators:output>generator_output</generators:output>
+            <!--#主键生成规则-->
+            <!--<generators:generatorId>true</generators:generatorId>-->
+            <!--#ID生成策略:NONE:不做处理,用字段名,ID:转换成ID-->
+            <!--<generators:generatorIdStrategy>NONE</generators:generatorIdStrategy>-->
+            <!--#JDBC对catalog和schema属性的获取支持不够-->
+            <!--<generators:catalog></generators:catalog>-->
+            <!--<generators:schema>THINK</generators:schema>-->
+        </generators:configuration>
+    </generators:generator>
+</beans>

@@ -9,15 +9,15 @@ import java.util.Properties;
  * ThreadLocal Mediator（中介者）.
  * 线程绑定
  */
-public class GeneratorContext<T> {
+public class GeneratorContext<S,T> {
 
     private Properties properties = new Properties();
 
     private GeneratorConfiguration generatorConfiguration;
 
-    private T source;
+    private S source;
 
-    private String target;
+    private T target;
 
     private static ThreadLocal<GeneratorContext> context = ThreadLocal.withInitial(() -> {
         GeneratorContext generatorContext = new GeneratorContext();
@@ -56,29 +56,29 @@ public class GeneratorContext<T> {
         this.generatorConfiguration = generatorConfiguration;
     }
 
-    public T getSource() {
+    public S getSource() {
         return source;
     }
 
-    public GeneratorContext source(T source) {
+    public GeneratorContext source(S source) {
         this.source = source;
         return this;
     }
 
-    public void setSource(T source) {
+    public void setSource(S source) {
         this.source = source;
     }
 
-    public String getTarget() {
+    public T getTarget() {
         return target;
     }
 
-    public GeneratorContext target(String target) {
+    public GeneratorContext target(T target) {
         this.target = target;
         return this;
     }
 
-    public void setTarget(String target) {
+    public void setTarget(T target) {
         this.target = target;
     }
 

@@ -1,24 +1,15 @@
 package io.github.thinkframework.generator.strategy;
 
-import io.github.thinkframework.generator.GeneratorStrategy;
 import io.github.thinkframework.generator.config.GeneratorProperties.GeneratorConfiguration;
 import io.github.thinkframework.generator.context.GeneratorContext;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.provider.GeneratorProvider;
 import io.github.thinkframework.generator.sql.TableFactory;
 import io.github.thinkframework.generator.sql.model.impl.TableImpl;
-import io.github.thinkframework.generator.util.GeneratorFreeMarker;
-import io.github.thinkframework.generator.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Objects;
-import java.util.regex.Matcher;
+import java.util.List;
 
 /**
  * 根据数据库生成
@@ -29,106 +20,47 @@ import java.util.regex.Matcher;
 @Slf4j
 public class GeneratorTable implements GeneratorStrategy<DataSource,String> {
 
-    private GeneratorConfiguration generatorConfiguration;
+    private List<GeneratorProvider> providers;
 
-    private DataSource dataSource;
-
-    private String tableName;
+    private GeneratorConfiguration configuration;
 
     /**
      * 生成
      *
      * @return
      */
-    public void generate() throws GeneratorRuntimeException {
-        Assert.notNull(generatorConfiguration, "配置文件不存在");
-        log.info("传入的表名称:{}", tableName);
+    @Override
+    public void generate(GeneratorContext<DataSource,String> generatorContext) throws GeneratorRuntimeException {
+//        Assert.notNull(configuration, "配置文件不存在");
 
-        new TableFactory(dataSource)
-            .getTables(tableName)//获取表,模糊查询
-            .parallelStream()//并行执行
+        log.info("传入的表名称:{}", generatorContext.getTarget());
+
+        new TableFactory(generatorContext.getSource())
+            .getTables(generatorContext.getTarget())//获取表,模糊查询
+            .stream()//并行执行
             .map(TableImpl::getTableName)//获取表名称
-            .map(tableName -> GeneratorContext.get().generatorConfiguration(generatorConfiguration).source(dataSource).target(tableName))//设置环境上下文
-            .peek(generatorContext -> generatorConfiguration.getProviders()
-                .stream().map(provider -> {
-                    GeneratorProvider generatorProvider = null;
-                    try {
-                        generatorProvider = (GeneratorProvider) Class.forName(provider).newInstance();
-                    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-                        log.error("",e);
-                    }
-                    return generatorProvider;
-                }).forEach(generatorProvider -> generatorProvider.build(generatorContext)))//调用所有的提供者,填充数据
-            .forEach(generatorContext -> {
-                //调用输出
-                try {
-                    if (StringUtils.isNotEmpty(generatorConfiguration.getTemplate())) {//模板目录必须存在
-                        Files.walkFileTree(Paths.get(new File(generatorConfiguration.getTemplate()).toURI()), new SimpleFileVisitor<Path>() {
-                            @Override
-                            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                                Objects.requireNonNull(file);
-                                Objects.requireNonNull(attrs);
-                                if (generatorConfiguration.getExtensions().stream().noneMatch(extension -> file.toFile().getName().lastIndexOf(extension) > -1)) {
-                                    return FileVisitResult.CONTINUE;
-                                }
-                                GeneratorFreeMarker generatorFreeMarker = new GeneratorFreeMarker()
-                                    .configuration(generatorContext);
-                                //输出文件路径
-                                File output = new File(generatorFreeMarker.process(generatorContext.getProperties(),
-                                    file.toFile().getPath(),
-                                    file.toFile().getPath().replace(generatorConfiguration.getTemplate().replaceAll("[\\/]", Matcher.quoteReplacement(File.separator)),
-                                        generatorConfiguration.getOutput().replaceAll("[\\/]", Matcher.quoteReplacement(File.separator)))));
-                                //生成父文件夹
-                                if (Files.notExists(Paths.get(output.getParentFile().toURI()))) {
-                                    Files.createDirectories(Paths.get(output.getParentFile().toURI()));
-                                }
-                                //删除已经存在的文件
-                                Files.deleteIfExists(Paths.get(output.toURI()));
-                                //创建文件
-                                Files.createFile(Paths.get(output.toURI()));
-                                //输出文件
-                                generatorFreeMarker
-                                    .process(generatorContext.getProperties(), file.toFile(), output);
-                                return FileVisitResult.CONTINUE;
-                            }
-                        });
-                    } else {
-                        throw new GeneratorRuntimeException("模板目录不存在");
-                    }
-                } catch (IOException e) {
-                    throw new GeneratorRuntimeException(e);
-                }
-            });
+            .map(tableName ->
+                //TODO 原型模式,有时间再说
+                new GeneratorContext<>().generatorConfiguration(generatorContext.getGeneratorConfiguration())
+                .source(generatorContext.getSource())
+                .target(tableName))//设置环境上下文
+            .peek(context -> providers.stream()
+                .forEach(generatorProvider -> {
+                    generatorProvider.build(context);
+                }))//调用所有的提供者,填充数据
+            .forEach(this::process);
     }
 
-    public GeneratorConfiguration getGeneratorConfiguration() {
-        return generatorConfiguration;
-    }
-
-    public GeneratorTable generatorConfiguration(GeneratorConfiguration generatorConfiguration) {
-        this.generatorConfiguration = generatorConfiguration;
+    @Override
+    public GeneratorStrategy providers(List<GeneratorProvider> providers){
+        this.providers = providers;
         return this;
     }
 
-    public void setGeneratorConfiguration(GeneratorConfiguration generatorConfiguration) {
-        this.generatorConfiguration = generatorConfiguration;
-    }
-
-    public DataSource getDataSource() {
-        return dataSource;
-    }
-
-    public GeneratorTable dataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+    @Override
+    public GeneratorStrategy generatorConfiguration(GeneratorConfiguration configuration){
+        this.configuration = configuration;
         return this;
     }
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    public GeneratorTable tableName(String tableName) {
-        this.tableName = tableName;
-        return this;
-    }
 }

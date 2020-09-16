@@ -9,15 +9,22 @@
         </xsd:documentation>
     </xsd:annotation>
 
+    <xsd:element name="generators">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:choice>
+                <xsd:element ref="generator">
+                </xsd:element>
+                </xsd:choice>
+                <xsd:element ref="generators" minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
     <xsd:element name="generator">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="strategy" type="xsd:string">
-                    <xsd:annotation>
-                        <xsd:documentation>
-                            用到的生成器的类
-                        </xsd:documentation>
-                    </xsd:annotation>
+                <xsd:element ref="strategy">
                 </xsd:element>
                 <xsd:element ref="configuration">
                 </xsd:element>
@@ -39,6 +46,33 @@
         </xsd:complexType>
     </xsd:element>
 
+    <xsd:element name="strategy">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="clazz" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            系统引用的框架包的名称
+                            例如:org.apache.commons
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="providers" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            移除表名前缀
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:choice>
+                            <xsd:element ref="list" minOccurs="0"/>
+                            <xsd:element ref="set" minOccurs="0"/>
+                        </xsd:choice>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
     <xsd:element name="configuration">
         <xsd:complexType>
             <xsd:sequence>
@@ -97,19 +131,6 @@
                     </xsd:annotation>
                 </xsd:element>
                 <xsd:element name="extensions" minOccurs="0">
-                    <xsd:annotation>
-                        <xsd:documentation>
-                            javaDoc中author节点的名字
-                        </xsd:documentation>
-                    </xsd:annotation>
-                    <xsd:complexType>
-                        <xsd:choice>
-                            <xsd:element ref="list" minOccurs="0"/>
-                            <xsd:element ref="set" minOccurs="0"/>
-                        </xsd:choice>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="providers" minOccurs="0">
                     <xsd:annotation>
                         <xsd:documentation>
                             javaDoc中author节点的名字

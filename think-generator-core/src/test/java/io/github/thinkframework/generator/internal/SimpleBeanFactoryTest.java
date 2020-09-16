@@ -77,10 +77,7 @@ public class SimpleBeanFactoryTest {
         GeneratorFactoryBean generatorFactoryBean = simpleBeanFactory.getBean("generator",GeneratorFactoryBean.class);
 //        generatorFactoryBean.beanFactory(simpleBeanFactory)
 //            .postProcessBeanFactory(null);
-        generatorFactoryBean.getObject()
-            .dataSource(dataSource)
-            .tableName("TEST")
-            .generate();
+        generatorFactoryBean.getObject().generate();
 
     }
 

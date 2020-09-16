@@ -96,6 +96,15 @@ public class StringUtils {
         return result;
     }
 
+
+    public static String tableName(String className) {
+        if (className == null || className.length() == 0) {
+            //fixme 外键 空指针的情况 lixiaobin
+            return "";
+        }
+        return className.replaceAll("[A-Z]","_$0").toUpperCase();
+    }
+
     public static String capitalize(final String str) {
         int strLen;
         if (str == null || (strLen = str.length()) == 0) {

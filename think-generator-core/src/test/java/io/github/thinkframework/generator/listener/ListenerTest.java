@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.listener;
 
-import io.github.thinkframework.generator.GeneratorStrategy;
+import io.github.thinkframework.generator.strategy.GeneratorStrategy;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -41,9 +41,7 @@ public class ListenerTest {
      */
     @Test
     public void enterprise() throws Exception {
-        generator
-            .tableName("bim5d_cost_cztj_summary")
-            .generate();
+        generator.generate("dataSource","TEST");
     }
 
     /**

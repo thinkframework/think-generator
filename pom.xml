@@ -25,6 +25,5 @@
         <module>think-generator-core</module>
         <module>think-generator-boot-starter</module>
         <module>think-generator-shell</module>
-<!--        <module>think-generator-amqp</module>-->
     </modules>
 </project>

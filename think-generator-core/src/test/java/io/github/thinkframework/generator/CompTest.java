@@ -8,6 +8,9 @@ import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 import java.io.File;
 
+/**
+ * 编译一个Java类生成
+ */
 public class CompTest {
 
     @Test

@@ -12,8 +12,9 @@ import java.lang.reflect.Proxy;
  * @author lixiaobin
  * @since 2017/3/24
  */
-public class RemarksInvocationHandler<T> implements InvocationHandler {
+public class RemarksInvocationHandler implements InvocationHandler {
     private Object object;
+
     private String remarks;
 
     public RemarksInvocationHandler() {
@@ -41,14 +42,13 @@ public class RemarksInvocationHandler<T> implements InvocationHandler {
         this.remarks = remarks;
     }
 
-
     public static Object proxy(Object object, String description) {
         Class[] interfaces = object.getClass().getInterfaces();
         Class[] proxyInterfaces = new Class[interfaces.length + 1];
         for (int i = 0; i < interfaces.length; i++) {
             proxyInterfaces[i] = interfaces[i];
         }
-        proxyInterfaces[interfaces.length] = Remarks.class;
+        proxyInterfaces[interfaces.length] = RemakrsDecroate.class;
         return Proxy.newProxyInstance(RemarksInvocationHandler.class.getClassLoader(),
             proxyInterfaces,
             new RemarksInvocationHandler(object, description));

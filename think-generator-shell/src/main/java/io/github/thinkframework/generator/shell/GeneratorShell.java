@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.shell;
 
-import io.github.thinkframework.generator.GeneratorStrategy;
+import io.github.thinkframework.generator.strategy.GeneratorStrategy;
 import io.github.thinkframework.generator.GeneratorFactoryBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -50,10 +50,10 @@ public class GeneratorShell implements ApplicationContextAware {
     @ShellMethod("generator")
 //    @ShellMethodAvailability({"generatorExists"})
     public void generator(String datasource, String tablename, @ShellOption(defaultValue = "generator") String generator) throws Exception {
-        applicationContext.getBean(GeneratorFactoryBean.class)
-            .getObject()
-            .tableName(tablename)
-            .generate();
+//        applicationContext.getBean(GeneratorFactoryBean.class)
+//            .getObject()
+//            .target(tablename)
+//            .generate();
     }
 
 //    @ShellMethodAvailability({"tables"})
