@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  *
  * @author lixiaobin
  */
-public class TableClassBuilder {
+class TableClassBuilder {
 
     public Clazz buildClass(Table table) {
         String className = StringUtils.camelCase(table.getTableName());

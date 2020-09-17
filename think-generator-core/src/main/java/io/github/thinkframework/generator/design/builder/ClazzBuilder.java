@@ -1,5 +1,6 @@
-package io.github.thinkframework.generator.internal.lang;
+package io.github.thinkframework.generator.design.builder;
 
+import io.github.thinkframework.generator.internal.lang.Clazz;
 import io.github.thinkframework.generator.internal.lang.impl.ClazzImpl;
 import io.github.thinkframework.generator.internal.sql.databasemetadata.*;
 import lombok.extern.slf4j.Slf4j;

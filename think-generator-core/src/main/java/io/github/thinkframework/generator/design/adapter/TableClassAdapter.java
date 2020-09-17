@@ -116,6 +116,7 @@ public class TableClassAdapter implements Clazz, Table {
         return ((ClazzImpl) clazz).getExportedMethods();
     }
 
+    @Override
     public Collection<IndexInfo> getIndexInfos() {
         return table.getIndexInfos();
     }

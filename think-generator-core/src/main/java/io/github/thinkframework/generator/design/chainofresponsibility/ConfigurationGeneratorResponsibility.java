@@ -23,6 +23,7 @@ public class ConfigurationGeneratorResponsibility implements GeneratorResponsibi
 
     @Override
     public GeneratorContext process(GeneratorContext generatorContext) {
+
         BeanUtils.describe(generatorContext.getGeneratorConfiguration()).forEach((key, value) -> {
             //设置GeneratorConfiguration属性
             generatorContext.getProperties().put(key, value);
@@ -31,27 +32,9 @@ public class ConfigurationGeneratorResponsibility implements GeneratorResponsibi
             }
         });
 
-        generatorContext.getGeneratorConfiguration().getConverts().forEach((key,value) -> {
-            if(key.startsWith("java.sql.Types.")) {
-                try {
-                    TypesUtils.put(Types.class.getField(key.substring("java.sql.Types.".length())).getInt(Types.class),Class.forName(value));
-                } catch (IllegalAccessException | NoSuchFieldException | ClassNotFoundException e) {
-                    throw new GeneratorRuntimeException(e);
-                }
-            }
-        });
         Optional.ofNullable(generatorContext.getTarget()).ifPresent(target -> {
             String name = target.toString();
             generatorContext.getProperties().put("tableName", StringUtils.underScoreCase(name));
-
-            //根据下划线拆分
-            List<String> prefixs = generatorContext.getGeneratorConfiguration().getPrefixs();
-            for (String prefix : prefixs) {
-                if (name.toUpperCase().startsWith(prefix)) {
-                    name = name.toUpperCase().replaceFirst(prefix, "");
-                    break;
-                }
-            }
             generatorContext.getProperties().put("className", StringUtils.camelCase(name));
 
         });

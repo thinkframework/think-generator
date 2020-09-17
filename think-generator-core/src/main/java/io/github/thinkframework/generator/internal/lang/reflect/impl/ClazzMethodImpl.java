@@ -16,6 +16,14 @@ public class ClazzMethodImpl extends ClazzMemberImpl implements ClazzMethod {
     private Collection<Clazz> parameterTypes;
     private ClazzAnnotations annotations = new ClazzAnnotations();
 
+    public ClazzMethodImpl() {
+
+    }
+
+    public ClazzMethodImpl(String name, Clazz returnType) {
+        setName(name);
+        setReturnType(returnType);
+    }
     @Override
     public Clazz getReturnType() {
         return returnType;

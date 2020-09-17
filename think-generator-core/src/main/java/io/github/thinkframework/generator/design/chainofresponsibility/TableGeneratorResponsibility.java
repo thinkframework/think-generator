@@ -1,10 +1,11 @@
 package io.github.thinkframework.generator.design.chainofresponsibility;
 
 import io.github.thinkframework.generator.context.GeneratorContext;
+import io.github.thinkframework.generator.design.builder.Builder;
+import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.internal.lang.impl.ClazzImpl;
 import io.github.thinkframework.generator.internal.lang.reflect.impl.ClazzFieldImpl;
 import io.github.thinkframework.generator.design.adapter.TableClassAdapter;
-import io.github.thinkframework.generator.design.builder.TableClassBuilder;
 import io.github.thinkframework.generator.design.builder.TableBuilder;
 import io.github.thinkframework.generator.internal.sql.GeneratorDatabaseMetaData;
 import io.github.thinkframework.generator.internal.sql.databasemetadata.Table;
@@ -13,6 +14,7 @@ import io.github.thinkframework.generator.util.TypesUtils;
 import org.springframework.core.Ordered;
 
 import javax.sql.DataSource;
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -32,6 +34,18 @@ public class TableGeneratorResponsibility implements GeneratorResponsibility, Or
         }
 
         Map result = new HashMap();
+
+        //TODO 前置或者后置处理
+        generatorContext.getGeneratorConfiguration().getConverts().forEach((key,value) -> {
+            if(key.startsWith("java.sql.Types.")) {
+                try {
+                    TypesUtils.put(Types.class.getField(key.substring("java.sql.Types.".length())).getInt(Types.class),Class.forName(value));
+                } catch (IllegalAccessException | NoSuchFieldException | ClassNotFoundException e) {
+                    throw new GeneratorRuntimeException(e);
+                }
+            }
+        });
+
         GeneratorDatabaseMetaData generatorDatabaseMetaData = new GeneratorDatabaseMetaData((DataSource) generatorContext.getSource());
         String tableName = (String) generatorContext.getTarget();
         //设置表的属性
@@ -40,14 +54,15 @@ public class TableGeneratorResponsibility implements GeneratorResponsibility, Or
             .addColumn(generatorDatabaseMetaData.getColumns(tableName))
             .addPrimaryKey(generatorDatabaseMetaData.getPrimaryKeys(tableName))
             .addIndexInfo(generatorDatabaseMetaData.getIndexInfo(tableName))
-//                .addExportedKey(tableFactory.getExportedKeys(tableName))
-//                .addImportedKey(tableFactory.getImportedKeys(tableName))
+            .addExportedKey(generatorDatabaseMetaData.getExportedKeys(tableName))
+            .addImportedKey(generatorDatabaseMetaData.getImportedKeys(tableName))
             .build();
+
 
         //适配器,同时提供表和类的字段
         TableClassAdapter tableClassAdapter = new TableClassAdapter();
         tableClassAdapter.table(table);
-        tableClassAdapter.clazz(new TableClassBuilder().buildClass(table));
+        tableClassAdapter.clazz(Builder.build(table));
         result.put("table", tableClassAdapter);
         result.put("clazz", tableClassAdapter);
 

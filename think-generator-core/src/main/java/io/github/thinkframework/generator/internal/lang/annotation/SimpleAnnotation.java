@@ -14,6 +14,7 @@ public class SimpleAnnotation implements ClazzAnnotation {
         this.name = name;
     }
 
+    @Override
     public String toString() {
         return name;
     }

@@ -1,9 +1,9 @@
 package io.github.thinkframework.generator.design.chainofresponsibility;
 
 import io.github.thinkframework.generator.context.GeneratorContext;
-import io.github.thinkframework.generator.internal.lang.ClassConvert;
+import io.github.thinkframework.generator.design.builder.Builder;
+import io.github.thinkframework.generator.internal.ClassIntrospector;
 import io.github.thinkframework.generator.internal.lang.Clazz;
-import io.github.thinkframework.generator.design.builder.ClassTableBuilder;
 import io.github.thinkframework.generator.design.adapter.TableClassAdapter;
 import org.springframework.core.Ordered;
 
@@ -34,14 +34,14 @@ public class ClassGeneratorResponsibility implements GeneratorResponsibility, Or
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        Clazz clazz = ClassConvert.convert(aClass);
+        Clazz clazz = ClassIntrospector.getClazz(aClass);
         String tableName = (String)generatorContext.getTarget();
         //设置表的属性
 
         //适配器,同时提供表和类的字段
         TableClassAdapter tableClassAdapter = new TableClassAdapter();
         tableClassAdapter.clazz(clazz);
-        tableClassAdapter.setTable(new ClassTableBuilder().buildTable(clazz));
+        tableClassAdapter.setTable(Builder.build(clazz));
         result.put("table",tableClassAdapter);
         result.put("clazz",tableClassAdapter);
 

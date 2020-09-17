@@ -1,5 +1,6 @@
 package io.github.thinkframework.generator.design.builder;
 
+import io.github.thinkframework.generator.design.adapter.TableClassAdapter;
 import io.github.thinkframework.generator.internal.lang.Clazz;
 import io.github.thinkframework.generator.internal.sql.databasemetadata.Table;
 
@@ -12,5 +13,9 @@ public class Builder {
 
     public static Clazz build(Table table){
         return new TableClassBuilder().buildClass(table);
+    }
+
+    public static TableClassAdapter adapter(){
+        return new TableClassAdapter();
     }
 }

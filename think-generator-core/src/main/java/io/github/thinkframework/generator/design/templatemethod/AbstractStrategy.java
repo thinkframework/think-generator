@@ -50,7 +50,7 @@ public abstract class AbstractStrategy<T,S> implements GeneratorStrategy<T,S> {
 
     public abstract void internal(GeneratorContext<T,S> generatorContext) throws GeneratorRuntimeException;
 
-    protected void responsibilitys(GeneratorContext<T,S> generatorContext) throws GeneratorRuntimeException{
+    public void responsibilitys(GeneratorContext<T,S> generatorContext) throws GeneratorRuntimeException{
             responsibilitys.stream()
                 .forEach(responsibility -> {
                     responsibility.process(generatorContext);

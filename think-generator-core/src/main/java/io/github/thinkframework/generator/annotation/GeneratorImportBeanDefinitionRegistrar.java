@@ -20,12 +20,11 @@ public class GeneratorImportBeanDefinitionRegistrar implements ImportBeanDefinit
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         String[] names = ((DefaultListableBeanFactory) registry).getBeanNamesForType(GeneratorProperties.class);
         Stream.of(names).forEach(name -> {
-//        super.doParse(element, parserContext, builder);
         log.debug("加载 BeanDefinition: {}", name);
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition();
-        builder.getBeanDefinition().setBeanClass(GeneratorFactoryBean.class);
-        builder.addPropertyReference("properties",name);
-        registry.registerBeanDefinition(name+ new Random().nextInt(), builder.getBeanDefinition());
+            BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition();
+            builder.getBeanDefinition().setBeanClass(GeneratorFactoryBean.class);
+            builder.addPropertyReference("properties",name);
+            registry.registerBeanDefinition(name+ new Random().nextInt(), builder.getBeanDefinition());
         });
     }
 }

@@ -29,15 +29,6 @@ public class GeneratorContext<S,T> {
      *
      * @return GeneratorContext
      */
-    public static GeneratorContext get(GeneratorConfiguration generatorConfiguration) {
-        return context.get().generatorConfiguration(generatorConfiguration);
-    }
-
-    /**
-     * 获取线程绑定的GeneratorContext
-     *
-     * @return GeneratorContext
-     */
     public static GeneratorContext get() {
         return context.get();
     }

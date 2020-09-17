@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  *
  * @author lixiaobin
  */
-public class ClassTableBuilder {
+class ClassTableBuilder {
 
     public Table buildTable(Clazz clazz) {
         String tableName = StringUtils.underScoreCase(clazz.getSimpleName());

@@ -1,10 +1,14 @@
 package io.github.thinkframework.generator.design.builder;
 
+import io.github.thinkframework.generator.config.GeneratorProperties;
+import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.internal.sql.databasemetadata.*;
 import io.github.thinkframework.generator.internal.sql.databasemetadata.impl.ColumnImpl;
 import io.github.thinkframework.generator.internal.sql.databasemetadata.impl.TableImpl;
+import io.github.thinkframework.generator.util.TypesUtils;
 import lombok.extern.slf4j.Slf4j;
 
+import java.sql.Types;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -23,6 +27,12 @@ public class TableBuilder {
     private Collection<ExportedKey> exportedKeys = new HashSet<>();
     private Collection<ImportedKey> importedKeys = new HashSet<>();
     private Collection<IndexInfo> indexInfos = new HashSet<>();
+
+    private GeneratorProperties.GeneratorConfiguration generatorConfiguration;
+
+    public void generatorConfiguration(GeneratorProperties.GeneratorConfiguration generatorConfiguration) {
+        this.generatorConfiguration = generatorConfiguration;
+    }
 
     /**
      * 添加表名称
@@ -97,7 +107,6 @@ public class TableBuilder {
      */
     public Table build() {
         TableImpl table = new TableImpl();
-        table.setTableName(this.table.getTableName());
         if (columns != null && columns.size() > 0) {
             table.setColumns(columns);
         }
