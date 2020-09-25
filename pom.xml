@@ -36,8 +36,8 @@
     <modules>
         <module>think-generator-dependencies</module>
         <module>think-generator-core</module>
-        <module>think-generator-boot-starter</module>
-        <module>think-generator-shell</module>
+<!--        <module>think-generator-boot-starter</module>-->
+<!--        <module>think-generator-shell</module>-->
     </modules>
 
     <properties>

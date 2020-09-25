@@ -1,5 +1,7 @@
 package io.github.thinkframework.generator;
 
+import io.github.thinkframework.generator.design.strategy.impl.GeneratorFile;
+import io.github.thinkframework.generator.util.FileUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,16 +36,12 @@ public class GeneratorApplicationFileTest {
     public void before() throws IOException {
         logger.debug("before");
 
-        Files.walk(new File("generator_output").toPath())
-            .map(Path::toFile).
-            sorted(Comparator.reverseOrder())
-            .forEach(File::deleteOnExit);
+        FileUtil.deleteIfExists(new File("generator"));
 
-        generator.getProperties().getStragegy().setClazz("io.github.thinkframework.generator.strategy.GeneratorFile");
-        generator.getProperties().getStragegy().setResponsibilitys(
-            Stream.of("io.github.thinkframework.generator.provider.ConfigurationGeneratorProvider",
-            "io.github.thinkframework.generator.provider.ClassGeneratorProvider")
-                .collect(Collectors.toList()));
+        generator.getProperties().getStragegy().setClazz(GeneratorFile.class.getName());
+//        generator.getProperties().getStragegy().setResponsibilitys(
+//            Stream.of(ConfigurationGeneratorProvider.class.getName(), classGeneratorProvider.class.getName())
+//                .collect(Collectors.toList()));
     }
 
     /**

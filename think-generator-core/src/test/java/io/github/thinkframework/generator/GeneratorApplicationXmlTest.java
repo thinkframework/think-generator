@@ -1,5 +1,6 @@
 package io.github.thinkframework.generator;
 
+import io.github.thinkframework.generator.util.FileUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,10 +37,7 @@ public class GeneratorApplicationXmlTest {
     public void before() throws IOException {
         logger.debug("before");
 
-        Files.walk(new File("generator_output").toPath())
-            .map(Path::toFile).
-            sorted(Comparator.reverseOrder())
-            .forEach(File::deleteOnExit);
+        FileUtil.deleteIfExists(new File("generator"));
     }
 
     /**
