@@ -1,6 +1,5 @@
 package io.github.thinkframework.generator;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +12,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,7 +33,11 @@ public class GeneratorApplicationFileTest {
     @Before
     public void before() throws IOException {
         logger.debug("before");
-        FileUtils.forceDeleteOnExit(new File("generator_output"));
+
+        Files.walk(new File("generator_output").toPath())
+            .map(Path::toFile).
+            sorted(Comparator.reverseOrder())
+            .forEach(File::deleteOnExit);
 
         generator.getProperties().getStragegy().setClazz("io.github.thinkframework.generator.strategy.GeneratorFile");
         generator.getProperties().getStragegy().setResponsibilitys(

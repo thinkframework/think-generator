@@ -39,11 +39,6 @@
             </exclusions>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <scope>test</scope>
-        </dependency>
 
         <dependency>
             <groupId>com.h2database</groupId>
