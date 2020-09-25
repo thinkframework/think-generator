@@ -1,13 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.3.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>9</version>
     </parent>
+    <groupId>io.github.thinkframework</groupId>
     <artifactId>think-generator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -15,9 +14,22 @@
 	<url>http://maven.apache.org</url>
 
     <description>基于Freemarker的代码生成工具</description>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+    <scm>
+    <connection>https://github.com/think-projects/think-generator.git</connection>
+    <developerConnection>https://github.com/think-projects/think-generator.git</developerConnection>
+    <url>https://github.com/think-projects/think-generator</url>
+    </scm>
     <developers>
         <developer>
+            <id>lixiaobin</id>
             <name>lixiaobin</name>
+            <email>hdhxby@qq.com</email>
         </developer>
     </developers>
     <modules>
@@ -26,4 +38,32 @@
         <module>think-generator-boot-starter</module>
         <module>think-generator-shell</module>
     </modules>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+
+        <revision>0.0.1-SNAPSHOT</revision>
+        <sonar.projectKey>think-projects_think-generator</sonar.projectKey>
+        <sonar.organization>think-projects</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
+        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+        <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-maven-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>
