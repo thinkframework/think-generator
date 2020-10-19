@@ -3,8 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.thinkframework</groupId>
-        <artifactId>think-generator</artifactId>
+        <artifactId>think-generator-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../think-generator-parent</relativePath>
     </parent>
     <artifactId>think-generator-core</artifactId>
 	<packaging>jar</packaging>
