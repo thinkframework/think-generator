@@ -36,8 +36,12 @@
         <module>think-generator-dependencies</module>
         <module>think-generator-parent</module>
         <module>think-generator-core</module>
-<!--        <module>think-generator-boot-starter</module>-->
-<!--        <module>think-generator-shell</module>-->
+        <module>think-generator-boot-starter</module>
+        <module>think-generator-shell</module>
+        <module>think-generator-swing-core</module>
+        <module>think-generator-swing-boot-starter</module>
+        <module>think-generator-swing-plugin</module>
+        <module>think-generator-swing-app</module>
     </modules>
 
     <properties>
