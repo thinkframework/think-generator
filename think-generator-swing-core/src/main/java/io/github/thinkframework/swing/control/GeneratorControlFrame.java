@@ -2,7 +2,7 @@ package io.github.thinkframework.swing.control;
 
 import io.github.thinkframework.swing.config.GeneratorConfigureFrame;
 import io.github.thinkframework.swing.other.GeneratorAboutFrame;
-import io.github.thinkframework.util.FileSystemUtils;
+import io.github.thinkframework.swing.util.FileSystemUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -23,7 +23,7 @@ import java.io.File;
  * @email hdhxby@qq.com
  */
 @Slf4j
-public class GeneratorControlFrame extends JFrame implements ApplicationContextAware, ResourceLoaderAware, InitializingBean, ApplicationRunner {
+public class GeneratorControlFrame extends JFrame implements ApplicationContextAware, ResourceLoaderAware, InitializingBean {
     private static final long serialVersionUID = 1L;
 
     private final Integer WIDTH = 1024, HEIGHT = 768;
@@ -230,10 +230,5 @@ public class GeneratorControlFrame extends JFrame implements ApplicationContextA
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
-    }
-
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        EventQueue.invokeLater(() ->setVisible(true));//窗口可见
     }
 }

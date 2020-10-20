@@ -1,5 +1,6 @@
 package io.github.thinkframework.generator.design.builder;
 
+import io.github.thinkframework.generator.config.GeneratorProperties;
 import io.github.thinkframework.generator.design.adapter.ColumnFieldAdapter;
 import io.github.thinkframework.generator.internal.lang.Clazz;
 import io.github.thinkframework.generator.internal.sql.databasemetadata.Column;
@@ -17,6 +18,13 @@ import java.util.stream.Collectors;
  * @author lixiaobin
  */
 class ClassTableBuilder {
+
+    private GeneratorProperties.GeneratorConfiguration generatorConfiguration;
+
+    public ClassTableBuilder generatorConfiguration(GeneratorProperties.GeneratorConfiguration generatorConfiguration){
+        this.generatorConfiguration = generatorConfiguration;
+        return this;
+    }
 
     public Table buildTable(Clazz clazz) {
         String tableName = StringUtils.underScoreCase(clazz.getSimpleName());

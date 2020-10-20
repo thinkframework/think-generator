@@ -25,6 +25,7 @@
     </description>
 
     <properties>
+        <druid-spring-boot-starter.version>1.2.1</druid-spring-boot-starter.version>
         <!-- Dependency versions -->
         <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
@@ -59,8 +60,33 @@
             </dependency>
             <dependency>
                 <groupId>io.github.thinkframework</groupId>
-                <artifactId>think-generator-plugin</artifactId>
+                <artifactId>think-generator-boot-starter</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.thinkframework</groupId>
+                <artifactId>think-generator-swing-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.thinkframework</groupId>
+                <artifactId>think-generator-swing-plugin</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.thinkframework</groupId>
+                <artifactId>think-generator-swing-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.thinkframework</groupId>
+                <artifactId>think-generator-swing-app</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid-spring-boot-starter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

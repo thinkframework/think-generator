@@ -1,5 +1,6 @@
 package io.github.thinkframework.generator.design.builder;
 
+import io.github.thinkframework.generator.config.GeneratorProperties;
 import io.github.thinkframework.generator.design.adapter.ColumnFieldAdapter;
 import io.github.thinkframework.generator.design.adapter.ColumnMethodAdapter;
 import io.github.thinkframework.generator.internal.lang.Clazz;
@@ -20,6 +21,13 @@ import java.util.stream.Collectors;
  * @author lixiaobin
  */
 class TableClassBuilder {
+
+    private GeneratorProperties.GeneratorConfiguration generatorConfiguration;
+
+    public TableClassBuilder generatorConfiguration(GeneratorProperties.GeneratorConfiguration generatorConfiguration){
+        this.generatorConfiguration = generatorConfiguration;
+        return this;
+    }
 
     public Clazz buildClass(Table table) {
         String className = StringUtils.camelCase(table.getTableName());
@@ -49,7 +57,7 @@ class TableClassBuilder {
         return table.getColumns().stream()
             .map(column -> {
                 ColumnFieldAdapter columnFieldAdapter = new ColumnFieldAdapter(column);
-//                columnFieldAdapter.setIgnore(TableClassBuild.this.generatorContext.getGeneratorConfiguration().getIgnores().contains(column.getColumnName()));
+                columnFieldAdapter.setIgnore(generatorConfiguration.getIgnores().contains(column.getColumnName()));
                 return columnFieldAdapter;
             }).collect(Collectors.toCollection(LinkedHashSet::new));
     }
@@ -64,7 +72,7 @@ class TableClassBuilder {
         return table.getColumns().stream()
             .map(column -> {
                 ColumnMethodAdapter columnMethodAdapter = new ColumnMethodAdapter(column);
-//                columnMethodAdapter.setIgnore(TableClassBuild.this.generatorContext.getGeneratorConfiguration().getIgnores().contains(column.getColumnName()));
+                columnMethodAdapter.setIgnore(generatorConfiguration.getIgnores().contains(column.getColumnName()));
                 return columnMethodAdapter;
             })
             .collect(Collectors.toCollection(LinkedHashSet::new));

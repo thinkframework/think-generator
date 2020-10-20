@@ -38,6 +38,7 @@
         <module>think-generator-core</module>
         <module>think-generator-boot-starter</module>
         <module>think-generator-shell</module>
+        <module>think-generator-jdbc</module>
         <module>think-generator-swing-core</module>
         <module>think-generator-swing-boot-starter</module>
         <module>think-generator-swing-plugin</module>

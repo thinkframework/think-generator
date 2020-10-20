@@ -4,13 +4,11 @@ import io.github.thinkframework.generator.Generator;
 import io.github.thinkframework.generator.design.strategy.GeneratorStrategy;
 import io.github.thinkframework.swing.control.tree.GeneratorTree;
 import io.github.thinkframework.swing.control.tree.GeneratorTreeModel;
-import io.github.thinkframework.util.FileSystemUtils;
-import lombok.extern.slf4j.Slf4j;
+import io.github.thinkframework.swing.util.FileSystemUtils;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 
 import javax.swing.*;
@@ -19,11 +17,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
-@Slf4j
 @Configuration
-public class GeneratorTreeConfiguration implements BeanFactoryAware,InitializingBean {
+public class GeneratorTreeConfiguration implements ApplicationContextAware,InitializingBean {
 
-    private BeanFactory beanFactory;
+    private ApplicationContext applicationContext;
 
     private GeneratorTree generatorTree;
 
@@ -56,7 +53,7 @@ public class GeneratorTreeConfiguration implements BeanFactoryAware,Initializing
 
 
     public void generatorTable() {
-        String[] names = ((DefaultListableBeanFactory)beanFactory).getBeanNamesForType(GeneratorStrategy.class);
+        String[] names = applicationContext.getBeanNamesForType(GeneratorStrategy.class);
         names = new String[]{"generator"};
         String name = "generator";
         if(names.length > 1) {
@@ -78,8 +75,8 @@ public class GeneratorTreeConfiguration implements BeanFactoryAware,Initializing
                     GeneratorTreeModel.GeneratorTreeNode defaultMutableTreeNode = (GeneratorTreeModel.GeneratorTreeNode) treePath
                         .getPathComponent(j);
 
-                    beanFactory.getBean(name, Generator.class)
-                        .source(beanFactory.getBean(defaultMutableTreeNode.getParent().getParent().getUserObject().toString()))
+                    applicationContext.getBean(Generator.class)
+                        .source(applicationContext.getBean(defaultMutableTreeNode.getParent().getParent().getUserObject().toString()))
                         .target(defaultMutableTreeNode.getUserObject())
                         .generate();
 
@@ -102,7 +99,7 @@ public class GeneratorTreeConfiguration implements BeanFactoryAware,Initializing
     }
 
     @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }

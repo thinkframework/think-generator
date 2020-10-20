@@ -23,13 +23,15 @@
         <dependency>
             <groupId>io.github.thinkframework</groupId>
             <artifactId>think-generator-core</artifactId>
-            <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.github.thinkframework</groupId>
             <artifactId>think-generator-swing-core</artifactId>
-            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.thinkframework</groupId>
+            <artifactId>think-generator-boot-starter</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

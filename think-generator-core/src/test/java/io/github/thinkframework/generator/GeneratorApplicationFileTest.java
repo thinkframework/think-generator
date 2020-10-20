@@ -14,11 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Comparator;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * 容器测试
@@ -39,9 +34,6 @@ public class GeneratorApplicationFileTest {
         FileUtil.deleteIfExists(new File("generator"));
 
         generator.getProperties().getStragegy().setClazz(GeneratorFile.class.getName());
-//        generator.getProperties().getStragegy().setResponsibilitys(
-//            Stream.of(ConfigurationGeneratorProvider.class.getName(), classGeneratorProvider.class.getName())
-//                .collect(Collectors.toList()));
     }
 
     /**
@@ -51,15 +43,5 @@ public class GeneratorApplicationFileTest {
     @Test
     public void application() throws Exception {
         generator.getObject().source(new File("c:\\opt\\java")).target("Example.class").generate();
-    }
-
-    @After
-    public void after(){
-        logger.debug("after");
-    }
-
-    class Person{
-        private String id;
-        private String name;
     }
 }

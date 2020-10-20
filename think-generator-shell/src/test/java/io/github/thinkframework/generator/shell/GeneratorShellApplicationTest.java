@@ -6,12 +6,17 @@ package io.github.thinkframework.generator.shell;
  * @author lixiaobin
  */
 
+import org.jline.reader.Parser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.shell.Shell;
+import org.springframework.shell.jline.FileInputProvider;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.Assert;
+
+import java.io.IOException;
+import java.io.StringReader;
 
 /**
 * 命令行运行类
@@ -23,10 +28,21 @@ import org.springframework.util.Assert;
 public class GeneratorShellApplicationTest {
 
     @Autowired
-    GeneratorShell generatorShell;
+    private GeneratorShell generatorShell;
+
+    @Autowired
+    private Shell shell;
+
+    @Autowired
+    private Parser parser;
 
     @Test
     public void test(){
-        Assert.notNull(generatorShell,"不能为空");
+        generatorShell.datasources();
+    }
+
+    @Test
+    public void test2() throws IOException {
+        shell.run(new FileInputProvider(new StringReader("datasources"), parser));
     }
 }

@@ -1,14 +1,11 @@
 package io.github.thinkframework.generator.design.builder;
 
 import io.github.thinkframework.generator.config.GeneratorProperties;
-import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.internal.sql.databasemetadata.*;
 import io.github.thinkframework.generator.internal.sql.databasemetadata.impl.ColumnImpl;
 import io.github.thinkframework.generator.internal.sql.databasemetadata.impl.TableImpl;
-import io.github.thinkframework.generator.util.TypesUtils;
 import lombok.extern.slf4j.Slf4j;
 
-import java.sql.Types;
 import java.util.Collection;
 import java.util.HashSet;
 

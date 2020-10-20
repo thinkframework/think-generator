@@ -13,10 +13,7 @@ import org.springframework.context.annotation.ImportResource;
 public class SwingApplication {
 
     public static void main(String[] args) {
-        if("Mac OS X".equals(System.getProperty("os.name"))) {//Mac OS X 菜单条
-            System.setProperty("apple.laf.useScreenMenuBar", "true");
-        }
-
+        System.setProperty("apple.laf.useScreenMenuBar", "true");//Mac OS X 菜单条
         new SpringApplicationBuilder(SwingApplication.class)
         .headless(false)
         .run(args);

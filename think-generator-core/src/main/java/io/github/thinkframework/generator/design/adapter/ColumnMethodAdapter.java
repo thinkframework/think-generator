@@ -1,11 +1,11 @@
 package io.github.thinkframework.generator.design.adapter;
 
+import io.github.thinkframework.generator.design.decorator.impl.ClazzMethodRemarksDecorator;
+import io.github.thinkframework.generator.design.proxy.RemarksInvocationHandler;
 import io.github.thinkframework.generator.internal.lang.Clazz;
 import io.github.thinkframework.generator.internal.lang.annotation.ClazzAnnotations;
 import io.github.thinkframework.generator.internal.lang.impl.ClazzImpl;
 import io.github.thinkframework.generator.internal.lang.reflect.ClazzMethod;
-import io.github.thinkframework.generator.design.decorator.impl.ClazzMethodRemarksDecorator;
-import io.github.thinkframework.generator.design.proxy.RemarksInvocationHandler;
 import io.github.thinkframework.generator.internal.lang.reflect.impl.ClazzMethodImpl;
 import io.github.thinkframework.generator.internal.sql.databasemetadata.Column;
 import io.github.thinkframework.generator.internal.sql.databasemetadata.ImportedKey;

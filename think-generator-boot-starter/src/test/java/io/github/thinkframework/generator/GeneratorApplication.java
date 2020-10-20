@@ -1,9 +1,7 @@
 package io.github.thinkframework.generator;
 
-import io.github.thinkframework.generator.GeneratorFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.util.Assert;
 
 /**
  * 命令行运行类

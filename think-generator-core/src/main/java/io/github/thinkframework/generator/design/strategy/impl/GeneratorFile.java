@@ -5,14 +5,12 @@ import io.github.thinkframework.generator.design.prototype.GeneratorPrototype;
 import io.github.thinkframework.generator.design.templatemethod.AbstractStrategy;
 import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.Assert;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 /**
  * 根据Class生成

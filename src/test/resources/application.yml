@@ -5,15 +5,15 @@ spring:
         name:
         username:
         password:
-        schema: sql/create-db.sql
+        schema: schema-h2.sql
 think:
     generator:
         enabled: true
         stragegy:
-            clazz: io.github.thinkframework.generator.strategy.GeneratorTable
-            providers:
-                - io.github.thinkframework.generator.provider.ConfigurationGeneratorProvider
-                - io.github.thinkframework.generator.provider.TableGeneratorProvider
+            clazz: io.github.thinkframework.generator.design.strategy.impl.GeneratorTable
+            responsibilitys:
+                - io.github.thinkframework.generator.design.chainofresponsibility.ConfigurationGeneratorResponsibility
+                - io.github.thinkframework.generator.design.chainofresponsibility.TableGeneratorResponsibility
         configuration:
             frame-name: io.think
             company-name: com.hdhxby
@@ -32,7 +32,7 @@ think:
                 - json
                 - sql
             converts: {
-                "java.sql.Types.BIGINT": "java.math.BigInteger"
+              "java.sql.Types.BIGINT" : "java.math.BigInteger"
             }
             prefixs:
                 - T_

@@ -47,10 +47,4 @@ public class GeneratorApplicationAnnotationTest {
             .target("%")
             .generate();
     }
-
-    @After
-    public void after(){
-        logger.debug("after");
-    }
-
 }

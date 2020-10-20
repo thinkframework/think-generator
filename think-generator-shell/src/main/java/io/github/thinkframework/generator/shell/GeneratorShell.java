@@ -1,14 +1,13 @@
 package io.github.thinkframework.generator.shell;
 
-import io.github.thinkframework.generator.design.strategy.GeneratorStrategy;
+import io.github.thinkframework.generator.Generator;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellOption;
+import org.springframework.shell.standard.ShellMethodAvailability;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -24,22 +23,26 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @ShellComponent
-public class GeneratorShell implements ApplicationContextAware {
+public class GeneratorShell {
 
+    @Autowired
     private ApplicationContext applicationContext;
+
+    @Autowired
+    private Generator generator;
 
     @ShellMethod("datasources")
     public void datasources() {
-        log.info("{}", Arrays.stream(applicationContext.getBeanNamesForType(DataSource.class)).collect(Collectors.joining("\r\n")));
+        log.info("datasources: {}", Arrays.stream(applicationContext.getBeanNamesForType(DataSource.class)).collect(Collectors.joining("\r\n")));
     }
 
     @ShellMethod("tables")
-//    @ShellMethodAvailability({"tablesAvailability"})
+    @ShellMethodAvailability({"datasourcesAvailability"})
     public void tables(String datasource) {
         try (Connection connection = applicationContext.getBean(datasource, DataSource.class).getConnection()) {
             ResultSet resultSet = connection.getMetaData().getTables(null, null, "%", new String[]{"TABLE"});
             while (resultSet.next()){
-                log.info(resultSet.getString("TABLE_NAME"));
+                log.info("table: {}",resultSet.getString("TABLE_NAME"));
             }
         } catch (SQLException e) {
             log.error("", e);
@@ -47,25 +50,30 @@ public class GeneratorShell implements ApplicationContextAware {
     }
 
     @ShellMethod("generator")
-//    @ShellMethodAvailability({"generatorExists"})
-    public void generator(String datasource, String tablename, @ShellOption(defaultValue = "generator") String generator) throws Exception {
-//        applicationContext.getBean(GeneratorFactoryBean.class)
-//            .getObject()
-//            .target(tablename)
-//            .generate();
+//    @ShellMethodAvailability({"genertorAvailability"})
+    public void generator(String datasource, String table) throws Exception {
+        generator.source(applicationContext.getBean(datasource, DataSource.class)).target(table).generate();
     }
 
-//    @ShellMethodAvailability({"tables"})
-    public Availability tablesAvailability() {
-        return applicationContext.getBeanNamesForType(DataSource.class) != null ? Availability.available() : Availability.unavailable("数据源不存在");
+    public Availability datasourcesAvailability() {
+        return applicationContext.getBeanNamesForType(DataSource.class).length > 0 ? Availability.available() : Availability.unavailable("数据源不存在");
     }
 
-    public Availability generatoAvailability() {
-        return applicationContext.getBeanNamesForType(GeneratorStrategy.class) != null ? Availability.available() : Availability.unavailable("生成器不存在");
+    public Availability tablesAvailability(String datasource, String table) {
+        try (Connection connection = applicationContext.getBean(datasource, DataSource.class).getConnection()) {
+            ResultSet resultSet = connection.getMetaData().getTables(null, null, table+"%", new String[]{"TABLE"});
+            if (resultSet.next()){
+                return Availability.available();
+            }
+            return Availability.unavailable("数据源不存在");
+        } catch (SQLException e) {
+            return Availability.unavailable("数据源不存在");
+        } finally {
+
+        }
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+    public Availability genertorAvailability() {
+        return applicationContext.getBeanNamesForType(Generator.class).length > 0 ? Availability.available() : Availability.unavailable("生成器不存在");
     }
 }

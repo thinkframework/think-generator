@@ -1,15 +1,11 @@
 package io.github.thinkframework.generator.design.chainofresponsibility;
 
 import io.github.thinkframework.generator.context.GeneratorContext;
-import io.github.thinkframework.generator.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.util.BeanUtils;
 import io.github.thinkframework.generator.util.StringUtils;
-import io.github.thinkframework.generator.util.TypesUtils;
 import org.springframework.core.Ordered;
 
 import java.io.File;
-import java.sql.Types;
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 

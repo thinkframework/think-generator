@@ -21,9 +21,9 @@
 
     <dependencies>
         <!-- 核心依赖 -->
-        <dependency>
-            <groupId>io.github.thinkframework</groupId>
-            <artifactId>think-core</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.github.thinkframework</groupId>-->
+<!--            <artifactId>think-core</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 </project>
