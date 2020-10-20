@@ -22,7 +22,7 @@ jobs:
             - name: Run backend test
               run: |
                   chmod +x mvnw
-                  ./mvnw -ntp clean verify
+                  ./mvnw -ntp clean
             - name: Analyze code with SonarQube
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
