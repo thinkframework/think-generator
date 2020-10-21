@@ -1,96 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:generators="http://thinkframework.github.io/schema/generator"
+       xmlns:generator="http://thinkframework.github.io/schema/generator"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
            http://thinkframework.github.io/schema/generator
            http://thinkframework.github.io/schema/generator/think-generator.xsd">
-    <generators:generator id="generator">
-        <generators:strategy>
-            <generators:clazz>io.github.thinkframework.generator.design.strategy.impl.GeneratorTable</generators:clazz>
-            <generators:responsibilitys>
-                <generators:list>
-                    <generators:value>io.github.thinkframework.generator.design.chainofresponsibility.ConfigurationGeneratorResponsibility</generators:value>
-                    <generators:value>io.github.thinkframework.generator.design.chainofresponsibility.TableGeneratorResponsibility</generators:value>
-                </generators:list>
-            </generators:responsibilitys>
-        </generators:strategy>
-        <generators:configuration>
+    <generator:generator id="generator">
+        <generator:strategy>
+            <generator:clazz>io.github.thinkframework.generator.core.design.strategy.impl.GeneratorTable</generator:clazz>
+            <generator:responsibilitys>
+                <generator:list>
+                    <generator:value>io.github.thinkframework.generator.core.design.chainofresponsibility.ConfigurationGeneratorResponsibility</generator:value>
+                    <generator:value>io.github.thinkframework.generator.core.design.chainofresponsibility.TableGeneratorResponsibility</generator:value>
+                </generator:list>
+            </generator:responsibilitys>
+        </generator:strategy>
+        <generator:configuration>
             <!-- 框架包的名称 -->
-            <generators:frameName>com.glodon.bim5d</generators:frameName>
+            <generator:frameName>com.glodon.bim5d</generator:frameName>
             <!--#公司名称-->
-            <generators:companyName>com.glodon.bim5d</generators:companyName>
+            <generator:companyName>com.glodon.bim5d</generator:companyName>
             <!--#应用名称-->
-            <generators:appName>app</generators:appName>
+            <generator:appName>app</generator:appName>
             <!--#模块名称-->
-            <!--<generators:moduleName>auth</generators:moduleName>-->
-            <!--<generators:moduleName>param</generators:moduleName>-->
-            <!--            <generators:moduleName>costenterprise</generators:moduleName>-->
-            <generators:moduleName>costproject</generators:moduleName>
+            <!--<generator:moduleName>auth</generator:moduleName>-->
+            <!--<generator:moduleName>param</generator:moduleName>-->
+            <!--            <generator:moduleName>costenterprise</generator:moduleName>-->
+            <generator:moduleName>costproject</generator:moduleName>
             <!--#作者名称-->
-            <!--<generators:authorName>lixiaobin</generators:authorName>-->
-            <generators:authorName>unascribed</generators:authorName>
+            <!--<generator:authorName>lixiaobin</generator:authorName>-->
+            <generator:authorName>unascribed</generator:authorName>
             <!--#jsp namespace: web/${namespace}/${className}/get:jsp-->
-            <generators:namespace>views</generators:namespace>
+            <generator:namespace>views</generator:namespace>
             <!--#模板目录-->
-            <!--            <generators:template>template/glodon/enterprise</generators:template>-->
-            <!--            <generators:template>template/glodon/project</generators:template>-->
-            <generators:template>template/test</generators:template>
+            <!--            <generator:template>template/glodon/enterprise</generator:template>-->
+            <!--            <generator:template>template/glodon/project</generator:template>-->
+            <generator:template>template/test</generator:template>
             <!--#过滤文件-->
-            <generators:extensions>
-                <generators:list>
-                    <generators:value>java</generators:value>
-                    <generators:value>js</generators:value>
-                    <generators:value>jsp</generators:value>
-                    <generators:value>xml</generators:value>
-                    <generators:value>ts</generators:value>
-                    <generators:value>html</generators:value>
-                    <generators:value>json</generators:value>
-                    <generators:value>sql</generators:value>
-                </generators:list>
-            </generators:extensions>
-            <generators:converts>
-                <generators:map>
-                    <generators:entity key="java.sql.Types.BIGINT" value="java.math.BigInteger"/>
-                    <!--                    <generators:entity key="java.sql.Types.DATE" value="java.time.LocalDate"/>-->
-                    <!--                    <generators:entity key="java.sql.Types.TIMESTAMP" value="java.time.Instant"/>-->
-                </generators:map>
-                <!--<generators:props>-->
-                <!--<generators:prop key="java.sql.Types.DATE">java.time.LocalDate</generators:prop>-->
-                <!--<generators:prop key="java.sql.Types.TIMESTAMP">java.time.Instant</generators:prop>-->
-                <!--</generators:props>-->
-            </generators:converts>
+            <generator:extensions>
+                <generator:list>
+                    <generator:value>java</generator:value>
+                    <generator:value>js</generator:value>
+                    <generator:value>jsp</generator:value>
+                    <generator:value>xml</generator:value>
+                    <generator:value>ts</generator:value>
+                    <generator:value>html</generator:value>
+                    <generator:value>json</generator:value>
+                    <generator:value>sql</generator:value>
+                </generator:list>
+            </generator:extensions>
+            <generator:converts>
+                <generator:map>
+                    <generator:entity key="java.sql.Types.BIGINT" value="java.math.BigInteger"/>
+                    <!--                    <generator:entity key="java.sql.Types.DATE" value="java.time.LocalDate"/>-->
+                    <!--                    <generator:entity key="java.sql.Types.TIMESTAMP" value="java.time.Instant"/>-->
+                </generator:map>
+                <!--<generator:props>-->
+                <!--<generator:prop key="java.sql.Types.DATE">java.time.LocalDate</generator:prop>-->
+                <!--<generator:prop key="java.sql.Types.TIMESTAMP">java.time.Instant</generator:prop>-->
+                <!--</generator:props>-->
+            </generator:converts>
             <!--#需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,tm_-->
-            <generators:prefixs>
-                <generators:list>
-                    <generators:value>T_</generators:value>
-                    <generators:value>RBAC_</generators:value>
-                    <generators:value>PARAM_</generators:value>
-                    <generators:value>AUTH_</generators:value>
-                    <generators:value>PROJECT_</generators:value>
-                    <generators:value>bim5d_cost_</generators:value>
-                </generators:list>
-            </generators:prefixs>
+            <generator:prefixs>
+                <generator:list>
+                    <generator:value>T_</generator:value>
+                    <generator:value>RBAC_</generator:value>
+                    <generator:value>PARAM_</generator:value>
+                    <generator:value>AUTH_</generator:value>
+                    <generator:value>PROJECT_</generator:value>
+                    <generator:value>bim5d_cost_</generator:value>
+                </generator:list>
+            </generator:prefixs>
             <!--#需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,tm_-->
-            <generators:ignores>
-                <generators:list>
-                    <generators:value>sys_create_time</generators:value>
-                    <generators:value>sys_modified_time</generators:value>
-                    <generators:value>sys_revision</generators:value>
-                    <generators:value>sys_creator_id</generators:value>
-                    <generators:value>sys_modifier_id</generators:value>
-                </generators:list>
-            </generators:ignores>
+            <generator:ignores>
+                <generator:list>
+                    <generator:value>sys_create_time</generator:value>
+                    <generator:value>sys_modified_time</generator:value>
+                    <generator:value>sys_revision</generator:value>
+                    <generator:value>sys_creator_id</generator:value>
+                    <generator:value>sys_modifier_id</generator:value>
+                </generator:list>
+            </generator:ignores>
             <!--#输出目录-->
-            <generators:output>generator_output</generators:output>
+            <generator:output>generator_output</generator:output>
             <!--#主键生成规则-->
-            <!--<generators:generatorId>true</generators:generatorId>-->
+            <!--<generator:generatorId>true</generator:generatorId>-->
             <!--#ID生成策略:NONE:不做处理,用字段名,ID:转换成ID-->
-            <!--<generators:generatorIdStrategy>NONE</generators:generatorIdStrategy>-->
+            <!--<generator:generatorIdStrategy>NONE</generator:generatorIdStrategy>-->
             <!--#JDBC对catalog和schema属性的获取支持不够-->
-            <!--<generators:catalog></generators:catalog>-->
-            <!--<generators:schema>THINK</generators:schema>-->
-        </generators:configuration>
-    </generators:generator>
+            <!--<generator:catalog></generator:catalog>-->
+            <!--<generator:schema>THINK</generator:schema>-->
+        </generator:configuration>
+    </generator:generator>
 </beans>

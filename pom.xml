@@ -42,7 +42,7 @@
         <module>think-generator-swing-core</module>
         <module>think-generator-swing-boot-starter</module>
         <module>think-generator-swing-plugin</module>
-        <module>think-generator-swing-app</module>
+        <module>think-generator-app</module>
         <module>think-generator-design</module>
     </modules>
 
@@ -60,7 +60,6 @@
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
         <properties-maven-plugin.version>1.0.0</properties-maven-plugin.version>
     </properties>
-
     <build>
         <plugins>
             <plugin>

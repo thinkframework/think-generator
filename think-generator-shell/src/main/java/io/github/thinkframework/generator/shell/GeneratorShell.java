@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.shell;
 
-import io.github.thinkframework.generator.Generator;
+import io.github.thinkframework.generator.core.Generator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

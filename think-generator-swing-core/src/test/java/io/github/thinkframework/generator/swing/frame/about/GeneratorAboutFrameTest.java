@@ -1,10 +1,7 @@
 package io.github.thinkframework.generator.swing.frame.about;
 
-import io.github.thinkframework.SwingApplication;
+import io.github.thinkframework.GeneratorSwingApplication;
 import io.github.thinkframework.boot.config.GeneratorContextLoader;
-import io.github.thinkframework.generator.swing.comp.tree.GeneratorTree;
-import io.github.thinkframework.generator.swing.comp.tree.GeneratorTreeModel;
-import io.github.thinkframework.generator.swing.configuration.SwingConfiguration;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @since 2017/3/24
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SwingApplication.class)
+@SpringBootTest(classes = GeneratorSwingApplication.class)
 @ContextConfiguration(loader = GeneratorContextLoader.class)
 public class GeneratorAboutFrameTest {
 

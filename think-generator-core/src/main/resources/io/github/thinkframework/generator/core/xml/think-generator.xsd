@@ -1,0 +1,245 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://thinkframework.github.io/schema/generator"
+            targetNamespace="http://thinkframework.github.io/schema/generator"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+    <xsd:annotation>
+        <xsd:documentation>
+            参考NamespaceHandlerSupport实现的配置文件
+        </xsd:documentation>
+    </xsd:annotation>
+
+<!--    <xsd:element name="generators">-->
+<!--        <xsd:complexType>-->
+<!--            <xsd:sequence>-->
+<!--                <xsd:choice>-->
+<!--                <xsd:element ref="generator">-->
+<!--                </xsd:element>-->
+<!--                </xsd:choice>-->
+<!--                <xsd:element ref="generators" minOccurs="0" maxOccurs="unbounded"/>-->
+<!--            </xsd:sequence>-->
+<!--        </xsd:complexType>-->
+<!--    </xsd:element>-->
+
+    <xsd:element name="generator">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="strategy">
+                </xsd:element>
+                <xsd:element ref="configuration">
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="id" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        和Spring的id节点相同
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="clazz" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        和Spring的id节点相同
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="strategy">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="clazz" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            系统引用的框架包的名称
+                            例如:org.apache.commons
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="responsibilitys" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            移除表名前缀
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:choice>
+                            <xsd:element ref="list" minOccurs="0"/>
+                            <xsd:element ref="set" minOccurs="0"/>
+                        </xsd:choice>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="configuration">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="frameName" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            系统引用的框架包的名称
+                            例如:org.apache.commons
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="companyName" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            公司名称,包名的一部分
+                            例如:org.think
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="appName" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            应用名称,包名的一部分
+                            例如:app
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="moduleName" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            模块名称,作为包的后缀名称
+                            例如:auth
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="authorName" type="xsd:string" default="unascribed">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            javaDoc中author节点的名字
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="namespace" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Struts2,Spring Mvc放置页面的位置
+                            Angualr不需要.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="template" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            模板目录
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="extensions" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            javaDoc中author节点的名字
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:choice>
+                            <xsd:element ref="list" minOccurs="0"/>
+                            <xsd:element ref="set" minOccurs="0"/>
+                        </xsd:choice>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="converts" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            需要转换的类型
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:choice>
+                            <xsd:element ref="map" minOccurs="0"/>
+                            <xsd:element ref="props" minOccurs="0"/>
+                        </xsd:choice>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="provider" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            移除表名前缀
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:choice>
+                            <xsd:element ref="list" minOccurs="0"/>
+                            <xsd:element ref="set" minOccurs="0"/>
+                        </xsd:choice>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="prefixs">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            移除表名前缀
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:choice>
+                            <xsd:element ref="list" minOccurs="0"/>
+                            <xsd:element ref="set" minOccurs="0"/>
+                        </xsd:choice>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="ignores">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            需要忽略的字段
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element ref="list" minOccurs="0"/>
+                            <xsd:element ref="set" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="output" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            输出目录
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- type -->
+    <xsd:complexType name="entity">
+        <xsd:attribute name="key" type="xsd:string"/>
+        <xsd:attribute name="value" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:element name="list">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="set">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="map">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="entity" type="entity" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="props">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="prop" maxOccurs="unbounded">
+                    <xsd:complexType mixed="true">
+                        <xsd:attribute name="key" type="xsd:string"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

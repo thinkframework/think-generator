@@ -1,8 +1,8 @@
 package io.github.thinkframework.generator;
 
-import io.github.thinkframework.generator.design.strategy.impl.GeneratorFile;
-import io.github.thinkframework.generator.util.FileUtil;
-import org.junit.After;
+import io.github.thinkframework.generator.core.GeneratorFactoryBean;
+import io.github.thinkframework.generator.core.design.strategy.impl.GeneratorFile;
+import io.github.thinkframework.generator.core.util.FileUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +22,7 @@ import java.io.IOException;
 @SpringBootTest(classes = GeneratorApplication.class)
 public class GeneratorApplicationFileTest {
 
-    Logger logger = LoggerFactory.getLogger(GeneratorApplicationAnnotationTest.class);
+    Logger logger = LoggerFactory.getLogger(GeneratorApplicationTest.class);
 
     @Autowired
     private GeneratorFactoryBean generator;

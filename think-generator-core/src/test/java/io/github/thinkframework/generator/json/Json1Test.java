@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.json;
 
-import io.github.thinkframework.generator.util.JsonUtils;
+import io.github.thinkframework.generator.core.util.JsonUtils;
 import org.junit.Test;
 
 import java.util.Map;

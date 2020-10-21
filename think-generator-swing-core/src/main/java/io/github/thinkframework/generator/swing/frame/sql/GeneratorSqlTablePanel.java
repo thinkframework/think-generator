@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.swing.frame.sql;
 
-import io.github.thinkframework.generator.swing.comp.sql.GeneratorSql;
+import io.github.thinkframework.generator.swing.component.sql.GeneratorSql;
 
 import javax.sql.DataSource;
 import javax.swing.*;
