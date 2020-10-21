@@ -9,19 +9,6 @@
         </xsd:documentation>
     </xsd:annotation>
 
-    <xsd:element name="generators">
-        <xsd:complexType>
-            <xsd:sequence>
-                <xsd:element ref="generator" minOccurs="1" maxOccurs="1"/>
-<!--                <xsd:choice>-->
-<!--                <xsd:element ref="generator" minOccurs="1" maxOccurs="1">-->
-<!--                </xsd:element>-->
-<!--                </xsd:choice>-->
-<!--                <xsd:element ref="generators" minOccurs="0" maxOccurs="1"/>-->
-            </xsd:sequence>
-        </xsd:complexType>
-    </xsd:element>
-
     <xsd:element name="generator">
         <xsd:complexType>
             <xsd:sequence>

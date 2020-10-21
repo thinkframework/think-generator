@@ -26,11 +26,11 @@
         </dependency>
         <dependency>
             <groupId>io.github.thinkframework</groupId>
-            <artifactId>think-generator-boot-starter</artifactId>
+            <artifactId>think-generator-swing-core</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.thinkframework</groupId>
-            <artifactId>think-generator-swing-core</artifactId>
+            <artifactId>think-generator-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.thinkframework</groupId>

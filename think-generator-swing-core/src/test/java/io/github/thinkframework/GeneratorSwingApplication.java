@@ -1,7 +1,7 @@
 package io.github.thinkframework;
 
 
-import io.github.thinkframework.generator.swing.annotation.EnableSwing;
+import io.github.thinkframework.generator.swing.core.annotation.EnableSwing;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 

@@ -1,7 +1,7 @@
 package io.github.thinkframework.generator.swing.plugin.component;
 
 import io.github.thinkframework.generator.core.config.GeneratorProperties;
-import io.github.thinkframework.generator.swing.util.GeneratorXmlUtil;
+import io.github.thinkframework.generator.swing.core.util.GeneratorXmlUtil;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

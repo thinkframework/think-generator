@@ -30,19 +30,8 @@ public class GeneratorShellApplicationTest {
     @Autowired
     private GeneratorShell generatorShell;
 
-    @Autowired
-    private Shell shell;
-
-    @Autowired
-    private Parser parser;
-
     @Test
     public void test(){
         generatorShell.datasources();
-    }
-
-    @Test
-    public void test2() throws IOException {
-        shell.run(new FileInputProvider(new StringReader("datasources"), parser));
     }
 }

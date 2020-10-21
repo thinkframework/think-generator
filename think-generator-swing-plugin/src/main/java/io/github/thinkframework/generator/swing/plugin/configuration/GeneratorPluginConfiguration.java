@@ -1,21 +1,18 @@
 package io.github.thinkframework.generator.swing.plugin.configuration;
 
-import io.github.thinkframework.generator.core.Generator;
 import io.github.thinkframework.generator.core.GeneratorFactoryBean;
 import io.github.thinkframework.generator.core.config.GeneratorProperties;
-import io.github.thinkframework.generator.core.design.strategy.GeneratorStrategy;
-import io.github.thinkframework.generator.swing.component.tree.GeneratorTree;
-import io.github.thinkframework.generator.swing.component.tree.GeneratorTreeModel;
-import io.github.thinkframework.generator.swing.frame.main.GeneratorMainFrame;
+import io.github.thinkframework.generator.swing.core.component.tree.GeneratorTree;
+import io.github.thinkframework.generator.swing.core.component.tree.GeneratorTreeModel;
+import io.github.thinkframework.generator.swing.core.frame.main.GeneratorMainFrame;
 import io.github.thinkframework.generator.swing.plugin.component.GeneratorConfigurationFrame;
 import io.github.thinkframework.generator.swing.plugin.component.GeneratorConfigurationPanel;
-import io.github.thinkframework.generator.swing.util.GeneratorFileUtil;
+import io.github.thinkframework.generator.swing.core.util.GeneratorFileUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.io.ResourceLoader;
 
 import javax.swing.*;
@@ -23,7 +20,6 @@ import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.util.Locale;
 
 @Configuration
 public class GeneratorPluginConfiguration implements ApplicationContextAware, ResourceLoaderAware, MessageSourceAware,InitializingBean {

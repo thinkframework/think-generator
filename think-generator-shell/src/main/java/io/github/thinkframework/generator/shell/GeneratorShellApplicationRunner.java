@@ -35,8 +35,10 @@ public class GeneratorShellApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         InteractiveShellApplicationRunner.disable(environment);
-        String scriptsToRun = args.getNonOptionArgs().stream().collect(Collectors.joining(" "));
-        shell.run(new FileInputProvider(new StringReader(scriptsToRun), parser));
+        if (!args.getNonOptionArgs().isEmpty()) {
+            String scriptsToRun = args.getNonOptionArgs().stream().collect(Collectors.joining(" "));
+            shell.run(new FileInputProvider(new StringReader(scriptsToRun), parser));
+        }
     }
 
 }
