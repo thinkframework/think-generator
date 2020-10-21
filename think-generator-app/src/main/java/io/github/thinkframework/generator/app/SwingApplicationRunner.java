@@ -1,4 +1,4 @@
-package io.github.thinkframework.generator.swing;
+package io.github.thinkframework.generator.app;
 
 import io.github.thinkframework.generator.swing.frame.main.GeneratorMainFrame;
 import org.springframework.beans.factory.annotation.Autowired;

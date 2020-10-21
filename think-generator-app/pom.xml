@@ -32,10 +32,14 @@
             <groupId>io.github.thinkframework</groupId>
             <artifactId>think-generator-swing-core</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.github.thinkframework</groupId>-->
-<!--            <artifactId>think-generator-swing-plugin</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>io.github.thinkframework</groupId>
+            <artifactId>think-generator-swing-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.thinkframework</groupId>
+            <artifactId>think-generator-swing-plugin</artifactId>
+        </dependency>
     </dependencies>
     <profiles>
         <profile>

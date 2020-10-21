@@ -1,4 +1,4 @@
-package io.github.thinkframework.generator.swing;
+package io.github.thinkframework.generator.app;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ImportResource;
  * @since 2017/3/24
  */
 @SpringBootApplication
-@ImportResource(value = {"classpath*:/applicationContext.xml"})
+//@ImportResource(value = {"classpath*:/applicationContext.xml"})
 public class AppApplication {
 
     public static void main(String[] args) {

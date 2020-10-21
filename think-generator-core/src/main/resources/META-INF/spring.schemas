@@ -1,1 +1,1 @@
-http\://thinkframework.github.io/schema/generator/think-generator.xsd=io/github/thinkframework/generator/core/xml/think-generator.xsd
+http\://thinkframework.github.io/schema/generators/think-generator.xsd=io/github/thinkframework/generator/core/xml/think-generator.xsd

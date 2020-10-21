@@ -20,102 +20,96 @@ import org.springframework.context.annotation.Lazy;
 @Configuration
 public class SwingConfiguration {
 
-    @Configuration
-    class ControlCinfiguration {
 
-        /**
-         * 主窗体
-         *
-         * @return
-         */
-        @Bean
-        public GeneratorMainFrame generatorControlFrame() {
-            GeneratorMainFrame generatorMainFrame = new GeneratorMainFrame();
-            generatorMainFrame.setGeneratorControlPanel(generatorControlPanel());
-            return generatorMainFrame;
-        }
+    /**
+     * 主窗体
+     *
+     * @return
+     */
+    @Bean
+    public GeneratorMainFrame generatorMainFrame() {
+        GeneratorMainFrame generatorMainFrame = new GeneratorMainFrame();
+        generatorMainFrame.setGeneratorControlPanel(generatorMainPanel());
+        return generatorMainFrame;
+    }
 
-        /**
-         * 主窗体
-         *
-         * @return
-         */
-        @Bean
-        public GeneratorMainPanel generatorControlPanel() {
-            GeneratorMainPanel generatorMainPanel = new GeneratorMainPanel();
-            generatorMainPanel.setGeneratorTree(generatorTree());
-            return generatorMainPanel;
-        }
+    /**
+     * 主窗体
+     *
+     * @return
+     */
+    @Bean
+    public GeneratorMainPanel generatorMainPanel() {
+        GeneratorMainPanel generatorMainPanel = new GeneratorMainPanel();
+        generatorMainPanel.setGeneratorTree(generatorTree());
+        return generatorMainPanel;
+    }
 
-        /**
-         * 左侧的树
-         *
-         * @return
-         */
-        @Bean
-        public GeneratorTree generatorTree() {
-            GeneratorTree generatorTree = new GeneratorTree();
-            generatorTree.setModel(generatorTreeModel());
-            return generatorTree;
-        }
+    /**
+     * 左侧的树
+     *
+     * @return
+     */
+    @Bean
+    public GeneratorTree generatorTree() {
+        GeneratorTree generatorTree = new GeneratorTree();
+        generatorTree.setModel(generatorTreeModel());
+        return generatorTree;
+    }
 
-        @Bean
-        public GeneratorTreeModel generatorTreeModel() {
-            GeneratorTreeModel generatorTreeModel = new GeneratorTreeModel();
-            return generatorTreeModel;
-        }
+    @Bean
+    public GeneratorTreeModel generatorTreeModel() {
+        GeneratorTreeModel generatorTreeModel = new GeneratorTreeModel();
+        return generatorTreeModel;
+    }
 
-        /**
-         * 元数据表格
-         * @return
-         */
-        @Lazy
-        @Bean
-        public GeneratorTableFactoryBean generatorTableFactoryBean() {
-            GeneratorTableFactoryBean generatorTableFactoryBean = new GeneratorTableFactoryBean();
-            return generatorTableFactoryBean;
-        }
+    /**
+     * 元数据表格
+     * @return
+     */
+    @Lazy
+    @Bean
+    public GeneratorTableFactoryBean generatorTableFactoryBean() {
+        GeneratorTableFactoryBean generatorTableFactoryBean = new GeneratorTableFactoryBean();
+        return generatorTableFactoryBean;
     }
 
 
-    @Configuration
-    class DataSourceConfiguration {
 
-        /**
-         * 设置窗体
-         *
-         * @return
-         */
-        @Lazy
-        @Bean
-        public GeneratorDataSourceFrame generatorDataSourceFrame() {
-            GeneratorDataSourceFrame generatorDataSourceFrame = new GeneratorDataSourceFrame();
-            generatorDataSourceFrame.setGeneratorList(generatorDataSourceList());
-            generatorDataSourceFrame.setGeneratorConfigurePanel(generatorDataSourcePanel());
-            return generatorDataSourceFrame;
-        }
+    /**
+     * 设置窗体
+     *
+     * @return
+     */
+    @Lazy
+    @Bean
+    public GeneratorDataSourceFrame generatorDataSourceFrame() {
+        GeneratorDataSourceFrame generatorDataSourceFrame = new GeneratorDataSourceFrame();
+        generatorDataSourceFrame.setGeneratorList(generatorDataSourceList());
+        generatorDataSourceFrame.setGeneratorConfigurePanel(generatorDataSourcePanel());
+        return generatorDataSourceFrame;
+    }
 
-        @Lazy
-        @Bean
-        public GeneratorList generatorDataSourceList() {
-            GeneratorList generatorList = new GeneratorList();
-            generatorList.setModel(generatorDataSourceListModel());
-            return generatorList;
-        }
+    @Lazy
+    @Bean
+    public GeneratorList generatorDataSourceList() {
+        GeneratorList generatorList = new GeneratorList();
+        generatorList.setModel(generatorDataSourceListModel());
+        return generatorList;
+    }
 
-        @Lazy
-        @Bean
-        public GeneratorListModel generatorDataSourceListModel() {
-            GeneratorListModel generatorListModel = new GeneratorListModel();
-            return generatorListModel;
-        }
+    @Lazy
+    @Bean
+    public GeneratorListModel generatorDataSourceListModel() {
+        GeneratorListModel generatorListModel = new GeneratorListModel();
+        return generatorListModel;
+    }
 
-        @Lazy
-        @Bean
-        public GeneratorDataSourcePanel generatorDataSourcePanel() {
-            GeneratorDataSourcePanel generatorDataSourcePanel = new GeneratorDataSourcePanel();
-            return generatorDataSourcePanel;
-        }
+    @Lazy
+    @Bean
+    public GeneratorDataSourcePanel generatorDataSourcePanel() {
+        GeneratorDataSourcePanel generatorDataSourcePanel = new GeneratorDataSourcePanel();
+        return generatorDataSourcePanel;
     }
 
     /**

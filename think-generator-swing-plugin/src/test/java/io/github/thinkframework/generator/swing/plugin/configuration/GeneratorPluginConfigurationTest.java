@@ -33,6 +33,6 @@ public class GeneratorPluginConfigurationTest {
     @Test
     public void application() throws Exception {
         Assert.assertNotNull(generatorPluginConfiguration.generatorTree);
-        Assert.assertNotNull(generatorPluginConfiguration.generator);
+        Assert.assertNotNull(generatorPluginConfiguration.generatorFactoryBean);
     }
 }

@@ -31,7 +31,7 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
     @Override
     protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
 //        super.doParse(element, parserContext, builder);
-        if("generators".equals(element.getTagName())){
+        if("generator".equals(element.getTagName())){
             return;
         }
         // 从标签中取出对应的属性值
@@ -43,7 +43,6 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
         generatorProperties.setStragegy(generatorStrategy(element));
         generatorProperties.setConfiguration(generatorConfiguration(element));
         builder.addPropertyValue("properties",generatorProperties);
-
     }
 
     /**

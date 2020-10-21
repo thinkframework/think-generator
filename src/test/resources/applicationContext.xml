@@ -16,5 +16,5 @@
         <jdbc:script location="schema-h2.sql"></jdbc:script>
     </jdbc:embedded-database>
 
-    <import resource="applicationContext-generator.xml"/>
+    <import resource="generator.xml"/>
 </beans>

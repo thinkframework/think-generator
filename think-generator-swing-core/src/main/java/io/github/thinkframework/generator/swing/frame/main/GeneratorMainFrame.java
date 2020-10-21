@@ -9,6 +9,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ResourceLoaderAware;
+import org.springframework.context.support.AbstractRefreshableApplicationContext;
+import org.springframework.context.support.AbstractRefreshableConfigApplicationContext;
 import org.springframework.core.io.ResourceLoader;
 
 import javax.swing.*;
@@ -31,6 +33,9 @@ public class GeneratorMainFrame extends JFrame implements ApplicationContextAwar
     private ResourceLoader resourceLoader;
 
     private GeneratorMainPanel generatorMainPanel;
+
+    private JToolBar toolBar;
+
     @Override
     public void afterPropertiesSet() {
         setTitle("Generator");
@@ -38,8 +43,8 @@ public class GeneratorMainFrame extends JFrame implements ApplicationContextAwar
         setSize(WIDTH, HEIGHT);// 设置大小
         setResizable(true);//改变大小
         setLocationRelativeTo(null);//居中
+        getJMenuBar();
         setJMenuBar(menuBar());
-        add(toolBar(), BorderLayout.NORTH);
         add(generatorMainPanel);
     }
 
@@ -51,6 +56,7 @@ public class GeneratorMainFrame extends JFrame implements ApplicationContextAwar
     public JMenuBar menuBar() {
         JMenuBar jMenuBar = new JMenuBar();
         jMenuBar.add(addFile());
+        jMenuBar.add(addTool());
         jMenuBar.add(addTheme());
         jMenuBar.add(addHelp());
         return jMenuBar;
@@ -63,12 +69,26 @@ public class GeneratorMainFrame extends JFrame implements ApplicationContextAwar
     public JMenu addFile() {
         JMenu mnFile = new JMenu("文件(F)");
         mnFile.setMnemonic('F');
-
+//        mnFile.add(new JMenuItem(new AbstractAction() {
+//            private static final long serialVersionUID = 1L;
+//
+//            {
+//                putValue(Action.NAME, "刷新");
+//            }
+//
+//            public void actionPerformed(ActionEvent e) {
+//                ((AbstractRefreshableApplicationContext) applicationContext).refresh();
+//            }
+//        }));
         JMenuItem mnOpenItem = new JMenuItem(new AbstractAction() {
             private static final long serialVersionUID = 1L;
 
             {
                 putValue(Action.NAME, "打开");
+                try {
+                    putValue(Action.SMALL_ICON, new ImageIcon(resourceLoader.getResource("general/openDisk.png").getURL()));
+                } catch (Exception e) {
+                }
             }
 
             public void actionPerformed(ActionEvent e) {
@@ -89,7 +109,7 @@ public class GeneratorMainFrame extends JFrame implements ApplicationContextAwar
         mnFile.add(new JMenuItem(new AbstractAction() {
             private static final long serialVersionUID = 1L;
             {
-                putValue(Action.SHORT_DESCRIPTION, "打开目录");
+                putValue(Action.NAME, "打开目录");
                 try {
                     putValue(Action.SMALL_ICON, new ImageIcon(resourceLoader.getResource("general/openDisk.png").getURL()));
                 } catch (Exception e) {
@@ -133,7 +153,7 @@ public class GeneratorMainFrame extends JFrame implements ApplicationContextAwar
                 EventQueue.invokeLater(() ->{
 //                    GeneratorLogFrame generatorLogFrame = applicationContext.getBean(GeneratorLogFrame.class);
 //                    generatorLogFrame.setVisible(true);
-                    GeneratorFileUtil.openFile(new File(System.getProperty("user.dir")+File.separator+"generator.txt"));
+                    GeneratorFileUtil.openFile(new File(System.getProperty("user.dir") + File.separator + "generator.txt"));
                 });
             }
         });
@@ -160,7 +180,7 @@ public class GeneratorMainFrame extends JFrame implements ApplicationContextAwar
 
     public JMenu addTheme() {
         JMenu mnTheme = new JMenu("主题(T)");
-        mnTheme.setMnemonic('T');
+//        mnTheme.setMnemonic('T');
         ButtonGroup buttonGroup = new ButtonGroup();
         UIManager.LookAndFeelInfo[] lookAndFeelInfos = UIManager.getInstalledLookAndFeels();
         for (int i = 0; i < lookAndFeelInfos.length; i++) {
@@ -195,25 +215,26 @@ public class GeneratorMainFrame extends JFrame implements ApplicationContextAwar
      *
      * @return
      */
-    public JToolBar toolBar() {
-        JToolBar toolBar = new JToolBar();
-
-        toolBar.add(new JButton(new AbstractAction() {
+    public JMenu addTool() {
+        JMenu mnTool = new JMenu("工具");
+        mnTool.setMnemonic('G');
+        mnTool.add(new JMenuItem(new AbstractAction() {
             private static final long serialVersionUID = 1L;
+
             {
-                putValue(Action.SHORT_DESCRIPTION, "设置");
+                putValue(Action.NAME, "数据源设置");
                 try {
                     putValue(Action.SMALL_ICON, new ImageIcon(resourceLoader.getResource("general/settings.png").getURL()));
                 } catch (Exception e) {
                 }
             }
+
             public void actionPerformed(ActionEvent e) {
                 GeneratorDataSourceFrame generatorDataSourceFrame = applicationContext.getBean(GeneratorDataSourceFrame.class);
                 generatorDataSourceFrame.setVisible(true);
             }
         }));
-
-        return toolBar;
+        return mnTool;
     }
 
     public void setGeneratorControlPanel(GeneratorMainPanel generatorMainPanel) {
