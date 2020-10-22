@@ -1,7 +1,6 @@
 package io.github.thinkframework.generator.swing.plugin.configuration;
 
 import io.github.thinkframework.generator.swing.GeneratorPluginApplication;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -13,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 /**
  * 容器测试
  */
-@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GeneratorPluginApplication.class)
 public class GeneratorPluginConfigurationTest {

@@ -4,6 +4,8 @@ import io.github.thinkframework.generator.core.context.GeneratorContext;
 import io.github.thinkframework.generator.core.design.prototype.GeneratorPrototype;
 import io.github.thinkframework.generator.core.design.templatemethod.AbstractStrategy;
 import io.github.thinkframework.generator.core.exception.GeneratorRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.stream.Stream;
 
@@ -14,7 +16,7 @@ import java.util.stream.Stream;
  * @since 1.0.0
  */
 public class GeneratorClass extends AbstractStrategy<Class,String> {
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GeneratorClass.class);
+    private static final Logger log = LoggerFactory.getLogger(GeneratorClass.class);
     /**
      * 生成
      *

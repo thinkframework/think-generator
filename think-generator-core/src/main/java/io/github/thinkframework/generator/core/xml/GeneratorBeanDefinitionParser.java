@@ -4,6 +4,8 @@ import io.github.thinkframework.generator.core.GeneratorFactoryBean;
 import io.github.thinkframework.generator.core.annotation.GeneratorImportBeanDefinitionRegistrar;
 import io.github.thinkframework.generator.core.config.GeneratorProperties;
 import io.github.thinkframework.generator.core.config.GeneratorProperties.GeneratorConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -19,7 +21,7 @@ import java.util.stream.Collectors;
  * @since 2017/3/24
  */
 public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GeneratorBeanDefinitionParser.class);
+    private static final Logger log = LoggerFactory.getLogger(GeneratorBeanDefinitionParser.class);
     /**
      * 不要调用registerBeanDefinition方法
      *

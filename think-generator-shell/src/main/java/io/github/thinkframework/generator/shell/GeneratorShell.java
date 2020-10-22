@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @ShellComponent
 public class GeneratorShell {
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GeneratorShell.class);
+    private static final Logger log = LoggerFactory.getLogger(GeneratorShell.class);
 
     @Autowired
     private ApplicationContext applicationContext;

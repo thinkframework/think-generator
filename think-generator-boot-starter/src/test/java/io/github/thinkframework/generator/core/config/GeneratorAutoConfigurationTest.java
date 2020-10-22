@@ -2,7 +2,6 @@ package io.github.thinkframework.generator.core.config;
 
 import io.github.thinkframework.generator.core.Generator;
 import io.github.thinkframework.generator.GeneratorApplication;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 /**
  * 容器测试
  */
-@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GeneratorApplication.class)
 public class GeneratorAutoConfigurationTest {
