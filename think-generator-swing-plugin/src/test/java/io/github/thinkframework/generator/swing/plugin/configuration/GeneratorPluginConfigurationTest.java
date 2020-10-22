@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.swing.plugin.configuration;
 
-import io.github.thinkframework.generator.swing.GeneratorPluginApplication;
+import io.github.thinkframework.generator.swing.plugin.GeneratorPluginApplication;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package io.github.thinkframework.generator.swing;
+package io.github.thinkframework.generator.swing.plugin;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;

@@ -18,12 +18,4 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-
-    <dependencies>
-        <!-- 核心依赖 -->
-<!--        <dependency>-->
-<!--            <groupId>io.github.thinkframework</groupId>-->
-<!--            <artifactId>think-core</artifactId>-->
-<!--        </dependency>-->
-    </dependencies>
 </project>

@@ -4,10 +4,6 @@ import io.github.thinkframework.generator.swing.core.component.table.GeneratorTa
 import io.github.thinkframework.generator.swing.core.component.table.GeneratorTableFactoryBean;
 import io.github.thinkframework.generator.swing.core.component.tree.GeneratorTree;
 import io.github.thinkframework.generator.swing.core.component.tree.GeneratorTreeModel;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
-import javafx.scene.web.WebView;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.*;
@@ -53,7 +49,7 @@ public class GeneratorMainPanel extends JPanel implements ApplicationContextAwar
 
     public JTabbedPane rightCenterPanel() {
         add(centerTabbedPane, BorderLayout.CENTER);
-        centerTabbedPane.addTab("起始页", null, initFxTable(), null);
+        centerTabbedPane.addTab("起始页", null, initFirstTable(), null);
         return centerTabbedPane;
     }
 
@@ -64,17 +60,6 @@ public class GeneratorMainPanel extends JPanel implements ApplicationContextAwar
         } catch (IOException e) {
         }
         return editorPane;
-    }
-
-    private JFXPanel initFxTable() {
-        JFXPanel fxPanel = new JFXPanel();
-        Platform.runLater(() ->{
-            WebView webView = new WebView();
-            webView.getEngine().load(getClass().getClassLoader().getResource("help.html").toString());
-            Scene scene  =  new  Scene(webView, javafx.scene.paint.Color.ALICEBLUE);
-            fxPanel.setScene(scene);
-        });
-        return fxPanel;
     }
 
     private JTabbedPane addTablePanel(String dataSourceName, String tableName) {
