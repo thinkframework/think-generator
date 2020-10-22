@@ -23,7 +23,7 @@ before_install:
 script:
   - chmod +x mvnw
   - ./mvnw -ntp clean verify
-  - ./mvnw -ntp sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+  - ./mvnw -ntp sonar:sonar -Dsonar.projectKey=think-projects_think-generator -Dsonar.organization=think-projects -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 notifications:
