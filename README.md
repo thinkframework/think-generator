@@ -1,6 +1,6 @@
 #think-generator
 
-[![Build Status](https://travis-ci.org/hdhxby/think-framework.svg?branch=develop)](https://travis-ci.org/hdhxby/think-framework)
+[![Build Status](https://travis-ci.org/thhink-project/think-framework.svg?branch=develop)](https://travis-ci.org/hdhxby/think-framework)
 [![Sonar Quality Gate](https://img.shields.io/sonar/https/sonarcloud.io/think-framework/quality_gate.svg)](https://sonarcloud.io/dashboard?id=think-framework)
 [![Sonar Coverage](https://img.shields.io/sonar/https/sonarcloud.io/think-framework/coverage.svg)](https://sonarcloud.io/dashboard?id=think-framework)
 基于xml的配置
