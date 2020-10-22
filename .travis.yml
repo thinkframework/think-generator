@@ -20,10 +20,10 @@ before_install:
 #  - . install
 script:
   - chmod +x mvnw
-  - ./mvnw -ntp checkstyle:check
   - ./mvnw -ntp clean verify
-  - if [ $TRAVIS_PULL_REQUEST == "false" ]; then ./mvnw -ntp org.jacoco:jacoco-maven-plugin:prepare-agent initialize sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN; fi
-  - ./mvnw -ntp verify -Pprod -DskipTests
+  - ./mvnw -ntp sonar:sonar -Dsonar.login=$SONAR_TOKEN
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 notifications:
   webhooks:
     on_success: change  # options: [always|never|change] default: always

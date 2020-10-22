@@ -52,14 +52,28 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <sonar.projectKey>think-projects_think-generator</sonar.projectKey>
-        <sonar.organization>think-projects</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
         <properties-maven-plugin.version>1.0.0</properties-maven-plugin.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.thinkframework</groupId>
+                <artifactId>think-generator-dependencies</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>io.github.thinkframework</groupId>
+            <artifactId>think-generator-core</artifactId>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
@@ -83,23 +97,21 @@
                     <version>${jacoco-maven-plugin.version}</version>
                     <executions>
                         <execution>
-                            <id>report</id>
+                            <id>report-aggregate</id>
+                            <phase>verify</phase>
                             <goals>
                                 <goal>report-aggregate</goal>
                             </goals>
-                            <phase>verify</phase>
                         </execution>
                     </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
-                    <version>${sonar-maven-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>properties-maven-plugin</artifactId>
-                    <version>${properties-maven-plugin.version}</version>
                     <executions>
                         <execution>
                             <phase>initialize</phase>

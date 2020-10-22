@@ -26,33 +26,10 @@
 
     <properties>
         <druid-spring-boot-starter.version>1.2.1</druid-spring-boot-starter.version>
-        <!-- Dependency versions -->
-        <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
-        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
-        <spring-security.version>5.2.1.RELEASE</spring-security.version>
-<!--        <jhipster-dependencies.version>2.1.1</jhipster-dependencies.version>-->
-<!--        &lt;!&ndash; The spring-boot version should match the one managed by-->
-<!--        https://mvnrepository.com/artifact/io.github.jhipster/jhipster-dependencies/${jhipster-dependencies.version} &ndash;&gt;-->
-<!--        &lt;!&ndash; The hibernate version should match the one managed by-->
-<!--        https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} &ndash;&gt;-->
-        <hibernate.version>5.2.17.Final</hibernate.version>
-<!--        &lt;!&ndash; The javassist version should match the one managed by-->
-<!--        https://mvnrepository.com/artifact/org.hibernate/hibernate-core/${hibernate.version} &ndash;&gt;-->
-<!--        <javassist.version>3.22.0-GA</javassist.version>-->
-<!--        &lt;!&ndash; The liquibase version should match the one managed by-->
-<!--        https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} &ndash;&gt;-->
-<!--        <liquibase.version>3.5.5</liquibase.version>-->
-<!--        <liquibase-hibernate5.version>3.6</liquibase-hibernate5.version>-->
-<!--        <validation-api.version>2.0.1.Final</validation-api.version>-->
-        <mapstruct.version>1.2.0.Final</mapstruct.version>
-
-        <druid.version>1.1.16</druid.version>
-
-        <guava.version>28.0-jre</guava.version>
-
 
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+        <properties-maven-plugin.version>1.0.0</properties-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -106,6 +83,11 @@
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
                     <version>${sonar-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>properties-maven-plugin</artifactId>
+                    <version>${properties-maven-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
