@@ -1,6 +1,7 @@
 package io.github.thinkframework.thinkframework.pdm;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import java.sql.*;
 /**
  * Created by lixiaobin on 2017/5/12.
  */
+@Ignore
 public class PDMDriverTest {
     Logger logger = LoggerFactory.getLogger(getClass());
 

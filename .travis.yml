@@ -3,6 +3,7 @@ os:
 services:
   - docker
 language: java
+sudo: true
 jdk:
     - openjdk8
 cache:

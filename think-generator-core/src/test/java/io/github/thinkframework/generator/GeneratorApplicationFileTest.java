@@ -4,6 +4,7 @@ import io.github.thinkframework.generator.core.GeneratorFactoryBean;
 import io.github.thinkframework.generator.core.design.strategy.impl.GeneratorFile;
 import io.github.thinkframework.generator.core.util.FileUtil;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import java.io.IOException;
 /**
  * 容器测试
  */
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GeneratorApplication.class)
 public class GeneratorApplicationFileTest {

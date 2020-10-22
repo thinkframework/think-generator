@@ -17,6 +17,7 @@ import static org.junit.Assert.assertNotNull;
  * @author lixiaobin
  * @since 2017/3/24
  */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:/generator.xml")
 public class GeneratorNamespaceHandlerTest extends AbstractJUnit4SpringContextTests {
