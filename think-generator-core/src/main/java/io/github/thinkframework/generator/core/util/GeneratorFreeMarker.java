@@ -6,7 +6,6 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateHashModel;
 import io.github.thinkframework.generator.core.exception.GeneratorRuntimeException;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.util.HashMap;
@@ -17,7 +16,6 @@ import java.util.Map;
  *
  * @author lixiaobin
  */
-@Slf4j
 public class GeneratorFreeMarker {
 
 

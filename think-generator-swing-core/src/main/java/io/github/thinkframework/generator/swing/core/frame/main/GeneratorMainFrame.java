@@ -3,7 +3,6 @@ package io.github.thinkframework.generator.swing.core.frame.main;
 import io.github.thinkframework.generator.swing.core.frame.datasource.GeneratorDataSourceFrame;
 import io.github.thinkframework.generator.swing.core.frame.about.GeneratorAboutFrame;
 import io.github.thinkframework.generator.swing.core.util.GeneratorFileUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -20,7 +19,6 @@ import java.io.File;
  * @author hdhxby
  * @email hdhxby@qq.com
  */
-@Slf4j
 public class GeneratorMainFrame extends JFrame implements ApplicationContextAware, ResourceLoaderAware, InitializingBean {
     private static final long serialVersionUID = 1L;
 

@@ -1,7 +1,5 @@
 package io.github.thinkframework.generator.swing.core.component.sql;
 
-import lombok.extern.slf4j.Slf4j;
-
 import javax.sql.DataSource;
 import javax.swing.*;
 
@@ -10,7 +8,6 @@ import javax.swing.*;
  * @see GeneratorSqlModel
  * @author lixiaobin
  */
-@Slf4j
 public class GeneratorSql extends JTable {
 
     GeneratorSqlModel generatorSqlModel = new GeneratorSqlModel();

@@ -7,7 +7,6 @@ import io.github.thinkframework.generator.core.design.strategy.GeneratorStrategy
 import io.github.thinkframework.generator.core.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.core.util.GeneratorFreeMarker;
 import io.github.thinkframework.generator.core.util.StringUtils;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +22,6 @@ import java.util.regex.Matcher;
  * @author lixiaobin
  * @since 1.0.0
  */
-@Slf4j
 public abstract class AbstractStrategy<T,S> implements GeneratorStrategy<T,S> {
 
     protected List<GeneratorResponsibility> responsibilitys;
@@ -81,7 +79,6 @@ public abstract class AbstractStrategy<T,S> implements GeneratorStrategy<T,S> {
                             input.toFile().getPath(),
                             input.toFile().getPath().replace(configuration.getTemplate().replaceAll("[\\/]", Matcher.quoteReplacement(File.separator)),
                                 configuration.getOutput().replaceAll("[\\/]", Matcher.quoteReplacement(File.separator)))));
-                        log.debug("{} > {}",input,output);
                         //生成父文件夹
                         if (Files.notExists(Paths.get(output.getParentFile().toURI()))) {
                             Files.createDirectories(Paths.get(output.getParentFile().toURI()));

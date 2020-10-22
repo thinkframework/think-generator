@@ -8,7 +8,6 @@ import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.web.WebView;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.*;
@@ -25,7 +24,6 @@ import java.util.Map;
  * @author hdhxby
  * @email hdhxby@qq.com
  */
-@Slf4j
 public class GeneratorMainPanel extends JPanel implements ApplicationContextAware, MessageSourceAware, InitializingBean {
 
     private static final long serialVersionUID = 1L;
@@ -64,7 +62,6 @@ public class GeneratorMainPanel extends JPanel implements ApplicationContextAwar
         try {
             editorPane.setPage(getClass().getClassLoader().getResource("help.html"));
         } catch (IOException e) {
-            log.error("", e);
         }
         return editorPane;
     }

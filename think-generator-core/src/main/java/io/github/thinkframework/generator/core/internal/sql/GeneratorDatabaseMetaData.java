@@ -1,9 +1,9 @@
 package io.github.thinkframework.generator.core.internal.sql;
 
+import io.github.thinkframework.generator.core.design.strategy.impl.GeneratorClass;
 import io.github.thinkframework.generator.core.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.*;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.impl.*;
-import lombok.extern.slf4j.Slf4j;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -22,8 +22,8 @@ import java.util.Set;
  * @author lixiaobin
  * @since 2017/3/24.
  */
-@Slf4j
 public class GeneratorDatabaseMetaData {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GeneratorClass.class);
 
     private DataSource dataSource;
 

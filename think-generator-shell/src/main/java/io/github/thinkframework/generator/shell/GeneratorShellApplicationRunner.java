@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * 自定义的命令行
  */
-@Component
+//@Component
 @Order(InteractiveShellApplicationRunner.PRECEDENCE - 100)
 public class GeneratorShellApplicationRunner implements ApplicationRunner {
 

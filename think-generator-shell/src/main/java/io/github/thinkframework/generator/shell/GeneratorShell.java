@@ -1,7 +1,7 @@
 package io.github.thinkframework.generator.shell;
 
 import io.github.thinkframework.generator.core.Generator;
-import lombok.extern.slf4j.Slf4j;
+import io.github.thinkframework.generator.core.annotation.GeneratorImportBeanDefinitionRegistrar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.shell.Availability;
@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
  *
  * @author lixiaobin
  */
-@Slf4j
 @ShellComponent
 public class GeneratorShell {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GeneratorShell.class);
 
     @Autowired
     private ApplicationContext applicationContext;

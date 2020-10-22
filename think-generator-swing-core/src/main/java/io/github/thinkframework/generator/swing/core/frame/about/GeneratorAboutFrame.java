@@ -1,6 +1,5 @@
 package io.github.thinkframework.generator.swing.core.frame.about;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.ResourceLoader;
@@ -14,7 +13,6 @@ import java.io.IOException;
  * @author hdhxby
  * @email hdhxby@qq.com
  */
-@Slf4j
 public class GeneratorAboutFrame extends JFrame implements ResourceLoaderAware, InitializingBean {
 
     private ResourceLoader resourceLoader;
@@ -35,7 +33,6 @@ public class GeneratorAboutFrame extends JFrame implements ResourceLoaderAware, 
                     graphics2D.drawImage(image,10,10,null);
                     graphics2D.drawString("代码生成工具",300,50);
                 } catch (IOException e) {
-                    log.error("",e);
                 }
             }
 

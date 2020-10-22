@@ -1,6 +1,5 @@
 package io.github.thinkframework.generator.swing.core.component.tree;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -22,8 +21,8 @@ import java.util.stream.Stream;
 /**
  * Created by lixiaobin on 2017/4/26.
  */
-@Slf4j
 public class GeneratorTreeModel implements TreeModel, ApplicationContextAware {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GeneratorTreeModel.class);
 
     protected EventListenerList listenerList = new EventListenerList();
 

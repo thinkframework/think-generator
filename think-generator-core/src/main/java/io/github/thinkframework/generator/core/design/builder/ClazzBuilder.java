@@ -3,7 +3,6 @@ package io.github.thinkframework.generator.core.design.builder;
 import io.github.thinkframework.generator.core.internal.lang.Clazz;
 import io.github.thinkframework.generator.core.internal.lang.impl.ClazzImpl;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -14,7 +13,6 @@ import java.util.HashSet;
  * @author lixiaobin
  * @since 2017/3/24
  */
-@Slf4j
 public class ClazzBuilder {
 
     private String tableName = "";

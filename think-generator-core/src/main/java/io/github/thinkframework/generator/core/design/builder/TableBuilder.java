@@ -4,7 +4,6 @@ import io.github.thinkframework.generator.core.config.GeneratorProperties;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.*;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.impl.ColumnImpl;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.impl.TableImpl;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,7 +14,6 @@ import java.util.HashSet;
  * @author lixiaobin
  * @since 2017/3/24
  */
-@Slf4j
 public class TableBuilder {
 
     private Table table = new TableImpl();
@@ -154,12 +152,12 @@ public class TableBuilder {
     }
 
     private void buildPrimaryKey() {
-        if (primaryKeys != null && primaryKeys.size() == 1) {
-            PrimaryKey primaryKey = primaryKeys.iterator().next();
-            log.debug("primaryKey:{}", primaryKey);
+//        if (primaryKeys != null && primaryKeys.size() == 1) {
+//            PrimaryKey primaryKey = primaryKeys.iterator().next();
+//            log.debug("primaryKey:{}", primaryKey);
 //            table.setPrimaryKey(primaryKey);
-        } else if (primaryKeys != null && primaryKeys.size() > 1) {
-            log.warn("发现联合主键");
+//        } else if (primaryKeys != null && primar/*yKeys.size() > 1) {
+//            log.warn("发现联合主键");*/
 //            PrimaryKey primaryKey = primaryKeys.iterator().next();
 //            if("".equalsIgnoreCase(name)) {
 //                name = "ID";
@@ -169,8 +167,8 @@ public class TableBuilder {
 //            ColumnImpl column = new ColumnImpl(name);
 //            column.setPrimaryKey(true);
 //            table.setPrimaryKey(primaryKey);
-        } else {
-            log.warn("未发现主键");
-        }
+//        } else {
+//            log.warn("未发现主键");
+//        }
     }
 }

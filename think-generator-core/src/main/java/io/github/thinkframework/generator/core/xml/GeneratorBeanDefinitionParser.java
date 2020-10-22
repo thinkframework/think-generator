@@ -1,9 +1,9 @@
 package io.github.thinkframework.generator.core.xml;
 
 import io.github.thinkframework.generator.core.GeneratorFactoryBean;
+import io.github.thinkframework.generator.core.annotation.GeneratorImportBeanDefinitionRegistrar;
 import io.github.thinkframework.generator.core.config.GeneratorProperties;
 import io.github.thinkframework.generator.core.config.GeneratorProperties.GeneratorConfiguration;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -18,9 +18,8 @@ import java.util.stream.Collectors;
  * @author lixiaobin
  * @since 2017/3/24
  */
-@Slf4j
 public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
-
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GeneratorBeanDefinitionParser.class);
     /**
      * 不要调用registerBeanDefinition方法
      *

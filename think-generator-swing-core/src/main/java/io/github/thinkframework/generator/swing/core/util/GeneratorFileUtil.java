@@ -1,7 +1,5 @@
 package io.github.thinkframework.generator.swing.core.util;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -9,7 +7,6 @@ import java.io.IOException;
  * 跨平台文件打开工具
  * @author lixiaobin
  */
-@Slf4j
 public class GeneratorFileUtil {
 
     /**

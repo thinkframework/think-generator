@@ -2,7 +2,6 @@ package io.github.thinkframework.generator.core;
 
 import io.github.thinkframework.generator.core.config.GeneratorProperties;
 import io.github.thinkframework.generator.core.design.strategy.GeneratorStrategy;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.FactoryBean;
 
 import java.util.stream.Collectors;
@@ -10,7 +9,6 @@ import java.util.stream.Collectors;
 /**
  * 工厂模式
  */
-@Slf4j
 public class GeneratorFactoryBean implements FactoryBean<Generator> {
     private GeneratorProperties properties;
 
