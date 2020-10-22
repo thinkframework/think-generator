@@ -51,6 +51,7 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.compilerVersion>${java.version}</maven.compiler.compilerVersion>
 
         <revision>0.0.1-SNAPSHOT</revision>
         <sonar.projectKey>think-projects_think-generator</sonar.projectKey>
