@@ -8,6 +8,7 @@ jdk:
     - openjdk8
 cache:
   directories:
+    - $HOME/.sonar/cache
     - $HOME/.m2
 env:
   global:
@@ -16,6 +17,7 @@ env:
     - MAVEN_USER_HOME=$HOME/.m2/repository/
 before_install:
   - java -version
+  - chmod +x mvnw
 #install:
 #  - . install
 script:
