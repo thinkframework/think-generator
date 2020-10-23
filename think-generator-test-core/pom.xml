@@ -23,7 +23,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.thinkframework</groupId>
-    <artifactId>think-generator-test</artifactId>
+    <artifactId>think-generator-test-core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <dependencies>
         <dependency>

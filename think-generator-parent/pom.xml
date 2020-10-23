@@ -88,20 +88,6 @@
         </dependency>
     </dependencies>
     <build>
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-                <includes>
-                    <include>*.*</include>
-                </includes>
-            </testResource>
-            <testResource>
-                <directory>../src/test/resources</directory>
-                <includes>
-                    <include>*.*</include>
-                </includes>
-            </testResource>
-        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.jacoco</groupId>

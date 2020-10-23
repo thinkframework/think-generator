@@ -35,7 +35,7 @@
     <modules>
         <module>think-generator-dependencies</module>
         <module>think-generator-parent</module>
-        <module>think-generator-test</module>
+        <module>think-generator-test-core</module>
         <module>think-generator-core</module>
         <module>think-generator-boot-starter</module>
         <module>think-generator-shell</module>
@@ -44,8 +44,8 @@
         <module>think-generator-swing-boot-starter</module>
         <module>think-generator-swing-plugin</module>
         <module>think-generator-app</module>
+        <module>think-generator-test-report</module>
         <module>think-generator-design</module>
-        <module>jacoco-report-aggregate</module>
     </modules>
 
     <properties>
@@ -58,7 +58,7 @@
         <sonar.organization>think-projects</sonar.organization>
         <sonar.projectKey>think-generator</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/jacoco-report-aggregate/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/think-generator-test-report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <dependencyManagement>

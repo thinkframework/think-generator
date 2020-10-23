@@ -26,8 +26,8 @@ script:
     - chmod +x mvnw
     - ./mvnw -ntp clean verify
     - ./mvnw -ntp sonar:sonar -Dsonar.login=$SONAR_TOKEN
-#after_success:
-#  - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 notifications:
     webhooks:
         on_success: change  # options: [always|never|change] default: always
