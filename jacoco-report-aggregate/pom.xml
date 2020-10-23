@@ -37,6 +37,10 @@
             <groupId>io.github.thinkframework</groupId>
             <artifactId>think-generator-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.github.thinkframework</groupId>
+            <artifactId>think-generator-swing-core</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
