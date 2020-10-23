@@ -8,7 +8,6 @@ jdk:
     - openjdk8
 cache:
   directories:
-    - $HOME/.sonar/cache
     - $HOME/.m2
 env:
   global:
@@ -23,9 +22,9 @@ before_install:
 script:
   - chmod +x mvnw
   - ./mvnw -ntp clean verify
-  - ./mvnw -ntp sonar:sonar -Dsonar.projectKey=think-projects_think-generator -Dsonar.organization=think-projects -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
-after_success:
-  - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+  - ./mvnw -ntp sonar:sonar -Dsonar.login=$SONAR_TOKEN
+#after_success:
+#  - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 notifications:
   webhooks:
     on_success: change  # options: [always|never|change] default: always

@@ -20,7 +20,7 @@ jobs:
             - name: Run backend test
               run: |
                   chmod +x mvnw
-                  ./mvnw -ntp clean
+                  ./mvnw -ntp clean verify
 #            - name: Analyze code with SonarQube
 #              env:
 #                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -36,7 +36,3 @@ jobs:
               env:
                   MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
                   MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-#            - uses: actions/upload-artifact@v2
-#              with:
-#                name: dist
-#                path: target
