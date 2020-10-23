@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.thinkframework</groupId>
-    <artifactId>think-generator-test-report</artifactId>
+    <artifactId>jacoco-report-aggregate</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
