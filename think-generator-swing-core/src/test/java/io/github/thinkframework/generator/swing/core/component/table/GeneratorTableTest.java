@@ -17,7 +17,7 @@ import java.sql.SQLException;
 /**
  * 内部使用的,基于MetaTableModel的JTable
  *
- * @author lixiaobin
+ * @author hdhxby
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GeneratorSwingApplication.class)

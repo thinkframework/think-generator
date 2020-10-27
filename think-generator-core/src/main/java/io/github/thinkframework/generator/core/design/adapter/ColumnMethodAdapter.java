@@ -1,65 +1,34 @@
 package io.github.thinkframework.generator.core.design.adapter;
 
-import io.github.thinkframework.generator.core.design.decorator.impl.ClazzMethodRemarksDecorator;
-import io.github.thinkframework.generator.core.design.proxy.RemarksInvocationHandler;
 import io.github.thinkframework.generator.core.internal.lang.Clazz;
 import io.github.thinkframework.generator.core.internal.lang.annotation.ClazzAnnotations;
-import io.github.thinkframework.generator.core.internal.lang.impl.ClazzImpl;
 import io.github.thinkframework.generator.core.internal.lang.reflect.ClazzMethod;
-import io.github.thinkframework.generator.core.internal.lang.reflect.impl.ClazzMethodImpl;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.Column;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.ImportedKey;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.impl.ColumnImpl;
-import io.github.thinkframework.generator.core.util.StringUtils;
-import io.github.thinkframework.generator.core.util.TypesUtils;
 
 import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 /**
  * 适配数据库的Column和Java字段
  *
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/5/16.
  */
 public class ColumnMethodAdapter implements ClazzMethod, Column {
     private ClazzMethod clazzMehod;
     private Column column;
-    private boolean columnField;
     private boolean ignore;
     private String typeScript;
 
-    public ColumnMethodAdapter(Column column) {
+    public ColumnMethodAdapter(Column column,ClazzMethod clazzMehod) {
         this.column = column;
-        clazzMehod = buildMethod(column);
-        columnField = true;
+        this.clazzMehod = clazzMehod;
     }
 
     public ColumnMethodAdapter(ClazzMethod clazzMehod) {
         this.clazzMehod = clazzMehod;
         column = new ColumnImpl();
-    }
-
-
-    public static ClazzMethod buildMethod(Column column) {
-
-        String columnName = column.getColumnName();
-        Class clazz = TypesUtils.dataType(column.getDataType());
-
-        String methodName = StringUtils.fieldName(columnName);
-        ClazzImpl classType = new ClazzImpl(clazz);
-
-        ClazzMethodImpl method = new ClazzMethodImpl();
-        method.setReturnType(classType);
-        method.setName(methodName);
-        Set<Clazz> parameterTypes = new LinkedHashSet<Clazz>();
-        parameterTypes.add(classType);
-        method.setParameterTypes(parameterTypes);
-
-        ClazzMethod proxy = (ClazzMethod) RemarksInvocationHandler.proxy(method,StringUtils.isNotEmpty(column.getRemarks()) ? column.getRemarks() : column.getColumnName());
-
-        return new ClazzMethodRemarksDecorator(method,StringUtils.isNotEmpty(column.getRemarks()) ? column.getRemarks() : column.getColumnName());
     }
 
     @Override
@@ -127,10 +96,6 @@ public class ColumnMethodAdapter implements ClazzMethod, Column {
 
     public boolean getUnique() {
         return false;
-    }
-
-    public boolean getColumnField() {
-        return columnField;
     }
 
     /**

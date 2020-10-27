@@ -1,6 +1,7 @@
 package io.github.thinkframework.generator.core.design.builder;
 
-import io.github.thinkframework.generator.core.config.GeneratorProperties;
+import io.github.thinkframework.generator.boot.context.properties.GeneratorProperties;
+import io.github.thinkframework.generator.core.configuration.GeneratorConfiguration;
 import io.github.thinkframework.generator.core.design.adapter.ColumnFieldAdapter;
 import io.github.thinkframework.generator.core.internal.lang.Clazz;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.Column;
@@ -15,13 +16,13 @@ import java.util.stream.Collectors;
 /**
  * 通过表生成对应的类
  *
- * @author lixiaobin
+ * @author hdhxby
  */
 class ClassTableBuilder {
 
-    private GeneratorProperties.GeneratorConfiguration generatorConfiguration;
+    private GeneratorConfiguration generatorConfiguration;
 
-    public ClassTableBuilder generatorConfiguration(GeneratorProperties.GeneratorConfiguration generatorConfiguration){
+    public ClassTableBuilder generatorConfiguration(GeneratorConfiguration generatorConfiguration){
         this.generatorConfiguration = generatorConfiguration;
         return this;
     }

@@ -6,7 +6,7 @@ import io.github.thinkframework.generator.core.internal.lang.annotation.ClazzAnn
 import io.github.thinkframework.generator.core.internal.lang.reflect.ClazzField;
 
 /**
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/3/24
  */
 public class ClazzFieldImpl extends ClazzMemberImpl implements ClazzField {

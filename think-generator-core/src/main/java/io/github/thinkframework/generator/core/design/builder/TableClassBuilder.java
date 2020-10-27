@@ -1,6 +1,7 @@
 package io.github.thinkframework.generator.core.design.builder;
 
-import io.github.thinkframework.generator.core.config.GeneratorProperties;
+import io.github.thinkframework.generator.boot.context.properties.GeneratorProperties;
+import io.github.thinkframework.generator.core.configuration.GeneratorConfiguration;
 import io.github.thinkframework.generator.core.design.adapter.ColumnFieldAdapter;
 import io.github.thinkframework.generator.core.design.adapter.ColumnMethodAdapter;
 import io.github.thinkframework.generator.core.internal.lang.Clazz;
@@ -18,13 +19,13 @@ import java.util.stream.Collectors;
 /**
  * 通过表生成对应的类
  *
- * @author lixiaobin
+ * @author hdhxby
  */
 class TableClassBuilder {
 
-    private GeneratorProperties.GeneratorConfiguration generatorConfiguration;
+    private GeneratorConfiguration generatorConfiguration;
 
-    public TableClassBuilder generatorConfiguration(GeneratorProperties.GeneratorConfiguration generatorConfiguration){
+    public TableClassBuilder generatorConfiguration(GeneratorConfiguration generatorConfiguration){
         this.generatorConfiguration = generatorConfiguration;
         return this;
     }
@@ -56,7 +57,8 @@ class TableClassBuilder {
     private Set<ClazzField> buildField(Table table) {
         return table.getColumns().stream()
             .map(column -> {
-                ColumnFieldAdapter columnFieldAdapter = new ColumnFieldAdapter(column);
+                ColumnFieldAdapter columnFieldAdapter = new ColumnFieldAdapter(column,
+                    new ColumnFieldBuilder().generatorConfiguration(generatorConfiguration).buildField(column));
                 columnFieldAdapter.setIgnore(generatorConfiguration.getIgnores().contains(column.getColumnName()));
                 return columnFieldAdapter;
             }).collect(Collectors.toCollection(LinkedHashSet::new));
@@ -71,7 +73,8 @@ class TableClassBuilder {
     private Set<ClazzMethod> buildMethod(Table table) {
         return table.getColumns().stream()
             .map(column -> {
-                ColumnMethodAdapter columnMethodAdapter = new ColumnMethodAdapter(column);
+                ColumnMethodAdapter columnMethodAdapter = new ColumnMethodAdapter(column,
+                    new ColumnMethodBuilder().generatorConfiguration(generatorConfiguration).buildMethod(column));
                 columnMethodAdapter.setIgnore(generatorConfiguration.getIgnores().contains(column.getColumnName()));
                 return columnMethodAdapter;
             })

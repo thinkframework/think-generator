@@ -23,5 +23,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.github.thinkframework</groupId>
+            <artifactId>think-generator-test-resources</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * 数据库类型映射
  * 做一些适当的修改
- * @author lixiaobin
+ * @author hdhxby
  */
 public class TypesHelper {
 

@@ -7,7 +7,7 @@ import io.github.thinkframework.generator.core.internal.lang.reflect.ClazzMethod
 import java.util.Collection;
 
 /**
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/3/24
  */
 public interface Clazz {

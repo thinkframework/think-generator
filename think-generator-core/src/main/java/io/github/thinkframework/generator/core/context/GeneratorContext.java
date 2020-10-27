@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.core.context;
 
-import io.github.thinkframework.generator.core.config.GeneratorProperties.GeneratorConfiguration;
+import io.github.thinkframework.generator.core.configuration.GeneratorConfiguration;
 import io.github.thinkframework.generator.core.exception.GeneratorRuntimeException;
 
 import java.util.Properties;

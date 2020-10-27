@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.core.annotation;
 
-import io.github.thinkframework.generator.core.config.GeneratorProperties;
+import io.github.thinkframework.generator.boot.context.properties.GeneratorProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 

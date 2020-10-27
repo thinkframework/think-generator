@@ -3,7 +3,7 @@ package io.github.thinkframework.generator.core.internal.sql.databasemetadata.im
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.PrimaryKey;
 
 /**
- * @author lixiaobin
+ * @author hdhxby
  */
 public class PrimaryKeyImpl implements PrimaryKey {
     private String tableName;

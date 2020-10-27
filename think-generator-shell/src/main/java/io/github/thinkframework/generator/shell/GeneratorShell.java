@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 /**
  * 命令行 Facde门面模式
  *
- * @author lixiaobin
+ * @author hdhxby
  */
 @ShellComponent
 public class GeneratorShell {
@@ -54,7 +54,7 @@ public class GeneratorShell {
     @ShellMethod("generator")
 //    @ShellMethodAvailability({"genertorAvailability"})
     public void generator(String datasource, String table) throws Exception {
-        generator.source(applicationContext.getBean(datasource, DataSource.class)).target(table).generate();
+        generator.generate(applicationContext.getBean(datasource, DataSource.class),table);
     }
 
     public Availability datasourcesAvailability() {

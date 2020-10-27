@@ -1,7 +1,8 @@
 package io.github.thinkframework.generator.core;
 
-import io.github.thinkframework.generator.core.config.GeneratorProperties;
+import io.github.thinkframework.generator.boot.context.properties.GeneratorProperties;
 import io.github.thinkframework.generator.core.design.strategy.GeneratorStrategy;
+import io.github.thinkframework.generator.core.exception.GeneratorRuntimeException;
 import org.springframework.beans.factory.FactoryBean;
 
 import java.util.stream.Collectors;
@@ -22,18 +23,15 @@ public class GeneratorFactoryBean implements FactoryBean<Generator> {
 
     @Override
     public Generator getObject() throws Exception {
-        GeneratorStrategy generatorStrategy = (GeneratorStrategy)Class.forName(properties.getStragegy().getClazz()).newInstance();
-        generatorStrategy.responsibilitys(properties.getStragegy().getResponsibilitys().stream().map(provider ->{
-            //TODO
-            try {
-                return Class.forName(provider).newInstance();
-            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }).collect(Collectors.toList()));
         return new GeneratorImpl()
-            .generatorStrategy(generatorStrategy)
+            .generatorStrategy(((GeneratorStrategy) Class.forName(properties.getStragegy().getClazz()).newInstance())
+                .responsibilitys(properties.getStragegy().getResponsibilitys().stream().map(responsibility -> {
+                    try {
+                        return Class.forName(responsibility).newInstance();
+                    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                        throw new GeneratorRuntimeException(e);
+                    }
+                }).collect(Collectors.toList())))
             .generatorConfiguration(properties.getConfiguration());
     }
 

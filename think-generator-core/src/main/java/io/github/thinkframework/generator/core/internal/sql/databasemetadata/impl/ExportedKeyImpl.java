@@ -3,7 +3,7 @@ package io.github.thinkframework.generator.core.internal.sql.databasemetadata.im
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.ExportedKey;
 
 /**
- * @author lixiaobin
+ * @author hdhxby
  */
 public class ExportedKeyImpl implements ExportedKey {
     private String pktableName;

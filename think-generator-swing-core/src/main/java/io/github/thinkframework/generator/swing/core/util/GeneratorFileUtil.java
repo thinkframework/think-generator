@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * 跨平台文件打开工具
- * @author lixiaobin
+ * @author hdhxby
  */
 public class GeneratorFileUtil {
 

@@ -3,7 +3,7 @@ package io.github.thinkframework.generator.shell;
 /**
  * 命令行
  *
- * @author lixiaobin
+ * @author hdhxby
  */
 
 import org.junit.Ignore;
@@ -17,7 +17,7 @@ import org.springframework.util.Assert;
 /**
 * 命令行运行类
 *
-* @author lixiaobin
+* @author hdhxby
 */
 @Ignore
 @RunWith(SpringRunner.class)

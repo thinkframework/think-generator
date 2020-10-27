@@ -3,7 +3,7 @@ package io.github.thinkframework.generator.core.internal.sql.databasemetadata;
 import java.util.Collection;
 
 /**
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/5/16.
  */
 public interface Table {

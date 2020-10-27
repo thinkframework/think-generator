@@ -6,7 +6,7 @@ import io.github.thinkframework.generator.core.internal.sql.databasemetadata.Ind
 import java.util.Set;
 
 /**
- * @author lixiaobin
+ * @author hdhxby
  */
 public class IndexInfoImpl implements IndexInfo {
     private String tableName;

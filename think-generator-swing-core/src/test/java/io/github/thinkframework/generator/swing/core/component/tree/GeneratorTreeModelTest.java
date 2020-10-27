@@ -19,7 +19,7 @@ import static org.junit.Assert.assertNotNull;
 
 /**
  * 简单的根据DatabaseMetaData信息生成TableModel
- * @author lixiaobin
+ * @author hdhxby
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GeneratorSwingApplication.class)

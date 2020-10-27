@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 
 /**
  *
- * @author lixiaobin
+ * @author hdhxby
  */
 public class GeneratorDataSourcePanel extends JPanel implements ApplicationContextAware, InitializingBean {
 	private GeneratorXmlUtil applicationContextGeneratorXmlUtil = new GeneratorXmlUtil();

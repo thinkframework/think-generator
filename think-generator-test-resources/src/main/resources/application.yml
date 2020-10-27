@@ -1,0 +1,41 @@
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:h2:mem:generator;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+        name:
+        username:
+        password:
+        schema: schema-h2.sql
+think:
+    generator:
+        enabled: true
+        stragegy:
+            clazz: io.github.thinkframework.generator.core.design.strategy.impl.GeneratorTable
+            responsibilitys:
+                - io.github.thinkframework.generator.core.design.chainofresponsibility.IDGeneratorResponsibility
+                - io.github.thinkframework.generator.core.design.chainofresponsibility.TableGeneratorResponsibility
+        configuration:
+            frame-name: io.think
+            company-name: com.hdhxby
+            app-name: app
+            module-name: auth
+            author-name: unascribed
+            namespace: view
+            template: template/test
+            extensions:
+                - java
+                - js
+                - jsp
+                - xml
+                - ts
+                - html
+                - json
+                - sql
+            converts: {
+              "java.sql.Types.BIGINT" : "java.math.BigInteger"
+            }
+            prefixs:
+                - T_
+            ignores:
+                - sys_revision
+            output: generator_output

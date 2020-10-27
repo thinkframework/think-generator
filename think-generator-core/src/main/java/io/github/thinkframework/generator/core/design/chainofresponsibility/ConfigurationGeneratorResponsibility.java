@@ -10,9 +10,9 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 
 /**
- * 适配器
+ * 默认
  *
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/3/24
  */
 public class ConfigurationGeneratorResponsibility implements GeneratorResponsibility, Ordered {

@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 /**
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/3/24
  */
 @EnableSwing

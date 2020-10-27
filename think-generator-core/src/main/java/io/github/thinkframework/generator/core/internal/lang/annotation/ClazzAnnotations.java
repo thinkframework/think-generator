@@ -5,7 +5,7 @@ import io.github.thinkframework.generator.core.internal.lang.annotation.impl.Cla
 /**
  * 有序集合
  *
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/5/25.
  */
 public class ClazzAnnotations {

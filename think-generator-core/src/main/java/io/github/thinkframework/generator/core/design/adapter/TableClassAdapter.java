@@ -13,7 +13,7 @@ import java.util.Collection;
 /**
  * 适配数据库表和Java类
  *
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/5/12.
  */
 public class TableClassAdapter implements Clazz, Table {

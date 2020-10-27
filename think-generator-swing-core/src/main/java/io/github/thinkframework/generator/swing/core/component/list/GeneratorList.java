@@ -4,7 +4,7 @@ import javax.swing.*;
 
 /**
  * 列表控制类
- * @author lixiaobin
+ * @author hdhxby
  */
 public class GeneratorList extends JList {
 

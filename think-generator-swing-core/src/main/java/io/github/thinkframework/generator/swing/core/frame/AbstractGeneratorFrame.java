@@ -8,7 +8,7 @@ import javax.swing.*;
 
 /**
  *
- * @author lixiaobin
+ * @author hdhxby
  */
 public class AbstractGeneratorFrame extends JFrame implements InitializingBean {
 

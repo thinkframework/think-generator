@@ -44,7 +44,7 @@ public class GeneratorApplicationClassTest {
      */
     @Test
     public void application() throws Exception {
-        generator.getObject().source(Person.class).target("Person").generate();
+        generator.getObject().generate(Person.class,"person");
     }
 
     class Person {

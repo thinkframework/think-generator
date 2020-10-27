@@ -43,7 +43,9 @@
         <module>think-generator-swing-core</module>
         <module>think-generator-swing-boot-starter</module>
         <module>think-generator-swing-plugin</module>
+        <module>think-generator-swing-sql-plugin</module>
         <module>think-generator-app</module>
+        <module>think-generator-test-resources</module>
         <module>think-generator-test-report</module>
         <module>think-generator-design</module>
     </modules>

@@ -1,6 +1,6 @@
 /**
  * 一些简单的工具类
  *
- * @author lixiaobin
+ * @author hdhxby
  */
 package io.github.thinkframework.generator.core.util;

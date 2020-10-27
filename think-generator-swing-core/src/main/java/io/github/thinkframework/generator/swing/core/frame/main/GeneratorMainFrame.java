@@ -174,9 +174,35 @@ public class GeneratorMainFrame extends JFrame implements ApplicationContextAwar
         return mnHelp;
     }
 
+    /**
+     * 初始化ToolBar
+     *
+     * @return
+     */
+    public JMenu addTool() {
+        JMenu mnTool = new JMenu("工具(T)");
+        mnTool.setMnemonic('T');
+        mnTool.add(new JMenuItem(new AbstractAction() {
+            private static final long serialVersionUID = 1L;
+
+            {
+                putValue(Action.NAME, "数据源设置");
+                try {
+                    putValue(Action.SMALL_ICON, new ImageIcon(resourceLoader.getResource("general/settings.png").getURL()));
+                } catch (Exception e) {
+                }
+            }
+
+            public void actionPerformed(ActionEvent e) {
+                GeneratorDataSourceFrame generatorDataSourceFrame = applicationContext.getBean(GeneratorDataSourceFrame.class);
+                generatorDataSourceFrame.setVisible(true);
+            }
+        }));
+        return mnTool;
+    }
+
     public JMenu addTheme() {
-        JMenu mnTheme = new JMenu("主题(T)");
-//        mnTheme.setMnemonic('T');
+        JMenu mnTheme = new JMenu("主题");
         ButtonGroup buttonGroup = new ButtonGroup();
         UIManager.LookAndFeelInfo[] lookAndFeelInfos = UIManager.getInstalledLookAndFeels();
         for (int i = 0; i < lookAndFeelInfos.length; i++) {
@@ -205,35 +231,11 @@ public class GeneratorMainFrame extends JFrame implements ApplicationContextAwar
         return mnTheme;
     }
 
-
-    /**
-     * 初始化ToolBar
-     *
-     * @return
-     */
-    public JMenu addTool() {
-        JMenu mnTool = new JMenu("工具");
-        mnTool.setMnemonic('G');
-        mnTool.add(new JMenuItem(new AbstractAction() {
-            private static final long serialVersionUID = 1L;
-
-            {
-                putValue(Action.NAME, "数据源设置");
-                try {
-                    putValue(Action.SMALL_ICON, new ImageIcon(resourceLoader.getResource("general/settings.png").getURL()));
-                } catch (Exception e) {
-                }
-            }
-
-            public void actionPerformed(ActionEvent e) {
-                GeneratorDataSourceFrame generatorDataSourceFrame = applicationContext.getBean(GeneratorDataSourceFrame.class);
-                generatorDataSourceFrame.setVisible(true);
-            }
-        }));
-        return mnTool;
+    public GeneratorMainPanel getGeneratorMainPanel() {
+        return generatorMainPanel;
     }
 
-    public void setGeneratorControlPanel(GeneratorMainPanel generatorMainPanel) {
+    public void setGeneratorMainPanel(GeneratorMainPanel generatorMainPanel) {
         this.generatorMainPanel = generatorMainPanel;
     }
 

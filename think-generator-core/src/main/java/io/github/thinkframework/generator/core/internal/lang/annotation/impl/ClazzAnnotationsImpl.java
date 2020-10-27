@@ -8,7 +8,7 @@ import java.util.Iterator;
 /**
  * 有序集合
  *
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/5/25.
  */
 public class ClazzAnnotationsImpl extends ArrayList<ClazzAnnotation> {

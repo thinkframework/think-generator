@@ -127,4 +127,12 @@ public class GeneratorMainPanel extends JPanel implements ApplicationContextAwar
     public void setGeneratorTree(GeneratorTree generatorTree) {
         this.generatorTree = generatorTree;
     }
+
+    public JTabbedPane getCenterTabbedPane() {
+        return centerTabbedPane;
+    }
+
+    public void setCenterTabbedPane(JTabbedPane centerTabbedPane) {
+        this.centerTabbedPane = centerTabbedPane;
+    }
 }

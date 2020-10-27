@@ -5,20 +5,29 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateHashModel;
+import io.github.thinkframework.generator.boot.context.properties.GeneratorProperties;
+import io.github.thinkframework.generator.core.configuration.GeneratorConfiguration;
+import io.github.thinkframework.generator.core.design.abstractfactory.AbstractFactory;
 import io.github.thinkframework.generator.core.exception.GeneratorRuntimeException;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
 
 /**
  * FreeMarker工具类
  *
- * @author lixiaobin
+ * @author hdhxby
  */
-public class GeneratorFreeMarker {
+public class GeneratorFreeMarker implements AbstractFactory {
 
+    private GeneratorConfiguration generatorConfiguration;
 
+    public GeneratorFreeMarker generatorConfiguration(GeneratorConfiguration generatorConfiguration){
+        this.generatorConfiguration = generatorConfiguration;
+        return this;
+    }
     /**
      * FreeMarker配置
      *
@@ -44,37 +53,25 @@ public class GeneratorFreeMarker {
         }
     }
 
-    /**
-     * 输出一个文件
-     *
-     * @param model
-     * @param input
-     * @throws GeneratorRuntimeException
-     */
-    public File process(Map model, File input, File output) throws GeneratorRuntimeException {
-        try (Writer writer = new OutputStreamWriter(new FileOutputStream(output), "UTF-8")) {
-            new Template(input.getPath(), new FileReader(input), configuration(model.get("template_path").toString()))
-                .process(model, writer);
+    @Override
+    public File file(Map map,File file) throws GeneratorRuntimeException {
+        File output = new File(string(map,file.getPath()
+            .replace(generatorConfiguration.getTemplate().replaceAll("[\\/]", Matcher.quoteReplacement(File.separator)),
+            generatorConfiguration.getOutput().replaceAll("[\\/]", Matcher.quoteReplacement(File.separator)))));
+        try (FileWriter writer = new FileWriter(file)) {
+            new Template(file.getName(), new FileReader(file), configuration(map.get("template_path").toString()))
+                .process(map, writer);
             return output;
         } catch (IOException | TemplateException e) {
             throw new GeneratorRuntimeException(e);
         }
     }
 
-
-    /**
-     * 输出一个字符串
-     *
-     * @param model
-     * @param input
-     * @param output
-     * @throws GeneratorRuntimeException
-     */
-    public String process(Map model, String input, String output) throws GeneratorRuntimeException {
+    @Override
+    public String string(Map map,String input) throws GeneratorRuntimeException {
         try (Writer writer = new StringWriter()) {
-            //模板出路径
-            new Template(input, new StringReader(output), new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS))
-                .process(model, writer);
+            new Template(input, new StringReader(input), configuration(map.get("template_path").toString()))
+                .process(map, writer);
             return writer.toString();
         } catch (IOException | TemplateException e) {
             throw new GeneratorRuntimeException(e);

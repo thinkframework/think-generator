@@ -8,7 +8,7 @@ import javax.swing.*;
 /**
  * 内部使用的,基于MetaTableModel的JTable
  *
- * @author lixiaobin
+ * @author hdhxby
  */
 public class GeneratorTable extends JTable implements InitializingBean {
 

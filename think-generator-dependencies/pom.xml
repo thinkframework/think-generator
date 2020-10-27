@@ -56,12 +56,27 @@
             </dependency>
             <dependency>
                 <groupId>io.github.thinkframework</groupId>
+                <artifactId>think-generator-swing-sql-plugin</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.thinkframework</groupId>
                 <artifactId>think-generator-swing-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.thinkframework</groupId>
                 <artifactId>think-generator-swing-app</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.thinkframework</groupId>
+                <artifactId>think-generator-test-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.thinkframework</groupId>
+                <artifactId>think-generator-test-resources</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

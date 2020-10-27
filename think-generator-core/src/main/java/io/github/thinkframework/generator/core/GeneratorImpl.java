@@ -1,67 +1,18 @@
 package io.github.thinkframework.generator.core;
 
-import io.github.thinkframework.generator.core.config.GeneratorProperties.GeneratorConfiguration;
-import io.github.thinkframework.generator.core.context.GeneratorContext;
-import io.github.thinkframework.generator.core.design.strategy.GeneratorStrategy;
-import io.github.thinkframework.generator.core.exception.GeneratorRuntimeException;
+import io.github.thinkframework.generator.core.design.templatemethod.AbstractGenerator;
 
 /**
  * 生成器对象
  *
- * @author lixiaobin
+ * @author hdhxby
  * @since 1.0.0
  */
-public class GeneratorImpl<S,T> implements Generator<S,T>{
-
-    private S soure;
-
-    private T target;
-
-    private GeneratorConfiguration configuration;
-
-    private GeneratorStrategy generatorStrategy;
+public class GeneratorImpl<S,T> extends AbstractGenerator<S,T> implements Generator<S,T>{
 
     @Override
-    public Generator source(S source) {
-        this.soure = source;
-        return this;
-    }
-
-    @Override
-    public Generator target(T target) {
-        this.target = target;
-        return this;
-    }
-
-    /**
-     * 生成一个运行上下文
-     * @return
-     */
-    protected GeneratorContext generatorContext(){
-        return new GeneratorContext()
-            .generatorConfiguration(configuration)
-            .source(soure)
-            .target(target);
-    }
-
-    /**
-     * 运行
-     * @throws GeneratorRuntimeException
-     */
-    @Override
-    public void generate() throws GeneratorRuntimeException{
-        generatorStrategy.generate(generatorContext());
-    }
-
-    @Override
-    public Generator generatorStrategy(GeneratorStrategy generatorStrategy) {
-        this.generatorStrategy = generatorStrategy;
-        return this;
-    }
-
-    @Override
-    public Generator generatorConfiguration(GeneratorConfiguration configuration) {
-        this.configuration = configuration;
+    public Generator initialize() {
+        generatorStrategy.initialize();
         return this;
     }
 }

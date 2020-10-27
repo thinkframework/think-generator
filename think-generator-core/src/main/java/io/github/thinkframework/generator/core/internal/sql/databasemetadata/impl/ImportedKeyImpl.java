@@ -3,7 +3,7 @@ package io.github.thinkframework.generator.core.internal.sql.databasemetadata.im
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.ImportedKey;
 
 /**
- * @author lixiaobin
+ * @author hdhxby
  */
 public class ImportedKeyImpl implements ImportedKey {
     private String pktableName;

@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * 列表控制类
- * @author lixiaobin
+ * @author hdhxby
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GeneratorSwingApplication.class)

@@ -3,7 +3,7 @@ package io.github.thinkframework.generator.core.exception;
 /**
  * 生成器异常
  *
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/3/24
  */
 public class GeneratorRuntimeException extends RuntimeException {

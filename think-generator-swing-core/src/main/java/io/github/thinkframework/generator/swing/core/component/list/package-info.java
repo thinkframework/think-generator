@@ -1,5 +1,5 @@
 /**
  * 数据源列表
- * @author lixiaobin
+ * @author hdhxby
  */
 package io.github.thinkframework.generator.swing.core.component.list;

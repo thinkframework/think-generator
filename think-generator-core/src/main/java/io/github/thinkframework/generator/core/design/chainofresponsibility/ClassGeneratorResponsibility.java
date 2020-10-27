@@ -2,7 +2,7 @@ package io.github.thinkframework.generator.core.design.chainofresponsibility;
 
 import io.github.thinkframework.generator.core.context.GeneratorContext;
 import io.github.thinkframework.generator.core.design.adapter.TableClassAdapter;
-import io.github.thinkframework.generator.core.design.builder.Builder;
+import io.github.thinkframework.generator.core.design.builder.BuilderFacade;
 import io.github.thinkframework.generator.core.internal.ClassIntrospector;
 import io.github.thinkframework.generator.core.internal.lang.Clazz;
 import org.springframework.core.Ordered;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
  * 适配器
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/3/24
  */
 public class ClassGeneratorResponsibility implements GeneratorResponsibility, Ordered {
@@ -41,7 +41,7 @@ public class ClassGeneratorResponsibility implements GeneratorResponsibility, Or
         //适配器,同时提供表和类的字段
         TableClassAdapter tableClassAdapter = new TableClassAdapter();
         tableClassAdapter.clazz(clazz);
-        tableClassAdapter.setTable(Builder.generatorConfiguration(generatorContext.getGeneratorConfiguration()).build(clazz));
+        tableClassAdapter.setTable(BuilderFacade.generatorConfiguration(generatorContext.getGeneratorConfiguration()).build(clazz));
         result.put("table",tableClassAdapter);
         result.put("clazz",tableClassAdapter);
 

@@ -7,7 +7,7 @@ import javax.swing.*;
 
 /**
  *
- * @author lixiaobin
+ * @author hdhxby
  */
 public class GeneratorDataSourceFrame extends JFrame implements InitializingBean {
 

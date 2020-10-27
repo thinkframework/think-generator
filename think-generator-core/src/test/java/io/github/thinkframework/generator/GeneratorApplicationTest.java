@@ -42,9 +42,6 @@ public class GeneratorApplicationTest {
      */
     @Test
     public void application() throws Exception {
-        generator
-            .source(dataSource)
-            .target("%")
-            .generate();
+        generator.generate(dataSource,"%");
     }
 }

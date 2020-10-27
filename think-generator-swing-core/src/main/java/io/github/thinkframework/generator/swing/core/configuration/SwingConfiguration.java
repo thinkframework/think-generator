@@ -29,7 +29,7 @@ public class SwingConfiguration {
     @Bean
     public GeneratorMainFrame generatorMainFrame() {
         GeneratorMainFrame generatorMainFrame = new GeneratorMainFrame();
-        generatorMainFrame.setGeneratorControlPanel(generatorMainPanel());
+        generatorMainFrame.setGeneratorMainPanel(generatorMainPanel());
         return generatorMainFrame;
     }
 
@@ -73,8 +73,6 @@ public class SwingConfiguration {
         GeneratorTableFactoryBean generatorTableFactoryBean = new GeneratorTableFactoryBean();
         return generatorTableFactoryBean;
     }
-
-
 
     /**
      * 设置窗体

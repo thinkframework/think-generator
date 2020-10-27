@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 /**
  * 示例数据源
- * @author lixiaobin
+ * @author hdhxby
  */
 public class GeneratorDataSource implements DataSource{
     private String id;

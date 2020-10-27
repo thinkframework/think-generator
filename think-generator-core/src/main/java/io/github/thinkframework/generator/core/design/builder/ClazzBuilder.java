@@ -10,10 +10,10 @@ import java.util.HashSet;
 /**
  * 构建者模式
  *
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/3/24
  */
-public class ClazzBuilder {
+class ClazzBuilder {
 
     private String tableName = "";
     private ClazzImpl clazz = new ClazzImpl();

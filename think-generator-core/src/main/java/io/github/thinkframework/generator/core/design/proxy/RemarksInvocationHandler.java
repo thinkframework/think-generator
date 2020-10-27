@@ -11,7 +11,7 @@ import java.lang.reflect.Proxy;
  * 有些类不适合添加remarks方法
  * 通过代理实现
  *
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/3/24
  */
 public class RemarksInvocationHandler implements InvocationHandler {

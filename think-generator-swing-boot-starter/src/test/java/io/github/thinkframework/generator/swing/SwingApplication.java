@@ -5,7 +5,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ImportResource;
 
 /**
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/3/24
  */
 @SpringBootApplication

@@ -10,7 +10,7 @@ import javax.swing.*;
 import javax.swing.tree.TreePath;
 
 /**
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/3/24
  */
 public class GeneratorTree extends JTree implements ApplicationContextAware, InitializingBean {

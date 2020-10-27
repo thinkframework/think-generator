@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 
 /**
  * 简单的根据DatabaseMetaData信息生成TableModel
- * @author lixiaobin
+ * @author hdhxby
  */
 public class GeneratorTableModel extends AbstractTableModel{
 

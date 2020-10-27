@@ -1,53 +1,32 @@
 package io.github.thinkframework.generator.core.design.adapter;
 
-import io.github.thinkframework.generator.core.design.decorator.impl.ClazzFieldRemarksDecorator;
 import io.github.thinkframework.generator.core.internal.lang.Clazz;
 import io.github.thinkframework.generator.core.internal.lang.annotation.ClazzAnnotations;
-import io.github.thinkframework.generator.core.internal.lang.impl.ClazzImpl;
 import io.github.thinkframework.generator.core.internal.lang.reflect.ClazzField;
-import io.github.thinkframework.generator.core.internal.lang.reflect.impl.ClazzFieldImpl;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.Column;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.ImportedKey;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.impl.ColumnImpl;
-import io.github.thinkframework.generator.core.util.StringUtils;
-import io.github.thinkframework.generator.core.util.TypesUtils;
 
 /**
  * 适配数据库的Column和Java字段
  *
- * @author lixiaobin
+ * @author hdhxby
  * @since 2017/5/16.
  */
 public class ColumnFieldAdapter implements ClazzField, Column {
     private ClazzField clazzField;
     private Column column;
-    private boolean columnField;
     private boolean ignore;
     private String typeScript;
 
-    public ColumnFieldAdapter(Column column) {
+    public ColumnFieldAdapter(Column column,ClazzField clazzField) {
         this.column = column;
-        clazzField = buildField(column);
-        columnField = true;
+        this.clazzField = clazzField;
     }
 
     public ColumnFieldAdapter(ClazzField clazzField) {
         this.clazzField = clazzField;
         column = buildColumn(clazzField);
-    }
-
-    public static ClazzField buildField(Column column) {
-        String columnName = column.getColumnName();
-        Class clazz = TypesUtils.dataType(column.getDataType());
-
-        ClazzImpl classType = new ClazzImpl(clazz);
-
-        String fieldName = StringUtils.fieldName(columnName);
-        ClazzFieldImpl field = new ClazzFieldImpl();
-        field.setType(classType);
-        field.setName(fieldName);
-
-        return new ClazzFieldRemarksDecorator(field,StringUtils.isNotEmpty(column.getRemarks()) ? column.getRemarks() : column.getColumnName());
     }
 
     public static Column buildColumn(ClazzField clazzField) {
@@ -118,10 +97,6 @@ public class ColumnFieldAdapter implements ClazzField, Column {
 
     public boolean getUnique() {
         return false;
-    }
-
-    public boolean getColumnField() {
-        return columnField;
     }
 
     /**
