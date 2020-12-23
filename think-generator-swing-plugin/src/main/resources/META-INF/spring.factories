@@ -1,3 +1,0 @@
-#
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.thinkframework.generator.swing.plugin.sql.configuration.GeneratorPluginConfiguration

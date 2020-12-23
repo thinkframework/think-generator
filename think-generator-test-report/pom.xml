@@ -14,6 +14,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>io.github.thinkframework</groupId>
+        <artifactId>think-generator-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.thinkframework</groupId>
@@ -36,10 +43,6 @@
         <dependency>
             <groupId>io.github.thinkframework</groupId>
             <artifactId>think-generator-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.thinkframework</groupId>
-            <artifactId>think-generator-swing-core</artifactId>
         </dependency>
     </dependencies>
     <build>

@@ -6,7 +6,7 @@
         <groupId>io.github.thinkframework</groupId>
         <artifactId>think-generator-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../think-generator-parent</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
