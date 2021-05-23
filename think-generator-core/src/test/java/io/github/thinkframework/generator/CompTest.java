@@ -27,6 +27,5 @@ public class CompTest {
         JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, null, null, null, compilationUnits);
         //执行编译任务
         task.call();
-        System.out.println(compilationUnits);
     }
 }
