@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GeneratorConfiguration {
+    private String packageName;
     private String frameName;
     private String companyName;
     private String appName;
@@ -16,6 +17,15 @@ public class GeneratorConfiguration {
     private List<String> prefixs;
     private List<String> ignores;
     private String output;
+    private Boolean advanced =false;
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
 
     public String getFrameName() {
         return frameName;
@@ -111,5 +121,13 @@ public class GeneratorConfiguration {
 
     public void setOutput(String output) {
         this.output = output;
+    }
+
+    public Boolean getAdvanced() {
+        return advanced;
+    }
+
+    public void setAdvanced(Boolean advanced) {
+        this.advanced = advanced;
     }
 }

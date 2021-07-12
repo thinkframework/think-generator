@@ -94,7 +94,7 @@ class TableBuilder {
      * @return Table
      */
     public Table build() {
-        TableImpl table = new TableImpl();
+        TableImpl table = (TableImpl) this.table;
         if (columns != null && columns.size() > 0) {
             table.setColumns(columns);
         }

@@ -1,6 +1,7 @@
 /**
  * 内部表示
- * 转换java.lang,java.sql
+ * 转换java.lang,
+ * java.sql
  *
  * @see java.lang
  * @see java.sql

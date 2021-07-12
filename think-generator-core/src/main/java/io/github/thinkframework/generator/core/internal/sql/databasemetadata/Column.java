@@ -20,12 +20,6 @@ public interface Column {
      */
     int getDataType();
 
-    boolean getPrimaryKey();
-
-    boolean getIsImportedKey();
-
-    ImportedKey getImportedKey();
-
     /**
      * @return IS_NULLABLE String - ISO 规则用于确定列是否包括 null。
      * YES --- 如果参数可以包括 NULL
@@ -35,7 +29,6 @@ public interface Column {
     String getIsNullable();
 
     /**
-     * @return COLUMN_SIZE int - 列的大小
      */
     int getColumnSize();
 }

@@ -23,9 +23,6 @@ public class GeneratorNamespaceHandlerTest extends AbstractJUnit4SpringContextTe
     @Autowired
     private GeneratorFactoryBean generatorFactoryBean;
 
-    @Autowired
-    private GeneratorProperties generatorProperties;
-
     @Test
     public void test(){
         assertNotNull(generatorFactoryBean);

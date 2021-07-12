@@ -21,14 +21,15 @@ public class ClazzImpl implements Clazz {
     private String generic = "";
     private String simpleName = "";
     private Collection<ClazzField> fields = new HashSet<>();
-    private Collection<ClazzField> importedFields = new HashSet<>();
-    private Collection<ClazzField> exportedFields = new HashSet<>();
 
     private Collection<ClazzMethod> methods = new HashSet<>();
 
+    private ClazzAnnotations annotations = new ClazzAnnotations();
+
+    private Collection<ClazzField> importedFields = new HashSet<>();
+    private Collection<ClazzField> exportedFields = new HashSet<>();
     private Collection<ClazzMethod> importedMethods = new HashSet<>();
     private Collection<ClazzMethod> exportedMethods = new HashSet<>();
-    private ClazzAnnotations annotations = new ClazzAnnotations();
 
     public ClazzImpl() {
 
@@ -43,6 +44,7 @@ public class ClazzImpl implements Clazz {
     public ClazzImpl(Class clazz) {
         setName(clazz.getName());
         setSimpleName(clazz.getSimpleName());
+
     }
 
     public ClazzImpl(String simpleName) {
@@ -92,6 +94,30 @@ public class ClazzImpl implements Clazz {
         this.fields = fields;
     }
 
+
+    @Override
+    public Collection<ClazzMethod> getMethods() {
+        return methods;
+    }
+
+    public void setMethods(Collection<ClazzMethod> methods) {
+        this.methods = methods;
+    }
+
+    @Override
+    public ClazzAnnotations getAnnotations() {
+        return annotations;
+    }
+
+    public void setAnnotations(ClazzAnnotations annotations) {
+        this.annotations = annotations;
+    }
+
+    public void addAnnotation(ClazzAnnotation annotation) {
+        annotations.add(annotation);
+    }
+
+
     public Collection<ClazzField> getImportedFields() {
         return importedFields;
     }
@@ -108,15 +134,6 @@ public class ClazzImpl implements Clazz {
         this.exportedFields = exportedFields;
     }
 
-    @Override
-    public Collection<ClazzMethod> getMethods() {
-        return methods;
-    }
-
-    public void setMethods(Collection<ClazzMethod> methods) {
-        this.methods = methods;
-    }
-
     public Collection<ClazzMethod> getImportedMethods() {
         return importedMethods;
     }
@@ -131,19 +148,6 @@ public class ClazzImpl implements Clazz {
 
     public void setExportedMethods(Collection<ClazzMethod> exportedMethods) {
         this.exportedMethods = exportedMethods;
-    }
-
-    @Override
-    public ClazzAnnotations getAnnotations() {
-        return annotations;
-    }
-
-    public void setAnnotations(ClazzAnnotations annotations) {
-        this.annotations = annotations;
-    }
-
-    public void addAnnotation(ClazzAnnotation annotation) {
-        annotations.add(annotation);
     }
 
     @Override

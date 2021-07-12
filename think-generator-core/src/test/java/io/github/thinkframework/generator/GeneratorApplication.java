@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator;
 
-import io.github.thinkframework.generator.core.annotation.EnableGenerator;
+import io.github.thinkframework.generator.boot.EnableGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

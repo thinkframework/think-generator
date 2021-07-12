@@ -1,7 +1,7 @@
 package io.github.thinkframework.generator.baens.factory.xml;
 
-import io.github.thinkframework.generator.core.GeneratorFactoryBean;
 import io.github.thinkframework.generator.boot.context.properties.GeneratorProperties;
+import io.github.thinkframework.generator.core.GeneratorFactoryBean;
 import io.github.thinkframework.generator.core.configuration.GeneratorConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +40,6 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
         builder.getBeanDefinition().setBeanClass(GeneratorFactoryBean.class);
         GeneratorProperties generatorProperties = new GeneratorProperties();
 
-        generatorProperties.setStragegy(generatorStrategy(element));
         generatorProperties.setConfiguration(generatorConfiguration(element));
         builder.addPropertyValue("properties",generatorProperties);
     }
@@ -90,28 +89,6 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
                 .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "map").stream())
                 .flatMap(child -> DomUtils.getChildElementsByTagName(child, "entity").stream())
                 .collect(Collectors.toMap(child -> child.getAttribute("key"), child -> child.getAttribute("value"))));
-
-        return generatorConfiguration;
-    }
-
-
-    /**
-     * 设置策略
-     * @param element
-     * @return
-     */
-    private GeneratorProperties.StragegyConfiguration generatorStrategy(Element element) {
-        element = DomUtils.getChildElementByTagName(element, "strategy");
-
-        GeneratorProperties.StragegyConfiguration generatorConfiguration = new GeneratorProperties.StragegyConfiguration();
-        generatorConfiguration.setClazz(DomUtils.getChildElementValueByTagName(element, "clazz"));//策略类
-
-        generatorConfiguration.setResponsibilitys(
-            DomUtils.getChildElementsByTagName(element, "responsibilitys")
-                .stream().flatMap(child -> DomUtils.getChildElementsByTagName(child, "list").stream())
-                .flatMap(child -> DomUtils.getChildElementsByTagName(child, "value").stream())
-                .map(child -> DomUtils.getTextValue(child))
-                .collect(Collectors.toList()));
 
         return generatorConfiguration;
     }

@@ -1,7 +1,6 @@
 package io.github.thinkframework.generator.shell;
 
 import io.github.thinkframework.generator.core.Generator;
-import io.github.thinkframework.generator.core.annotation.GeneratorImportBeanDefinitionRegistrar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

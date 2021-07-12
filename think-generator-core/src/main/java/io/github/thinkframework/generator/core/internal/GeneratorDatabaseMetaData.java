@@ -1,6 +1,5 @@
 package io.github.thinkframework.generator.core.internal;
 
-import io.github.thinkframework.generator.core.design.strategy.impl.GeneratorClass;
 import io.github.thinkframework.generator.core.exception.GeneratorRuntimeException;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.*;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.impl.*;
@@ -25,11 +24,15 @@ import java.util.Set;
  * @since 2017/3/24.
  */
 public class GeneratorDatabaseMetaData {
-    private static final Logger log = LoggerFactory.getLogger(GeneratorClass.class);
+    private static final Logger log = LoggerFactory.getLogger(GeneratorDatabaseMetaData.class);
 
     private DataSource dataSource;
 
-    public GeneratorDatabaseMetaData(DataSource dataSource) {
+    public static GeneratorDatabaseMetaData get(DataSource dataSource){
+        return new GeneratorDatabaseMetaData(dataSource);
+    }
+
+    GeneratorDatabaseMetaData(DataSource dataSource) {
         setDataSource(dataSource);
     }
 

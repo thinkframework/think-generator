@@ -12,7 +12,6 @@
     <xsd:element name="generator">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element ref="strategy">
                 </xsd:element>
                 <xsd:element ref="configuration">
                 </xsd:element>
@@ -31,34 +30,6 @@
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
-        </xsd:complexType>
-    </xsd:element>
-
-    <xsd:element name="strategy">
-        <xsd:complexType>
-            <xsd:sequence>
-                <xsd:element name="clazz" type="xsd:string">
-                    <xsd:annotation>
-                        <xsd:documentation>
-                            系统引用的框架包的名称
-                            例如:org.apache.commons
-                        </xsd:documentation>
-                    </xsd:annotation>
-                </xsd:element>
-                <xsd:element name="responsibilitys" minOccurs="0">
-                    <xsd:annotation>
-                        <xsd:documentation>
-                            移除表名前缀
-                        </xsd:documentation>
-                    </xsd:annotation>
-                    <xsd:complexType>
-                        <xsd:choice>
-                            <xsd:element ref="list" minOccurs="0"/>
-                            <xsd:element ref="set" minOccurs="0"/>
-                        </xsd:choice>
-                    </xsd:complexType>
-                </xsd:element>
-            </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
     <xsd:element name="configuration">

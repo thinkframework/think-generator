@@ -10,9 +10,9 @@ import javax.sql.DataSource;
  */
 public class TableFactory {
 
-    public Table getObject(GeneratorContext generatorContext){
-        GeneratorDatabaseMetaData generatorDatabaseMetaData = new GeneratorDatabaseMetaData((DataSource) generatorContext.getSource());
-        String tableName = (String) generatorContext.getTarget();
+    public Table getObject(GeneratorContext generatorContext,DataSource source,String target){
+        GeneratorDatabaseMetaData generatorDatabaseMetaData = new GeneratorDatabaseMetaData( source);
+        String tableName = target;
         return new TableBuilder()
             .addTable(generatorDatabaseMetaData.getTable(tableName))
             .addColumn(generatorDatabaseMetaData.getColumns(tableName))

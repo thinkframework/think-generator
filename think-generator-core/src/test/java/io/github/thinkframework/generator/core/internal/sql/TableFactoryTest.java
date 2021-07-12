@@ -1,15 +1,17 @@
 //package io.github.thinkframework.generator.core.internal.sql;
 //
-//import io.github.thinkframework.generator.core.internal.sql.model.*;
+//import io.github.thinkframework.generator.GeneratorApplication;
+//import io.github.thinkframework.generator.core.internal.TableFactory;
 //import org.apache.commons.logging.Log;
 //import org.apache.commons.logging.LogFactory;
 //import org.junit.Before;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
+//import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.test.context.ContextConfiguration;
 //import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 //import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-//import io.github.thinkframework.generator.core.internal.sql.model.impl.TableImpl;
+//import org.springframework.test.context.junit4.SpringRunner;
 //
 //import javax.annotation.Resource;
 //import javax.sql.DataSource;
@@ -18,8 +20,8 @@
 //import static org.junit.Assert.assertNotNull;
 //import static org.junit.Assert.assertTrue;
 //
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = "classpath*:/applicationContext.xml")
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = GeneratorApplication.class)
 //public class TableFactoryTest extends AbstractJUnit4SpringContextTests {
 //	Log log = LogFactory.getLog(getClass());
 //	private String tableName;

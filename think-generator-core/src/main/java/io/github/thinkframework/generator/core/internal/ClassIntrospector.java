@@ -17,10 +17,16 @@ import java.util.stream.Stream;
 
 /**
  * 获取bean信息
+ * 根据class文件转换成clazz
  * @author hdhxby
  */
 public class ClassIntrospector {
 
+    /**
+     * 转换成 clazz
+     * @param clazz 类信息
+     * @return
+     */
     public static Clazz getClazz(Class clazz) {
         ClazzImpl clazzImpl = new ClazzImpl(clazz);
         clazzImpl.setFields(buildField(clazz));
@@ -37,6 +43,13 @@ public class ClassIntrospector {
     private static Set<ClazzField> buildField(Class clazz) {
         try {
             return Stream.of(Introspector.getBeanInfo(clazz).getPropertyDescriptors())
+                .filter(propertyDescriptor -> {
+                    try {
+                        return clazz.getDeclaredField(propertyDescriptor.getName()) != null;
+                    }catch (Exception e) {
+                        return false;
+                    }
+                })
                 .map(propertyDescriptor -> new ClazzFieldImpl(propertyDescriptor.getName(), new ClazzImpl(null, null, null)))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         } catch (IntrospectionException e) {
@@ -52,9 +65,15 @@ public class ClassIntrospector {
      */
     private static Set<ClazzMethod> buildMethod(Class clazz) {
         try {
-            return Stream.of(Introspector.getBeanInfo(clazz).getPropertyDescriptors())
-                    .flatMap(propertyDescriptor -> Stream.of(new ClazzMethodImpl(propertyDescriptor.getName(), new ClazzImpl(null, null, null)),
-                        new ClazzMethodImpl(propertyDescriptor.getName(), new ClazzImpl(null, null, null))))
+            return Stream.of(Introspector.getBeanInfo(clazz).getMethodDescriptors())
+                .filter(methodDescriptor -> {
+                    try {
+                        return clazz.getDeclaredMethod(methodDescriptor.getMethod().getName(), methodDescriptor.getMethod().getParameterTypes()) != null;
+                    }catch (Exception e) {
+                        return false;
+                    }
+                })
+                .map(propertyDescriptor -> new ClazzMethodImpl(propertyDescriptor.getName(), new ClazzImpl(null, null, null)))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         } catch (IntrospectionException e) {
             throw new GeneratorRuntimeException(e);

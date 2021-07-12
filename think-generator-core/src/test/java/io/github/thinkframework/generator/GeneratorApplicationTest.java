@@ -1,7 +1,8 @@
 package io.github.thinkframework.generator;
 
+import io.github.thinkframework.generator.boot.context.properties.GeneratorProperties;
 import io.github.thinkframework.generator.core.Generator;
-import io.github.thinkframework.generator.core.util.FileUtil;
+import io.github.thinkframework.generator.core.configuration.GeneratorConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * 容器测试
@@ -25,15 +24,17 @@ public class GeneratorApplicationTest {
     Logger logger = LoggerFactory.getLogger(GeneratorApplicationTest.class);
 
     @Autowired
+    private GeneratorProperties generatorConfiguration;
+
+    @Autowired
     private Generator generator;
 
     @Autowired
     private DataSource dataSource;
 
     @Before
-    public void before() throws IOException {
-        logger.debug("before");
-        FileUtil.deleteIfExists(new File("generator"));
+    public void before() {
+        generator.clear();
     }
 
     /**
@@ -41,7 +42,7 @@ public class GeneratorApplicationTest {
      * @throws Exception
      */
     @Test
-    public void application() throws Exception {
+    public void test() throws Exception {
         generator.generate(dataSource,"%");
     }
 }
