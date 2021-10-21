@@ -38,7 +38,7 @@
         <module>think-generator-parent</module>
         <module>think-generator-core</module>
         <module>think-generator-boot-starter</module>
-        <module>think-generator-test-report</module>
+<!--        <module>think-generator-test-report</module>-->
     </modules>
 
     <properties>
