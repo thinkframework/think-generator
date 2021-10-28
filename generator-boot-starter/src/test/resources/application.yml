@@ -1,0 +1,40 @@
+spring:
+    datasource:
+        schema: schema-h2.sql
+
+think:
+    generator:
+        enabled: true
+        configuration:
+            package-name: com.hdhxby.eshop.commons
+            frame-name: com.hdhxby.eshop.commons
+            company-name: com.hdhxby
+            app-name: eshop
+            module-name: auth
+            author-name: unascribed
+            namespace: view
+            template: template
+            extensions:
+                - java
+                - xml
+                - sql
+                - html
+                - js
+                - ts
+            converts: {
+                "java.sql.Types.TIMESTAMP": "java.time.Instant"
+#                "java.sql.Types.BIGINT": "java.math.BigInteger",
+            }
+            prefixs:
+                - t_
+                - auth_
+            ignores:
+                - id
+                - created_by
+                - created_date
+                - last_modified_by
+                - last_modified_date
+                - gmt_create
+                - gmt_modified
+                - sys_revision
+            output: out

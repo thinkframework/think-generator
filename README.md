@@ -11,7 +11,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.thinkframework</groupId>
-            <artifactId>think-generator-core</artifactId>
+            <artifactId>generator-core</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
