@@ -1,6 +1,5 @@
 package io.github.thinkframework.generator.core.internal;
 
-import io.github.thinkframework.generator.core.context.GeneratorContext;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.Table;
 
 import javax.sql.DataSource;
@@ -10,9 +9,8 @@ import javax.sql.DataSource;
  */
 public class TableFactory {
 
-    public Table getObject(GeneratorContext generatorContext,DataSource source,String target){
-        GeneratorDatabaseMetaData generatorDatabaseMetaData = new GeneratorDatabaseMetaData( source);
-        String tableName = target;
+    public Table getObject(DataSource dataSource, String tableName){
+        GeneratorDatabaseMetaData generatorDatabaseMetaData = new GeneratorDatabaseMetaData(dataSource);
         return new TableBuilder()
             .addTable(generatorDatabaseMetaData.getTable(tableName))
             .addColumn(generatorDatabaseMetaData.getColumns(tableName))

@@ -3,8 +3,8 @@ package io.github.thinkframework.generator.core.internal.adapter;
 import io.github.thinkframework.generator.core.internal.lang.Clazz;
 import io.github.thinkframework.generator.core.internal.lang.annotation.ClazzAnnotations;
 import io.github.thinkframework.generator.core.internal.lang.reflect.ClazzField;
+import io.github.thinkframework.generator.core.internal.proxy.Remakrs;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.Column;
-import io.github.thinkframework.generator.core.internal.sql.databasemetadata.ImportedKey;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.impl.ColumnImpl;
 
 /**

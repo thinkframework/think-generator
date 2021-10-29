@@ -1,5 +1,6 @@
 package io.github.thinkframework.generator.core.configuration;
 
+import io.github.thinkframework.generator.GeneratorApplication;
 import io.github.thinkframework.generator.boot.context.properties.GeneratorProperties;
 import io.github.thinkframework.generator.Generator;
 import org.junit.Assert;

@@ -1,6 +1,13 @@
 package io.github.thinkframework.generator;
 
+import io.github.thinkframework.generator.core.AbstractGenerator;
+import io.github.thinkframework.generator.core.chain.ConfigurationResponsibility;
+import io.github.thinkframework.generator.core.chain.IDResponsibility;
 import io.github.thinkframework.generator.core.configuration.GeneratorConfiguration;
+import io.github.thinkframework.generator.core.context.GeneratorContext;
+import io.github.thinkframework.generator.core.exception.GeneratorRuntimeException;
+import io.github.thinkframework.generator.core.internal.TableFactory;
+import io.github.thinkframework.generator.util.FreeMarkerHelper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,22 +30,20 @@ public class GeneratorApplicationTest {
 
     Logger logger = LoggerFactory.getLogger(GeneratorApplicationTest.class);
 
-    private Generator generator;
-
-    private DataSource dataSource;
+    private GeneratorConfiguration generatorConfiguration;
 
     @Before
     public void before() {
-        GeneratorConfiguration generatorConfiguration = new GeneratorConfiguration();
-
-        generatorConfiguration.setFrameName("frameName"); //框架包
-        generatorConfiguration.setCompanyName("companyName"); //公司名称
-        generatorConfiguration.setAppName("appName"); //应用名称
-        generatorConfiguration.setModuleName("moduleName"); //模块名称
-        generatorConfiguration.setAuthorName("authorName"); //作者名称
-        generatorConfiguration.setNamespace("namespace"); //命名空间
-        generatorConfiguration.setTemplate("template"); //模板目录
-        generatorConfiguration.setOutput("output"); //输出目录
+        generatorConfiguration = new GeneratorConfiguration();
+        // packageName = companyName + appName + moduleName
+        generatorConfiguration.setFrameName("io.github.thinkframework"); // 框架包
+        generatorConfiguration.setCompanyName("companyName"); // 公司名称
+        generatorConfiguration.setAppName("appName"); // 应用名称
+        generatorConfiguration.setModuleName("moduleName"); // 模块名称
+        generatorConfiguration.setAuthorName("authorName"); // 作者名称
+        generatorConfiguration.setNamespace("namespace"); // 命名空间
+        generatorConfiguration.setTemplate("template"); // 模板目录
+        generatorConfiguration.setOutput("output"); // 输出目录
 
         generatorConfiguration.setPrefixs(List.of("t_","table_")); //表前缀
 
@@ -56,6 +61,21 @@ public class GeneratorApplicationTest {
      */
     @Test
     public void test() throws Exception {
-        generator.generate(dataSource,"%");
+        Generator generator = new AbstractGenerator(generatorConfiguration)
+                .responsibilitys(List.of(new ConfigurationResponsibility(),
+                        new IDResponsibility()));
+
+        generator.generate(() -> "helloword",
+                (context -> {
+                    System.out.println(new FreeMarkerHelper().string(((GeneratorContext<?>) context).getProperties(),
+                            "package ${companyName}.${appName}.${moduleName}\n" +
+                            "$import {frameName_path};\n" +
+                                    "/**\n" +
+                                    " * @author ${authorName}\n" +
+                                    " */\n" +
+                                    "public class {\n" +
+                                    " private ${id.type} ${id.name};\n" +
+                                    "}"));
+                }));
     }
 }

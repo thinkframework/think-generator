@@ -29,10 +29,6 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
      */
     @Override
     protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
-//        super.doParse(element, parserContext, builder);
-        if("generator".equals(element.getTagName())){
-            return;
-        }
         // 从标签中取出对应的属性值
         String id = element.getAttribute("id");
         log.debug("加载 BeanDefinition: {}", id);

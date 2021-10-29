@@ -5,6 +5,7 @@ import io.github.thinkframework.generator.core.internal.lang.ClazzPackage;
 import io.github.thinkframework.generator.core.internal.lang.annotation.ClazzAnnotations;
 import io.github.thinkframework.generator.core.internal.lang.reflect.ClazzField;
 import io.github.thinkframework.generator.core.internal.lang.reflect.ClazzMethod;
+import io.github.thinkframework.generator.core.internal.proxy.Remakrs;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.*;
 
 import java.util.Collection;

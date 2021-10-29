@@ -3,19 +3,19 @@ package io.github.thinkframework.generator.core.context;
 import io.github.thinkframework.generator.core.configuration.GeneratorConfiguration;
 import io.github.thinkframework.generator.core.exception.GeneratorRuntimeException;
 
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Properties;
 
 /**
  * ThreadLocal.
  * 线程绑定
  */
-public class GeneratorContext<S,T>{
+public class GeneratorContext<T>{
 
     private Properties properties = new Properties();
 
     private GeneratorConfiguration generatorConfiguration;
+
+    private T source;
 
     private static ThreadLocal<GeneratorContext> context = ThreadLocal.withInitial(() -> {
         GeneratorContext generatorContext = new GeneratorContext();
@@ -47,4 +47,18 @@ public class GeneratorContext<S,T>{
     public Properties getProperties() {
         return properties;
     }
+
+    public T getSource() {
+        return source;
+    }
+
+    public GeneratorContext<T> source(T source) {
+        this.source = source;
+        return this;
+    }
+
+    public void setSource(T source) {
+        this.source = source;
+    }
+
 }

@@ -1,6 +1,6 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns="http://thinkframework.github.io/schema/generators"
-            targetNamespace="http://thinkframework.github.io/schema/generators"
+            xmlns="http://thinkframework.github.io/schema/generator"
+            targetNamespace="http://thinkframework.github.io/schema/generator"
             elementFormDefault="qualified"
             attributeFormDefault="unqualified">
     <xsd:annotation>
@@ -12,6 +12,12 @@
     <xsd:element name="generator">
         <xsd:complexType>
             <xsd:sequence>
+                <xsd:element name="description" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            描述性内容
+                        </xsd:documentation>
+                    </xsd:annotation>
                 </xsd:element>
                 <xsd:element ref="configuration">
                 </xsd:element>

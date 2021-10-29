@@ -1,4 +1,4 @@
 /**
- * swing版本的组件
+ * fxml文件
  */
 package io.github.thinkframework.generator.fx.view;

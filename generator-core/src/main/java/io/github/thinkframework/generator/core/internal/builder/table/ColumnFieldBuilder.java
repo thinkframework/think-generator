@@ -5,8 +5,8 @@ import io.github.thinkframework.generator.core.internal.lang.impl.ClazzImpl;
 import io.github.thinkframework.generator.core.internal.lang.reflect.ClazzField;
 import io.github.thinkframework.generator.core.internal.lang.reflect.impl.ClazzFieldImpl;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.Column;
-import io.github.thinkframework.generator.core.util.StringUtils;
-import io.github.thinkframework.generator.core.util.TypesProxy;
+import io.github.thinkframework.generator.util.StringUtils;
+import io.github.thinkframework.generator.util.TypesProxy;
 
 /**
  * 通过表生成对应的类

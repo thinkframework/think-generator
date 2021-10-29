@@ -11,31 +11,31 @@
     <children>
         <MenuBar useSystemMenuBar="false">
             <menus>
-                <Menu mnemonicParsing="false" text="File(F)">
+                <Menu mnemonicParsing="false" text="%file.text">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
+                        <MenuItem mnemonicParsing="false" onAction="#exit" text="%file.exit" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
         <SplitPane dividerPositions="0.2309197651663405" VBox.vgrow="ALWAYS">
             <items>
-                <TabPane style="-fx-border-width: 10px;" tabClosingPolicy="UNAVAILABLE">
+                <TabPane style="-fx-border-width: 10px;" tabClosingPolicy="UNAVAILABLE" fx:id="datasourceTabPane">
                     <tabs>
-                        <Tab text="连接">
+                        <Tab text="%datasource.text">
                             <content>
                                 <ListView fx:id="listView">
                                     <contextMenu>
                                         <ContextMenu>
                                             <items>
-                                                <MenuItem mnemonicParsing="false" text="刷新" />
+                                                <MenuItem mnemonicParsing="false" onAction="#refresh" text="刷新" />
                                             </items>
                                         </ContextMenu>
                                     </contextMenu>
                                 </ListView>
                             </content>
                         </Tab>
-                        <Tab text="表">
+                        <Tab text="%datasources.text">
                             <content>
                                 <TreeView fx:id="treeView">
                                     <contextMenu>
@@ -52,7 +52,7 @@
                 </TabPane>
                 <TabPane fx:id="swingTabPanel" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                        <Tab text="README.md">
+                        <Tab text="%index.text">
                             <content>
                                 <WebView fx:id="webView" prefHeight="-1.0" prefWidth="-1.0" />
                             </content>

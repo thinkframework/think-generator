@@ -1,6 +1,8 @@
 package io.github.thinkframework.generator.fx.controler;
 
-import io.github.thinkframework.generator.fx.controler.table.GeneratorTableControllerFactoryBean;
+import io.github.thinkframework.generator.Generator;
+import io.github.thinkframework.generator.fx.FXApplication;
+import io.github.thinkframework.generator.fx.model.GeneratorTreeItem;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,31 +10,24 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.web.WebView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.context.*;
 
 import javax.sql.DataSource;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class GeneratorMainController implements Initializable, ApplicationContextAware {
+public class GeneratorMainController implements Initializable {
 
     private static final Logger log = LoggerFactory.getLogger(GeneratorMainController.class);
-
-    private ApplicationContext applicationContext;
 
     @FXML
     private ListView listView;
@@ -47,248 +42,125 @@ public class GeneratorMainController implements Initializable, ApplicationContex
     private TabPane swingTabPanel;
 
     @FXML
-    public void exit(ActionEvent event){
-        System.exit(1);
-    }
+    private TabPane datasourceTabPane;
 
-    /**
-     * Called to initialize a controller after its root element has been
-     * completely processed.
-     *
-     * @param location  The location used to resolve relative paths for the root object, or
-     *                  <tt>null</tt> if the location is not known.
-     * @param resources The resources used to localize the root object, or <tt>null</tt> if
-     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // 加载首页
         webView.getEngine().load(getClass().getClassLoader().getResource("help.html").toString());
-
-        listView.setItems(Stream.of(applicationContext.getBeanNamesForType(DataSource.class))
-            .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-
-        treeView.setRoot(new GeneratorTreeItem());
-
+        // 树形选择事件
         treeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            GeneratorTreeItem generatorTreeItem = (GeneratorTreeItem)treeView.getSelectionModel().getSelectedItem();
-            if (generatorTreeItem != null) {
-                if ("TABLE_NAME".equals(generatorTreeItem.getValue().getColumnLabel())) {//获取表相关的列
-                    String dataSourceName = generatorTreeItem.getParent().getParent().getValue().getName();
-                    String tableType = generatorTreeItem.getParent().getValue().getName();
-                    String tableName = generatorTreeItem.getValue().getName();
-                    addTablePanel(dataSourceName,tableName);
+            if (newValue instanceof GeneratorTreeItem) {//获取表相关的列
+                GeneratorTreeItem<String> generatorTreeItem = (GeneratorTreeItem) newValue;
+                addTablePanel(generatorTreeItem.getDatasource(), generatorTreeItem.getTableType(), generatorTreeItem.getValue());
+            }
+        });
+        // 列表选择事件
+        listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            // 数据源
+            TreeItem<String> datasource =  new TreeItem(newValue != null ? newValue : oldValue);
+            try (Connection connection = FXApplication.getBean((String) newValue, DataSource.class).getConnection()) {
+                ResultSet tableTypes = connection.getMetaData().getTableTypes();
+                while (tableTypes.next()) {
+                    //表类型
+                    TreeItem<String> tableType =  new TreeItem(tableTypes.getString("TABLE_TYPE"));
+                    ResultSet tables = connection.getMetaData().getTables(connection.getCatalog(), connection.getSchema(), "%", new String[]{tableType.getValue()});
+                    while (tables.next()) {
+                        // 表
+                        TreeItem<String> table = new GeneratorTreeItem(tables.getString("TABLE_NAME"),datasource.getValue(),tableType.getValue());
+                        tableType.getChildren().add(table);
+                    }
+                    datasource.getChildren().add(tableType);
                 }
+            } catch (SQLException ex) {
+                log.error("", ex);
             }
+
+           treeView.setRoot(datasource);
+
+           datasourceTabPane.getSelectionModel().select(1);
         });
 
-        treeView.setOnContextMenuRequested(event1 -> {
-            GeneratorTreeItem generatorTreeItem = (GeneratorTreeItem) treeView.getSelectionModel().getSelectedItem();
-            if(generatorTreeItem != null && "TABLE_NAME".equals(generatorTreeItem.getValue().getColumnLabel())){
-                log.debug(generatorTreeItem.getValue().getColumnLabel());
-            }
-        });
+        refresh(null);
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-
-    private void addTablePanel(String dataSourceName, String tableName) {
+    private void addTablePanel(String dataSourceName, String tableType, String tableName) {
         Platform.runLater(() -> {
             int count = swingTabPanel.getTabs().size();
-            boolean exists = false;
             for (int i = 0; i < count; i++) {
                 if (swingTabPanel.getTabs().get(i).getText().equals(tableName)) {
                     swingTabPanel.getSelectionModel().select(i);
-                    exists = true;
-                    break;
+                    return;
                 }
             }
-            if (!exists) {
-                try {
-                    //设置FactoryBean
-                    GeneratorTableControllerFactoryBean generatorTableFactoryBean = applicationContext.getBean(GeneratorTableControllerFactoryBean.class);
-                    generatorTableFactoryBean.setDataSource(applicationContext.getBean(dataSourceName, DataSource.class));
-                    generatorTableFactoryBean.setTableName(tableName);
-                    //获取GeneratorTable
-                    TableView generatorTableView = new  FXMLLoader(getClass().getResource("/io/github/thinkframework/fx/core/control/table.fxml"),null,null,
-                        param -> applicationContext.getBean(param))
+
+            try {
+                //获取GeneratorTable
+                TableView generatorTableView = new FXMLLoader(FXApplication.class.getResource("view/table.fxml"),
+                        FXApplication.resourceBundle,
+                        null,
+                        clazz -> {
+                            GeneratorTableController tableController = new GeneratorTableController(FXApplication.getBean(dataSourceName, DataSource.class),tableName);
+                            return tableController;
+                        })
                         .load();
-                    Tab tab = new Tab(tableName,generatorTableView);
-                    swingTabPanel.getTabs().add(tab);
-                    swingTabPanel.getSelectionModel().select(tab);
-                } catch (Exception e) {
-                    log.error("",e);
-                }
+                Tab tab = new Tab(tableName,generatorTableView);
+                swingTabPanel.getTabs().add(tab);
+                swingTabPanel.getSelectionModel().select(tab);
+            } catch (Exception e) {
+                log.error("",e);
             }
         });
     }
 
 
     @FXML
+    public void refresh(ActionEvent event) {
+        listView.setItems(Stream.of(FXApplication.getBeanNamesForType(DataSource.class))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList)));
+    }
+
+    @FXML
     public void generator(ActionEvent event) {
-        ObservableList<GeneratorTreeItem> treePaths = treeView.getSelectionModel().getSelectedItems();
+        ObservableList<TreeItem> treePaths = treeView.getSelectionModel().getSelectedItems();
         if (treePaths == null) {
             return;
         }
-        for (int i = 0; i < treePaths.size(); i++) {
-            GeneratorTreeItem defaultMutableTreeNode = treePaths.get(i);
-            try {
-                if(!"TABLE_NAME".equals(defaultMutableTreeNode.getValue().getColumnLabel())){
+        try {
+            for (int i = 0; i < treePaths.size(); i++) {
+                TreeItem<String> treeItem = treePaths.get(i);
+                if (!(treeItem instanceof GeneratorTreeItem)) {//获取表相关的列
                     continue;
                 }
-                Map<String,String> map = new HashMap<>();
-                map.put("dataSourceName",defaultMutableTreeNode.getParent().getParent().getValue().getName());
-                map.put("tableType",defaultMutableTreeNode.getParent().getValue().getName());
-                map.put("tableName",defaultMutableTreeNode.getValue().getName());
-                PayloadApplicationEvent payloadApplicationEvent = new PayloadApplicationEvent("generator",map);
+                GeneratorTreeItem<String> generatorTreeItem = (GeneratorTreeItem) treeItem;
+                FXApplication.getBean(Generator.class)
+                        .generate(FXApplication.getBean(generatorTreeItem.getDatasource(), DataSource.class),
+                        generatorTreeItem.getValue());
+            }
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("提示");
-                alert.setHeaderText("操作成功");
-                alert.setContentText("是否打开输出目录?");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("提示");
+            alert.setHeaderText("操作成功");
+            alert.setContentText("是否打开输出目录?");
 
-                Optional result = alert.showAndWait();
-                if (result.get() == ButtonType.OK) {
+            Optional result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
 //                    FileSystemUtils.openDirectory(new File(System.getProperty("user.dir")));
-                }
-            } catch (Exception e) {
-                log.error("",e);
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("提示");
-                alert.setHeaderText("操作失败");
-                alert.setContentText(e.getMessage());
-                alert.show();
             }
+        } catch (Exception e) {
+            log.error("",e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("提示");
+            alert.setHeaderText("操作失败");
+            alert.setContentText(e.getMessage());
+            alert.show();
         }
     }
 
-    public class GeneratorTreeItem extends TreeItem<GeneratorTreeItem.Value> {
 
-        public GeneratorTreeItem() {
-            super();
-            setValue(new GeneratorTreeItem.Value("dataSource"));
-        }
-
-        public GeneratorTreeItem(GeneratorTreeItem.Value value) {
-            super(value);
-        }
-
-        public GeneratorTreeItem(GeneratorTreeItem.Value value, Node graphic) {
-            super(value, graphic);
-        }
-
-        @Override
-        public boolean isLeaf() {
-            return getValue().isLeaf();
-        }
-
-        @Override
-        public ObservableList<TreeItem<Value>> getChildren() {
-            if(children != null) {
-                return FXCollections.observableArrayList(children);
-            }
-            children =children();
-            return FXCollections.observableArrayList(children);
-        }
-
-
-        @Override public String toString() {
-            return getValue().getName();
-        }
-
-        ObservableList<GeneratorTreeItem> children ;
-
-        protected ObservableList<GeneratorTreeItem> children() {
-            if (children.isEmpty()) {
-                if (getValue().getColumnLabel() == null) {//获取所有数据源
-                    children.addAll(Stream.of(applicationContext.getBeanNamesForType(DataSource.class))
-                        .map(value -> new GeneratorTreeItem(new Value(value,"",false)))
-                        .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-                } else {
-                    if ("".equals(getValue().getColumnLabel())) {//获取相关的表类型
-                        String dataSourceName = getValue().getName();
-                        try (Connection connection = applicationContext.getBean(dataSourceName, DataSource.class).getConnection()) {
-                            ResultSet rs = connection.getMetaData().getTableTypes();
-                            while (rs.next()) {
-                                children.add(new GeneratorTreeItem(new Value(rs.getString("TABLE_TYPE"),  "TABLE_TYPE",false)));
-                            }
-                        } catch (SQLException ex) {
-                            log.error("", ex);
-                        }
-                    } else if ("TABLE_TYPE".equals(getValue().getColumnLabel())) {//获取相关的表名称
-                        String dataSourceName = (getParent()).getValue().getName();
-                        try (Connection connection = applicationContext.getBean(dataSourceName, DataSource.class).getConnection()) {
-                            String schema = null;
-                            try {
-                                schema = connection.getSchema();
-                            } catch (SQLException e) {
-                                log.error("{}", e.getClass().getName());
-                            }
-                            ResultSet rs = connection.getMetaData().getTables(connection.getCatalog(), schema, "%", new String[]{getValue().getName()});
-                            while (rs.next()) {
-                                children.add(new GeneratorTreeItem(new Value(rs.getString("TABLE_NAME"), "TABLE_NAME",  true)));
-                            }
-                        } catch (SQLException ex) {
-                            log.error("", ex);
-                        }
-                    }
-                }
-            }
-            return children;
-        }
-
-        class Value{
-
-            private String name;
-
-            private boolean leaf;
-
-            private String columnLabel;
-
-            public Value(String name) {
-                this.name = name;
-            }
-
-            public Value(String name, String columnLabel) {
-                this.name = name;
-                this.columnLabel = columnLabel;
-            }
-
-            public Value(String name, String columnLabel, boolean leaf) {
-                this.name = name;
-                this.columnLabel = columnLabel;
-                this.leaf = leaf;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public boolean isLeaf() {
-                return leaf;
-            }
-
-            public void setLeaf(boolean leaf) {
-                this.leaf = leaf;
-            }
-
-            public String getColumnLabel() {
-                return columnLabel;
-            }
-
-            public void setColumnLabel(String columnLabel) {
-                this.columnLabel = columnLabel;
-            }
-
-            @Override
-            public String toString() {
-                return name;
-            }
-        }
+    @FXML
+    public void exit(ActionEvent event){
+        System.exit(1);
     }
+
 }

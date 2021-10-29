@@ -1,6 +1,11 @@
 package io.github.thinkframework.generator.core.internal.adapter;
 
-public class AbstractAdapter {
+import io.github.thinkframework.generator.core.internal.proxy.Remakrs;
+
+/**
+ * 注释字段
+ */
+public class AbstractAdapter implements Remakrs {
 
     private String remarks;
 

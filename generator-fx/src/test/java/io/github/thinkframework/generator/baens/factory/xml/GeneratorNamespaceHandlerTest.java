@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.baens.factory.xml;
 
-import io.github.thinkframework.generator.core.GeneratorFactoryBean;
+import io.github.thinkframework.generator.beans.factory.GeneratorFactoryBean;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNotNull;
  */
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:/generator.xml")
+@ContextConfiguration(locations = "classpath*:/applicationContext-generator.xml")
 public class GeneratorNamespaceHandlerTest extends AbstractJUnit4SpringContextTests {
     @Autowired
     private GeneratorFactoryBean generatorFactoryBean;

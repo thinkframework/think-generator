@@ -9,8 +9,8 @@ import io.github.thinkframework.generator.core.internal.lang.impl.ClazzPackageIm
 import io.github.thinkframework.generator.core.internal.lang.reflect.ClazzField;
 import io.github.thinkframework.generator.core.internal.lang.reflect.ClazzMethod;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.Table;
-import io.github.thinkframework.generator.core.util.StringUtils;
-import io.github.thinkframework.generator.core.proxy.IgnonreInvocationHandler;
+import io.github.thinkframework.generator.util.StringUtils;
+import io.github.thinkframework.generator.core.internal.proxy.IgnonreInvocationHandler;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
