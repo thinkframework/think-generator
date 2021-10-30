@@ -17,11 +17,19 @@ import java.util.stream.Collectors;
  * @author hdhxby
  * @since 2017/3/24
  */
-public class WalkFileTreeCommand implements GeneratorCommand<GeneratorContext> {
+public class WalkFileTreeCommand extends AbstractCommand<File, File, GeneratorContext> implements GeneratorCommand<GeneratorContext> {
 
-    private FreeMarkerStringCommand stringCommand = new FreeMarkerStringCommand();
+    public WalkFileTreeCommand() {
+        super();
+    }
 
-    private FreeMarkerFileCommand command = new FreeMarkerFileCommand();
+    public WalkFileTreeCommand(File input) {
+        super(input);
+    }
+
+    public WalkFileTreeCommand(File input, File output) {
+        super(input, output);
+    }
 
     @Override
     public void accept(GeneratorContext context) {
@@ -31,59 +39,33 @@ public class WalkFileTreeCommand implements GeneratorCommand<GeneratorContext> {
         PathMatcher matcher = FileSystems.getDefault()
             .getPathMatcher(String.format("glob:**/*.%s",context.getConfiguration().getExtensions().stream().collect(Collectors.joining(",","{","}"))));
         try {
-            File file = new File(context.getConfiguration().getTemplate());
-            if(!file.exists()){ // 文件不存在,按字符串处理
-                stringCommand.apply(context);
-                return;
-            }
-            if(!file.isDirectory()) { // 简单处理
-                command.accept(context);
-                return;
-            }
-
             // 输入目录
-            Path sourceDir = file.toPath();
+            Path sourceDir = input.toPath();
             // 输出目录
             Path targetDir = sourceDir.getParent().resolve(context.getConfiguration().getOutput());
             // 遍历
             Files.walkFileTree(sourceDir, new SimpleFileVisitor<Path>() {
-                /**
-                 * 预先生成输出目录
-                 * @param dir 输入目录
-                 * @param attrs 属性
-                 * @return
-                 * @throws IOException
-                 */
+                private Path dir; // 文件夹
                 @Override
                 public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                    Path targetPath = Paths.get(freeMarkerHelper.string(context.getProperties(),
+                    this.dir = Paths.get(freeMarkerHelper.string(context.getProperties(),
                             targetDir.resolve(sourceDir.relativize(dir)).toString()));
-                    //生成父文件夹
-                    if (Files.notExists(targetPath)) {
-                        Files.createDirectories(targetPath);
+                    if (Files.notExists(this.dir)) { // 文件夹不存在
+                        Files.createDirectories(this.dir); // 创建文件夹
                     }
                     return FileVisitResult.CONTINUE;
                 }
 
-                /**
-                 * 生成输出文件
-                 * @param input
-                 * @param attrs
-                 * @return
-                 */
                 @Override
-                public FileVisitResult visitFile(Path input, BasicFileAttributes attrs) throws IOException {
-                    if (matcher.matches(input)) {
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    if (matcher.matches(file)) {
                         //输出文件路径
                         Path output = Paths.get(freeMarkerHelper.string(context.getProperties(),
-                                targetDir.resolve(sourceDir.relativize(input)).toString()));
-                        //删除已经存在的文件
-                        Files.deleteIfExists(output);
-                        //创建文件
-                        Files.createFile(output);
-                        context.getConfiguration().setInput(input.toString());
-                        context.getConfiguration().setInput(output.toString());
-                        command.accept(context);
+                                targetDir.resolve(sourceDir.relativize(file)).toString()));
+                        Files.deleteIfExists(output); // 删除已经存在的文件
+                        Files.createFile(output); // 创建文件
+                        new FreeMarkerFileCommand(file.toFile(),output.toFile())
+                                .accept(context); // 生成
                     }
 
                     return FileVisitResult.CONTINUE;

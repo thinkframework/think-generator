@@ -1,4 +1,4 @@
-package io.github.thinkframework.generator.core.internal.builder.table;
+package io.github.thinkframework.generator.core.internal.adapter.builder.table;
 
 import io.github.thinkframework.generator.core.configuration.GeneratorConfiguration;
 import io.github.thinkframework.generator.core.internal.lang.impl.ClazzImpl;

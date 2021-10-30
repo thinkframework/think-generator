@@ -4,12 +4,11 @@ import io.github.thinkframework.generator.core.chain.AbstractResponsibility;
 import io.github.thinkframework.generator.core.chain.GeneratorResponsibility;
 import io.github.thinkframework.generator.core.context.GeneratorContext;
 import io.github.thinkframework.generator.core.internal.adapter.TableClassAdapter;
-import io.github.thinkframework.generator.core.internal.builder.BuilderFacade;
+import io.github.thinkframework.generator.core.internal.adapter.builder.BuilderFacade;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.Table;
 import io.github.thinkframework.generator.util.StringUtils;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 

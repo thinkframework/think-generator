@@ -18,9 +18,6 @@ public class GeneratorConfiguration {
     private Map<String, String> converts;
     private List<String> prefixs;
     private List<String> ignores;
-    private String input;
-    private String out;
-    private Boolean advanced =false;
 
     public String getName() {
         return name;
@@ -94,14 +91,6 @@ public class GeneratorConfiguration {
         this.template = template;
     }
 
-    public String getOut() {
-        return out;
-    }
-
-    public void setOut(String out) {
-        this.out = out;
-    }
-
     public List<String> getExtensions() {
         return extensions;
     }
@@ -142,22 +131,6 @@ public class GeneratorConfiguration {
         this.output = output;
     }
 
-    public String getInput() {
-        return input;
-    }
-
-    public void setInput(String input) {
-        this.input = input;
-    }
-
-    public Boolean getAdvanced() {
-        return advanced;
-    }
-
-    public void setAdvanced(Boolean advanced) {
-        this.advanced = advanced;
-    }
-
     @Override
     public GeneratorConfiguration clone() {
         GeneratorConfiguration configuration = new GeneratorConfiguration();
@@ -169,7 +142,7 @@ public class GeneratorConfiguration {
         configuration.setAuthorName(authorName);
         configuration.setNamespace(namespace);
         configuration.setTemplate(template);
-        configuration.setOutput(out);
+        configuration.setOutput(output);
         configuration.setExtensions(extensions);
         configuration.setConverts(converts);
         configuration.setPrefixs(prefixs);

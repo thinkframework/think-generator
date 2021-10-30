@@ -33,7 +33,8 @@ public class GeneratorTables  {
         new TableDatabaseMetaData(source).getTables(target)
                 .stream()
                 .peek(table -> log.info("{} 生成中.",table))
-                .forEach(table -> generator.generate(source,target));
+                .forEach(table -> generator.generate(source,
+                        table.getTableName()));
     }
 
 }

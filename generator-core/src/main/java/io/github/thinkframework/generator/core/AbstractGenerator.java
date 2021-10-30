@@ -79,34 +79,6 @@ public abstract class AbstractGenerator<T, U, R> implements Generator<T, U, R> {
      * @throws GeneratorRuntimeException
      */
     @Override
-    public void generate(Supplier<GeneratorContext> supplier, Function<GeneratorContext,GeneratorContext> responsibility) throws GeneratorRuntimeException {
-        responsibility.apply(Optional.of(supplier.get()) // 1.获取到第一个元素
-                .map(source -> new GeneratorContext()
-                        .configuration(configuration.clone())
-                        .source(source)) // 2.转换成GeneratorContext
-                .get()); // 3.加工
-    }
-
-    /**
-     * 运行
-     * @throws GeneratorRuntimeException
-     */
-    public R generate(Supplier<GeneratorContext> supplier, Function<GeneratorContext,GeneratorContext> responsibility, Function<GeneratorContext,R> command) throws GeneratorRuntimeException{
-        return command.apply( // 4.最终执行
-                responsibility.apply(Optional.of(supplier.get()) // 1.获取到第一个元素
-                        .map(source -> new GeneratorContext()
-                                .configuration(configuration.clone())
-                                .source(source)) // 2.转换成GeneratorContext
-                        .get()) // 3.加工
-        );
-    }
-
-    /**
-     * 运行
-     *
-     * @throws GeneratorRuntimeException
-     */
-    @Override
     public void generate(Supplier<GeneratorContext> supplier, Function<GeneratorContext,GeneratorContext> responsibility, Consumer<GeneratorContext> command) throws GeneratorRuntimeException {
         command.accept( // 4.最终执行
             responsibility.apply(Optional.of(supplier.get()) // 1.获取到第一个元素

@@ -24,8 +24,6 @@ import java.util.Set;
  * @since 2017/3/24.
  */
 public class TableDatabaseMetaData {
-    private static final Logger log = LoggerFactory.getLogger(TableDatabaseMetaData.class);
-
     private DataSource dataSource;
 
     public static TableDatabaseMetaData get(DataSource dataSource){
@@ -40,16 +38,14 @@ public class TableDatabaseMetaData {
         return dataSource;
     }
 
-
     public TableDatabaseMetaData setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
         return this;
     }
 
-
     public Table getObject(String tableName){
         return getTables(tableName)
-                .stream().map(table -> new TableBuilder()
+                .stream().map(table -> new Table.Builder()
                         .addTable(table)
                         .addColumn(getColumns(table.getTableName()))
                         .addPrimaryKey(getPrimaryKeys(table.getTableName()))

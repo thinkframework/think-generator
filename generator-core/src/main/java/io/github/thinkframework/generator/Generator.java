@@ -22,18 +22,5 @@ public interface Generator<S,T,R> {
      * 运行
      * @throws GeneratorRuntimeException
      */
-    void generate(Supplier<GeneratorContext> supplier, Function<GeneratorContext,GeneratorContext> responsibility) throws GeneratorRuntimeException;
-
-    /**
-     * 运行
-     * @throws GeneratorRuntimeException
-     */
-    R generate(Supplier<GeneratorContext> supplier, Function<GeneratorContext,GeneratorContext> responsibility, Function<GeneratorContext,R> command) throws GeneratorRuntimeException;
-
-
-    /**
-     * 运行
-     * @throws GeneratorRuntimeException
-     */
     void generate(Supplier<GeneratorContext> supplier, Function<GeneratorContext,GeneratorContext> responsibility, Consumer<GeneratorContext> command) throws GeneratorRuntimeException;
 }

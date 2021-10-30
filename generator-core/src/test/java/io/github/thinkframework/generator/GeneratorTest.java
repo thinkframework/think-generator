@@ -4,7 +4,7 @@ import io.github.thinkframework.generator.core.AbstractGenerator;
 import io.github.thinkframework.generator.core.chain.ConfigurationResponsibility;
 import io.github.thinkframework.generator.core.chain.IDResponsibility;
 import io.github.thinkframework.generator.core.chain.NameResponsibility;
-import io.github.thinkframework.generator.core.command.FreeMarkerStringCommand;
+import io.github.thinkframework.generator.core.command.FreeMarkerFileCommand;
 import io.github.thinkframework.generator.core.command.WalkFileTreeCommand;
 import io.github.thinkframework.generator.core.configuration.GeneratorConfiguration;
 import io.github.thinkframework.generator.core.context.GeneratorContext;
@@ -14,6 +14,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +28,16 @@ public class GeneratorTest {
     private Logger log = LoggerFactory.getLogger(GeneratorTest.class);
 
     private GeneratorConfiguration generatorConfiguration;
+
+    private String template = "\r" +
+            "package ${companyName}.${appName}.${moduleName}\n" +
+            "import ${frameName};\n" +
+            "/**\n" +
+            " * @author ${authorName}\n" +
+            " */\n" +
+            "public class ${name} {\n" +
+            " private ${id.type} ${id.name};\n" +
+            "}";
 
     @Before
     public void before() {
@@ -54,9 +67,8 @@ public class GeneratorTest {
      * @throws Exception
      */
     @Test
-    public void test() throws Exception {
+    public void custom() throws Exception {
         Generator generator = new AbstractGenerator(generatorConfiguration){};
-
         generator.generate(() -> new GeneratorContext.Builder<>()
                         .configuration(generatorConfiguration)
                         .source("helloword")
@@ -64,20 +76,10 @@ public class GeneratorTest {
                 new ConfigurationResponsibility()
                         .compose(new IDResponsibility()
                             .compose(new NameResponsibility())),
-                (context -> {
-                    log.debug(new FreeMarkerHelper()
+                context -> log.debug(new FreeMarkerHelper()
                             .generatorConfiguration(((GeneratorContext) context).getConfiguration())
                             .string(((GeneratorContext) context).getProperties(),
-                                    "\r" +
-                                    "package ${companyName}.${appName}.${moduleName}\n" +
-                                            "import ${frameName};\n" +
-                                            "/**\n" +
-                                            " * @author ${authorName}\n" +
-                                            " */\n" +
-                                            "public class ${name} {\n" +
-                                            " private ${id.type} ${id.name};\n" +
-                                            "}"));
-                }));
+                                    template)));
     }
 
     /**
@@ -85,10 +87,21 @@ public class GeneratorTest {
      * @throws Exception
      */
     @Test
-    public void template_notExist() throws Exception {
-        GeneratorConfiguration configuration = generatorConfiguration.clone();
-        configuration.setTemplate("notexists");
-        Generator generator = new AbstractGenerator(configuration){};
+    public void file() throws Exception {
+        Generator generator = new AbstractGenerator(generatorConfiguration){};
+
+        Path input = Files.createTempFile("input",".java");
+        Path output = Files.createTempFile("output",".java");
+        input.toFile().deleteOnExit();
+        output.toFile().deleteOnExit();
+        input.toFile().createNewFile();
+        output.toFile().createNewFile();
+
+        FileWriter fileWriter = new FileWriter(input.toFile());
+        fileWriter.write(template);
+        fileWriter.flush();
+        fileWriter.close();
+
         generator.generate(() -> new GeneratorContext.Builder<>()
                         .configuration(generatorConfiguration)
                         .source("helloword")
@@ -96,6 +109,47 @@ public class GeneratorTest {
                 new ConfigurationResponsibility()
                         .compose(new IDResponsibility()
                                 .compose(new NameResponsibility())),
-                new WalkFileTreeCommand());
+                new FreeMarkerFileCommand(input.toFile(), output.toFile()));
+
+        InputStreamReader isr = new InputStreamReader(new FileInputStream(output.toFile()), "utf-8");
+        BufferedReader br = new BufferedReader(isr);
+        String lineTxt = null;
+        while ((lineTxt = br.readLine()) != null) {
+            System.out.println(lineTxt);
+        }
+
+        input.toFile().deleteOnExit();
+        output.toFile().deleteOnExit();
+    }
+
+
+    /**
+     * 通过spring初始化
+     * @throws Exception
+     */
+    @Test
+    public void dir() throws Exception {
+        Generator generator = new AbstractGenerator(generatorConfiguration){};
+
+        Path dir = Files.createTempDirectory("generator");
+        Path input = Files.createTempFile(dir,"input",".java");
+
+        FileWriter fileWriter = new FileWriter(input.toFile());
+        fileWriter.write(this.template);
+        fileWriter.flush();
+        fileWriter.close();
+
+        generatorConfiguration.setOutput(dir.getFileName().toString());
+        generator.generate(() -> new GeneratorContext.Builder<>()
+                        .configuration(generatorConfiguration)
+                        .source("helloword")
+                        .build(),
+                new ConfigurationResponsibility()
+                        .compose(new IDResponsibility()
+                                .compose(new NameResponsibility())),
+                new WalkFileTreeCommand(dir.toFile()));
+
+        Files.deleteIfExists(input);
+        Files.deleteIfExists(dir);
     }
 }

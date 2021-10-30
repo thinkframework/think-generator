@@ -55,12 +55,11 @@ public class FreeMarkerHelper {
         }
     }
 
-    public <T extends OutputStream> T stream(Map map,InputStream file,T output) throws GeneratorRuntimeException {
-        try (Writer writer = new OutputStreamWriter(output)) {
+    public <T extends OutputStream> void stream(Map map,Reader inputStream,Writer outputStream) throws GeneratorRuntimeException {
+        try {
             // TODO 默认名称是否有用
-            new Template(map.getOrDefault("name","").toString(), new InputStreamReader(file), configuration(map.get("template_path").toString()))
-                    .process(map, writer);
-            return output;
+            new Template(map.getOrDefault("name","").toString(), inputStream, configuration(map.get("template_path").toString()))
+                    .process(map, outputStream);
         } catch (IOException | TemplateException e) {
             throw new GeneratorRuntimeException(e);
         }
@@ -69,7 +68,7 @@ public class FreeMarkerHelper {
     public File file(Map map,File input,File output) throws GeneratorRuntimeException {
         log.info("file: {} -> {}.",input, output);
         try {
-            stream(map, new FileInputStream(input),new FileOutputStream(output));
+            stream(map, new FileReader(input),new FileWriter(output));
             return output;
         } catch (IOException e) {
             throw new GeneratorRuntimeException(e);
@@ -77,13 +76,10 @@ public class FreeMarkerHelper {
     }
 
     public String string(Map map,String input) throws GeneratorRuntimeException {
-        try (Writer writer = new StringWriter()) {
-            // TODO 默认名称是否有用
-            new Template(map.getOrDefault("name","").toString(), new StringReader(input), configuration(map.get("template").toString()))
-                    .process(map, writer);
-            log.debug(writer.toString());
+        try (StringWriter writer = new StringWriter()) {
+            stream(map, new StringReader(input),writer);
             return writer.toString();
-        } catch (IOException | TemplateException e) {
+        } catch (IOException e) {
             throw new GeneratorRuntimeException(e);
         }
     }
