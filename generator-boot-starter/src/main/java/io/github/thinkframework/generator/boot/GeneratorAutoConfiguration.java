@@ -1,11 +1,12 @@
 package io.github.thinkframework.generator.boot;
 
-import io.github.thinkframework.generator.beans.factory.GeneratorFactoryBean;
+import io.github.thinkframework.generator.beans.factory.GeneratorTableFactoryBean;
 import io.github.thinkframework.generator.boot.context.properties.GeneratorProperties;
 import io.github.thinkframework.generator.core.chain.*;
-import io.github.thinkframework.generator.core.command.FreeMarkerCommand;
+import io.github.thinkframework.generator.core.command.FreeMarkerFileCommand;
 import io.github.thinkframework.generator.core.command.GeneratorCommand;
 import io.github.thinkframework.generator.core.configuration.GeneratorConfiguration;
+import io.github.thinkframework.generator.table.chain.TableResponsibility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -16,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 @Configuration
-@ConditionalOnMissingBean(value = GeneratorFactoryBean.class)
+@ConditionalOnMissingBean(value = GeneratorTableFactoryBean.class)
 @ConditionalOnBean(GeneratorMarkerConfiguration.Marker.class)
 @EnableConfigurationProperties(value = {GeneratorProperties.class})
 public class GeneratorAutoConfiguration {
@@ -30,13 +31,13 @@ public class GeneratorAutoConfiguration {
     }
 
     @Bean
-    public GeneratorFactoryBean generatorFactoryBean(){
-        GeneratorFactoryBean generatorFactoryBean =  new GeneratorFactoryBean(generatorConfiguration());
-        generatorFactoryBean.responsibilities(List.of(configurationGeneratorResponsibility(),
+    public GeneratorTableFactoryBean generatorFactoryBean(){
+        GeneratorTableFactoryBean generatorTableFactoryBean =  new GeneratorTableFactoryBean(generatorConfiguration());
+        generatorTableFactoryBean.responsibilities(List.of(configurationGeneratorResponsibility(),
                 idGeneratorResponsibility(),
                 tableGeneratorResponsibility()))
                 .command(freeMarkerCommand());
-        return generatorFactoryBean;
+        return generatorTableFactoryBean;
     }
 
     public GeneratorResponsibility configurationGeneratorResponsibility(){
@@ -52,6 +53,6 @@ public class GeneratorAutoConfiguration {
     }
 
     public GeneratorCommand freeMarkerCommand(){
-        return new FreeMarkerCommand();
+        return new FreeMarkerFileCommand();
     }
 }

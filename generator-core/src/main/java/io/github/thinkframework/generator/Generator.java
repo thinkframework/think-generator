@@ -1,9 +1,12 @@
 package io.github.thinkframework.generator;
 
+import io.github.thinkframework.generator.core.chain.GeneratorResponsibility;
 import io.github.thinkframework.generator.core.context.GeneratorContext;
 import io.github.thinkframework.generator.core.exception.GeneratorRuntimeException;
 
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -16,27 +19,21 @@ import java.util.function.Supplier;
 public interface Generator<S,T,R> {
 
     /**
-     * 生成文件
-     * @param source
-     * @param target
-     * @return
+     * 运行
      * @throws GeneratorRuntimeException
      */
-    void generate(S source, T target) throws GeneratorRuntimeException;
+    void generate(Supplier<GeneratorContext> supplier, Function<GeneratorContext,GeneratorContext> responsibility) throws GeneratorRuntimeException;
 
     /**
-     * 生成文件
-     * @param supplier
-     * @return
+     * 运行
      * @throws GeneratorRuntimeException
      */
-    R generate(Supplier<R> supplier) throws GeneratorRuntimeException;
+    R generate(Supplier<GeneratorContext> supplier, Function<GeneratorContext,GeneratorContext> responsibility, Function<GeneratorContext,R> command) throws GeneratorRuntimeException;
+
 
     /**
-     * 生成文件
-     * @param supplier
-     * @return
+     * 运行
      * @throws GeneratorRuntimeException
      */
-    R generate(Supplier<R> supplier, Consumer<GeneratorContext<R>> consumer) throws GeneratorRuntimeException;
+    void generate(Supplier<GeneratorContext> supplier, Function<GeneratorContext,GeneratorContext> responsibility, Consumer<GeneratorContext> command) throws GeneratorRuntimeException;
 }

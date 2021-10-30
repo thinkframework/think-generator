@@ -23,51 +23,17 @@ import java.util.Set;
  * @author hdhxby
  * @since 2017/3/24.
  */
-public class GeneratorDatabaseMetaData {
-    private static final Logger log = LoggerFactory.getLogger(GeneratorDatabaseMetaData.class);
+public class TableDatabaseMetaData {
+    private static final Logger log = LoggerFactory.getLogger(TableDatabaseMetaData.class);
 
     private DataSource dataSource;
 
-    public static GeneratorDatabaseMetaData get(DataSource dataSource){
-        return new GeneratorDatabaseMetaData(dataSource);
+    public static TableDatabaseMetaData get(DataSource dataSource){
+        return new TableDatabaseMetaData(dataSource);
     }
 
-    GeneratorDatabaseMetaData(DataSource dataSource) {
+    public TableDatabaseMetaData(DataSource dataSource) {
         setDataSource(dataSource);
-    }
-
-    /**
-     * 获取目录
-     * 获取目录
-     * 获取目录
-     *
-     * @return 目录
-     */
-    protected String getCatalog() {
-        String catalog = null;
-        try (Connection connection = getDataSource().getConnection()) {
-            catalog = connection.getCatalog();
-        } catch (SQLException e) {
-            log.error("catalog: {}", e.getClass().getName());
-        } finally {
-            return catalog;
-        }
-    }
-
-    /**
-     * 获取模式
-     *
-     * @return 模式
-     */
-    protected String getSchema() {
-        String schema = null;
-        try (Connection connection = getDataSource().getConnection()) {
-            schema = connection.getSchema();
-        } catch (SQLException e) {
-            log.error("schema: {}", e.getClass().getName());
-        } finally {
-            return schema;
-        }
     }
 
     protected DataSource getDataSource() {
@@ -75,11 +41,24 @@ public class GeneratorDatabaseMetaData {
     }
 
 
-    public GeneratorDatabaseMetaData setDataSource(DataSource dataSource) {
+    public TableDatabaseMetaData setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
         return this;
     }
 
+
+    public Table getObject(String tableName){
+        return getTables(tableName)
+                .stream().map(table -> new TableBuilder()
+                        .addTable(table)
+                        .addColumn(getColumns(table.getTableName()))
+                        .addPrimaryKey(getPrimaryKeys(table.getTableName()))
+                        .addIndexInfo(getIndexInfo(table.getTableName()))
+                        .addExportedKey(getExportedKeys(table.getTableName()))
+                        .addImportedKey(getImportedKeys(table.getTableName()))
+                        .build())
+                .findFirst().orElseThrow(() -> new GeneratorRuntimeException("表不存在"));
+    }
 
     /**
      * 获得该用户下面的表,支持模糊查询
@@ -131,7 +110,7 @@ public class GeneratorDatabaseMetaData {
                 type = new String[]{"TABLE"};
             }
 
-            ResultSet rs = dbmd.getTables(getCatalog(), getSchema(), tablename, type);
+            ResultSet rs = dbmd.getTables(connection.getCatalog(), connection.getSchema(), tablename, type);
             while (rs.next()) {
                 table = new TableImpl();
                 //TABLE_NAME String => 表名称
@@ -161,7 +140,7 @@ public class GeneratorDatabaseMetaData {
         try (Connection connection = getDataSource().getConnection()) {
             DatabaseMetaData dbmd = connection.getMetaData();
             Set<Column> columns = new LinkedHashSet<Column>();
-            ResultSet rs = dbmd.getColumns(getCatalog(), getSchema(), tableName, "%");
+            ResultSet rs = dbmd.getColumns(connection.getCatalog(), connection.getSchema(), tableName, "%");
             while (rs.next()) {
                 ColumnImpl column = new ColumnImpl();
                 //TABLE_NAME String => 表名称
@@ -238,7 +217,7 @@ public class GeneratorDatabaseMetaData {
         try (Connection connection = getDataSource().getConnection()) {
             DatabaseMetaData dbmd = connection.getMetaData();
             Set<PrimaryKey> primaryKeys = new LinkedHashSet<PrimaryKey>();
-            ResultSet rs = dbmd.getPrimaryKeys(getCatalog(), getSchema(), tableName);
+            ResultSet rs = dbmd.getPrimaryKeys(connection.getCatalog(), connection.getSchema(), tableName);
             while (rs.next()) {
                 PrimaryKeyImpl primaryKey = new PrimaryKeyImpl();
                 //String => 表名称
@@ -268,7 +247,7 @@ public class GeneratorDatabaseMetaData {
         try (Connection connection = getDataSource().getConnection()) {
             Set<IndexInfo> indexInfos = new HashSet<IndexInfo>();
             DatabaseMetaData dbmd = connection.getMetaData();
-            ResultSet rs = dbmd.getIndexInfo(getCatalog(), getSchema(), tableName, false, false);
+            ResultSet rs = dbmd.getIndexInfo(connection.getCatalog(), connection.getSchema(), tableName, false, false);
             while (rs.next()) {
                 IndexInfoImpl indexInfo = new IndexInfoImpl();
                 //String => 表名称
@@ -309,7 +288,7 @@ public class GeneratorDatabaseMetaData {
         try (Connection connection = getDataSource().getConnection()) {
             DatabaseMetaData dbmd = connection.getMetaData();
             Set<ImportedKey> importedKeys = new HashSet<ImportedKey>();
-            ResultSet rs = dbmd.getImportedKeys(getCatalog(), getSchema(), tableName);
+            ResultSet rs = dbmd.getImportedKeys(connection.getCatalog(), connection.getSchema(), tableName);
             while (rs.next()) {
                 ImportedKeyImpl importedKey = new ImportedKeyImpl();
                 //PKTABLE_NAME String => 被导入的主键表名称
@@ -346,7 +325,7 @@ public class GeneratorDatabaseMetaData {
         try (Connection connection = getDataSource().getConnection()) {
             DatabaseMetaData dbmd = connection.getMetaData();
             Set<ExportedKey> exportedKeys = new LinkedHashSet<>();
-            ResultSet rs = dbmd.getExportedKeys(getCatalog(), getSchema(), tableName);
+            ResultSet rs = dbmd.getExportedKeys(connection.getCatalog(), connection.getSchema(), tableName);
             while (rs.next()) {
                 ExportedKeyImpl exportedKey = new ExportedKeyImpl();
                 //String => 主键表名称

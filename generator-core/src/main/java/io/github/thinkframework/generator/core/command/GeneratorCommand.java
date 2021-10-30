@@ -1,9 +1,15 @@
 package io.github.thinkframework.generator.core.command;
 
-import io.github.thinkframework.generator.core.context.GeneratorContext;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-public interface GeneratorCommand {
+/**
+ * 最终执行的命令
+ * 随便什么
+ * 文本
+ * 文件
+ */
+public interface GeneratorCommand<T> extends Consumer<T> {
 
-    <T> T  run (GeneratorContext<T> generatorContext);
 
 }

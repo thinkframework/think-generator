@@ -1,13 +1,13 @@
-package io.github.thinkframework.generator.core.chain;
+package io.github.thinkframework.generator.table.chain;
 
+import io.github.thinkframework.generator.core.chain.AbstractResponsibility;
+import io.github.thinkframework.generator.core.chain.GeneratorResponsibility;
 import io.github.thinkframework.generator.core.context.GeneratorContext;
-import io.github.thinkframework.generator.core.internal.TableFactory;
 import io.github.thinkframework.generator.core.internal.adapter.TableClassAdapter;
 import io.github.thinkframework.generator.core.internal.builder.BuilderFacade;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.Table;
 import io.github.thinkframework.generator.util.StringUtils;
 
-import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -19,16 +19,16 @@ import java.util.Optional;
  * @author hdhxby
  * @since 2017/3/24
  */
-public class TableResponsibility implements GeneratorResponsibility<Table> {
+public class TableResponsibility extends AbstractResponsibility implements GeneratorResponsibility {
 
     @Override
-    public void process(Iterator<GeneratorResponsibility> iterator, GeneratorContext<Table> generatorContext) {
+    public GeneratorContext apply(GeneratorContext generatorContext) {
         //设置表的属性
-        Table table = generatorContext.getSource();
+        Table table = null;//generatorContext.getSource();
 
         //适配器,同时提供表和类的字段
         TableClassAdapter tableClassAdapter = new TableClassAdapter(table,
-            BuilderFacade.generatorConfiguration(generatorContext.getGeneratorConfiguration()).build(table));
+            BuilderFacade.generatorConfiguration(generatorContext.getConfiguration()).build(table));
 
         Map result = new HashMap();
         result.put("table", tableClassAdapter);
@@ -41,6 +41,7 @@ public class TableResponsibility implements GeneratorResponsibility<Table> {
             generatorContext.getProperties().put("className", StringUtils.upperCamel(name));
             generatorContext.getProperties().put("className_lowerHyphen", StringUtils.lowerHyphen(StringUtils.lowerCamel(name)));
         });
+        return generatorContext;
     }
 
 }

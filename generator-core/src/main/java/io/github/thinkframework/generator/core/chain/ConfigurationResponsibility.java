@@ -2,11 +2,9 @@ package io.github.thinkframework.generator.core.chain;
 
 import io.github.thinkframework.generator.core.context.GeneratorContext;
 import io.github.thinkframework.generator.util.BeanUtils;
-import io.github.thinkframework.generator.util.StringUtils;
 
 import java.io.File;
 import java.util.Iterator;
-import java.util.Optional;
 import java.util.regex.Matcher;
 
 /**
@@ -16,11 +14,11 @@ import java.util.regex.Matcher;
  * @author hdhxby
  * @since 2017/3/24
  */
-public class ConfigurationResponsibility<T> implements GeneratorResponsibility<T> {
+public class ConfigurationResponsibility extends AbstractResponsibility implements GeneratorResponsibility {
 
     @Override
-    public void process(Iterator<GeneratorResponsibility> iterator,GeneratorContext<T> generatorContext) {
-        BeanUtils.describe(generatorContext.getGeneratorConfiguration()).forEach((key, value) -> {
+    public GeneratorContext apply(GeneratorContext generatorContext) {
+        BeanUtils.describe(generatorContext.getConfiguration()).forEach((key, value) -> {
             //设置GeneratorConfiguration属性
             if(key == null || value == null){
                 return; // 忽略空字段
@@ -31,6 +29,7 @@ public class ConfigurationResponsibility<T> implements GeneratorResponsibility<T
                 generatorContext.getProperties().put(key+"_"+"path", value.toString().replace(".", Matcher.quoteReplacement(File.separator)));
             }
         });
+        return generatorContext;
     }
 
 }

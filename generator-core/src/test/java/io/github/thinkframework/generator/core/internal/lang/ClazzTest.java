@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.core.internal.lang;
 
-import io.github.thinkframework.generator.core.internal.ClassIntrospector;
+import io.github.thinkframework.generator.core.internal.ClazzIntrospector;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,7 +8,7 @@ public class ClazzTest {
 
     @Test
     public void test(){
-        Clazz clazz = ClassIntrospector.getClazz(Person.class);
+        Clazz clazz = ClazzIntrospector.getClazz(Person.class);
         Assert.assertEquals(2,clazz.getFields().size());
         Assert.assertEquals(4,clazz.getMethods().size());
     }

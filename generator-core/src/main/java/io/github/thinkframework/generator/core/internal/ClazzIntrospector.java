@@ -20,7 +20,7 @@ import java.util.stream.Stream;
  * 根据class文件转换成clazz
  * @author hdhxby
  */
-public class ClassIntrospector {
+public class ClazzIntrospector {
 
     /**
      * 转换成 clazz

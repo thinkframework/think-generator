@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.baens.factory.xml;
 
-import io.github.thinkframework.generator.beans.factory.GeneratorFactoryBean;
+import io.github.thinkframework.generator.beans.factory.GeneratorTableFactoryBean;
 import io.github.thinkframework.generator.core.configuration.GeneratorConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class GeneratorBeanDefinitionParser extends AbstractSimpleBeanDefinitionP
         // 从标签中取出对应的属性值
         String id = element.getAttribute("id");
         log.debug("加载 BeanDefinition: {}", id);
-        builder.getBeanDefinition().setBeanClass(GeneratorFactoryBean.class);
+        builder.getBeanDefinition().setBeanClass(GeneratorTableFactoryBean.class);
         builder.addPropertyValue("configuration",generatorConfiguration(element));
     }
 

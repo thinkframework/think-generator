@@ -1,28 +1,22 @@
-package io.github.thinkframework.generator.core.chain;
+package io.github.thinkframework.generator.clazz.chain;
 
+import io.github.thinkframework.generator.core.chain.AbstractResponsibility;
+import io.github.thinkframework.generator.core.chain.GeneratorResponsibility;
 import io.github.thinkframework.generator.core.context.GeneratorContext;
-import io.github.thinkframework.generator.core.internal.ClassIntrospector;
-import io.github.thinkframework.generator.core.internal.adapter.TableClassAdapter;
-import io.github.thinkframework.generator.core.internal.builder.BuilderFacade;
-import io.github.thinkframework.generator.core.internal.lang.Clazz;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * 适配器
  * @author hdhxby
  * @since 2017/3/24
  */
-public class ClassResponsibility implements GeneratorResponsibility<Clazz> {
+public class ClazzResponsibility extends AbstractResponsibility implements GeneratorResponsibility {
 
     @Override
-    public void process(Iterator<GeneratorResponsibility> iterator, GeneratorContext<Clazz> generatorContext) {
+    public GeneratorContext apply(GeneratorContext generatorContext) {
 //        Clazz source = generatorContext.getSource();
 //        Class aClass = null;
 //        try {
@@ -45,6 +39,7 @@ public class ClassResponsibility implements GeneratorResponsibility<Clazz> {
 //        result.put("clazz",tableClassAdapter);
 //
 //        generatorContext.getProperties().putAll(result);
+        return generatorContext;
     }
 
     class FileLoader extends ClassLoader {

@@ -4,44 +4,40 @@ import io.github.thinkframework.generator.core.configuration.GeneratorConfigurat
 import io.github.thinkframework.generator.core.exception.GeneratorRuntimeException;
 
 import java.util.Properties;
+import java.util.function.Supplier;
 
 /**
  * ThreadLocal.
  * 线程绑定
  */
-public class GeneratorContext<T>{
+public class GeneratorContext<T> implements Supplier<GeneratorContext<T>> {
 
     private Properties properties = new Properties();
 
-    private GeneratorConfiguration generatorConfiguration;
+    private GeneratorConfiguration configuration;
 
     private T source;
-
-    private static ThreadLocal<GeneratorContext> context = ThreadLocal.withInitial(() -> {
-        GeneratorContext generatorContext = new GeneratorContext();
-        return generatorContext;
-    });
 
     /**
      * 获取线程绑定的GeneratorContext
      *
      * @return GeneratorContext
      */
-    public static GeneratorContext get() {
-        return context.get();
-    }
-
-    public GeneratorConfiguration getGeneratorConfiguration() {
-        return generatorConfiguration;
-    }
-
-    public GeneratorContext generatorConfiguration(GeneratorConfiguration generatorConfiguration) throws GeneratorRuntimeException {
-        this.generatorConfiguration = generatorConfiguration;
+    public GeneratorContext get() {
         return this;
     }
 
-    public void setGeneratorConfiguration(GeneratorConfiguration generatorConfiguration) {
-        this.generatorConfiguration = generatorConfiguration;
+    public GeneratorConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public GeneratorContext configuration(GeneratorConfiguration generatorConfiguration) throws GeneratorRuntimeException {
+        this.configuration = generatorConfiguration;
+        return this;
+    }
+
+    public void setConfiguration(GeneratorConfiguration configuration) {
+        this.configuration = configuration;
     }
 
     public Properties getProperties() {
@@ -61,4 +57,28 @@ public class GeneratorContext<T>{
         this.source = source;
     }
 
+    public static class Builder<T> {
+
+        private GeneratorConfiguration configuration;
+
+        private T source;
+
+
+        public Builder configuration(GeneratorConfiguration generatorConfiguration) throws GeneratorRuntimeException {
+            this.configuration = generatorConfiguration;
+            return this;
+        }
+
+        public Builder<T> source(T source) {
+            this.source = source;
+            return this;
+        }
+
+        public GeneratorContext<T> build() {
+            GeneratorContext<T> generatorContext = new GeneratorContext();
+            generatorContext.setConfiguration(configuration);
+            generatorContext.setSource(source);
+            return generatorContext;
+        }
+    }
 }

@@ -1,6 +1,6 @@
 package io.github.thinkframework.generator.fx.controler;
 
-import io.github.thinkframework.generator.Generator;
+import io.github.thinkframework.generator.table.GeneratorTable;
 import io.github.thinkframework.generator.fx.FXApplication;
 import io.github.thinkframework.generator.fx.model.GeneratorTreeItem;
 import javafx.application.Platform;
@@ -133,7 +133,7 @@ public class GeneratorMainController implements Initializable {
                     continue;
                 }
                 GeneratorTreeItem<String> generatorTreeItem = (GeneratorTreeItem) treeItem;
-                FXApplication.getBean(Generator.class)
+                FXApplication.getBean(GeneratorTable.class)
                         .generate(FXApplication.getBean(generatorTreeItem.getDatasource(), DataSource.class),
                         generatorTreeItem.getValue());
             }

@@ -9,7 +9,9 @@ import io.github.thinkframework.generator.core.exception.GeneratorRuntimeExcepti
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -17,20 +19,16 @@ import java.util.function.Supplier;
  *
  * @author hdhxby
  * @version 1.0.0
-* @since 1.0.0
+ * @since 1.0.0
  */
-public class AbstractGenerator<T, U, R> implements Generator<T, U, R> {
+public abstract class AbstractGenerator<T, U, R> implements Generator<T, U, R> {
 
     protected GeneratorConfiguration configuration;
 
-
-    protected List<GeneratorResponsibility> responsibilitys = new ArrayList<>();
+    protected GeneratorResponsibility responsibility;
 
     protected GeneratorCommand command;
 
-    public AbstractGenerator() {
-
-    }
 
     public AbstractGenerator(GeneratorConfiguration configuration) {
         this.configuration = configuration;
@@ -49,52 +47,73 @@ public class AbstractGenerator<T, U, R> implements Generator<T, U, R> {
         this.configuration = configuration;
     }
 
-    public Generator responsibilitys(List<GeneratorResponsibility> responsibilitys) {
-        this.responsibilitys = responsibilitys;
+    public GeneratorResponsibility getResponsibility() {
+        return responsibility;
+    }
+
+    public Generator responsibility(GeneratorResponsibility responsibility) {
+        this.responsibility = responsibility;
         return this;
     }
 
-    public Generator addResponsibility(GeneratorResponsibility responsibility) {
-        this.responsibilitys.add(responsibility);
+    public void setResponsibility(GeneratorResponsibility responsibility) {
+        this.responsibility = responsibility;
+    }
+
+    public GeneratorCommand getCommand() {
+        return command;
+    }
+
+    public Generator command(GeneratorCommand command) {
+        this.command = command;
         return this;
     }
 
+    public void setCommand(GeneratorCommand command) {
+        this.command = command;
+    }
 
     /**
-     * 生成文件
-     * @param source
-     * @param target
-     * @return
+     * 运行
+     *
      * @throws GeneratorRuntimeException
      */
-    public void generate(T source, U target) throws GeneratorRuntimeException {
-        throw new GeneratorRuntimeException("");
+    @Override
+    public void generate(Supplier<GeneratorContext> supplier, Function<GeneratorContext,GeneratorContext> responsibility) throws GeneratorRuntimeException {
+        responsibility.apply(Optional.of(supplier.get()) // 1.获取到第一个元素
+                .map(source -> new GeneratorContext()
+                        .configuration(configuration.clone())
+                        .source(source)) // 2.转换成GeneratorContext
+                .get()); // 3.加工
     }
+
     /**
      * 运行
      * @throws GeneratorRuntimeException
      */
-    @Override
-    public R generate(Supplier<R> supplier) throws GeneratorRuntimeException{
-        generate(supplier,(context) -> command.run(context));
-        return null;
+    public R generate(Supplier<GeneratorContext> supplier, Function<GeneratorContext,GeneratorContext> responsibility, Function<GeneratorContext,R> command) throws GeneratorRuntimeException{
+        return command.apply( // 4.最终执行
+                responsibility.apply(Optional.of(supplier.get()) // 1.获取到第一个元素
+                        .map(source -> new GeneratorContext()
+                                .configuration(configuration.clone())
+                                .source(source)) // 2.转换成GeneratorContext
+                        .get()) // 3.加工
+        );
     }
-
 
     /**
      * 运行
+     *
      * @throws GeneratorRuntimeException
      */
     @Override
-    public R generate(Supplier<R> supplier, Consumer<GeneratorContext<R>> consumer) throws GeneratorRuntimeException{
-        GeneratorContext<R> generatorContext = GeneratorContext.get()
-                .generatorConfiguration(configuration)
-                .source(supplier.get());
-        // 调用责任链
-        responsibilitys.stream().findFirst().get()
-                .execute(responsibilitys.iterator(),generatorContext);
-        // 执行最终调用
-        consumer.accept(generatorContext);
-        return null;
+    public void generate(Supplier<GeneratorContext> supplier, Function<GeneratorContext,GeneratorContext> responsibility, Consumer<GeneratorContext> command) throws GeneratorRuntimeException {
+        command.accept( // 4.最终执行
+            responsibility.apply(Optional.of(supplier.get()) // 1.获取到第一个元素
+                        .map(source -> new GeneratorContext()
+                            .configuration(configuration.clone())
+                            .source(source)) // 2.转换成GeneratorContext
+                        .get()) // 3.加工
+        );
     }
 }

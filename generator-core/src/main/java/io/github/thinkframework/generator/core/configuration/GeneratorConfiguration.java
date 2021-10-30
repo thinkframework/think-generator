@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GeneratorConfiguration {
+    private String name;
     private String packageName;
     private String frameName;
     private String companyName;
@@ -12,12 +13,22 @@ public class GeneratorConfiguration {
     private String authorName;
     private String namespace;
     private String template;
+    private String output;
     private List<String> extensions;
     private Map<String, String> converts;
     private List<String> prefixs;
     private List<String> ignores;
-    private String output;
+    private String input;
+    private String out;
     private Boolean advanced =false;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getPackageName() {
         return packageName;
@@ -83,6 +94,14 @@ public class GeneratorConfiguration {
         this.template = template;
     }
 
+    public String getOut() {
+        return out;
+    }
+
+    public void setOut(String out) {
+        this.out = out;
+    }
+
     public List<String> getExtensions() {
         return extensions;
     }
@@ -123,11 +142,38 @@ public class GeneratorConfiguration {
         this.output = output;
     }
 
+    public String getInput() {
+        return input;
+    }
+
+    public void setInput(String input) {
+        this.input = input;
+    }
+
     public Boolean getAdvanced() {
         return advanced;
     }
 
     public void setAdvanced(Boolean advanced) {
         this.advanced = advanced;
+    }
+
+    @Override
+    public GeneratorConfiguration clone() {
+        GeneratorConfiguration configuration = new GeneratorConfiguration();
+        configuration.setPackageName(packageName);
+        configuration.setFrameName(frameName);
+        configuration.setCompanyName(companyName);
+        configuration.setAppName(appName);
+        configuration.setModuleName(moduleName);
+        configuration.setAuthorName(authorName);
+        configuration.setNamespace(namespace);
+        configuration.setTemplate(template);
+        configuration.setOutput(out);
+        configuration.setExtensions(extensions);
+        configuration.setConverts(converts);
+        configuration.setPrefixs(prefixs);
+        configuration.setIgnores(ignores);
+        return configuration;
     }
 }

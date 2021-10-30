@@ -15,15 +15,13 @@ import java.util.Map;
  * @author hdhxby
  * @since 2017/3/24
  */
-public class IDResponsibility extends AbstractResponsibility implements GeneratorResponsibility {
+public class NameResponsibility extends AbstractResponsibility implements GeneratorResponsibility {
 
     @Override
     public GeneratorContext apply(GeneratorContext generatorContext) {
         Map result = new HashMap();
 
-        ColumnFieldAdapter id = new ColumnFieldAdapter( new ColumnImpl("id"),
-                new ClazzFieldImpl("id", new ClazzImpl(Long.class)));
-        result.put("id", id);
+        result.put("name", generatorContext.getSource());
 
         generatorContext.getProperties().putAll(result);
         return generatorContext;

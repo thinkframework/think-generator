@@ -1,19 +1,20 @@
 package io.github.thinkframework.generator.beans.factory;
 
 import io.github.thinkframework.generator.Generator;
-import io.github.thinkframework.generator.GeneratorTable;
+import io.github.thinkframework.generator.table.GeneratorTable;
 import io.github.thinkframework.generator.core.chain.GeneratorResponsibility;
 import io.github.thinkframework.generator.core.command.GeneratorCommand;
 import io.github.thinkframework.generator.core.configuration.GeneratorConfiguration;
 import org.springframework.beans.factory.FactoryBean;
 
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * 工厂模式
  */
-public class GeneratorFactoryBean implements FactoryBean<Generator>{
+public class GeneratorTableFactoryBean implements FactoryBean<GeneratorTable>{
 
     private GeneratorConfiguration configuration;
 
@@ -21,12 +22,21 @@ public class GeneratorFactoryBean implements FactoryBean<Generator>{
 
     private GeneratorCommand command;
 
-    public GeneratorFactoryBean() {
+    public GeneratorTableFactoryBean() {
 
     }
 
-    public GeneratorFactoryBean(GeneratorConfiguration configuration) {
+    public GeneratorTableFactoryBean(GeneratorConfiguration configuration) {
         this.configuration = configuration;
+    }
+
+    public GeneratorConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public GeneratorTableFactoryBean configuration(GeneratorConfiguration configuration) {
+        this.configuration = configuration;
+        return this;
     }
 
     public void setConfiguration(GeneratorConfiguration configuration) {
@@ -37,7 +47,7 @@ public class GeneratorFactoryBean implements FactoryBean<Generator>{
         return responsibilities;
     }
 
-    public GeneratorFactoryBean responsibilities(List<GeneratorResponsibility> responsibilities) {
+    public GeneratorTableFactoryBean responsibilities(List<GeneratorResponsibility> responsibilities) {
         this.responsibilities = responsibilities;
         return this;
     }
@@ -50,7 +60,7 @@ public class GeneratorFactoryBean implements FactoryBean<Generator>{
         return command;
     }
 
-    public GeneratorFactoryBean command(GeneratorCommand command) {
+    public GeneratorTableFactoryBean command(GeneratorCommand command) {
         this.command = command;
         return this;
     }
@@ -60,9 +70,19 @@ public class GeneratorFactoryBean implements FactoryBean<Generator>{
     }
 
     @Override
-    public Generator getObject() {
-        return new GeneratorTable(configuration)
-                .responsibilitys(responsibilities);
+    public GeneratorTable getObject() {
+        GeneratorTable generatorTable = new GeneratorTable(configuration);
+        Iterator<GeneratorResponsibility> iterator = responsibilities.iterator();
+        responsibilities.stream().findFirst().ifPresent(first -> {
+            generatorTable.setResponsibility(first); // 设置责任链第一个
+            for (Function temp = iterator.next();iterator.hasNext();iterator.next()){
+                if(iterator.hasNext()){
+                    temp = temp.compose(iterator.next()); // 设置责任链
+                }
+            }
+        });
+        generatorTable.command(command);
+        return generatorTable;
     }
 
     @Override
