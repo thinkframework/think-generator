@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/jdbc
+           http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd"
+       default-lazy-init="true">
+    <description>
+        #代码生成器配置文件:
+        #会为所有的property生成property_path属性,如pkg=org.think => pkg_path=org/think
+    </description>
+    <!--    <import resource="generator.xml"/>-->
+    <bean id="dataSource1" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!-- 基本属性 url、user、password -->
+        <property name="url" value="jdbc:h2:mem:app"/>
+        <property name="username" value=""/>
+        <property name="password" value=""/>
+    </bean>
+</beans>

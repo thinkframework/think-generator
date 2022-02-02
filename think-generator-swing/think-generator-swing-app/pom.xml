@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>io.github.thinkframework</groupId>
+        <artifactId>think-generator-swing</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>think-generator-swing-app</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.github.thinkframework</groupId>
+            <artifactId>think-generator-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.thinkframework</groupId>
+            <artifactId>think-generator-swing-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.thinkframework</groupId>
+            <artifactId>think-generator-swing-plugin</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>prod</id>
+            <build>
+                <resources>
+                    <!-- 控制资源文件的拷贝 -->
+                    <resource>
+                        <directory>../src/test/resources</directory>
+                        <includes>
+                            <include>applicationContext.xml</include>
+                            <include>schema.h2</include>
+                            <include>generator.xml</include>
+                        </includes>
+                    </resource>
+                    <resource>
+                        <directory>template</directory>
+                        <targetPath>${project.build.directory}/template</targetPath>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+    </profiles>
+</project>

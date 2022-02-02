@@ -1,0 +1,3 @@
+#
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.github.thinkframework.fx.core.configuration.FXConfiguration
