@@ -25,3 +25,5 @@
         </dependency>
     </dependencies>
 ```
+
+需要客户端的手动编译generator-app,没法写单元测试.

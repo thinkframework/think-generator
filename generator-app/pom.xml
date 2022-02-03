@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>generator-fx</artifactId>
+    <artifactId>generator-app</artifactId>
 
     <properties>
         <javafx.version>11</javafx.version>

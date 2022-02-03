@@ -37,7 +37,7 @@
         <module>generator-core</module>
         <module>generator-pdm-driver</module>
         <module>generator-boot-starter</module>
-        <module>generator-fx</module>
+        <module>generator-app</module>
     </modules>
 
     <properties>

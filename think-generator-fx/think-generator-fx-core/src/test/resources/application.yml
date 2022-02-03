@@ -1,3 +1,0 @@
-spring:
-    datasource:
-        schema: schema-h2.sql
