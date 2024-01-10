@@ -5,6 +5,7 @@ import io.github.thinkframework.generator.core.AbstractGenerator;
 import io.github.thinkframework.generator.core.chain.ConfigurationResponsibility;
 import io.github.thinkframework.generator.core.chain.GeneratorResponsibility;
 import io.github.thinkframework.generator.core.chain.IDResponsibility;
+import io.github.thinkframework.generator.core.command.WalkFileTreeCommand;
 import io.github.thinkframework.generator.core.context.GeneratorContext;
 import io.github.thinkframework.generator.table.chain.TableResponsibility;
 import io.github.thinkframework.generator.core.command.FreeMarkerFileCommand;
@@ -14,6 +15,7 @@ import io.github.thinkframework.generator.core.internal.TableDatabaseMetaData;
 import io.github.thinkframework.generator.core.internal.sql.databasemetadata.Table;
 
 import javax.sql.DataSource;
+import java.io.File;
 
 /**
  * 生成器对象
@@ -26,10 +28,11 @@ public class GeneratorTable extends AbstractGenerator<DataSource, String, Table>
 
     public GeneratorTable(GeneratorConfiguration configuration) {
         super(configuration);
-        responsibility((GeneratorResponsibility) new ConfigurationResponsibility()
+        responsibility(generatorContext -> new TableResponsibility()
                 .compose(new IDResponsibility()
-                        .compose(new TableResponsibility())));
-        command(new FreeMarkerFileCommand());
+                        .compose(new ConfigurationResponsibility()))
+                .apply(generatorContext));
+        command(new WalkFileTreeCommand(new File(configuration.getTemplate()),new File(configuration.getOutput())));
     }
 
     /**

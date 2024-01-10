@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.hdhxby</groupId>
+        <artifactId>app-auth</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>app-auth-test</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- 一方库 -->
+        <dependency>
+            <groupId>com.hdhxby</groupId>
+            <artifactId>app-auth-api</artifactId>
+        </dependency>
+        <!-- 二方库 -->
+        <dependency>
+            <groupId>io.github.thinkframework</groupId>
+            <artifactId>think-test</artifactId>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.hdhxby</groupId>
+        <artifactId>app-auth</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>app-auth-application</artifactId>
+    <packaging>jar</packaging>
+
+    <properties>
+        <start-class>com.hdhxby.ecommerce.AuthApplication</start-class>
+        <!-- Plugin versions -->
+        <jib-maven-plugin.version>3.2.1</jib-maven-plugin.version>
+        <jib-maven-plugin.image>eclipse-temurin:11-jre-focal</jib-maven-plugin.image>
+        <jib-maven-plugin.architecture>amd64</jib-maven-plugin.architecture>
+    </properties>
+
+    <dependencies>
+        <!-- 一方库 -->
+        <dependency>
+            <groupId>com.hdhxby</groupId>
+            <artifactId>app-auth-web</artifactId>
+        </dependency>
+        <!-- 二方库 -->
+        <dependency>
+            <groupId>com.hdhxby</groupId>
+            <artifactId>app-configuration</artifactId>
+        </dependency>
+        <!-- 三方库 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib-maven-plugin.version}</version>
+                <configuration>
+                    <from>
+                        <image>${jib-maven-plugin.image}</image>
+                        <platforms>
+                            <platform>
+                                <architecture>${jib-maven-plugin.architecture}</architecture>
+                                <os>linux</os>
+                            </platform>
+                        </platforms>
+                    </from>
+                    <to>
+                        <image>registry.docker.internal:5000/${project.artifactId}:latest</image>
+                    </to>
+<!--                    <container>-->
+<!--                        <entrypoint>-->
+<!--                            <shell>bash</shell>-->
+<!--                            <option>-c</option>-->
+<!--                            <arg>/entrypoint.sh</arg>-->
+<!--                        </entrypoint>-->
+<!--                        <ports>-->
+<!--                            <port>8081</port>-->
+<!--                        </ports>-->
+<!--                        <environment>-->
+<!--                            <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>-->
+<!--                        </environment>-->
+<!--                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>-->
+<!--                        <user>1000</user>-->
+<!--                    </container>-->
+<!--                    <extraDirectories>-->
+<!--                        <paths>src/main/docker/jib</paths>-->
+<!--                        <permissions>-->
+<!--                            <permission>-->
+<!--                                <file>/entrypoint.sh</file>-->
+<!--                                <mode>755</mode>-->
+<!--                            </permission>-->
+<!--                        </permissions>-->
+<!--                    </extraDirectories>-->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -17,6 +17,14 @@ import java.util.Map;
  */
 public class IDResponsibility extends AbstractResponsibility implements GeneratorResponsibility {
 
+
+    public IDResponsibility() {
+    }
+
+    public IDResponsibility(GeneratorResponsibility before) {
+        setBefore(before);
+    }
+
     @Override
     public GeneratorContext apply(GeneratorContext generatorContext) {
         Map result = new HashMap();

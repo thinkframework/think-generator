@@ -1,0 +1,55 @@
+spring:
+    datasource:
+        druid:
+            filters: stat
+            max-active: 600
+            max-pool-prepared-statement-per-connection-size: 20
+            max-wait: 60000
+            min-evictable-idle-time-millis: 25000
+            min-idle: 2
+            password: Kcallme@123
+            pool-prepared-statements: true
+            test-on-borrow: false
+            test-on-return: false
+            test-while-idle: false
+            time-between-eviction-runs-millis: 3000
+            url: jdbc:mysql://dev.mysql.kcallme.com:3306/kcallme-file?characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true
+            username: root
+            validation-query: SELECT 'x'
+
+think:
+    generator:
+        enabled: true
+        configuration:
+            package-name: com.kcallme.file
+            frame-name: com.github.acticfox
+            company-name: com.kcallme
+            app-name: file
+            module-name: file
+            author-name: unascribed
+            namespace: view
+            template: /Users/lixiaobin/git/think-framework/think-generator/kcallme-generator/template
+            extensions:
+                - java
+                - xml
+                - sql
+                - html
+                - js
+                - ts
+            converts: {
+                "java.sql.Types.TIMESTAMP": "java.time.Instant"
+#                "java.sql.Types.BIGINT": "java.math.BigInteger",
+            }
+            prefixs:
+                - t_
+                - auth_
+            ignores:
+                - id
+                - created_by
+                - created_date
+                - last_modified_by
+                - last_modified_date
+                - gmt_create
+                - gmt_modified
+                - sys_revision
+            output: out

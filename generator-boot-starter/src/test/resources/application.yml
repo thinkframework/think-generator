@@ -37,4 +37,4 @@ think:
                 - gmt_create
                 - gmt_modified
                 - sys_revision
-            out: out
+            output: out

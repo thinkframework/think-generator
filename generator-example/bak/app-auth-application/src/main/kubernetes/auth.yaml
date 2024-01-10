@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: app-auth-service
+  name: app-auth-service
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+  selector:
+    app: app-auth-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app-auth-service
+  name: app-auth-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-auth-service
+  template:
+    metadata:
+      labels:
+        app: app-auth-service
+    spec:
+      containers:
+        - name: app-auth-service
+          image: app-auth-application
+          ports:
+            - name: http
+              containerPort: 8080
+          imagePullPolicy: Always
