@@ -14,7 +14,7 @@
     <artifactId>kcallme-generator</artifactId>
 
     <properties>
-        <javafx.version>11</javafx.version>
+        <javafx.version>8</javafx.version>
         <javafx.maven.plugin.version>0.0.1</javafx.maven.plugin.version>
     </properties>
 

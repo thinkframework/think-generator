@@ -1,4 +1,4 @@
-package ${packageName}.api.controller;
+package ${packageName}.web.rest;
 
 import ${packageName}.repository.criteria.${className}Criteria;
 import ${packageName}.service.dto.${className}DTO;
