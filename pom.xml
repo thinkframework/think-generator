@@ -14,7 +14,7 @@
 	<name>think-generator</name>
 	<url>http://maven.apache.org</url>
 
-    <description>基于Freemarker的代码生成工具</description>
+    <description>基于Freemarker的代码生成工具.</description>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
