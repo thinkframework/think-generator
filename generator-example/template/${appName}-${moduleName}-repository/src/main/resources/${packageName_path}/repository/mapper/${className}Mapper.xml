@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${packageName}.repository.mapper.${className}Mapper">
+    <resultMap id="BaseResultMap" type="${packageName}.repository.mapper.domain.${className}">
+<#list clazz.fields as field>
+        <result property="${field.name}" column="${field.columnName}"/>
+</#list>
+    </resultMap>
+    <sql id="Base_Column_List">
+<#list clazz.fields as field>
+        ${field.columnName}<#if field_has_next>,</#if>
+</#list>
+    </sql>
+    <insert id="insert" parameterType="${className}">
+        insert into ${tableName}
+        where id = ${r'#{id}'}
+    </insert>
+    <update id="update" parameterType="${className}">
+        update ${tableName}
+        where id = ${r'#{id}'}
+    </update>
+    <delete id="delete" parameterType="${id.type}">
+        delete from ${tableName}
+        where id = ${r'#{id}'}
+    </delete>
+    <select id="deleteAll">
+        select * from ${tableName}
+    </select>
+    <select id="findById" parameterType="${id.type}">
+        select * from ${tableName}
+        where id = ${r'#{id}'}
+    </select>
+    <select id="existsById" parameterType="${id.type}">
+        select * from ${tableName}
+        where id = ${r'#{id}'}
+    </select>
+    <select id="findAll">
+        select * from ${tableName}
+        where id = ${r'#{id}'}
+    </select>
+    <select id="findAllSorted" parameterType="${id.type}">
+        select * from ${tableName}
+        where id = ${r'#{id}'}
+    </select>
+    <select id="findAllPaged" parameterType="${id.type}">
+        select * from ${tableName}
+        where id = ${r'#{id}'}
+    </select>
+</mapper>

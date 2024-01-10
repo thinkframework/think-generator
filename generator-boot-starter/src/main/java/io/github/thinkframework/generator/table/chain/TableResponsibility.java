@@ -20,10 +20,17 @@ import java.util.Optional;
  */
 public class TableResponsibility extends AbstractResponsibility implements GeneratorResponsibility {
 
+    public TableResponsibility() {
+    }
+
+    public TableResponsibility(GeneratorResponsibility before) {
+        super.setBefore(before);
+    }
+
     @Override
     public GeneratorContext apply(GeneratorContext generatorContext) {
         //设置表的属性
-        Table table = null;//generatorContext.getSource();
+        Table table = (Table) ((GeneratorContext)generatorContext.getSource()).getSource();
 
         //适配器,同时提供表和类的字段
         TableClassAdapter tableClassAdapter = new TableClassAdapter(table,

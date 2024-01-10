@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdhxby.ecommerce.auth.repository.mapper.AuthAccountRoleRelationshipMybatisMapper">
+    <resultMap id="BaseResultMap" type="com.hdhxby.ecommerce.auth.domain.AuthAccountRoleRelationship">
+        <result property="id" column="id"/>
+        <result property="accountId" column="account_id"/>
+        <result property="roleId" column="role_id"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdDate" column="created_date"/>
+        <result property="lastModifiedBy" column="last_modified_by"/>
+        <result property="lastModifiedDate" column="last_modified_date"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,
+        account_id,
+        role_id,
+        created_by,
+        created_date,
+        last_modified_by,
+        last_modified_date
+    </sql>
+    <sql id="Criteria_Where_Clause">
+        <where>
+            <if test="id != null">
+                <if test="id.equals != null">
+                    and id = #{id.equals}
+                </if>
+                <if test="id.notEquals != null">
+                    and id != #{id.notEquals}
+                </if>
+                <if test="id.specified != null">
+                    and id = #{id.specified}
+                </if>
+                <if test="id.IN != null">
+                    and id in
+                    <foreach collection="id.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="id.notIn != null">
+                    and id not in
+                    <foreach collection="id.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="id.greaterThan != null">
+                    and id &gt; #{id.greaterThan}
+                </if>
+                <if test="id.lessThan != null">
+                    and id &lt; #{id.lessThan}
+                </if>
+                <if test="id.greaterThanOrEqual != null">
+                    and id &gt;= #{id.greaterThanOrEqual}
+                </if>
+                <if test="id.lessThanOrEqual != null">
+                    and id &gt;= #{id.lessThanOrEqual}
+                </if>
+            </if>
+            <if test="accountId != null">
+                <if test="accountId.equals != null">
+                    and account_id = #{accountId.equals}
+                </if>
+                <if test="accountId.notEquals != null">
+                    and account_id != #{accountId.notEquals}
+                </if>
+                <if test="accountId.specified != null">
+                    and account_id = #{accountId.specified}
+                </if>
+                <if test="accountId.IN != null">
+                    and account_id in
+                    <foreach collection="accountId.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="accountId.notIn != null">
+                    and account_id not in
+                    <foreach collection="accountId.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="accountId.greaterThan != null">
+                    and account_id &gt; #{accountId.greaterThan}
+                </if>
+                <if test="accountId.lessThan != null">
+                    and account_id &lt; #{accountId.lessThan}
+                </if>
+                <if test="accountId.greaterThanOrEqual != null">
+                    and account_id &gt;= #{accountId.greaterThanOrEqual}
+                </if>
+                <if test="accountId.lessThanOrEqual != null">
+                    and account_id &gt;= #{accountId.lessThanOrEqual}
+                </if>
+            </if>
+            <if test="roleId != null">
+                <if test="roleId.equals != null">
+                    and role_id = #{roleId.equals}
+                </if>
+                <if test="roleId.notEquals != null">
+                    and role_id != #{roleId.notEquals}
+                </if>
+                <if test="roleId.specified != null">
+                    and role_id = #{roleId.specified}
+                </if>
+                <if test="roleId.IN != null">
+                    and role_id in
+                    <foreach collection="roleId.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="roleId.notIn != null">
+                    and role_id not in
+                    <foreach collection="roleId.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="roleId.greaterThan != null">
+                    and role_id &gt; #{roleId.greaterThan}
+                </if>
+                <if test="roleId.lessThan != null">
+                    and role_id &lt; #{roleId.lessThan}
+                </if>
+                <if test="roleId.greaterThanOrEqual != null">
+                    and role_id &gt;= #{roleId.greaterThanOrEqual}
+                </if>
+                <if test="roleId.lessThanOrEqual != null">
+                    and role_id &gt;= #{roleId.lessThanOrEqual}
+                </if>
+            </if>
+            <if test="createdBy != null">
+                <if test="createdBy.equals != null">
+                    and created_by = #{createdBy.equals}
+                </if>
+                <if test="createdBy.notEquals != null">
+                    and created_by != #{createdBy.notEquals}
+                </if>
+                <if test="createdBy.specified != null">
+                    and created_by = #{createdBy.specified}
+                </if>
+                <if test="createdBy.IN != null">
+                    and created_by in
+                    <foreach collection="createdBy.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="createdBy.notIn != null">
+                    and created_by not in
+                    <foreach collection="createdBy.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="createdBy.greaterThan != null">
+                    and created_by &gt; #{createdBy.greaterThan}
+                </if>
+                <if test="createdBy.lessThan != null">
+                    and created_by &lt; #{createdBy.lessThan}
+                </if>
+                <if test="createdBy.greaterThanOrEqual != null">
+                    and created_by &gt;= #{createdBy.greaterThanOrEqual}
+                </if>
+                <if test="createdBy.lessThanOrEqual != null">
+                    and created_by &gt;= #{createdBy.lessThanOrEqual}
+                </if>
+            </if>
+            <if test="createdDate != null">
+                <if test="createdDate.equals != null">
+                    and created_date = #{createdDate.equals}
+                </if>
+                <if test="createdDate.notEquals != null">
+                    and created_date != #{createdDate.notEquals}
+                </if>
+                <if test="createdDate.specified != null">
+                    and created_date = #{createdDate.specified}
+                </if>
+                <if test="createdDate.IN != null">
+                    and created_date in
+                    <foreach collection="createdDate.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="createdDate.notIn != null">
+                    and created_date not in
+                    <foreach collection="createdDate.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+            </if>
+            <if test="lastModifiedBy != null">
+                <if test="lastModifiedBy.equals != null">
+                    and last_modified_by = #{lastModifiedBy.equals}
+                </if>
+                <if test="lastModifiedBy.notEquals != null">
+                    and last_modified_by != #{lastModifiedBy.notEquals}
+                </if>
+                <if test="lastModifiedBy.specified != null">
+                    and last_modified_by = #{lastModifiedBy.specified}
+                </if>
+                <if test="lastModifiedBy.IN != null">
+                    and last_modified_by in
+                    <foreach collection="lastModifiedBy.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="lastModifiedBy.notIn != null">
+                    and last_modified_by not in
+                    <foreach collection="lastModifiedBy.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="lastModifiedBy.greaterThan != null">
+                    and last_modified_by &gt; #{lastModifiedBy.greaterThan}
+                </if>
+                <if test="lastModifiedBy.lessThan != null">
+                    and last_modified_by &lt; #{lastModifiedBy.lessThan}
+                </if>
+                <if test="lastModifiedBy.greaterThanOrEqual != null">
+                    and last_modified_by &gt;= #{lastModifiedBy.greaterThanOrEqual}
+                </if>
+                <if test="lastModifiedBy.lessThanOrEqual != null">
+                    and last_modified_by &gt;= #{lastModifiedBy.lessThanOrEqual}
+                </if>
+            </if>
+            <if test="lastModifiedDate != null">
+                <if test="lastModifiedDate.equals != null">
+                    and last_modified_date = #{lastModifiedDate.equals}
+                </if>
+                <if test="lastModifiedDate.notEquals != null">
+                    and last_modified_date != #{lastModifiedDate.notEquals}
+                </if>
+                <if test="lastModifiedDate.specified != null">
+                    and last_modified_date = #{lastModifiedDate.specified}
+                </if>
+                <if test="lastModifiedDate.IN != null">
+                    and last_modified_date in
+                    <foreach collection="lastModifiedDate.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="lastModifiedDate.notIn != null">
+                    and last_modified_date not in
+                    <foreach collection="lastModifiedDate.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+            </if>
+        </where>
+    </sql>
+    <insert id="create" parameterType="com.hdhxby.ecommerce.auth.domain.AuthAccountRoleRelationship" useGeneratedKeys="true" keyProperty="id">
+        insert into auth_account_role_relationship
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="roleId != null">
+                role_id,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="createdDate != null">
+                created_date,
+            </if>
+            <if test="lastModifiedBy != null">
+                last_modified_by,
+            </if>
+            <if test="lastModifiedDate != null">
+                last_modified_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="accountId != null">
+                #{accountId},
+            </if>
+            <if test="roleId != null">
+                #{roleId},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="createdDate != null">
+                #{createdDate},
+            </if>
+            <if test="lastModifiedBy != null">
+                #{lastModifiedBy},
+            </if>
+            <if test="lastModifiedDate != null">
+                #{lastModifiedDate},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.hdhxby.ecommerce.auth.domain.AuthAccountRoleRelationship">
+        update auth_account_role_relationship
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="accountId != null">
+                account_id = #{accountId},
+            </if>
+            <if test="roleId != null">
+                role_id = #{roleId},
+            </if>
+            <if test="createdBy != null">
+                created_by = #{createdBy},
+            </if>
+            <if test="createdDate != null">
+                created_date = #{createdDate},
+            </if>
+            <if test="lastModifiedBy != null">
+                last_modified_by = #{lastModifiedBy},
+            </if>
+            <if test="lastModifiedDate != null">
+                last_modified_date = #{lastModifiedDate},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="findById" resultMap="BaseResultMap" parameterType="Long">
+        select
+        <include refid="Base_Column_List"/>
+        from auth_account_role_relationship
+        where id = #{id}
+    </select>
+    <select id="existsById" resultType="Long" parameterType="Long">
+        select count(*)
+        from auth_account_role_relationship
+        where id = #{id}
+    </select>
+    <select id="findAll" resultMap="BaseResultMap" parameterType="com.hdhxby.ecommerce.auth.domain.AuthAccountRoleRelationship">
+        select
+        <include refid="Base_Column_List"/>
+        from auth_account_role_relationship
+    </select>
+    <select id="findAllByCriteria" resultMap="BaseResultMap" parameterType="com.hdhxby.ecommerce.auth.repository.criteria.AuthAccountRoleRelationshipCriteria">
+        select
+        <include refid="Base_Column_List"/>
+        from auth_account_role_relationship
+        <include refid="Criteria_Where_Clause"/>
+    </select>
+    <select id="count" resultType="Long">
+        select count(*) from auth_account_role_relationship
+    </select>
+    <delete id="deleteById" parameterType="Long">
+    delete from auth_account_role_relationship
+    where id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,15 @@
+spring:
+    application:
+        name: auth
+    profiles:
+        include:
+            - mybatis
+    datasource:
+        url: jdbc:h2:mem:default;MODE=MySQL
+        schema: classpath:${spring.application.name}.sql
+        username: root
+        password:
+
+eureka:
+    client:
+        enabled: false

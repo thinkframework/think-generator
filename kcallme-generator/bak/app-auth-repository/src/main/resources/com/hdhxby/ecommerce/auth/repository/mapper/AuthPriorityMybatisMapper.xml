@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdhxby.ecommerce.auth.repository.mapper.AuthPriorityMybatisMapper">
+    <resultMap id="BaseResultMap" type="com.hdhxby.ecommerce.auth.domain.AuthPriority">
+        <result property="id" column="id"/>
+        <result property="code" column="code"/>
+        <result property="url" column="url"/>
+        <result property="priorityComment" column="priority_comment"/>
+        <result property="priorityType" column="priority_type"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdDate" column="created_date"/>
+        <result property="lastModifiedBy" column="last_modified_by"/>
+        <result property="lastModifiedDate" column="last_modified_date"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,
+        code,
+        url,
+        priority_comment,
+        priority_type,
+        parent_id,
+        created_by,
+        created_date,
+        last_modified_by,
+        last_modified_date
+    </sql>
+    <sql id="Criteria_Where_Clause">
+        <where>
+            <if test="id != null">
+                <if test="id.equals != null">
+                    and id = #{id.equals}
+                </if>
+                <if test="id.notEquals != null">
+                    and id != #{id.notEquals}
+                </if>
+                <if test="id.specified != null">
+                    and id = #{id.specified}
+                </if>
+                <if test="id.IN != null">
+                    and id in
+                    <foreach collection="id.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="id.notIn != null">
+                    and id not in
+                    <foreach collection="id.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="id.greaterThan != null">
+                    and id &gt; #{id.greaterThan}
+                </if>
+                <if test="id.lessThan != null">
+                    and id &lt; #{id.lessThan}
+                </if>
+                <if test="id.greaterThanOrEqual != null">
+                    and id &gt;= #{id.greaterThanOrEqual}
+                </if>
+                <if test="id.lessThanOrEqual != null">
+                    and id &gt;= #{id.lessThanOrEqual}
+                </if>
+            </if>
+            <if test="code != null">
+                <if test="code.equals != null">
+                    and code = #{code.equals}
+                </if>
+                <if test="code.notEquals != null">
+                    and code != #{code.notEquals}
+                </if>
+                <if test="code.specified != null">
+                    and code = #{code.specified}
+                </if>
+                <if test="code.IN != null">
+                    and code in
+                    <foreach collection="code.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="code.notIn != null">
+                    and code not in
+                    <foreach collection="code.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="code.contains != null">
+                    and code like #{code.contains}
+                </if>
+                <if test="code.notContain != null">
+                    and code not like #{code.notContain}
+                </if>
+
+            </if>
+            <if test="url != null">
+                <if test="url.equals != null">
+                    and url = #{url.equals}
+                </if>
+                <if test="url.notEquals != null">
+                    and url != #{url.notEquals}
+                </if>
+                <if test="url.specified != null">
+                    and url = #{url.specified}
+                </if>
+                <if test="url.IN != null">
+                    and url in
+                    <foreach collection="url.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="url.notIn != null">
+                    and url not in
+                    <foreach collection="url.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="url.contains != null">
+                    and url like #{url.contains}
+                </if>
+                <if test="url.notContain != null">
+                    and url not like #{url.notContain}
+                </if>
+
+            </if>
+            <if test="priorityComment != null">
+                <if test="priorityComment.equals != null">
+                    and priority_comment = #{priorityComment.equals}
+                </if>
+                <if test="priorityComment.notEquals != null">
+                    and priority_comment != #{priorityComment.notEquals}
+                </if>
+                <if test="priorityComment.specified != null">
+                    and priority_comment = #{priorityComment.specified}
+                </if>
+                <if test="priorityComment.IN != null">
+                    and priority_comment in
+                    <foreach collection="priorityComment.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="priorityComment.notIn != null">
+                    and priority_comment not in
+                    <foreach collection="priorityComment.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="priorityComment.contains != null">
+                    and priority_comment like #{priorityComment.contains}
+                </if>
+                <if test="priorityComment.notContain != null">
+                    and priority_comment not like #{priorityComment.notContain}
+                </if>
+
+            </if>
+            <if test="priorityType != null">
+                <if test="priorityType.equals != null">
+                    and priority_type = #{priorityType.equals}
+                </if>
+                <if test="priorityType.notEquals != null">
+                    and priority_type != #{priorityType.notEquals}
+                </if>
+                <if test="priorityType.specified != null">
+                    and priority_type = #{priorityType.specified}
+                </if>
+                <if test="priorityType.IN != null">
+                    and priority_type in
+                    <foreach collection="priorityType.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="priorityType.notIn != null">
+                    and priority_type not in
+                    <foreach collection="priorityType.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="priorityType.greaterThan != null">
+                    and priority_type &gt; #{priorityType.greaterThan}
+                </if>
+                <if test="priorityType.lessThan != null">
+                    and priority_type &lt; #{priorityType.lessThan}
+                </if>
+                <if test="priorityType.greaterThanOrEqual != null">
+                    and priority_type &gt;= #{priorityType.greaterThanOrEqual}
+                </if>
+                <if test="priorityType.lessThanOrEqual != null">
+                    and priority_type &gt;= #{priorityType.lessThanOrEqual}
+                </if>
+            </if>
+            <if test="parentId != null">
+                <if test="parentId.equals != null">
+                    and parent_id = #{parentId.equals}
+                </if>
+                <if test="parentId.notEquals != null">
+                    and parent_id != #{parentId.notEquals}
+                </if>
+                <if test="parentId.specified != null">
+                    and parent_id = #{parentId.specified}
+                </if>
+                <if test="parentId.IN != null">
+                    and parent_id in
+                    <foreach collection="parentId.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="parentId.notIn != null">
+                    and parent_id not in
+                    <foreach collection="parentId.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="parentId.greaterThan != null">
+                    and parent_id &gt; #{parentId.greaterThan}
+                </if>
+                <if test="parentId.lessThan != null">
+                    and parent_id &lt; #{parentId.lessThan}
+                </if>
+                <if test="parentId.greaterThanOrEqual != null">
+                    and parent_id &gt;= #{parentId.greaterThanOrEqual}
+                </if>
+                <if test="parentId.lessThanOrEqual != null">
+                    and parent_id &gt;= #{parentId.lessThanOrEqual}
+                </if>
+            </if>
+            <if test="createdBy != null">
+                <if test="createdBy.equals != null">
+                    and created_by = #{createdBy.equals}
+                </if>
+                <if test="createdBy.notEquals != null">
+                    and created_by != #{createdBy.notEquals}
+                </if>
+                <if test="createdBy.specified != null">
+                    and created_by = #{createdBy.specified}
+                </if>
+                <if test="createdBy.IN != null">
+                    and created_by in
+                    <foreach collection="createdBy.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="createdBy.notIn != null">
+                    and created_by not in
+                    <foreach collection="createdBy.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="createdBy.greaterThan != null">
+                    and created_by &gt; #{createdBy.greaterThan}
+                </if>
+                <if test="createdBy.lessThan != null">
+                    and created_by &lt; #{createdBy.lessThan}
+                </if>
+                <if test="createdBy.greaterThanOrEqual != null">
+                    and created_by &gt;= #{createdBy.greaterThanOrEqual}
+                </if>
+                <if test="createdBy.lessThanOrEqual != null">
+                    and created_by &gt;= #{createdBy.lessThanOrEqual}
+                </if>
+            </if>
+            <if test="createdDate != null">
+                <if test="createdDate.equals != null">
+                    and created_date = #{createdDate.equals}
+                </if>
+                <if test="createdDate.notEquals != null">
+                    and created_date != #{createdDate.notEquals}
+                </if>
+                <if test="createdDate.specified != null">
+                    and created_date = #{createdDate.specified}
+                </if>
+                <if test="createdDate.IN != null">
+                    and created_date in
+                    <foreach collection="createdDate.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="createdDate.notIn != null">
+                    and created_date not in
+                    <foreach collection="createdDate.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+            </if>
+            <if test="lastModifiedBy != null">
+                <if test="lastModifiedBy.equals != null">
+                    and last_modified_by = #{lastModifiedBy.equals}
+                </if>
+                <if test="lastModifiedBy.notEquals != null">
+                    and last_modified_by != #{lastModifiedBy.notEquals}
+                </if>
+                <if test="lastModifiedBy.specified != null">
+                    and last_modified_by = #{lastModifiedBy.specified}
+                </if>
+                <if test="lastModifiedBy.IN != null">
+                    and last_modified_by in
+                    <foreach collection="lastModifiedBy.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="lastModifiedBy.notIn != null">
+                    and last_modified_by not in
+                    <foreach collection="lastModifiedBy.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="lastModifiedBy.greaterThan != null">
+                    and last_modified_by &gt; #{lastModifiedBy.greaterThan}
+                </if>
+                <if test="lastModifiedBy.lessThan != null">
+                    and last_modified_by &lt; #{lastModifiedBy.lessThan}
+                </if>
+                <if test="lastModifiedBy.greaterThanOrEqual != null">
+                    and last_modified_by &gt;= #{lastModifiedBy.greaterThanOrEqual}
+                </if>
+                <if test="lastModifiedBy.lessThanOrEqual != null">
+                    and last_modified_by &gt;= #{lastModifiedBy.lessThanOrEqual}
+                </if>
+            </if>
+            <if test="lastModifiedDate != null">
+                <if test="lastModifiedDate.equals != null">
+                    and last_modified_date = #{lastModifiedDate.equals}
+                </if>
+                <if test="lastModifiedDate.notEquals != null">
+                    and last_modified_date != #{lastModifiedDate.notEquals}
+                </if>
+                <if test="lastModifiedDate.specified != null">
+                    and last_modified_date = #{lastModifiedDate.specified}
+                </if>
+                <if test="lastModifiedDate.IN != null">
+                    and last_modified_date in
+                    <foreach collection="lastModifiedDate.IN" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="lastModifiedDate.notIn != null">
+                    and last_modified_date not in
+                    <foreach collection="lastModifiedDate.notIn" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+            </if>
+        </where>
+    </sql>
+    <insert id="create" parameterType="com.hdhxby.ecommerce.auth.domain.AuthPriority" useGeneratedKeys="true" keyProperty="id">
+        insert into auth_priority
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="priorityComment != null">
+                priority_comment,
+            </if>
+            <if test="priorityType != null">
+                priority_type,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="createdDate != null">
+                created_date,
+            </if>
+            <if test="lastModifiedBy != null">
+                last_modified_by,
+            </if>
+            <if test="lastModifiedDate != null">
+                last_modified_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="code != null">
+                #{code},
+            </if>
+            <if test="url != null">
+                #{url},
+            </if>
+            <if test="priorityComment != null">
+                #{priorityComment},
+            </if>
+            <if test="priorityType != null">
+                #{priorityType},
+            </if>
+            <if test="parentId != null">
+                #{parentId},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="createdDate != null">
+                #{createdDate},
+            </if>
+            <if test="lastModifiedBy != null">
+                #{lastModifiedBy},
+            </if>
+            <if test="lastModifiedDate != null">
+                #{lastModifiedDate},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.hdhxby.ecommerce.auth.domain.AuthPriority">
+        update auth_priority
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="url != null">
+                url = #{url},
+            </if>
+            <if test="priorityComment != null">
+                priority_comment = #{priorityComment},
+            </if>
+            <if test="priorityType != null">
+                priority_type = #{priorityType},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId},
+            </if>
+            <if test="createdBy != null">
+                created_by = #{createdBy},
+            </if>
+            <if test="createdDate != null">
+                created_date = #{createdDate},
+            </if>
+            <if test="lastModifiedBy != null">
+                last_modified_by = #{lastModifiedBy},
+            </if>
+            <if test="lastModifiedDate != null">
+                last_modified_date = #{lastModifiedDate},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="findById" resultMap="BaseResultMap" parameterType="Long">
+        select
+        <include refid="Base_Column_List"/>
+        from auth_priority
+        where id = #{id}
+    </select>
+    <select id="existsById" resultType="Long" parameterType="Long">
+        select count(*)
+        from auth_priority
+        where id = #{id}
+    </select>
+    <select id="findAll" resultMap="BaseResultMap" parameterType="com.hdhxby.ecommerce.auth.domain.AuthPriority">
+        select
+        <include refid="Base_Column_List"/>
+        from auth_priority
+    </select>
+    <select id="findAllByCriteria" resultMap="BaseResultMap" parameterType="com.hdhxby.ecommerce.auth.repository.criteria.AuthPriorityCriteria">
+        select
+        <include refid="Base_Column_List"/>
+        from auth_priority
+        <include refid="Criteria_Where_Clause"/>
+    </select>
+    <select id="count" resultType="Long">
+        select count(*) from auth_priority
+    </select>
+    <delete id="deleteById" parameterType="Long">
+    delete from auth_priority
+    where id = #{id}
+    </delete>
+</mapper>
