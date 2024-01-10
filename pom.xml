@@ -15,7 +15,7 @@
 	<name>think-generator</name>
 	<url>http://maven.apache.org</url>
 
-    <description>基于Freemarker的代码生成工具.</description>
+    <description>基于Freemarker的代码生成工具</description>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -39,13 +39,12 @@
         <module>generator-pdm-driver</module>
         <module>generator-boot-starter</module>
         <module>generator-app</module>
-        <module>generator-example</module>
     </modules>
 
     <properties>
         <!-- Build properties -->
         <maven.version>3.0.0</maven.version>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
